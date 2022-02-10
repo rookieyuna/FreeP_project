@@ -110,8 +110,9 @@ $(function(){
 														<td>${row.p_size }</td>
 														<td>${row.p_info }</td>
 														<td>
-															<!-- C:\02WorkspaceKJS\K13SpringWorks\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\ProjectTemplate\resources\uploads -->
-									            			   <img src="../uploads/${row.p_sfile}" width="100px" height="80px"/></td>
+			                                             <!-- C:\02WorkspaceKJS\K13SpringWorks\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\ProjectTemplate\resources\uploads -->
+			                                                <%-- <img src="${path }/${row.p_sfile}" width="100px" height="80px"/></td> --%>
+			                                                <img src="../uploads/${row.p_sfile}" width="100px" height="80px"/></td>
 									            		<c:choose>
 									                    	<c:when test="${row.g_code eq '1'}">
 																<td>${row.p_best_pizza }</td>
