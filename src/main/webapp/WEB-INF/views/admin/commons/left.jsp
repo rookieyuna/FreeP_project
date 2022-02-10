@@ -133,15 +133,9 @@
                                     </a>
                                     <ul>
                                         <li>
-                                            <a href="list">
+                                            <a href="orderlist.do">
                                                 <i class="metismenu-icon"></i>
                                                 주문목록
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="list">
-                                                <i class="metismenu-icon"></i>
-                                                주문상세
                                             </a>
                                         </li>
                                                                    
