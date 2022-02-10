@@ -44,7 +44,7 @@ public class BoardController {
 		int pageSize = 3;//한 페이지당 출력할 게시물의 갯수
 		int blockPage = 2;//한 블럭당 출력할 페이지번호의 갯수
 		//전체 페이지 수 계산
-		//int totalPage = (int)Math.ceil((double)totalRecordCount/pageSize);
+		int totalPage = (int)Math.ceil((double)totalRecordCount/pageSize);
 
 		int nowPage = (req.getParameter("nowPage")==null || req.getParameter("nowPage").equals("")) 
 			? 1 : Integer.parseInt(req.getParameter("nowPage"));
