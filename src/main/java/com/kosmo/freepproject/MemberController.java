@@ -1,6 +1,5 @@
 package com.kosmo.freepproject;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,11 +12,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import board.BoardDAOImpl;
 import member.MemberImpl;
 import member.MemberVO;
-import member.ParameterDTO;
 import util.PagingUtil_mem;
+import util.ParameterDTO;
 
 @Controller
 public class MemberController {

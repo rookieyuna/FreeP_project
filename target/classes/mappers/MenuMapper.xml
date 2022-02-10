@@ -5,7 +5,7 @@
 
   <mapper namespace ="menu.MenuImpl">
   
-  	<select id="getTotalCount" resultType="int" parameterType="menu.ParameterDTO">
+  	<select id="getTotalCount" resultType="int" parameterType="util.ParameterDTO">
   		
   		SELECT COUNT(*) FROM product
   		<if test="g_code==null and searchTxt!=null and !searchTxt.equals('')">
@@ -21,7 +21,7 @@
   	</select>
   	
   	 	
-  	<select id="listPage" resultType="menu.MenuVO" parameterType="menu.ParameterDTO">
+  	<select id="listPage" resultType="menu.MenuVO" parameterType="util.ParameterDTO">
   		SELECT * FROM (
 		      SELECT Tb.*, rownum rNum From (
 		         SELECT * FROM product 
@@ -65,7 +65,7 @@
   	</insert>
 
 
-  	<select id="view" resultType="menu.MenuVO" parameterType="menu.ParameterDTO">
+  	<select id="view" resultType="menu.MenuVO" parameterType="util.ParameterDTO">
   		SELECT * FROM product WHERE p_code=#{p_code}
   	</select>
   	

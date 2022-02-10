@@ -1,14 +1,19 @@
-package orderlist;
+package util;
 
 import lombok.Data;
 
 @Data
 public class ParameterDTO {
-	//주문번호
-	private String or_idx;
 	
-	//회원코드
-	private String m_code;
+	private String or_idx;//주문번호
+	private String m_code;//회원코드
+	private String id;//회원id
+	private String g_code;//상품구분
+	private String p_code;//상품코드
+	private String p_name;//상품이름
+	
+	//회원구분을 위한 변수
+	private String grade;
 	
 	//검색어 처리를 위한 멤버변수
 	private String searchField; //검색할 필드명

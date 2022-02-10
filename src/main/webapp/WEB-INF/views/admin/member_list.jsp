@@ -149,8 +149,16 @@ $(function(){
 									                    		<td>${row.point }</td>
 									                    	</c:when>
 									                    </c:choose>
-														<td>${row.grade }</td>
-														<td>${row.active }</td>
+									                    <c:choose>
+									                    	<c:when test="${row.grade eq '1'}"><td>고객</td></c:when>
+									                    	<c:when test="${row.grade eq '2'}"><td>배달원</td></c:when>
+									                    	<c:when test="${row.grade eq '3'}"><td>관리자</td></c:when>
+									                    	<c:otherwise><td>배달완료</td></c:otherwise>
+									                    </c:choose>
+									                    <c:choose>
+									                    	<c:when test="${row.active eq '0'}"><td>비활성화</td></c:when>
+									                    	<c:otherwise><td>활성화</td></c:otherwise>
+									                    </c:choose>
 													</tr>
 												</c:forEach>
 											</c:otherwise>

@@ -116,7 +116,11 @@ function validateForm(form) {
 																<tr>
 																	<th class="text-center" style="vertical-align:middle;">사이즈</th>
 																	<td>
-																		<input type="text" class="form-control" name="p_size" style="width:70%;" value="${vo.p_size }"/>
+																		<select name="p_size" class="form-control" style="width:70%;">
+					                                                        <option value="" selected disabled>--- 선택하세요 ---</option>
+					                                                        <option value="M">M</option>
+					                                                        <option value="L">L</option>
+					                                                    </select>
 																	</td>
 																</tr>
 																<tr>

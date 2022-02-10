@@ -19,8 +19,8 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import menu.MenuImpl;
 import menu.MenuVO;
-import menu.ParameterDTO;
 import util.PagingUtil_menu;
+import util.ParameterDTO;
 
 @Controller
 public class MenuController {
@@ -65,12 +65,22 @@ public class MenuController {
 
 		ArrayList<MenuVO> lists =
 			sqlSession.getMapper(MenuImpl.class).listPage(parameterDTO);
-				
-		String pagingImg =
-			PagingUtil_menu.pagingImg(totalRecordCount, pageSize, blockPage, nowPage,
-				req.getContextPath()+"/admin/menu.do?g_code="+g_code);
 		
-		model.addAttribute("pagingImg", pagingImg);
+		if(g_code!=null) {
+			String pagingImg =
+					PagingUtil_menu.pagingImg(totalRecordCount, pageSize, blockPage, nowPage,
+						req.getContextPath()+"/admin/menu.do?g_code="+g_code);
+			
+			model.addAttribute("pagingImg", pagingImg);
+		}
+		else {
+			String pagingImg =
+					PagingUtil_menu.pagingImg(totalRecordCount, pageSize, blockPage, nowPage,
+							req.getContextPath()+"/admin/menu.do?");
+			
+			model.addAttribute("pagingImg", pagingImg);
+		}
+		
 		model.addAttribute("lists", lists);
 		model.addAttribute("g_code", g_code);
 		model.addAttribute("path", path);

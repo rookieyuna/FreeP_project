@@ -6,7 +6,7 @@
 
 <mapper namespace="orderlist.OrderlistImpl">
 
-	<select id="getTotalCount" resultType="int" parameterType="orderlist.ParameterDTO">
+	<select id="getTotalCount" resultType="int" parameterType="util.ParameterDTO">
 	   SELECT COUNT(*) FROM ordered
 	   <if test="searchTxt!=null and !searchTxt.equals('')">
 	      WHERE ${searchField} LIKE '%'||#{searchTxt}||'%'
@@ -14,7 +14,7 @@
 	</select>
 	
 	
-	<select id="listPage" resultType="orderlist.OrderlistVO" parameterType="orderlist.ParameterDTO">
+	<select id="listPage" resultType="orderlist.OrderlistVO" parameterType="util.ParameterDTO">
 	SELECT * FROM (
 	      SELECT Tb.*, rownum rNum From (
 	         SELECT * FROM ordered 
@@ -35,7 +35,7 @@
 	</insert> -->
 	
 	
-	<select id="view" resultType="orderlist.OrderlistVO" parameterType="orderlist.ParameterDTO">
+	<select id="view" resultType="orderlist.OrderlistVO" parameterType="util.ParameterDTO">
 		SELECT * FROM ordered WHERE or_idx=#{or_idx}
 	</select>
 	

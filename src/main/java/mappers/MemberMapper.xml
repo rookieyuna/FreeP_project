@@ -6,7 +6,7 @@
 
 <mapper namespace="member.MemberImpl">
 
-	<select id="getTotalCount" resultType="int" parameterType="member.ParameterDTO">
+	<select id="getTotalCount" resultType="int" parameterType="util.ParameterDTO">
 	   SELECT COUNT(*) FROM member WHERE grade=#{grade}
 	   
 	   <if test="searchTxt!=null and !searchTxt.equals('')">
@@ -22,7 +22,7 @@
          </if>
          ORDER BY m_code ASC LIMIT #{start}, #{end}
 	</select> -->
-	<select id="listPage" resultType="member.MemberVO" parameterType="member.ParameterDTO">
+	<select id="listPage" resultType="member.MemberVO" parameterType="util.ParameterDTO">
 	SELECT * FROM (
 	      SELECT Tb.*, rownum rNum From (
 	         SELECT * FROM member 
@@ -45,7 +45,7 @@
 	</insert>
 	
 	
-	<select id="view" resultType="member.MemberVO" parameterType="member.ParameterDTO">
+	<select id="view" resultType="member.MemberVO" parameterType="util.ParameterDTO">
 		SELECT * FROM member WHERE m_code=#{m_code}
 	</select>
 	

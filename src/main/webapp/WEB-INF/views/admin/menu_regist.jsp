@@ -21,9 +21,8 @@ function validateForm(form) {
 		form.p_price.focus();
 		return false;
 	}
-	if(!form.p_size.value){
-		alert("사이즈를 입력하세요.");
-		form.p_size.focus();
+	if(form.p_size.value==""){
+		alert("사이즈를 선택하세요.");
 		return false;
 	}
 	if(!form.p_info.value){
@@ -98,7 +97,11 @@ function validateForm(form) {
 																<tr>
 																	<th class="text-center" style="vertical-align:middle;">사이즈</th>
 																	<td>
-																		<input type="text" class="form-control" name="p_size" style="width:70%;"/>
+																		<select name="p_size" class="form-control" style="width:70%;">
+					                                                        <option value="" selected disabled>--- 선택하세요 ---</option>
+					                                                        <option value="M">M</option>
+					                                                        <option value="L">L</option>
+					                                                    </select>
 																	</td>
 																</tr>
 																<tr>
