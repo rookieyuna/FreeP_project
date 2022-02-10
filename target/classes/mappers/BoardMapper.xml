@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+  <mapper namespace ="board.BoardDAOImpl">
+  
+  	<select id="getTotalCount" resultType="int">
+  		
+  		SELECT COUNT(*) FROM (select * from board where b_cate LIKE #{param1}) board
+  	</select>  	
+  	<select id="listPage" resultType="board.BoardDTO">
+  		
+  		SELECT * FROM (
+		    SELECT Tb.*, rownum rNum FROM (
+		        SELECT * FROM board where b_cate=#{param1} ORDER BY b_idx DESC
+		    ) Tb
+		)
+		WHERE rNum BETWEEN #{param2} AND #{param3}	
+  	</select>
+  	
+  	
+  	<select id="getTotalCountSearch" resultType="int" parameterType="board.ParameterDTO">
+  		
+  		SELECT COUNT(*) FROM (select * from board where b_cate LIKE #{cate}
+  		) board
+  		<if test="searchTxt!=null and !searchTxt.equals('')">
+  			WHERE ${searchField} like '%'||#{searchTxt}||'%'
+  		</if>
+  	</select>
+	<select id="listPageSearch" resultType="board.BoardDTO" parameterType="board.ParameterDTO">
+
+		SELECT * FROM (
+		SELECT Tb.*, rownum rNum FROM (
+		SELECT * FROM board where b_cate=#{cate}
+			<if test="searchTxt!=null and !searchTxt.equals('')">
+				AND ${searchField} like '%'||#{searchTxt}||'%'
+			</if>
+
+				ORDER BY b_idx DESC
+			) Tb
+		)
+		WHERE rNum BETWEEN #{start} AND #{end}
+		
+	</select>
+  	
+  	
+  	
+  	<insert id="write">
+  		INSERT into board(b_idx, m_code, b_cate, title, contents, writer, ofile, sfile) 
+  		VALUES (seq_board_num.nextval, 1, 1, #{param1}, #{param2}, 'a',#{param3}, #{param4})
+  	
+  	</insert>
+  	
+  	<select id="view" resultType="board.BoardDTO" parameterType="board.BoardDTO">
+  		SELECT * FROM board WHERE b_idx=#{b_idx}
+  	
+  	</select>
+  	
+  	<update id="edit" >
+  		UPDATE board SET title =#{title}, contents=#{contents}, 
+  		sfile=#{sfile}, ofile=#{ofile} WHERE b_idx=#{b_idx}
+  	</update>
+  	
+  	<delete id="delete">
+  	 	DELETE FROM board WHERE b_idx = #{param1}
+  	</delete>
+  	
+  	<select id="selectsfile" resultType="String">  	
+  		SELECT sfile FROM board WHERE b_idx = #{param1}
+  	</select>
+  	
+  	
+  	
+  </mapper>
