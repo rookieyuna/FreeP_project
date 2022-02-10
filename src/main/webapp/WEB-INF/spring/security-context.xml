@@ -16,6 +16,7 @@
       <intercept-url pattern="/admin/notice.do" access="hasRole(3)"/>
       <intercept-url pattern="/admin/index.do" access="hasAnyRole(3,4)"/>
       <intercept-url pattern="/admin/member.do" access="hasRole(3)"/>
+      <intercept-url pattern="/admin/menu.do" access="hasRole(3)"/>
              
              
       <form-login 

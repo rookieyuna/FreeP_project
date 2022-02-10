@@ -157,7 +157,7 @@ public class BoardController {
 				saveFileName = getUuid() + ext;
 				
 				System.out.println("saveFileName:  "+saveFileName);
-				System.out.println("path:  "+path);
+				System.out.println("path: asdf "+path);
 				//물리적경로에 새롭게 생성된 파일명으로 파일 저장				
 				Path path1 = Paths.get(path+File.separator+saveFileName).toAbsolutePath();		
 	            mfile.transferTo(path1.toFile()); 
