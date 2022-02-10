@@ -4,7 +4,7 @@
 <%@ page session="false" %>
 <html>
 <head>
-	<title>Home</title>
+	<title>Home</title> 
 </head>
 <body>
 	<li>
@@ -13,7 +13,7 @@
 		</a>
 	</li>
 	<li>
-		<a href="./admin/index">
+		<a href="./admin/index.do">
 			관리자페이지(메인)
 		</a>
 	</li>
