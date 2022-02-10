@@ -1,0 +1,70 @@
+.faq .faq-area .lst_faq_wrap > ul:not(:first-child) {
+  display: none;
+}
+
+.fran .form {
+  width: 830px;
+  margin: 35px auto 0 auto;
+}
+
+.fran #name {
+  width: 544px;
+}
+
+.fran .franinfo-wrap dl dd .form-group.v2 .form-item.e-mail span {
+  padding: 0px 8px;
+}
+
+.fran .fran-area {
+  padding-bottom: 65px;
+}
+
+.fran .fran-area .franinfo-wrap dl dd .form-group.v2 .phone .tel_line {
+  font-size: 16px;
+  display: inline-block;
+  padding: 0 10px;
+  line-height: 42px;
+  margin-left: -5px;
+}
+
+.fran .fran-area .franinfo-wrap dl dd .form-group.v2 .phone #sel_hand_tel1 {
+  width: 110px;
+}
+
+.fran .fran-area .franinfo-wrap dl dd .form-group.v2 .phone .select-type2 {
+  width: 110px;
+}
+
+.fran .fran-area .franinfo-wrap dl dd .form-group.v2 .e-mail span {
+  padding: 0px 4px 0px 8px;
+}
+
+.fran .fran-area .form-group.srch-type {
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+}
+
+.fran .bottom-guide-area {
+  padding-top: 50px;
+  border-top: 1px solid #888888;
+  font-size: 0;
+}
+
+.fran .bottom-guide-area [class^='box'] {
+  width: 100%;
+}
+
+.fran .bottom-guide-area [class^='box']:first-child::after {
+  display: none;
+}
+
+.fran .bottom-guide-area [class^='box'] .list-text > dt {
+  text-align: right;
+}
+
+.fran .bottom-guide-area [class^='box'] .list-text li {
+  text-align: right;
+  float: right;
+  margin-left: 20px;
+}

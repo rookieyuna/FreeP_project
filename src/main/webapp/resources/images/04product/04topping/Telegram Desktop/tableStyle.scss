@@ -1,0 +1,135 @@
+@charset "utf-8";
+li{
+    list-style: none;
+}
+.custom_board{
+    border:1px solid #e3e6f0;
+    border-radius: 4px;
+    padding:25px;
+    *{
+        font-size: 1rem;
+        color: #858796;
+    }
+    .boardTable{
+        width:100%;
+        border:1px solid #e3e6f0;
+        padding: 25px;
+
+        tr{
+            border-bottom: 1px solid #e3e6f0;
+            th,td{
+                padding:15px;
+                text-align: center;
+            }
+        }
+        
+
+        thead{
+            tr{
+                th{
+                    border-right: 1px solid #e3e6f0;
+                }
+            }
+        }
+        tbody{
+            tr{
+                td{
+                    border-right: 1px solid #e3e6f0;
+                }
+                &:hover{
+                    color: #858796;
+                    background-color: rgba(0,0,0,.075);
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+
+    .boardTool{
+        .tool_Paging{
+            ul{
+                display: flex;
+                justify-content: center;
+                li{
+                    margin: 0 5px;
+                }
+            }
+        }
+        .tool_Search{
+            form{
+                display: flex;
+                justify-content: center;
+            }
+        }
+    }
+}
+
+.upfile {
+    width: 50px;
+    color: #0fc73d;
+}
+
+.photoBoard{
+    .photoBoard_wrap{
+        padding: 0 25px;
+        ul{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-content: space-between;
+            height: 420px;
+            li.photoB_list{
+                border:1px solid red;
+                box-sizing: border-box;
+                width: calc(100%/4.2);
+                height: 200px;
+                .photoB_posi{
+                    position: relative;
+                    bordeR:1px solid blue;
+                    height: 100%;
+                    .photoB_detail.over-ray{
+                        position: absolute;
+                        width:100%;
+                        height: 100%;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        .pic_label{
+                            width:90%;
+                            overflow: hidden;
+                            text-align: center;
+                            padding-bottom: 5px;
+                            &:nth-of-type(1){
+                                font-weight: bold;
+                                font-size: 0.85rem;
+                                border-bottom: 1px solid red;
+                                margin-bottom: 10px;
+                            }
+                        }
+                    }
+                    .photoB_detail.pic{
+                        width:100%;
+                        height: 100%;
+                        overflow: hidden;
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: center;
+                        align-items: center;
+                        a{
+                            display: block;
+                            img{
+                                display: block;
+                                width:100%;
+                                overflow: hidden;
+                            }
+                        }
+                    }
+                }
+            }
+            li.photoB_list.empty{
+                height: 0;
+            } 
+        }
+    }
+}

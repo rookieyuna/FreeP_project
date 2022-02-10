@@ -17,6 +17,15 @@
 			관리자페이지(메인)
 		</a>
 	</li>
-	<li>테스트</li>
+	<li>
+		<a href="./index.do">
+			프리피 홈페이지
+		</a>
+	</li>
+	<li>
+		<a href="./order/orderDIY.do">
+			프리피 주문
+		</a>
+	</li>
 </body>
 </html>
