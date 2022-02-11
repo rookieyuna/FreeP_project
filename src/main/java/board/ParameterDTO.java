@@ -7,6 +7,8 @@ public class ParameterDTO {
 	private String searchTxt;
 	private int start;
 	private int end;
+	
+	
 	public int getCate() {
 		return cate;
 	}

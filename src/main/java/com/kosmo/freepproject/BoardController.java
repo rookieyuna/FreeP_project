@@ -132,6 +132,17 @@ public class BoardController {
 	@RequestMapping(value="/admin/writeAction.do", method=RequestMethod.POST)
 	public String writeAction(Model model, MultipartHttpServletRequest req) {
 
+		
+		BoardDTO boarddto = new BoardDTO();
+		boarddto.setB_cate(Integer.parseInt(req.getParameter("cate")));
+		boarddto.setTitle(req.getParameter("title"));
+		boarddto.setContents(req.getParameter("text"));
+		boarddto.setWriter(req.getParameter("writer"));
+		System.out.println("asdfasdf:"+boarddto.getWriter());
+		//회원코드 가져오기
+		int id = 
+				sqlSession.getMapper(BoardDAOImpl.class).findm_code( req.getParameter("id"));
+		boarddto.setM_code(id);
 		//물리적경로 얻어오기
 		String path = req.getSession().getServletContext().getRealPath("/resources/uploads");
 		MultipartFile mfile = null;
@@ -148,6 +159,9 @@ public class BoardController {
 			if("".equals(originalName)) {
 				originalName = "";
 				saveFileName = "";
+				
+				 boarddto.setOfile(originalName);
+		         boarddto.setSfile(saveFileName);
 			}
 			else {			
 				//파일명에서 확장자를 따낸다. 
@@ -156,15 +170,19 @@ public class BoardController {
 				//UUID를 통해 생성된 문자열과 확장자를 결합해서 파일명을 완성한다. 
 				saveFileName = getUuid() + ext;
 				
-				System.out.println("saveFileName:  "+saveFileName);
-				System.out.println("path: asdf "+path);
+				/*
+				 * System.out.println("saveFileName:  "+saveFileName);
+				 * System.out.println("path: asdf "+path);
+				 */
 				//물리적경로에 새롭게 생성된 파일명으로 파일 저장				
 				Path path1 = Paths.get(path+File.separator+saveFileName).toAbsolutePath();		
 	            mfile.transferTo(path1.toFile()); 
+	            
+	            boarddto.setOfile(originalName);
+	            boarddto.setSfile(saveFileName);
 			} 			
 			
-			  sqlSession.getMapper(BoardDAOImpl.class).write( req.getParameter("title"),
-			  req.getParameter("text"), originalName, saveFileName );
+			  sqlSession.getMapper(BoardDAOImpl.class).write( boarddto );
 			 
 		}
 		catch(Exception e) {
@@ -214,15 +232,21 @@ public class BoardController {
 		String originalName;
 		String saveFileName;
 		try {
-			
-			//기존에 있던 파일 uploads 폴더에서 삭제
-			String deletefile = req.getParameter("pre_sfile");
-			File file = new File(path+File.separator+deletefile);
-			if(file.exists()) {
-
-				file.delete();
+		
+			String var = req.getParameter("deleteofile");
+			if(var != null)
+			{
+				
+				//기존에 있던 파일 uploads 폴더에서 삭제
+				String deletefile = req.getParameter("pre_sfile");
+				File file = new File(path+File.separator+deletefile);
+				if(file.exists()) {
+					
+					file.delete();
+				}
+				
+				sqlSession.getMapper(BoardDAOImpl.class).deletefile(Integer.parseInt(req.getParameter("pre_idx")));								
 			}
-			
 			mfile = req.getFile("file");
 
 			//한글깨짐방지 처리 후 전송된 파일명을 가져온다. 
@@ -233,7 +257,8 @@ public class BoardController {
 				originalName = "";
 				saveFileName = "";
 			}
-			else {			
+			else {
+				
 				//파일명에서 확장자를 따낸다. 
 				String ext = originalName.substring(originalName.lastIndexOf('.'));
 

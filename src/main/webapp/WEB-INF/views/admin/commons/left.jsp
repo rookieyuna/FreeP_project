@@ -84,7 +84,7 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="list">
+                                            <a href="event.do">
                                                 <i class="metismenu-icon"></i>
                                                 이벤트
                                             </a>

@@ -46,11 +46,13 @@
   	
   	
   	
-  	<insert id="write">
+  	<insert id="write" parameterType="board.BoardDTO">
   		INSERT into board(b_idx, m_code, b_cate, title, contents, writer, ofile, sfile) 
-  		VALUES (seq_board_num.nextval, 1, 1, #{param1}, #{param2}, 'a',#{param3}, #{param4})
-  	
+  		VALUES (seq_board_num.nextval, #{m_code}, #{b_cate}, #{title}, #{contents}, #{writer},#{ofile}, #{sfile})
   	</insert>
+  	<select  id="findm_code" resultType="int">
+  		SELECT m_code FROM member WHERE id=#{param1}
+  	</select>
   	
   	<select id="view" resultType="board.BoardDTO" parameterType="board.BoardDTO">
   		SELECT * FROM board WHERE b_idx=#{b_idx}
@@ -70,6 +72,10 @@
   		SELECT sfile FROM board WHERE b_idx = #{param1}
   	</select>
   	
+  	<update id="deletefile">
+  		UPDATE board SET ofile=null, sfile=null
+  		WHERE b_idx=#{b_idx}
+  	</update>
   	
   	
   </mapper>

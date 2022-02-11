@@ -10,7 +10,7 @@ $(function(){
 		if($("input:checkbox[name=chk]:checked").length == 0){
 			alert("삭제할 항목을 체크해주세요");
 		}else{
-			$('#boardlist').attr("action","./removechk.do").submit();			
+			$('#boardlist').attr("action","./eventremovechk.do").submit();			
 		}
 	}) 	
 })
@@ -33,8 +33,8 @@ $(function(){
 									<i class="pe-7s-drawer icon-gradient bg-happy-itmeo"> </i>
 								</div>
 								<div>
-									공지사항
-									<div class="page-title-subheading">손님에게 전달할거 공지사항</div>
+									이벤트
+									<div class="page-title-subheading">이벤트 항목 관리</div>
 								</div>
 							</div>
 							
@@ -48,7 +48,7 @@ $(function(){
 						<div class="col-lg-12">
 							<div class="main-card mb-3 card">
 								<div class="card-body">
-									<h5 class="card-title">공지사항</h5>
+									<h5 class="card-title">이벤트</h5>
 									<form:form action="" id="boardlist">
 									<table class="mb-0 table table-striped" style="table-layout: fixed">
 										<colgroup>
@@ -75,7 +75,7 @@ $(function(){
 											<tr>
 												<th><input type="checkbox" name="chk" value="${row.b_idx }"></th>
 												<td >${row.writer }</td>
-												<td><a href="./detail.do?idx=${row.b_idx}">${row.title }</a></td>
+												<td><a href="./eventdetail.do?idx=${row.b_idx}">${row.title }</a></td>
 												<td style="text-overflow:ellipsis; overflow:hidden; white-space:nowrap;" ><nobr>${row.contents}</nobr></td>
 												<td>${row.postdate }</td>
 												<td>
@@ -120,7 +120,7 @@ $(function(){
 									<div class="row mt-3">
 										<div class="col d-flex justify-content-end">
 											<button type="button" class="btn btn-primary"
-												onclick="location.href='write-board';">추가하기</button>
+												onclick="location.href='event-write';">추가하기</button>
 											<button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal">
 												삭제하기
                                         	</button>
@@ -152,7 +152,7 @@ $(function(){
                 </button>
             </div>
             <div class="modal-body">
-                <p class="mb-0">선택한 공지사항 삭제하시겠습니까?</p>
+                <p class="mb-0">선택한 이벤트 삭제하시겠습니까?</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">아뇨</button>

@@ -4,6 +4,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>       
 <%@ include file="./commons/header.jsp" %>
 <body>
+
 <script>
 
 $(function(){
@@ -35,8 +36,8 @@ $(function(){
 									<i class="pe-7s-graph text-success"> </i>
 								</div>
 								<div>
-									공지사항 수정
-									<div class="page-title-subheading">홈페이지 공지사항탭에 올라갈</div>
+									이벤트
+									<div class="page-title-subheading">이벤트 항목 관리</div>
 								</div>
 							</div>						
 						</div>
@@ -47,9 +48,9 @@ $(function(){
 					<div class="main-card mb-3 card">
 						<div class="card-body">
 
-							<h5 class="card-title">공지사항 수정</h5>
+							<h5 class="card-title">이벤트 수정</h5>
 							<form:form name="writeFrm" method="post"
-								action="./editAction.do" 
+								action="./eventeditAction.do" 
 								enctype="multipart/form-data">
 							<input type="hidden" name="pre_idx" value="${dto.b_idx }" />
 							<input type="hidden" name="pre_sfile" value="${dto.sfile }" />
@@ -78,7 +79,7 @@ $(function(){
 											class="form-control">${dto.contents }</textarea>
 									</div>
 								</div>
-								<c:set var="file1" value="${dto.sfile }"/>
+									<c:set var="file1" value="${dto.sfile }"/>
 									<input type="hidden" id="deleteofile" name="deleteofile" />
 									<c:if test="${empty file1}">
 										<div class="position-relative row form-group">
@@ -102,8 +103,8 @@ $(function(){
 											</div>
 										</div>
 									</c:if>
-
-
+							
+								
 								<div class="position-relative row form-check">
 									<div class="col-sm-10 offset-sm-2">
 										<button class="btn btn-primary" >수정하기</button>

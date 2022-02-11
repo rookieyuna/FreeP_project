@@ -21,8 +21,8 @@
 									<i class="pe-7s-graph text-success"> </i>
 								</div>
 								<div>
-									공지사항 작성
-									<div class="page-title-subheading">홈페이지 공지사항탭에 올라갈</div>
+									이벤트
+									<div class="page-title-subheading">이벤트 항목 관리</div>
 								</div>
 							</div>						
 						</div>
@@ -33,26 +33,24 @@
 					<div class="main-card mb-3 card">
 						<div class="card-body">
 
-							<h5 class="card-title">공지사항 등록</h5>
-							<form:form commandName="writeFrm" method="post"
-								action="./writeAction.do"
-								 enctype="multipart/form-data">
-								<input type="hidden" name="cate" value="1" />
-								<input type="hidden" name="id" value="<%= name %>" />
-									
+							<h5 class="card-title">이벤트 상세보기페이지</h5>
+							<form:form name="writeFrm" method="post"
+								enctype="multipart/form-data">
+
+
 								<!-- validate 하는거 type넣는거 찾아본담에 넣어야될거같아여어 -->
 								<div class="position-relative row form-group">
 									<label for="exampleTitle" class="col-sm-2 col-form-label">제목</label>
 									<div class="col-sm-10">
 										<input name="title" id="exampleTitle" placeholder="제목입력"
-											class="form-control">
+											class="form-control" value="${dto.title }" readonly>
 									</div>
 								</div>
 								<div class="position-relative row form-group">
 									<label for="exampleWriter" class="col-sm-2 col-form-label">작성자</label>
 									<div class="col-sm-10">
 										<input name="writer" id="exampleWriter" placeholder="작성자 이름"
-											class="form-control">
+											class="form-control" value="${dto.writer }" readonly>
 									</div>
 								</div>
 
@@ -61,24 +59,37 @@
 									<label for="exampleText" class="col-sm-2 col-form-label">내용</label>
 									<div class="col-sm-10">
 										<textarea rows="7" name="text" id="exampleText"
-											class="form-control"></textarea>
+											class="form-control" readonly>${dto.contents }</textarea>
 									</div>
 								</div>
-								<div class="position-relative row form-group">
-									<label for="exampleFile" class="col-sm-2 col-form-label">이미지</label>
-									<div class="col-sm-10">
-										<input name="file" id="exampleFile" type="file"
-											class="form-control-file"> <small
-											class="form-text text-muted">포스터나, 이미지 등록</small>
+								<c:set var="file" value="${dto.sfile }" />
+								<c:if test="${not empty file }">								
+									<div class="position-relative row form-group">
+										<label for="exampleFile" class="col-sm-2 col-form-label">이미지</label>
+										<a
+											href="download.do?fileName=${dto.sfile }&oriFileName=${dto.ofile }">
+											[다운로드] </a>
+	
+										
 									</div>
-								</div>
+									
+									<div class="position-relative row form-group">
+										<label for="exampleFile" class="col-sm-2 col-form-label"></label>
+										<img src="../uploads/${dto.sfile }" alt="" width="200px" height="100px"/>
+										
+										
+									</div>								
+								</c:if>
+								</form:form>
 
 								<div class="position-relative row form-check">
 									<div class="col-sm-10 offset-sm-2">
-										<button class="btn btn-primary">등록하기</button>
+										<button class="btn btn-primary" onclick="location.href='./eventedit.do?idx=${dto.b_idx}';">수정하기</button>
+										<button class="btn btn-success" onclick="location.href='./eventremove.do?idx=${dto.b_idx}&pre_sfile=${dto.sfile }';">삭제하기</button>
+										
 									</div>
 								</div>
-							</form:form>
+							
 
 						</div>
 					</div>

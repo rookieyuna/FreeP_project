@@ -22,9 +22,8 @@ public interface BoardDAOImpl {
 	public ArrayList<BoardDTO> listPageSearch(ParameterDTO parameterDTO);
 
 
-	public void write(@Param("_title") String name,
-			@Param("_text") String contents,
-			String ofile, String sfile);
+	public void write(BoardDTO boardDTO);
+	public int findm_code(String a);
 	
 	public BoardDTO view(BoardDTO boardDTO);
 	
@@ -33,5 +32,7 @@ public interface BoardDAOImpl {
 	public void delete(int a);
 	
 	public String selectsfile(String a);
+	
+	public void deletefile(int a);
 	
 }

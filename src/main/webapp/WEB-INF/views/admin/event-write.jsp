@@ -21,8 +21,8 @@
 									<i class="pe-7s-graph text-success"> </i>
 								</div>
 								<div>
-									공지사항 작성
-									<div class="page-title-subheading">홈페이지 공지사항탭에 올라갈</div>
+									이벤트
+									<div class="page-title-subheading">이벤트 항목 관리</div>
 								</div>
 							</div>						
 						</div>
@@ -33,11 +33,11 @@
 					<div class="main-card mb-3 card">
 						<div class="card-body">
 
-							<h5 class="card-title">공지사항 등록</h5>
+							<h5 class="card-title">이벤트 등록</h5>
 							<form:form commandName="writeFrm" method="post"
-								action="./writeAction.do"
+								action="./eventAction.do"
 								 enctype="multipart/form-data">
-								<input type="hidden" name="cate" value="1" />
+								<input type="hidden" name="cate" value="2" />
 								<input type="hidden" name="id" value="<%= name %>" />
 									
 								<!-- validate 하는거 type넣는거 찾아본담에 넣어야될거같아여어 -->
@@ -72,6 +72,7 @@
 											class="form-text text-muted">포스터나, 이미지 등록</small>
 									</div>
 								</div>
+								
 
 								<div class="position-relative row form-check">
 									<div class="col-sm-10 offset-sm-2">
