@@ -90,7 +90,7 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="list">
+                                            <a href="review.do">
                                                 <i class="metismenu-icon"></i>
                                                 후기게시판
                                             </a>

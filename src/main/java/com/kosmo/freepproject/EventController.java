@@ -23,22 +23,15 @@ import board.ParameterDTO;
 import util.PagingUtil;
 
 @Controller
-public class BoardController {
-	
+public class EventController {
+	@Autowired
 	private SqlSession sqlSession;
 	
-	@Autowired
-	public void setSqlSession(SqlSession sqlSession) {
-		this.sqlSession = sqlSession;
-		System.out.println("Mybatis 사용준비끝");
-	}
-	
-	
-	@RequestMapping("/admin/notice.do")
+	@RequestMapping("/admin/event.do")
 	public String list(Model model, HttpServletRequest req) {
 
 		int totalRecordCount =
-			sqlSession.getMapper(BoardDAOImpl.class).getTotalCount(1);
+			sqlSession.getMapper(BoardDAOImpl.class).getTotalCount(2);
 		
 		//페이지 처리를 위한 설정값
 		int pageSize = 3;//한 페이지당 출력할 게시물의 갯수
@@ -54,11 +47,11 @@ public class BoardController {
 		int end = pageSize * nowPage;
 
 		ArrayList<BoardDTO> lists =
-			sqlSession.getMapper(BoardDAOImpl.class).listPage(1, start, end);
+			sqlSession.getMapper(BoardDAOImpl.class).listPage(2, start, end);
 				
 		String pagingImg =
 			PagingUtil.pagingImg(totalRecordCount, pageSize, blockPage, nowPage,
-				req.getContextPath()+"/admin/notice.do?");
+				req.getContextPath()+"/admin/event.do?");
 		model.addAttribute("pagingImg", pagingImg);
 		
 		//내용에 대한 줄바꿈 처리
@@ -68,17 +61,17 @@ public class BoardController {
 		}
 		model.addAttribute("lists", lists);		
 		
-		return "admin/list-board";
+		return "admin/event-list";
 	}	
 	
 	
-	@RequestMapping("/admin/noticeSearch.do")
+	@RequestMapping("/admin/eventSearch.do")
 	public String listSearch(Model model, HttpServletRequest req) {
 
 		
 		ParameterDTO parameterDTO = new ParameterDTO();
 		//검색어가 있을경우 저장
-		parameterDTO.setCate(1);
+		parameterDTO.setCate(2);
 		parameterDTO.setSearchField(req.getParameter("searchField"));
 		parameterDTO.setSearchTxt(req.getParameter("searchtxt"));
 		
@@ -106,7 +99,7 @@ public class BoardController {
 				
 		String pagingImg =
 			PagingUtil.pagingImg(totalRecordCount, pageSize, blockPage, nowPage,
-				req.getContextPath()+"/admin/notice.do?");
+				req.getContextPath()+"/admin/event.do?");
 		model.addAttribute("pagingImg", pagingImg);
 		
 		//내용에 대한 줄바꿈 처리
@@ -116,7 +109,7 @@ public class BoardController {
 		}
 		model.addAttribute("lists", lists);		
 		
-		return "admin/list-board";
+		return "admin/event-list";
 	}
 	
 	
@@ -129,7 +122,7 @@ public class BoardController {
 		return uuid;
 	}
 
-	@RequestMapping(value="/admin/writeAction.do", method=RequestMethod.POST)
+	@RequestMapping(value="/admin/eventAction.do", method=RequestMethod.POST)
 	public String writeAction(Model model, MultipartHttpServletRequest req) {
 
 		
@@ -138,7 +131,7 @@ public class BoardController {
 		boarddto.setTitle(req.getParameter("title"));
 		boarddto.setContents(req.getParameter("text"));
 		boarddto.setWriter(req.getParameter("writer"));
-		System.out.println("asdfasdf:"+boarddto.getWriter());
+		//System.out.println("asdfasdf:"+boarddto.getWriter());
 		//회원코드 가져오기
 		int id = 
 				sqlSession.getMapper(BoardDAOImpl.class).findm_code( req.getParameter("id"));
@@ -190,10 +183,10 @@ public class BoardController {
 		}
 
 		//쓰기 처리를 완료한 후 리스트로 이동
-		return "redirect:notice.do";
+		return "redirect:event.do";
 	}
 	
-	@RequestMapping("/admin/detail.do")
+	@RequestMapping("/admin/eventdetail.do")
 	public String detail(Model model, HttpServletRequest req) {
 		
 		BoardDTO boardDTO = new BoardDTO();
@@ -204,10 +197,10 @@ public class BoardController {
 		  
 		
 		model.addAttribute("dto", dto);
-		return "/admin/detail-board";
+		return "/admin/event-detail";
 	}
 	
-	@RequestMapping("/admin/edit.do")
+	@RequestMapping("/admin/eventedit.do")
 	public String edit(Model model, HttpServletRequest req) {
 		
 		BoardDTO boardDTO = new BoardDTO();
@@ -218,11 +211,11 @@ public class BoardController {
 		  
 		
 		model.addAttribute("dto", dto);
-		return "/admin/edit-board";
+		return "/admin/event-edit";
 	}
 
 	
-	@RequestMapping(value="/admin/editAction.do", method=RequestMethod.POST)
+	@RequestMapping(value="/admin/eventeditAction.do", method=RequestMethod.POST)
 	public String editAction(Model model, MultipartHttpServletRequest req) {
 
 		//물리적경로 얻어오기
@@ -232,8 +225,6 @@ public class BoardController {
 		String originalName;
 		String saveFileName;
 		try {
-		
-			BoardDTO boardDTO = new BoardDTO();
 			String var = req.getParameter("deleteofile");
 			if(var != null)
 			{
@@ -257,12 +248,8 @@ public class BoardController {
 			if("".equals(originalName)) {
 				originalName = "";
 				saveFileName = "";
-				
-				boardDTO.setSfile(saveFileName ); 
-				boardDTO.setOfile( originalName); 
 			}
-			else {
-				
+			else {			
 				//파일명에서 확장자를 따낸다. 
 				String ext = originalName.substring(originalName.lastIndexOf('.'));
 
@@ -272,16 +259,14 @@ public class BoardController {
 				//물리적경로에 새롭게 생성된 파일명으로 파일 저장				
 				Path path1 = Paths.get(path+File.separator+saveFileName).toAbsolutePath();		
 	            mfile.transferTo(path1.toFile()); 
-	            
-	            boardDTO.setSfile(saveFileName ); 
-				boardDTO.setOfile( originalName); 
 			} 
 			
-			
+			BoardDTO boardDTO = new BoardDTO();
 			boardDTO.setB_idx( Integer.parseInt(req.getParameter("pre_idx"))); 
 			boardDTO.setTitle( req.getParameter("title"));
 			boardDTO.setContents( req.getParameter("text")); 
-			
+			boardDTO.setSfile(saveFileName ); 
+			boardDTO.setOfile( originalName); 
 			
 			
 			sqlSession.getMapper(BoardDAOImpl.class).edit(boardDTO);
@@ -293,11 +278,11 @@ public class BoardController {
 		}
 
 		//쓰기 처리를 완료한 후 리스트로 이동
-		return "redirect:notice.do";
+		return "redirect:event.do";
 	}
 	
 	
-	@RequestMapping(value="/admin/remove.do")
+	@RequestMapping(value="/admin/eventremove.do")
 	public String remove(Model model, HttpServletRequest req) {
 
 		//물리적경로 얻어오기
@@ -322,11 +307,11 @@ public class BoardController {
 		}
 
 		//삭제 처리를 완료한 후 리스트로 이동
-		return "redirect:notice.do";
+		return "redirect:event.do";
 	}
 	
 
-	@RequestMapping(value="/admin/removechk.do")
+	@RequestMapping(value="/admin/eventremovechk.do")
 	public String removechk(Model model, HttpServletRequest req) {
 
 		//물리적경로 얻어오기
@@ -360,6 +345,6 @@ public class BoardController {
 		}
 
 		//삭제 처리를 완료한 후 리스트로 이동
-		return "redirect:notice.do";
+		return "redirect:event.do";
 	}
 }

@@ -10,7 +10,7 @@ $(function(){
 		if($("input:checkbox[name=chk]:checked").length == 0){
 			alert("삭제할 항목을 체크해주세요");
 		}else{
-			$('#boardlist').attr("action","./eventremovechk.do").submit();			
+			$('#boardlist').attr("action","./reviewremovechk.do").submit();			
 		}
 	}) 	
 })
@@ -33,8 +33,8 @@ $(function(){
 									<i class="pe-7s-drawer icon-gradient bg-happy-itmeo"> </i>
 								</div>
 								<div>
-									이벤트
-									<div class="page-title-subheading">이벤트 항목 관리</div>
+									후기게시판
+									<div class="page-title-subheading">후기 관리</div>
 								</div>
 							</div>
 							
@@ -48,14 +48,15 @@ $(function(){
 						<div class="col-lg-12">
 							<div class="main-card mb-3 card">
 								<div class="card-body">
-									<h5 class="card-title">이벤트</h5>
+									<h5 class="card-title">후기</h5>
 									<form:form action="" id="boardlist">
 									<table class="mb-0 table table-striped" style="table-layout: fixed">
 										<colgroup>
 											<col width="10%"/>
 											<col width="10%"/>
 											<col width="15%"/>
-											<col width="45%"/>
+											<col width="35%"/>
+											<col width="10%"/>
 											<col width="10%"/>
 											<col width="10%"/>
 										</colgroup>
@@ -66,6 +67,7 @@ $(function(){
 												<th>제목</th>
 												<th>내용</th>
 												<th>작성일</th>
+												<th>주문번호</th>
 												<th>첨부파일</th>
 											</tr>
 										</thead>
@@ -73,13 +75,14 @@ $(function(){
 											<c:forEach items="${lists }" var="row">   
 											 
 											<tr>
-												<th><input type="checkbox" name="chk" value="${row.b_idx }"></th>
+												<th><input type="checkbox" name="chk" value="${row.rv_idx }"></th>
 												<td >${row.writer }</td>
-												<td><a href="./eventdetail.do?idx=${row.b_idx}">${row.title }</a></td>
+												<td><a href="./reviewdetail.do?idx=${row.rv_idx}">${row.title }</a></td>
 												<td style="text-overflow:ellipsis; overflow:hidden; white-space:nowrap;" ><nobr>${row.contents}</nobr></td>
 												<td>${row.postdate }</td>
+												<td>${row.or_idx }</td>
 												<td>
-												<c:set var="file" value="${row.sfile }" />
+												<c:set var="file" value="${row.rv_sfile1 }" />
 												<c:if test="${file != null }">
 													<i class="bi-pin-angle-fill" style="font-size: 1rem;"></i>
 												</c:if>
@@ -102,7 +105,7 @@ $(function(){
 
 									<div class="row mr-3"
 										style="display: flex; justify-content: right;'">
-										<form:form action="./eventSearch.do" method="get">										
+										<form:form action="./reviewSearch.do" method="get">										
 											<div class="input-group ms-auto" style="width: 350px;">
 												<select name="searchField" class="form-control">
 													<option value="title">제목</option>
@@ -120,7 +123,7 @@ $(function(){
 									<div class="row mt-3">
 										<div class="col d-flex justify-content-end">
 											<button type="button" class="btn btn-primary"
-												onclick="location.href='event-write';">추가하기</button>
+												onclick="location.href='review-write';">추가하기</button>
 											<button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal">
 												삭제하기
                                         	</button>
@@ -152,7 +155,7 @@ $(function(){
                 </button>
             </div>
             <div class="modal-body">
-                <p class="mb-0">선택한 이벤트 삭제하시겠습니까?</p>
+                <p class="mb-0">선택한 후기 삭제하시겠습니까?</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">아뇨</button>
