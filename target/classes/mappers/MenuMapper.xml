@@ -85,6 +85,12 @@
   	</delete>
   	
   	
+  	<update id="deletefile">
+  		UPDATE product SET p_ofile=null, p_sfile=null
+  		WHERE p_code=#{p_code}
+  	</update>
+  	
+  	
   	<select id="selectsfile" resultType="String">  	
   		SELECT p_sfile FROM product WHERE p_code=#{p_code}
   	</select>

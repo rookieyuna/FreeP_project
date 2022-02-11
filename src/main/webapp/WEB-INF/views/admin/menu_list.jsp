@@ -109,14 +109,24 @@ $(function(){
 														<td>${row.p_price }</td>
 														<td>${row.p_size }</td>
 														<td>${row.p_info }</td>
-														<td>
-			                                             <!-- C:\02WorkspaceKJS\K13SpringWorks\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\ProjectTemplate\resources\uploads -->
-			                                                <%-- <img src="${path }/${row.p_sfile}" width="100px" height="80px"/></td> --%>
-			                                                <img src="../uploads/${row.p_sfile}" width="100px" height="80px"/></td>
 									            		<c:choose>
-									                    	<c:when test="${row.g_code eq '1'}">
-																<td>${row.p_best_pizza }</td>
+									                    	<c:when test="${empty row.p_sfile}">
+									                    		<td>이미지없음</td>
 									                    	</c:when>
+									                    	<c:otherwise>
+																<td>
+				                                             	<!-- C:\02WorkspaceKJS\K13SpringWorks\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\ProjectTemplate\resources\uploads -->
+				                                                <%-- <img src="${path }/${row.p_sfile}" width="100px" height="80px"/></td> --%>
+				                                                <img src="../uploads/${row.p_sfile}" width="100px" height="80px"/></td>
+									                    	</c:otherwise>
+									                    </c:choose>
+									            		<c:choose>
+									                    	<c:when test="${row.g_code eq '1' and row.p_best_pizza eq '1'}">
+																<td>O</td>
+									                    	</c:when>
+															<c:when test="${row.g_code eq '1' and row.p_best_pizza eq '0'}">
+																<td>X</td>
+															</c:when>
 									                    </c:choose>
 													</tr>
 												</c:forEach>

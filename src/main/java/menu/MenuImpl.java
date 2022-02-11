@@ -20,5 +20,7 @@ public interface MenuImpl {
 	
 	public void delete(String p_code);
 	
+	public void deletefile(String p_code);
+	
 	public String selectsfile(String p_code);
 }

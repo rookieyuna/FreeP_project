@@ -76,9 +76,14 @@
 									</tr>
 									<tr>
 										<th class="text-center" style="vertical-align:middle;">이미지</th>
-										<td>
-											<a href="download.do?fileName=${vo.p_sfile }&oriFileName=${vo.p_ofile }">[다운로드] </a>
-										</td>
+										<c:choose>
+					                    	<c:when test="${empty vo.p_sfile}">
+					                    		<td>등록된 이미지가 없습니다.</td>
+					                    	</c:when>
+					                    	<c:otherwise>
+												<td><a href="download.do?fileName=${vo.p_sfile }&oriFileName=${vo.p_ofile }">[다운로드] </a></td>
+					                    	</c:otherwise>
+					                    </c:choose>
 									</tr>
 								</table>
 								</div>

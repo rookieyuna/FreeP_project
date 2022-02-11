@@ -44,6 +44,40 @@ function validateForm(form) {
 		return false;
 	} */
 }
+
+$(function(){
+	$('#deletefile').click(function(){
+		
+		var deleteofile= document.getElementById('deleteofile');
+		deleteofile.value = "1";
+		const fileinput = document.getElementById('fileinput');
+		fileinput.innerHTML =
+			'<input name="file" type="file" class="form-control-file" value="${vo.p_ofile }">  <small class="form-text text-muted">이미지 등록</small>';
+	}) 	
+})
+
+//기본피자 외 선택시 베스트피자여부 칸 비활성화
+/* $(function() {
+	$("select[name=g_code]").click(function(){
+		
+		if($("select[name=g_code]:selected").val() == "1"){
+	        $("#bestSelect").attr("readOnly",true);
+	    }
+		else{
+			$("#bestSelect").attr("readOnly",false);
+		}
+    });
+}); */
+// 
+/* function selectGcode(frm){
+	var g_code = frm.g_code.value;
+	if(g_code=="1"){ 
+        frm.p_best_pizza.readOnly = true; //readonly속성 해제
+    }
+    else{
+        frm.p_best_pizza.readOnly = false; //readonly속성 활성화
+    }
+} */
 </script>
 <body>
 <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
@@ -77,14 +111,15 @@ function validateForm(form) {
 											<div class="card-body"><h5 class="card-title">선택한 상품 등록 정보</h5>
 												<form:form name="menuFrm" method="post" onsubmit="return validateForm(this);" 
 													action="./menuEditAction.do" enctype="multipart/form-data">
-													<input type="hidden" name="pre_sfile" value="${vo.p_sfile }" />	
+													<input type="hidden" name="pre_sfile" value="${vo.p_sfile }" />
+													<input type="hidden" id="deleteofile" name="deleteofile" />
 													 <div class="form-row">
 		                                                <div class="col-md-6">
 															<table class="mb-0 table table-striped">
 																<tr>
 																	<th class="text-center" style="vertical-align:middle;">상품구분</th>
 																	<td>
-																		<select name="g_code" class="form-control" style="width:70%;" >
+																		<select name="g_code" class="form-control" style="width:70%;">
 																			<option selected disabled>--상품 종류--</option>
 																			<option value="1">기본피자</option>
 																			<option value="2">도우</option>
@@ -139,13 +174,21 @@ function validateForm(form) {
 							                                            </select>
 																	</td>
 																</tr>
-																<tr>
-																	<th class="text-center" style="vertical-align:middle;">이미지</th>
-																	<td>
-																		<input name="file" id="newfile" type="file" class="form-control-file" value="${vo.p_ofile }">
-																		<small class="form-text text-muted">이미지 등록</small>
-																	</td>
-																</tr>
+																<c:set var="file1" value="${vo.p_sfile }"/>
+																	<c:if test="${empty file1}">
+																		<th class="text-center" style="vertical-align:middle;">이미지</th>
+																		<td>
+																			<input name="file" id="newfile" type="file" class="form-control-file">
+																			<small class="form-text text-muted">이미지 등록</small>
+																		</td>
+																	</c:if>
+																	<c:if test="${not empty file1}">
+																		<th class="text-center" style="vertical-align:middle;">이미지</th>
+																			<td id="fileinput">
+																				<input name="pre_file" id="pre_file" class="form-control" style="width:200px;float:left;" value="${vo.p_ofile }">							
+																				<button type="button" class="btn btn-secondary" id="deletefile">파일 삭제</button>
+																			</td>
+																	</c:if>
 															</table>
 														</div>
 													</div>

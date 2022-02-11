@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import board.BoardDAOImpl;
 import menu.MenuImpl;
 import menu.MenuVO;
 import util.PagingUtil_menu;
@@ -185,19 +186,25 @@ public class MenuController {
 
 		//물리적경로 얻어오기
 		String path = req.getSession().getServletContext().getRealPath("/resources/uploads");
+		
 		MultipartFile mfile = null;
 
 		String originalName;
 		String saveFileName;
-		
 		String g_code =req.getParameter("g_code");
+		MenuVO menuVO = new MenuVO();
+		
 		try {
-			
-			//기존에 있던 파일 uploads 폴더에서 삭제
-			String deletefile = req.getParameter("pre_sfile");
-			File file = new File(path+File.separator+deletefile);
-			if(file.exists()) {
-				file.delete();
+			String var = req.getParameter("deleteofile");
+			if(var != null)
+			{
+				//기존에 있던 파일 uploads 폴더에서 삭제
+				String deletefile = req.getParameter("pre_sfile");
+				File file = new File(path+File.separator+deletefile);
+				if(file.exists()) {
+					file.delete();
+				}
+				sqlSession.getMapper(MenuImpl.class).deletefile(req.getParameter("p_code"));
 			}
 			
 			mfile = req.getFile("file");
@@ -209,6 +216,9 @@ public class MenuController {
 			if("".equals(originalName)) {
 				originalName = "";
 				saveFileName = "";
+				
+				menuVO.setP_sfile(saveFileName);
+				menuVO.setP_ofile(originalName);
 			}
 			else {			
 				//파일명에서 확장자를 따낸다. 
@@ -219,24 +229,24 @@ public class MenuController {
 				
 				//물리적경로에 새롭게 생성된 파일명으로 파일 저장				
 				Path path1 = Paths.get(path+File.separator+saveFileName).toAbsolutePath();		
-	            mfile.transferTo(path1.toFile()); 
+	            mfile.transferTo(path1.toFile());
+	            
+	            menuVO.setP_sfile(saveFileName);
+				menuVO.setP_ofile(originalName);
 			} 
 			
-			MenuVO MenuVO = new MenuVO();
-			MenuVO.setG_code(Integer.parseInt(req.getParameter("g_code"))); 
-			MenuVO.setP_code(Integer.parseInt(req.getParameter("p_code")));
-			MenuVO.setP_name(req.getParameter("p_name")); 
-			MenuVO.setP_price(req.getParameter("p_price")); 
-			MenuVO.setP_size(req.getParameter("p_size")); 
-			MenuVO.setP_info(req.getParameter("p_info")); 
-			MenuVO.setP_sfile(saveFileName);
-			MenuVO.setP_ofile(originalName);
-			MenuVO.setP_best_pizza(Integer.parseInt(req.getParameter("p_best_pizza"))); 
+			menuVO.setG_code(Integer.parseInt(req.getParameter("g_code"))); 
+			menuVO.setP_code(Integer.parseInt(req.getParameter("p_code")));
+			menuVO.setP_name(req.getParameter("p_name")); 
+			menuVO.setP_price(req.getParameter("p_price")); 
+			menuVO.setP_size(req.getParameter("p_size")); 
+			menuVO.setP_info(req.getParameter("p_info")); 
+			menuVO.setP_best_pizza(Integer.parseInt(req.getParameter("p_best_pizza"))); 
 			
 			
-			sqlSession.getMapper(MenuImpl.class).edit(MenuVO);
+			sqlSession.getMapper(MenuImpl.class).edit(menuVO);
 			  
-			return "redirect:menu.do?g_code="+MenuVO.getG_code(); 
+			return "redirect:menu.do?g_code="+menuVO.getG_code(); 
 		}
 		catch(Exception e) { 
 			e.printStackTrace();
