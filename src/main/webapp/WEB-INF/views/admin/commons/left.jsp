@@ -150,7 +150,7 @@
                                     </a>
                                     <ul>
                                         <li>
-                                            <a href="list">
+                                            <a href="storelist.do">
                                                 <i class="metismenu-icon"></i>
                                                 매장목록
                                             </a>

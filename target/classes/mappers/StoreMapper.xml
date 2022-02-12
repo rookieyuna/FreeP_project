@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace ="store.StoreImpl">
+
+	<select id="getTotalCount" resultType="int" parameterType="util.ParameterDTO">
+	   SELECT COUNT(*) FROM store
+	   <if test="searchTxt!=null and !searchTxt.equals('')">
+	      WHERE ${searchField} LIKE '%'||#{searchTxt}||'%'
+	   </if>
+	</select>
+
+	<select id="listPage" resultType="store.StoreVO" parameterType="util.ParameterDTO">
+	SELECT * FROM (
+	      SELECT Tb.*, rownum rNum From (
+	         SELECT * FROM store 
+	         <if test="searchTxt!=null and !searchTxt.equals('')">
+	            WHERE ${searchField} like '%'||#{searchTxt}||'%'
+	         </if>
+	         ORDER BY b_code DESC
+	      ) Tb
+	   )
+	   WHERE rNum BETWEEN #{start} AND #{end}
+	</select>
+	
+	<insert id="regist" parameterType="store.StoreVO">
+		INSERT INTO store(b_code, b_name, address,latitude, longitude, phone)	
+		VALUES
+		(seq_store_idx.nextval, #{b_name}, #{address}, #{latitude}, #{longitude}, #{phone})
+	</insert>
+	
+	<select id="view" resultType="store.StoreVO" parameterType="util.ParameterDTO">
+		SELECT * FROM store WHERE b_code=#{b_code}
+	</select>
+	
+	
+	<update id="edit" parameterType="store.StoreVO">
+		UPDATE store 
+			SET b_name=#{b_name},
+			address=#{address}, latitude=#{latitude},
+			longitude=#{longitude}, phone=#{phone}
+			WHERE b_code=#{b_code}
+	</update>
+	
+	
+	<delete id="delete">
+		DELETE FROM store WHERE b_code=#{b_code}
+	</delete>
+
+
+
+
+
+
+</mapper>
+ 
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
