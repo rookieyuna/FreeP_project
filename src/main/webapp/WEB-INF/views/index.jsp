@@ -193,7 +193,7 @@
 
 
 				<!-- 게시판 미리보기 -->
-				<article class="article grade-area">
+				<article class="article boardPreview-area">
 
 					<section data-v-65bbb0ce="" class="main-board">
 						<div data-v-65bbb0ce="" class="main-board-wrap">

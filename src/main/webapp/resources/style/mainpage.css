@@ -317,9 +317,6 @@
   }
   
   /**************게시판 미리보기**************/
-  .main-board{
-    height: 300px;
-  }
   .main-board-wrap {
     width: 100%;
     max-width: 1080px;
@@ -333,6 +330,9 @@
     border-right: 1px solid #f3f6f9;
     padding-right: 39px;
   }
+  .main-board-item.main-board-item-event {
+    padding-left: 39px;
+}
   .main-board-item {
     width: 50%;
     padding-top: 55px;
@@ -424,7 +424,6 @@
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    height: 200px;
   }
   
   /****************************************************************************/
