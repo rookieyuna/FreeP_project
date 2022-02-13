@@ -27,6 +27,7 @@ public class SecurityController {
 	
 		return "/admin/index";
 	}
+	
 	@RequestMapping("/admin/login.do")
 	public String securityIndex2Login(Model model, Principal principal) {
 		
@@ -61,4 +62,27 @@ public class SecurityController {
 
 		return "/admin/accessDenied";
 	}
+	
+	
+	/*
+	홈페이지 로그인 구현 2/14 YUNA
+	 */
+	
+	@RequestMapping("/member/login.do")
+	public String memberLogin(Model model, Principal principal) {
+		
+		String user_id = "";
+		try {
+			user_id = principal.getName();
+			System.out.println("user_id="+ user_id);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+					
+		model.addAttribute("id", user_id);	
+
+		return "member/login";
+	}
+	
 }

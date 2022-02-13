@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %> 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -59,16 +61,17 @@
                             </ul>
                         </div>
                         <div class="tab-content active" id="login">
-                        <form id="loginFrm" name="loginFrm" action="#" method="post">
-                        <input type="hidden" name="redirectUrl" id="redirectUrl" value="/main" />
-                        <input type="hidden" name="partycar_seq" id="partycar_seq" value="" />
-                        <input type="hidden" name="event_gubun" id="event_gubun" value="" />
-                        <input type="hidden" name="sktid_sub_id" id="sktid_sub_id" value="" />
+                        <c:url value="/LoginAction" var="loginUrl" />
+                        
+                        <form:form id="loginFrm" name="loginFrm" action="../LoginAction" method="post">
+                        	<c:if test="${param.error != null }">
+								<p>아이디와 패스워드가 잘못되었습니다.</p>
+							</c:if>
                             <div class="form-item">
                                 <input type="text" name="id" id="id" maxlength="20" placeholder="아이디" value="" >
                             </div>
                             <div class="form-item">
-                                <input type="password" placeholder="비밀번호" name="passwd" id="passwd" maxlength="20" onkeydown="javascript:if(event.keyCode==13){doLoginSSL();}">
+                                <input type="password" placeholder="비밀번호" name="pass" id="passwd" maxlength="20" onkeydown="">
                             </div>
                             <div class="chk-item">
                                 <div class="chk-box v4">
@@ -77,13 +80,13 @@
                                     <label for="idcheck">아이디저장</label>
                                 </div>
                                 <div class="btn-member-wrap" style="margin-bottom:20px">
-                                    <span><a href="./findidpw.html">아이디 찾기</a></span>
-                                    <span id="pw"><a href="./findidpw.html">비밀번호 찾기</a></span>
+                                    <span><a href="#">아이디 찾기</a></span>
+                                    <span id="pw"><a href="#">비밀번호 찾기</a></span>
                                 </div>
                             </div>
                             
                             <div class="btn-wrap">
-                                <a href="../mypage/myMain.do" class="btn-type v4">로그인</a>
+                                <button class="btn-type v4">로그인</button>
                             </div>
                             <div class="btn-wrap">
                                 <a href="../member/regist.do" class="btn-type-brd5">회원가입</a>
@@ -109,7 +112,7 @@
                                     <div id="appleid-signin" style="display:none;"></div>
                                 </ul>
                             </div>
-                        </form>
+                        </form:form>
                         </div>
                         <div class="tab-content" id="guest">
                         <form name="nonf" id="nonf" action="" method="post">
