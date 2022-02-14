@@ -30,7 +30,7 @@ public class BoardController {
 	@Autowired
 	public void setSqlSession(SqlSession sqlSession) {
 		this.sqlSession = sqlSession;
-		System.out.println("Mybatis 사용준비끝");
+		//System.out.println("Mybatis 사용준비끝");
 	}
 	
 	
@@ -138,7 +138,7 @@ public class BoardController {
 		boarddto.setTitle(req.getParameter("title"));
 		boarddto.setContents(req.getParameter("text"));
 		boarddto.setWriter(req.getParameter("writer"));
-		System.out.println("asdfasdf:"+boarddto.getWriter());
+		
 		//회원코드 가져오기
 		int id = 
 				sqlSession.getMapper(BoardDAOImpl.class).findm_code( req.getParameter("id"));

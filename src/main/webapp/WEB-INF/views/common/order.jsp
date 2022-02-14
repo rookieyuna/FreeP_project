@@ -141,7 +141,8 @@
                                                         <div class="select-type2">
                                                             <select name="more_req_box" onchange="directMessage();">
                                                                 <option value="">요청사항을 선택하세요.</option>
-                                                                <option value="문 앞에 놓아 주세요.">문 앞에 놓아 주세요.</option><option value="벨은 누르지 말아주세요.">벨은 누르지 말아주세요.</option>
+                                                                <option value="문 앞에 놓아 주세요.">문 앞에 놓아 주세요.</option>
+                                                                <option value="벨은 누르지 말아주세요.">벨은 누르지 말아주세요.</option>
                                                                 <option value="direct">직접 입력</option>
                                                             </select>
                                                         </div>
@@ -219,8 +220,9 @@
                                 $(document).ready(function () {
 
                                     $("#dc_info .discount-step ul li").on("click", function () {
+                                    	//할인적용목차에서 프리피 온라인 쿠폰 선택 or 포인트 사용하기 를 눌렀다면 
                                         if ($('#reserve_gubun').val() == "TD" || $('#reserve_gubun')
-                                            .val() == "TM") {
+                                            .val() == "TM") { //그런데 이런 값? 이라면...
                                             alert(
                                                 "할인 설정을 변경하면 예약 시간 설정이 초기화됩니다. 할인 선택 후 예약 시간을 다시 선택해 주세요.");
                                         }
