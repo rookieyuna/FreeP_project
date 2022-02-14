@@ -13,6 +13,8 @@ public class ParameterDTO {
 	private String p_name;//상품이름
 	private String b_code; //지점코드
 	private String b_name; //지점명
+	private String f_code; //가맹문의 코드
+	private String f_name; //가맹문의 작성자 
 	
 	//회원구분을 위한 변수
 	private String grade;

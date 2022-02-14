@@ -162,18 +162,18 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="list">
+                                            <a href="franlist.do">
                                                 <i class="metismenu-icon"></i>
                                                 가맹문의목록
                                             </a>
                                         </li>
-                                        <li>
+<!--                                         <li>
                                             <a href="list">
                                                 <i class="metismenu-icon"></i>
                                                 가맹문의상세
                                             </a>
                                         </li>
-                                                                   
+ -->                                                                   
                                     </ul>
                                 </li>
                                 <li class="app-sidebar__heading">문의관리</li>
