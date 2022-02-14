@@ -117,16 +117,6 @@ function validateForm(form) {
 																		<small class="form-text text-muted">이미지 등록</small>
 																	</td>
 																</tr>
-																<tr>
-																	<th class="text-center" style="vertical-align:middle;">베스트피자구분</th>
-																	<td>
-																		<select name="p_best_pizza" class="form-control" style="width:70%;">
-					                                                        <option selected disabled>--- 선택하세요 ---</option>
-					                                                        <option value="0">베스트O</option>
-					                                                        <option value="1">베스트X</option>
-					                                                    </select>
-																	</td>
-																</tr>
 															</table>
 														</div>
 													</div>

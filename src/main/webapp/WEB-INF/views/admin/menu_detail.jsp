@@ -69,12 +69,6 @@
 										</td>
 									</tr>
 									<tr>
-										<th class="text-center" style="vertical-align:middle;">베스트피자구분</th>
-										<td>
-											<input type="text" class="form-control" name="p_best_pizza" style="width:70%;" value="${vo.p_best_pizza }" readonly/>
-										</td>
-									</tr>
-									<tr>
 										<th class="text-center" style="vertical-align:middle;">이미지</th>
 										<c:choose>
 					                    	<c:when test="${empty vo.p_sfile}">

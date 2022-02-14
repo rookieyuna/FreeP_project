@@ -140,7 +140,6 @@ public class MenuController {
 			menuVO.setP_info(req.getParameter("p_info")); 
 			menuVO.setP_ofile(originalName);
 			menuVO.setP_sfile(saveFileName);
-			menuVO.setP_best_pizza(Integer.parseInt(req.getParameter("p_best_pizza"))); 
 			
 			sqlSession.getMapper(MenuImpl.class).regist(menuVO);
 		}
@@ -241,7 +240,6 @@ public class MenuController {
 			menuVO.setP_price(req.getParameter("p_price")); 
 			menuVO.setP_size(req.getParameter("p_size")); 
 			menuVO.setP_info(req.getParameter("p_info")); 
-			menuVO.setP_best_pizza(Integer.parseInt(req.getParameter("p_best_pizza"))); 
 			
 			
 			sqlSession.getMapper(MenuImpl.class).edit(menuVO);

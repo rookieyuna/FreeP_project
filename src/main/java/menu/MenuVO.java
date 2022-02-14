@@ -12,5 +12,4 @@ public class MenuVO {
 	private String p_info;
 	private String p_ofile;
 	private String p_sfile;
-	private int p_best_pizza;
 }

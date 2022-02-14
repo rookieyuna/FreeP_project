@@ -43,24 +43,24 @@
 
   	
   	<insert id="regist" parameterType="menu.MenuVO">
-  		INSERT into product(g_code, p_code, p_name, p_price, p_size, p_info, p_ofile, p_sfile, p_best_pizza)
+  		INSERT into product(g_code, p_code, p_name, p_price, p_size, p_info, p_ofile, p_sfile)
 			<if test='g_code =="1"'>
-				VALUES (#{g_code}, sq_pizza.nextval, #{p_name}, #{p_price}, #{p_size}, #{p_info}, #{p_ofile}, #{p_sfile}, #{p_best_pizza})
+				VALUES (#{g_code}, sq_pizza.nextval, #{p_name}, #{p_price}, #{p_size}, #{p_info}, #{p_ofile}, #{p_sfile})
 			</if>
 			<if test='g_code =="2"'>
-				VALUES (#{g_code}, sq_dough.nextval, #{p_name}, #{p_price}, #{p_size}, #{p_info}, #{p_ofile}, #{p_sfile}, #{p_best_pizza})
+				VALUES (#{g_code}, sq_dough.nextval, #{p_name}, #{p_price}, #{p_size}, #{p_info}, #{p_ofile}, #{p_sfile})
 			</if>
 			<if test='g_code =="3"'>
-				VALUES (#{g_code}, sq_sauce.nextval, #{p_name}, #{p_price}, #{p_size}, #{p_info}, #{p_ofile}, #{p_sfile}, #{p_best_pizza})
+				VALUES (#{g_code}, sq_sauce.nextval, #{p_name}, #{p_price}, #{p_size}, #{p_info}, #{p_ofile}, #{p_sfile})
 			</if>
 			<if test='g_code =="4"'>
-				VALUES (#{g_code}, sq_topping.nextval, #{p_name}, #{p_price}, #{p_size}, #{p_info}, #{p_ofile}, #{p_sfile}, #{p_best_pizza})
+				VALUES (#{g_code}, sq_topping.nextval, #{p_name}, #{p_price}, #{p_size}, #{p_info}, #{p_ofile}, #{p_sfile})
 			</if>
 			<if test='g_code =="5"'>
-				VALUES (#{g_code}, sq_side.nextval, #{p_name}, #{p_price}, #{p_size}, #{p_info}, #{p_ofile}, #{p_sfile}, #{p_best_pizza})
+				VALUES (#{g_code}, sq_side.nextval, #{p_name}, #{p_price}, #{p_size}, #{p_info}, #{p_ofile}, #{p_sfile})
 			</if>
 			<if test='g_code =="6"'>
-				VALUES (#{g_code}, sq_drink.nextval, #{p_name}, #{p_price}, #{p_size}, #{p_info}, #{p_ofile}, #{p_sfile}, #{p_best_pizza})
+				VALUES (#{g_code}, sq_drink.nextval, #{p_name}, #{p_price}, #{p_size}, #{p_info}, #{p_ofile}, #{p_sfile})
 			</if>
   	</insert>
 
@@ -74,8 +74,7 @@
   		UPDATE product 
   			SET g_code =#{g_code}, p_name=#{p_name}, 
   			p_price=#{p_price}, p_size=#{p_size}, p_info=#{p_info},
-  			p_sfile=#{p_sfile}, p_ofile=#{p_ofile},
-  			p_best_pizza=#{p_best_pizza} 
+  			p_sfile=#{p_sfile}, p_ofile=#{p_ofile}
   			WHERE p_code=#{p_code}
   	</update>
   	
@@ -95,49 +94,4 @@
   		SELECT p_sfile FROM product WHERE p_code=#{p_code}
   	</select>
   	
-  	
-  	
-  	<!-- 지수버전
-  	<select id="listPage" resultType="member.MemberVO" parameterType="member.ParameterDTO">
-	SELECT * FROM (
-	      SELECT Tb.*, rownum rNum From (
-	         SELECT * FROM member 
-	         WHERE grade=#{grade}
-	         <if test="searchTxt!=null and !searchTxt.equals('')">
-	            AND ${searchField} like '%'||#{searchTxt}||'%'
-	         </if>
-	         ORDER BY m_code DESC
-	      ) Tb
-	   )
-	   WHERE rNum BETWEEN #{start} AND #{end}
-	</select>
-	
-	
-	<insert id="regist">
-		INSERT INTO member (m_code, id, name, pass, phone, email, grade)
-		VALUES
-		(seq_member_num.nextval, #{_id}, #{_name}, #{_pass}, #{_phone}, #{_email}, #{_grade})
-	</insert>
-	
-	
-	<select id="view" resultType="member.MemberVO" parameterType="member.ParameterDTO">
-		SELECT * FROM member WHERE m_code=#{m_code}
-	</select>
-	
-	
-	<update id="modify" parameterType="member.MemberVO">
-		UPDATE member 
-			SET id=#{id}, name=#{name},
-			pass=#{pass}, phone=#{phone},
-			email=#{email}, zipcode=#{zipcode},
-			regidate=#{regidate}, grade=#{grade},
-			point=#{point}, active=#{active}
-			WHERE m_code=#{m_code}
-	</update>
-	
-	
-	<delete id="delete">
-		DELETE FROM member WHERE m_code=#{m_code}
-	</delete>
-  	 -->
   </mapper>

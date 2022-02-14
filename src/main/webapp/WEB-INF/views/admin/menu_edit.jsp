@@ -35,14 +35,6 @@ function validateForm(form) {
 		form.p_info.focus();
 		return false;
 	}
-	if(form.p_best_pizza.value==""){
-		alert("베스트 피자 여부를 선택하세요.");
-		return false;
-	}
-	/* if(!form.newfile.value){
-		alert("이미지를 첨부하세요.");
-		return false;
-	} */
 }
 
 $(function(){
@@ -162,16 +154,6 @@ $(function(){
 																	<th class="text-center" style="vertical-align:middle;">영양정보</th>
 																	<td>
 																		<input type="text" class="form-control" name="p_info" style="width:70%;" value="${vo.p_info }"/>
-																	</td>
-																</tr>
-																<tr>
-																	<th class="text-center" style="vertical-align:middle;">베스트피자구분</th>
-																	<td>
-																		<select name="p_best_pizza" class="form-control" style="width:70%;">
-							                                                <option selected disabled>--- 선택하세요 ---</option>
-							                                                <option value="0">베스트O</option>
-							                                                <option value="1">베스트X</option>
-							                                            </select>
 																	</td>
 																</tr>
 																<c:set var="file1" value="${vo.p_sfile }"/>
