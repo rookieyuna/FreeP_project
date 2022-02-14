@@ -106,18 +106,17 @@ $(function(){
 									</div>
 								</div>
 								<!-- 파일1번 -->
-								<input type="hidden" name="pre_file1" value="${dto.rv_ofile1 }">
+								<%-- <input type="hidden" name="pre_file1" value="${dto.rv_ofile1 }"> --%>
 								<input type="hidden" name="pre_sfile1" value="${dto.rv_sfile1}"/>
 									<c:set var="file1" value="${dto.rv_sfile1 }"/>	
 									<input type="hidden" id="deleteofile1" name="deleteofile1" />						
 									<c:if test="${not empty file1}">
 										<div class="position-relative row form-group" id="element1">
 											<label for="exampleText" class="col-sm-2 col-form-label"></label>
-											<div class="col-sm-10">
-												
-												<input name="file1" id="pre_file1" class="form-control"
+											<div class="col-sm-10">												
+												<input name="pre_file1" id="pre_file1" class="form-control"
 													style="width:200px;float:left;" value="${dto.rv_ofile1 }">
-												<input type="hidden" name="sfile1" value="${dto.rv_sfile1}"/>							
+												<%-- <input type="hidden" name="sfile1" value="${dto.rv_sfile1}"/>	 --%>						
 												<button type="button" class="btn btn-secondary" id="deletefile1">파일 삭제
 												</button>
 											</div>
@@ -135,7 +134,7 @@ $(function(){
 										</div>
 									</c:if>
 								<!-- 파일2번 -->
-										<input type="hidden" name="pre_file2" value="${dto.rv_ofile2 }">
+										<%-- <input type="hidden" name="pre_file2" value="${dto.rv_ofile2 }"> --%>
 										<input type="hidden" name="pre_sfile2" value="${dto.rv_sfile2}"/>
 									<c:set var="file2" value="${dto.rv_sfile2 }"/>		
 									<input type="hidden" id="deleteofile2" name="deleteofile2" />						
@@ -146,7 +145,7 @@ $(function(){
 												
 												<input name="pre_file2" id="pre_file2" class="form-control"
 													style="width:200px;float:left;" value="${dto.rv_ofile2 }">	
-													<input type="hidden" name="pre_sfile2" value="${dto.rv_sfile2}"/>						
+													<%-- <input type="hidden" name="pre_sfile2" value="${dto.rv_sfile2}"/>	 --%>					
 												<button type="button" class="btn btn-secondary" id="deletefile2">파일 삭제
 												</button>
 											</div>
@@ -164,18 +163,17 @@ $(function(){
 										</div>
 									</c:if>
 								<!-- 파일3번 -->
-								<input type="hidden" name="pre_file3" value="${dto.rv_ofile3 }">
+								<%-- <input type="hidden" name="pre_file3" value="${dto.rv_ofile3 }"> --%>
 								<input type="hidden" name="pre_sfile3" value="${dto.rv_sfile3}"/>
 									<c:set var="file3" value="${dto.rv_sfile3 }"/>	
 									<input type="hidden" id="deleteofile3" name="deleteofile3" />							
 									<c:if test="${not empty file3}">
 										<div class="position-relative row form-group" id="element3">
 											<label for="exampleText" class="col-sm-2 col-form-label"></label>
-											<div class="col-sm-10">
-												
+											<div class="col-sm-10">												
 												<input name="pre_file3" id="pre_file3" class="form-control"
 													style="width:200px;float:left;" value="${dto.rv_ofile3 }">
-												<input type="hidden" name="pre_sfile3" value="${dto.rv_sfile3}"/>							
+												<%-- <input type="hidden" name="pre_sfile3" value="${dto.rv_sfile3}"/>	 --%>						
 												<button type="button" class="btn btn-secondary" id="deletefile3">파일 삭제
 												</button>
 											</div>

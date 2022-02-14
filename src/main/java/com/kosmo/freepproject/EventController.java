@@ -221,12 +221,13 @@ public class EventController {
 		//물리적경로 얻어오기
 		String path = req.getSession().getServletContext().getRealPath("/resources/uploads");
 		MultipartFile mfile = null;
-
+		
+		BoardDTO boardDTO = new BoardDTO();
 		String originalName;
 		String saveFileName;
 		try {
 			String var = req.getParameter("deleteofile");
-			if(var != null)
+			if(var.equals("1"))
 			{
 				
 				//기존에 있던 파일 uploads 폴더에서 삭제
@@ -239,34 +240,46 @@ public class EventController {
 				
 				sqlSession.getMapper(BoardDAOImpl.class).deletefile(Integer.parseInt(req.getParameter("pre_idx")));								
 			}
-			mfile = req.getFile("file");
-
-			//한글깨짐방지 처리 후 전송된 파일명을 가져온다. 
-			originalName = new String(mfile.getOriginalFilename().getBytes(),"UTF-8");
-
-			//서버로 전송된 파일이 없다면 while문의 처음으로 돌아간다. 
-			if("".equals(originalName)) {
-				originalName = "";
-				saveFileName = "";
-			}
-			else {			
-				//파일명에서 확장자를 따낸다. 
-				String ext = originalName.substring(originalName.lastIndexOf('.'));
-
-				//UUID를 통해 생성된 문자열과 확장자를 결합해서 파일명을 완성한다. 
-				saveFileName = getUuid() + ext;
+			if(req.getParameter("pre_file") != null)
+			{
+				boardDTO.setSfile(req.getParameter("pre_sfile"));
+				boardDTO.setOfile(req.getParameter("pre_file"));
 				
-				//물리적경로에 새롭게 생성된 파일명으로 파일 저장				
-				Path path1 = Paths.get(path+File.separator+saveFileName).toAbsolutePath();		
-	            mfile.transferTo(path1.toFile()); 
-			} 
+			}
+			else
+			{
+				
+				mfile = req.getFile("file");
+				
+				//한글깨짐방지 처리 후 전송된 파일명을 가져온다. 
+				originalName = new String(mfile.getOriginalFilename().getBytes(),"UTF-8");
+				
+				//서버로 전송된 파일이 없다면 while문의 처음으로 돌아간다. 
+				if("".equals(originalName)) {
+					originalName = "";
+					saveFileName = "";
+					
+				}
+				else {			
+					//파일명에서 확장자를 따낸다. 
+					String ext = originalName.substring(originalName.lastIndexOf('.'));
+					
+					//UUID를 통해 생성된 문자열과 확장자를 결합해서 파일명을 완성한다. 
+					saveFileName = getUuid() + ext;
+					
+					//물리적경로에 새롭게 생성된 파일명으로 파일 저장				
+					Path path1 = Paths.get(path+File.separator+saveFileName).toAbsolutePath();		
+					mfile.transferTo(path1.toFile()); 
+				} 
+				boardDTO.setSfile(saveFileName ); 
+				boardDTO.setOfile( originalName); 
+			}
 			
-			BoardDTO boardDTO = new BoardDTO();
+			
 			boardDTO.setB_idx( Integer.parseInt(req.getParameter("pre_idx"))); 
 			boardDTO.setTitle( req.getParameter("title"));
 			boardDTO.setContents( req.getParameter("text")); 
-			boardDTO.setSfile(saveFileName ); 
-			boardDTO.setOfile( originalName); 
+			
 			
 			
 			sqlSession.getMapper(BoardDAOImpl.class).edit(boardDTO);

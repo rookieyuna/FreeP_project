@@ -29,7 +29,7 @@ import util.PagingUtil;
 public class ReviewController {
 	
 	@Autowired
-	private SqlSession sqlSession;
+	private SqlSession sqlSession; 
 	
 	
 	@RequestMapping("/admin/review.do")
@@ -49,7 +49,7 @@ public class ReviewController {
 		
 		//해당 페이지에 출력할 게시물의 구간을 계산한다. 
 		int start = (nowPage-1) * pageSize + 1;
-		int end = pageSize * nowPage; 
+		int end = pageSize * nowPage;  
   
 		ArrayList<ReviewBoardDTO> lists =
 			sqlSession.getMapper(ReviewBoardDAOImpl.class).listPage(start, end);
@@ -260,116 +260,115 @@ public class ReviewController {
 		try {
 			//파일 1
 			String var = req.getParameter("deleteofile1");
-			if(var != null)
-			{
-				
+			if(var.equals("1"))
+			{				
 				//기존에 있던 파일 uploads 폴더에서 삭제
 				String deletefile = req.getParameter("pre_sfile1");
 				File file = new File(path+File.separator+deletefile);
 				if(file.exists()) {					
 					file.delete();
 				}				
-				sqlSession.getMapper(ReviewBoardDAOImpl.class).deletefile(Integer.parseInt(req.getParameter("pre_idx")));	
-				//파일1
+				sqlSession.getMapper(BoardDAOImpl.class).deletefile(Integer.parseInt(req.getParameter("pre_idx")));								
+			}
+			if(req.getParameter("pre_file1") != null)
+			{
+				boardDTO.setRv_sfile1(req.getParameter("pre_sfile1"));
+				boardDTO.setRv_ofile1(req.getParameter("pre_file1"));				
+			}
+			else {			
 				mfile = req.getFile("file1");
 				originalName = new String(mfile.getOriginalFilename().getBytes(),"UTF-8");
 				if("".equals(originalName)) {
 					originalName = "";
 					saveFileName = "";
-				} 
+					
+					boardDTO.setRv_ofile1(originalName);
+					boardDTO.setRv_sfile1(saveFileName);
+				}
 				else {			
 					String ext = originalName.substring(originalName.lastIndexOf('.'));
 					saveFileName = getUuid() + ext;
 					
 					Path path1 = Paths.get(path+File.separator+saveFileName).toAbsolutePath();		
 					mfile.transferTo(path1.toFile()); 
+					boardDTO.setRv_ofile1(originalName);
+					boardDTO.setRv_sfile1(saveFileName);
 				}
-				boardDTO.setRv_ofile1(originalName);
-				boardDTO.setRv_sfile1(saveFileName);				
 			}
-			else {
-				//있었는데 있는경우를 판별해야댐 
-				
-			}
-			
-			/*
-			 * else {
-			 * 
-			 * boardDTO.setRv_ofile1(req.getParameter("pre_file1"));
-			 * boardDTO.setRv_sfile1(req.getParameter("pre_sfile1"));
-			 * 
-			 * }
-			 */
 			//파일 2
 			var = req.getParameter("deleteofile2");
-			if(var != null)
-			{
-				
+			if(var.equals("1"))
+			{				
 				//기존에 있던 파일 uploads 폴더에서 삭제
 				String deletefile = req.getParameter("pre_sfile2");
 				File file = new File(path+File.separator+deletefile);
 				if(file.exists()) {					
-					file.delete(); 
+					file.delete();
+				}				
+				sqlSession.getMapper(BoardDAOImpl.class).deletefile(Integer.parseInt(req.getParameter("pre_idx")));								
+			}
+			if(req.getParameter("pre_file2") != null)
+			{
+				boardDTO.setRv_sfile2(req.getParameter("pre_sfile2"));
+				boardDTO.setRv_ofile2(req.getParameter("pre_file2"));				
+			}
+			else {							
+				mfile = req.getFile("file2");
+				originalName = new String(mfile.getOriginalFilename().getBytes(),"UTF-8");
+				if("".equals(originalName)) {
+					originalName = "";
+					saveFileName = "";
+					
+					boardDTO.setRv_ofile2(originalName);
+					boardDTO.setRv_sfile2(saveFileName);
 				}
-				sqlSession.getMapper(ReviewBoardDAOImpl.class).deletefile2(Integer.parseInt(req.getParameter("pre_idx")));
+				else {			
+					String ext = originalName.substring(originalName.lastIndexOf('.'));
+					saveFileName = getUuid() + ext;
+					
+					Path path1 = Paths.get(path+File.separator+saveFileName).toAbsolutePath();		
+					mfile.transferTo(path1.toFile()); 
+					boardDTO.setRv_ofile2(originalName);
+					boardDTO.setRv_sfile2(saveFileName);
+				}
 			}
-			//파일2
-			mfile = req.getFile("file2");
-			originalName = new String(mfile.getOriginalFilename().getBytes(),"UTF-8");
-			if("".equals(originalName)) {
-				originalName = "";
-				saveFileName = "";
-			}
-			else {			
-				String ext = originalName.substring(originalName.lastIndexOf('.'));
-				saveFileName = getUuid() + ext;
-				
-				Path path1 = Paths.get(path+File.separator+saveFileName).toAbsolutePath();		
-				mfile.transferTo(path1.toFile()); 
-			}
-			boardDTO.setRv_ofile2(originalName);
-			boardDTO.setRv_sfile2(saveFileName);
-			/*
-			 * else { boardDTO.setRv_ofile2(req.getParameter("pre_file2"));
-			 * boardDTO.setRv_sfile2(req.getParameter("pre_sfile2"));
-			 * 
-			 * }
-			 */
 			//파일 3
 			var = req.getParameter("deleteofile3");
-			if(var != null)
-			{
-				
+			if(var.equals("1"))
+			{				
 				//기존에 있던 파일 uploads 폴더에서 삭제
 				String deletefile = req.getParameter("pre_sfile3");
 				File file = new File(path+File.separator+deletefile);
 				if(file.exists()) {					
-					file.delete(); 
+					file.delete();
+				}				
+				sqlSession.getMapper(BoardDAOImpl.class).deletefile(Integer.parseInt(req.getParameter("pre_idx")));								
+			}
+			if(req.getParameter("pre_file3") != null)
+			{
+				boardDTO.setRv_sfile3(req.getParameter("pre_sfile3"));
+				boardDTO.setRv_ofile3(req.getParameter("pre_file3"));				
+			}
+			else {							
+				mfile = req.getFile("file3");
+				originalName = new String(mfile.getOriginalFilename().getBytes(),"UTF-8");
+				if("".equals(originalName)) {
+					originalName = "";
+					saveFileName = "";
+					
+					boardDTO.setRv_ofile3(originalName);
+					boardDTO.setRv_sfile3(saveFileName);
 				}
-				sqlSession.getMapper(ReviewBoardDAOImpl.class).deletefile3(Integer.parseInt(req.getParameter("pre_idx")));
+				else {			
+					String ext = originalName.substring(originalName.lastIndexOf('.'));
+					saveFileName = getUuid() + ext;
+					
+					Path path1 = Paths.get(path+File.separator+saveFileName).toAbsolutePath();		
+					mfile.transferTo(path1.toFile()); 
+					boardDTO.setRv_ofile3(originalName);
+					boardDTO.setRv_sfile3(saveFileName);
+				}
 			}
-			//파일3
-			mfile = req.getFile("file3");
-			originalName = new String(mfile.getOriginalFilename().getBytes(),"UTF-8");
-			if("".equals(originalName)) {
-				originalName = "";
-				saveFileName = "";
-			}
-			else {			
-				String ext = originalName.substring(originalName.lastIndexOf('.'));
-				saveFileName = getUuid() + ext;
-				
-				Path path1 = Paths.get(path+File.separator+saveFileName).toAbsolutePath();		
-				mfile.transferTo(path1.toFile()); 
-			}
-			boardDTO.setRv_ofile3(originalName);
-			boardDTO.setRv_sfile3(saveFileName);
-			/*
-			 * else { boardDTO.setRv_ofile3(req.getParameter("pre_file3"));
-			 * boardDTO.setRv_sfile3(req.getParameter("pre_sfile3"));
-			 * 
-			 * }
-			 */
 		
 			boardDTO.setRv_idx( Integer.parseInt(req.getParameter("pre_idx"))); 
 			boardDTO.setTitle( req.getParameter("title"));

@@ -235,9 +235,8 @@ public class BoardController {
 		
 			BoardDTO boardDTO = new BoardDTO();
 			String var = req.getParameter("deleteofile");
-			if(var != null)
+			if(var.equals("1"))
 			{
-				
 				//기존에 있던 파일 uploads 폴더에서 삭제
 				String deletefile = req.getParameter("pre_sfile");
 				File file = new File(path+File.separator+deletefile);
@@ -248,34 +247,44 @@ public class BoardController {
 				
 				sqlSession.getMapper(BoardDAOImpl.class).deletefile(Integer.parseInt(req.getParameter("pre_idx")));								
 			}
-			mfile = req.getFile("file");
-
-			//한글깨짐방지 처리 후 전송된 파일명을 가져온다. 
-			originalName = new String(mfile.getOriginalFilename().getBytes(),"UTF-8");
-
-			//서버로 전송된 파일이 없다면 while문의 처음으로 돌아간다. 
-			if("".equals(originalName)) {
-				originalName = "";
-				saveFileName = "";
+			if(req.getParameter("pre_file") != null)
+			{
+				boardDTO.setSfile(req.getParameter("pre_sfile"));
+				boardDTO.setOfile(req.getParameter("pre_file"));
 				
-				boardDTO.setSfile(saveFileName ); 
-				boardDTO.setOfile( originalName); 
 			}
-			else {
+			else
+			{				
+				mfile = req.getFile("file");
 				
-				//파일명에서 확장자를 따낸다. 
-				String ext = originalName.substring(originalName.lastIndexOf('.'));
-
-				//UUID를 통해 생성된 문자열과 확장자를 결합해서 파일명을 완성한다. 
-				saveFileName = getUuid() + ext;
+				//한글깨짐방지 처리 후 전송된 파일명을 가져온다. 
+				originalName = new String(mfile.getOriginalFilename().getBytes(),"UTF-8");
 				
-				//물리적경로에 새롭게 생성된 파일명으로 파일 저장				
-				Path path1 = Paths.get(path+File.separator+saveFileName).toAbsolutePath();		
-	            mfile.transferTo(path1.toFile()); 
-	            
-	            boardDTO.setSfile(saveFileName ); 
-				boardDTO.setOfile( originalName); 
-			} 
+				//서버로 전송된 파일이 없다면 while문의 처음으로 돌아간다. 
+				if("".equals(originalName)) {
+					originalName = "";
+					saveFileName = "";
+					
+					boardDTO.setSfile(saveFileName ); 
+					boardDTO.setOfile( originalName); 
+				}
+				else {
+					
+					//파일명에서 확장자를 따낸다. 
+					String ext = originalName.substring(originalName.lastIndexOf('.'));
+					
+					//UUID를 통해 생성된 문자열과 확장자를 결합해서 파일명을 완성한다. 
+					saveFileName = getUuid() + ext;
+					
+					//물리적경로에 새롭게 생성된 파일명으로 파일 저장				
+					Path path1 = Paths.get(path+File.separator+saveFileName).toAbsolutePath();		
+					mfile.transferTo(path1.toFile()); 
+					
+					boardDTO.setSfile(saveFileName ); 
+					boardDTO.setOfile( originalName); 
+				} 
+			}
+			
 			
 			
 			boardDTO.setB_idx( Integer.parseInt(req.getParameter("pre_idx"))); 

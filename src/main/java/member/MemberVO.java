@@ -2,7 +2,7 @@ package member;
 
 import lombok.Data;
 
-@Data
+@Data 
 public class MemberVO {
 	private int m_code; //회원코드
 	private String id;

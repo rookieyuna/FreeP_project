@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class OrderlistVO {
-	private int or_idx; //주문번호
+	private int or_idx; //주문번호 
 	private int m_code; //회원코드
 	private int b_code; //지점코드
 	private java.sql.Date or_date; //주문일자

@@ -2,7 +2,7 @@ package menu;
 
 import lombok.Data;
 
-@Data
+@Data 
 public class MenuVO {
 	private int g_code;
 	private int p_code;

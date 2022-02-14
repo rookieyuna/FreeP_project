@@ -2,7 +2,7 @@ package util;
 
 import lombok.Data;
 
-@Data
+@Data 
 public class ParameterDTO {
 	
 	private String or_idx;//주문번호
