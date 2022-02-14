@@ -120,7 +120,7 @@ $(function(){
 									<div class="row mt-3">
 										<div class="col d-flex justify-content-end">
 											<button type="button" class="btn btn-primary"
-												onclick="location.href='write-board';">추가하기</button>
+												onclick="location.href='board-write';">추가하기</button>
 											<button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal">
 												삭제하기
                                         	</button>

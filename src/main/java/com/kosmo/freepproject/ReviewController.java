@@ -24,17 +24,20 @@ import util.ParameterDTO;
 import review.ReviewBoardDAOImpl;
 import review.ReviewBoardDTO;
 import util.PagingUtil;
-
+/*
+ 
+ */
 @Controller
 public class ReviewController {
 	
 	@Autowired
 	private SqlSession sqlSession; 
 	
-	
+	//리뷰 게시판 리스트 보여주기
 	@RequestMapping("/admin/review.do")
 	public String list(Model model, HttpServletRequest req) {
-
+		
+		//게시물 전체갯수 
 		int totalRecordCount =
 			sqlSession.getMapper(ReviewBoardDAOImpl.class).getTotalCount();
 		
@@ -50,7 +53,8 @@ public class ReviewController {
 		//해당 페이지에 출력할 게시물의 구간을 계산한다. 
 		int start = (nowPage-1) * pageSize + 1;
 		int end = pageSize * nowPage;  
-  
+		
+		//게시물 데이터 읽어오기
 		ArrayList<ReviewBoardDTO> lists =
 			sqlSession.getMapper(ReviewBoardDAOImpl.class).listPage(start, end);
 				
@@ -69,7 +73,7 @@ public class ReviewController {
 		return "admin/review-list";
 	}	
 	
-	
+	//리뷰 리스트 검색처리
 	@RequestMapping("/admin/reviewSearch.do")
 	public String listSearch(Model model, HttpServletRequest req) {
 
@@ -116,7 +120,7 @@ public class ReviewController {
 		return "admin/review-list";
 	}
 	
-	
+	//sfile(upload폴더에 저장될 파일이름 생성용)
 	public static String getUuid(){
 		String uuid = UUID.randomUUID().toString();		
 		//System.out.println("생성된UUID-1:"+ uuid);
@@ -126,17 +130,18 @@ public class ReviewController {
 		return uuid;
 	}
 
+	//리뷰 작성 글쓰기 insert
 	@RequestMapping(value="/admin/reviewwriteAction.do", method=RequestMethod.POST)
 	public String writeAction(Model model, MultipartHttpServletRequest req) {
 
 		
 		ReviewBoardDTO boarddto = new ReviewBoardDTO();
-		boarddto.setOr_idx(Integer.parseInt(req.getParameter("order")));
+		boarddto.setOr_idx(Integer.parseInt(req.getParameter("order"))); //주문번호
 		boarddto.setTitle(req.getParameter("title")); 
 		boarddto.setContents(req.getParameter("text"));
 		boarddto.setWriter(req.getParameter("writer"));
-		//System.out.println("asdfasdf:"+boarddto.getWriter());
-		//회원코드 가져오기
+		
+		//회원코드 가져오기 
 		int id = 
 				sqlSession.getMapper(ReviewBoardDAOImpl.class).findm_code( req.getParameter("id"));
 		boarddto.setM_code(id);
@@ -152,14 +157,14 @@ public class ReviewController {
 			//파일1
 			mfile = req.getFile("file1");
 			originalName = new String(mfile.getOriginalFilename().getBytes(),"UTF-8");
-			if("".equals(originalName)) {
+			if("".equals(originalName)) { //업로드된 파일이 없을때
 				originalName = "";
 				saveFileName = "";
 
 				boarddto.setRv_ofile1(originalName);
 				boarddto.setRv_sfile1(saveFileName);
 			}
-			else {			
+			else {			//업로드된 파일이 있을때
 				String ext = originalName.substring(originalName.lastIndexOf('.'));
 				saveFileName = getUuid() + ext;
 	
@@ -206,7 +211,7 @@ public class ReviewController {
 				boarddto.setRv_ofile3(originalName);
 				boarddto.setRv_sfile3(saveFileName);
 			}
-
+			//DB에 인서트
 			sqlSession.getMapper(ReviewBoardDAOImpl.class).write( boarddto );
 
 		}
@@ -217,7 +222,7 @@ public class ReviewController {
 		return "redirect:review.do";
 	}
 
-
+	//리뷰 상세보기
 	@RequestMapping("/admin/reviewdetail.do")
 	public String detail(Model model, HttpServletRequest req) {
 
@@ -232,6 +237,7 @@ public class ReviewController {
 		return "/admin/review-detail";
 	}
 	
+	//리뷰 수정버튼 눌렀을때 데이터 가져오는거
 	@RequestMapping("/admin/reviewedit.do")
 	public String edit(Model model, HttpServletRequest req) {
 		
@@ -260,7 +266,8 @@ public class ReviewController {
 		try {
 			//파일 1
 			String var = req.getParameter("deleteofile1");
-			if(var.equals("1"))
+			
+			if(var.equals("1")) //첨부파일 삭제 버튼이 눌린거라면
 			{				
 				//기존에 있던 파일 uploads 폴더에서 삭제
 				String deletefile = req.getParameter("pre_sfile1");
@@ -268,24 +275,25 @@ public class ReviewController {
 				if(file.exists()) {					
 					file.delete();
 				}				
+				// DB 에서도 sfile, ofile 속성 null로 바꿔주기
 				sqlSession.getMapper(BoardDAOImpl.class).deletefile(Integer.parseInt(req.getParameter("pre_idx")));								
-			}
-			if(req.getParameter("pre_file1") != null)
+			} 
+			if(req.getParameter("pre_file1") != null) //첨부파일이 있었고, 그대로 파일 유지하는 경우 실행 
 			{
 				boardDTO.setRv_sfile1(req.getParameter("pre_sfile1"));
 				boardDTO.setRv_ofile1(req.getParameter("pre_file1"));				
 			}
-			else {			
+			else {	 		
 				mfile = req.getFile("file1");
 				originalName = new String(mfile.getOriginalFilename().getBytes(),"UTF-8");
-				if("".equals(originalName)) {
+				if("".equals(originalName)) { //첨부파일이 아예 없는경우
 					originalName = "";
 					saveFileName = "";
 					
 					boardDTO.setRv_ofile1(originalName);
 					boardDTO.setRv_sfile1(saveFileName);
 				}
-				else {			
+				else {		//첨부파일이 새로 등록된 경우
 					String ext = originalName.substring(originalName.lastIndexOf('.'));
 					saveFileName = getUuid() + ext;
 					
@@ -439,19 +447,21 @@ public class ReviewController {
 			for(int i = 0; i <bd_no.length; i++) {
 
 				//기존에 있던 파일 uploads 폴더에서 삭제
-				//String deletefile = req.getParameter("pre_sfile");
+				//파일1
 				String sfile =
 						sqlSession.getMapper(ReviewBoardDAOImpl.class).selectsfile(bd_no[i]);				
 				File file = new File(path+File.separator+sfile);
 				if(file.exists()) {
 					file.delete(); 
 				}
+				//파일2
 				sfile =
 						sqlSession.getMapper(ReviewBoardDAOImpl.class).selectsfile2(bd_no[i]);				
 				file = new File(path+File.separator+sfile);
 				if(file.exists()) {
 					file.delete(); 
 				}
+				//파일3
 				sfile =
 						sqlSession.getMapper(ReviewBoardDAOImpl.class).selectsfile3(bd_no[i]);				
 				file = new File(path+File.separator+sfile);

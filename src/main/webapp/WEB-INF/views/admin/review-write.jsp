@@ -37,6 +37,7 @@
 							<form:form commandName="writeFrm" method="post"
 								action="./reviewwriteAction.do"
 								 enctype="multipart/form-data">
+								 <!-- 회원 아이디 가져오는거 해당코드 admin/common/top.jsp에 있어요 -->
 								<input type="hidden" name="id" value="<%= name %>" />
 								
 								<div class="position-relative row form-group">

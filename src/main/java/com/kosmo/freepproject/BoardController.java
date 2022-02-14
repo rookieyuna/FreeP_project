@@ -68,7 +68,7 @@ public class BoardController {
 		}
 		model.addAttribute("lists", lists);		
 		
-		return "admin/list-board";
+		return "admin/board-list";
 	}	
 	
 	
@@ -116,7 +116,7 @@ public class BoardController {
 		}
 		model.addAttribute("lists", lists);		
 		
-		return "admin/list-board";
+		return "admin/board-list";
 	}
 	
 	
@@ -204,7 +204,7 @@ public class BoardController {
 		  
 		
 		model.addAttribute("dto", dto);
-		return "/admin/detail-board";
+		return "/admin/board-detail";
 	}
 	
 	@RequestMapping("/admin/edit.do")
@@ -218,7 +218,7 @@ public class BoardController {
 		  
 		
 		model.addAttribute("dto", dto);
-		return "/admin/edit-board";
+		return "/admin/board-edit";
 	}
 
 	

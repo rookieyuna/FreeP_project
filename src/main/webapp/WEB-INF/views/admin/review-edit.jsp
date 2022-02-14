@@ -11,7 +11,7 @@ $(function(){
 	$('#deletefile1').click(function(){
 		
 		var value1= document.getElementById('deleteofile1');
-		value1.value = "1"; 
+		value1.value = "1";  /* 삭제 버튼이 눌렸으므로 flag 1로 바꿈 */
 		const element1 = document.getElementById('element1');
 		element1.innerHTML =
 			'<label for="exampleFile" class="col-sm-2 col-form-label">이미지</label><div class="col-sm-10"><input name="file1" id="exampleFile" type="file" class="form-control-file" value="${dto.rv_ofile1 }"> <small class="form-text text-muted">포스터나, 이미지 등록</small></div>';
@@ -106,24 +106,23 @@ $(function(){
 									</div>
 								</div>
 								<!-- 파일1번 -->
-								<%-- <input type="hidden" name="pre_file1" value="${dto.rv_ofile1 }"> --%>
 								<input type="hidden" name="pre_sfile1" value="${dto.rv_sfile1}"/>
 									<c:set var="file1" value="${dto.rv_sfile1 }"/>	
-									<input type="hidden" id="deleteofile1" name="deleteofile1" />						
-									<c:if test="${not empty file1}">
+									<!-- 첨부파일이 있는 리뷰를 수정할때, 첨부파일 삭제 버튼을 눌렀는지 안눌렀는지 알수있게 -->
+									<input type="hidden" id="deleteofile1" name="deleteofile1" />	
+														
+									<c:if test="${not empty file1}"> <!-- 첨부파일이 존재할경우 -->
 										<div class="position-relative row form-group" id="element1">
 											<label for="exampleText" class="col-sm-2 col-form-label"></label>
 											<div class="col-sm-10">												
 												<input name="pre_file1" id="pre_file1" class="form-control"
-													style="width:200px;float:left;" value="${dto.rv_ofile1 }">
-												<%-- <input type="hidden" name="sfile1" value="${dto.rv_sfile1}"/>	 --%>						
+													style="width:200px;float:left;" value="${dto.rv_ofile1 }">					
 												<button type="button" class="btn btn-secondary" id="deletefile1">파일 삭제
-												</button>
+												</button> <!-- 버튼이 눌리면 onclick이벤트 -->
 											</div>
 										</div>
 									</c:if>
-									<c:if test="${empty file1}">
-									
+									<c:if test="${empty file1}">									
 										<div class="position-relative row form-group">
 											<label for="exampleFile" class="col-sm-2 col-form-label">이미지</label>
 											<div class="col-sm-10">
