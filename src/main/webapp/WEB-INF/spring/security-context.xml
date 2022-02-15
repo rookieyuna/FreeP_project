@@ -19,7 +19,7 @@
       <intercept-url pattern="/admin/menu.do" access="hasRole(3)"/>
              
       <form-login 
-         login-page="/admin/login.do"
+         login-page="/admin/login.do" 
          default-target-url="/admin/index.do?success"
          authentication-failure-url="/admin/login.do?error"
          login-processing-url="/admin/LoginAction"    
