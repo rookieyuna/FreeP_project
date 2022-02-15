@@ -1,11 +1,13 @@
 package com.kosmo.freepproject;
 
+import java.security.Principal;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,7 +45,13 @@ public class HomeController {
 	public String regStep1() {return "member/regStep1";}
 	
 	@RequestMapping("/mypage/myMain.do")
-	public String myMain() {return "mypage/myMain";}
+	public String myMain(Principal principal, Model model) {
+		String user_id = principal.getName();
+		
+		model.addAttribute("user_id", user_id);
+		
+		return "mypage/myMain";
+	}
 	@RequestMapping("/mypage/myOrder.do")
 	public String myOrder() {return "mypage/myOrder";}
 	@RequestMapping("/mypage/myCoupon.do")
