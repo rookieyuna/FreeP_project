@@ -61,9 +61,9 @@
                             </ul>
                         </div>
                         <div class="tab-content active" id="login">
-                        <c:url value="/LoginAction" var="loginUrl" />
+                        <c:url value="/mainLoginAction" var="loginUrl" />
                         
-                        <form:form id="loginFrm" name="loginFrm" action="../LoginAction" method="post">
+                        <form:form id="loginFrm" name="loginFrm" action="./mainLoginAction" method="post">
                         	<c:if test="${param.error != null }">
 								<p>아이디와 패스워드가 잘못되었습니다.</p>
 							</c:if>

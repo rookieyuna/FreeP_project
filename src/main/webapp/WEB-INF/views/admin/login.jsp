@@ -89,7 +89,7 @@
 							</c:when>
 							<c:otherwise>
 								<c:url value="/LoginAction" var="loginUrl" />
-								<form:form name="loginFrm" action="../LoginAction"
+								<form:form name="loginFrm" action="./LoginAction"
 									method="post">
 									<c:if test="${param.error != null }">
 										

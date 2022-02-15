@@ -10,20 +10,19 @@
     
     <http> 엘리먼트는 2단계와 동일하게 사용한다. 
     -->
-   <http>
+      <http pattern="/admin/**" auto-config="true" disable-url-rewriting="true" use-expressions="true">
 
       <intercept-url pattern="/admin/login.do" access="permitAll" />
-      <intercept-url pattern="/admin/notice.do" access="hasRole(3)"/>
+      <intercept-url pattern="/admin/notice.do" access="hasRole(3,4)"/>
       <intercept-url pattern="/admin/index.do" access="hasAnyRole(3,4)"/>
       <intercept-url pattern="/admin/member.do" access="hasRole(3)"/>
       <intercept-url pattern="/admin/menu.do" access="hasRole(3)"/>
-             
              
       <form-login 
          login-page="/admin/login.do"
          default-target-url="/admin/index.do?success"
          authentication-failure-url="/admin/login.do?error"
-         login-processing-url="/LoginAction"    
+         login-processing-url="/admin/LoginAction"    
          username-parameter="id"  
          password-parameter="pass" />         
       <logout 
@@ -33,21 +32,21 @@
          error-page="/admin/accessDenied.do" />
    </http>
    
-<!--    <http>
+   <http pattern="/member/**" auto-config="true" disable-url-rewriting="true" use-expressions="true">
 
-   	  <intercept-url pattern="/member/login.do" access="permitAll" />
+        <intercept-url pattern="/member/login.do" access="permitAll" />
          
       <form-login 
          login-page="/member/login.do"
-         default-target-url="../index.do"
+         default-target-url="/index.do"
          authentication-failure-url="/member/login.do?error"
-         login-processing-url="/mainLoginAction"    
+         login-processing-url="/member/mainLoginAction"    
          username-parameter="id"  
          password-parameter="pass" />         
       <logout 
          logout-url="/member/logout"
-         logout-success-url="../index.do"/>
-   </http> -->
+         logout-success-url="/index.do"/>
+   </http>
    
    <!--  
       각 권한을 획득하기 위한 설정 부분
