@@ -81,7 +81,7 @@
                                                     <div class="my-oil-details section-left">
                                                         <br>
                                                         <p class="user">
-                                                            <strong class="user-name">홍길동</strong>님 반갑습니다.
+                                                            <strong class="user-name">${user_id }</strong>님 반갑습니다.
                                                         </p>
                                                         <div class="my-info">
                                                             <div class="title-wrap title-type2">
