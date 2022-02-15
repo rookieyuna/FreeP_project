@@ -1,5 +1,6 @@
 package com.kosmo.freepproject;
 
+import java.security.Principal;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -40,10 +41,12 @@ public class HomeController {
 //	@RequestMapping("/member/login.do")
 //	public String login() {return "member/login";}
 	@RequestMapping("/member/regist.do")
-	public String regStep1() {return "member/regStep1";}
+	public String regStep1() {
+		return "member/regStep1";}
 	
 	@RequestMapping("/mypage/myMain.do")
-	public String myMain() {return "mypage/myMain";}
+	public String myMain() {		
+		return "mypage/myMain";}
 	@RequestMapping("/mypage/myOrder.do")
 	public String myOrder() {return "mypage/myOrder";}
 	@RequestMapping("/mypage/myCoupon.do")

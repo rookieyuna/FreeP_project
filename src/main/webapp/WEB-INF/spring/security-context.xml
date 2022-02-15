@@ -32,9 +32,10 @@
          error-page="/admin/accessDenied.do" />
    </http>
    
-   <http pattern="/member/**" auto-config="true" disable-url-rewriting="true" use-expressions="true">
+   <http pattern="/**" auto-config="true" disable-url-rewriting="true" use-expressions="true">
 
         <intercept-url pattern="/member/login.do" access="permitAll" />
+     
          
       <form-login 
          login-page="/member/login.do"
