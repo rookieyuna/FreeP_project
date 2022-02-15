@@ -1,5 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" 
+	uri="http://www.springframework.org/tags/form" %> 
+<%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
+<%@ page import="org.springframework.security.core.Authentication" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+
+<style>
+	#header .util-nav > input {
+	    display: inline-block;
+	    line-height: 39px;
+	    padding: 10px;
+	    vertical-align: middle;
+	    font-size: 14px;
+	    color: #111;
+	}
+</style>
+
 <div id="header-wrap">
     <div class="top-wrap">
         <div class="inner-box" id="tip-box-top">
@@ -8,25 +26,29 @@
                 <img src="/freepproject/images/01brand/brand_logo_type007.png" alt="logo" style="width: 130px;">
                 <h1 class="hidden">도미노피자</h1>
             </a>
+            
+			<sec:authorize access="isAnonymous()">
             <!-- 로그인/회원가입 -->
             <div class="util-nav">
                 <a href="/freepproject/member/login.do">로그인</a>
                 <a href="/freepproject/member/regist.do">회원가입</a>
-                <a href="/freepproject/order/cart.do">
-                    <span class="material-icons-outlined">
-                        shopping_cart
-                    </span>
-                </a>
+                <a href="/freepproject/order/cart.do"><span class="material-icons-outlined">shopping_cart</span></a>
             </div>
-
+			</sec:authorize>
+			
+			<sec:authorize access="isAuthenticated()">
             <!-- 로그아웃/마이페이지 -->
-            <!-- <div class="util-nav">
-                    <a href="#">로그아웃</a>
-                    <a href="/FreeP/mypage/mymain.html">마이페이지</a>
-                    <a href="#"><img src="../resources/shopping-cart.png" alt="cart" style="width: 30px;"></a>
-                </div> -->
+            <div class="util-nav">
+            <a><form:form method="post" action="${pageContext.request.contextPath}/member/logout">
+				<input type="submit" value="로그아웃"/>
+			</form:form></a>
+	            <a href="/freepproject/mypage/myMain.do">마이페이지</a>
+	            <a href="/freepproject/order/cart.do"><span class="material-icons-outlined">shopping_cart</span></a>
+            </div>
+            </sec:authorize>
         </div>
     </div>
+
 
     <!-- main 1dep menu -->
     <div id="gnb" class="gnb-wrap">
