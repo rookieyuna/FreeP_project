@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib prefix="form" 
 	uri="http://www.springframework.org/tags/form" %> 
 <%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
@@ -112,22 +113,40 @@
                                                             </div>
                                                             <div class="info-box">
                                                                 <ul class="list">
-                                                                    <li>
+                                                                	<li>
                                                                         <dl class="item">
                                                                             <dt>사용 가능 쿠폰</dt>
-                                                                            <dd><strong
-                                                                                    class="font-secondary">X</strong><span>개</span>
+                                                                            <dd>
+                                                                            	<strong class="font-secondary">${myCouponCount }</strong><span>개</span>
                                                                             </dd>
                                                                         </dl>
                                                                     </li>
-                                                                    <li>
-                                                                        <dl class="item">
-                                                                            <dt>소멸 예정 쿠폰</dt>
-                                                                            <dd><strong
-                                                                                    class="font-secondary font-color-primary">X</strong><span>개</span>
-                                                                            </dd>
-                                                                        </dl>
-                                                                    </li>
+                                                                </ul>
+                                                                <ul>
+                                                                    <c:forEach items="${myCoupons }" var="row">
+                                                                    	<li>
+	                                                                        <dl class="item">
+	                                                                            <dt>쿠폰명</dt>
+	                                                                            <dd>
+	                                                                            	<strong class="font-secondary">${row.cp_name }</strong>
+	                                                                            </dd>
+	                                                                        </dl>
+	                                                                        <dl class="item">
+	                                                                            <dt>할인금액</dt>
+	                                                                            <dd>
+	                                                                            	<strong class="font-secondary font-color-primary">${row.cp_price }</strong>
+	                                                                            </dd>
+	                                                                        </dl>
+	                                                                        <dl class="item">
+	                                                                            <dt>쿠폰 만료일자</dt>
+	                                                                            <dd>
+		                                                                            <c:set var="expire_date" value="${row.expire_date }" />
+																					<strong class="font-secondary">${fn:substring(expire_date, 0, 10)}</strong>
+	                                                                            	<%-- <strong class="font-secondary font-color-primary">${row.expire_date }</strong> --%>
+	                                                                            </dd>
+	                                                                        </dl>
+	                                                                    </li>
+																	</c:forEach>
                                                                 </ul>
                                                             </div>
                                                         </div>
@@ -142,17 +161,9 @@
                                                                 <ul class="list">
                                                                     <li>
                                                                         <dl class="item">
-                                                                            <dt>사용 가능 쿠폰</dt>
+                                                                            <dt>사용 가능 적립금</dt>
                                                                             <dd><strong
-                                                                                    class="font-secondary">X</strong><span>개</span>
-                                                                            </dd>
-                                                                        </dl>
-                                                                    </li>
-                                                                    <li>
-                                                                        <dl class="item">
-                                                                            <dt>소멸 예정 쿠폰</dt>
-                                                                            <dd><strong
-                                                                                    class="font-secondary font-color-primary">X</strong><span>개</span>
+                                                                                    class="font-secondary font-color-primary">${myPoint }</strong><span>원</span>
                                                                             </dd>
                                                                         </dl>
                                                                     </li>
