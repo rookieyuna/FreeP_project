@@ -72,13 +72,14 @@ function deleteRow(f_code) {
 									<tr>
 										<th class="text-center" style="vertical-align:middle;">문의내용</th>
 										<td>
-											<input type="text" class="form-control" name="f_content" style="width:70%;" value="${vo.f_content }" readonly/>
+											<textarea  class="form-control" name="f_content" style="width:70%;" readonly>${vo.f_content }</textarea>
+											<%-- <input type="text" class="form-control" name="f_content" style="width:70%;" value="${vo.f_content }" readonly/> --%>
 										</td>
 									</tr>
 									<tr>
 										<th class="text-center" style="vertical-align:middle;">진행상황</th>
 										<td>
-											<select name="frans" class="form-control" style="width:70%;">
+											<select name="f_state" class="form-control" style="width:70%;">
                                                 <option value="" selected disabled>--- 선택하세요 ---</option>
                                                 <option value="1">미처리</option>
                                                 <option value="2">답변완료</option>

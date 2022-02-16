@@ -80,25 +80,10 @@ public class FransController {
 	//가맹문의 작성하기
 	
 	
-	//가맹문의 상세보기 
-//	@RequestMapping("/admin/franView.do")
-//	public String view(Model model, HttpServletRequest req) {
-//		
-//		ParameterDTO parameterDTO = new ParameterDTO();
-//		
-//		parameterDTO.setF_code(req.getParameter("f_code"));
-//		
-//		//view() 메서드로 앞에서 저장된 DTO 객체를 매개변수로 전달한다.
-//		FransVO vo = sqlSession.getMapper(FransImpl.class).view(parameterDTO);
-//		
-//		model.addAttribute("vo", vo);
-//		
-//		return "admin/fran_detail";
-//	}
 	
 	//수정하기진입
 	@RequestMapping("/admin/franEdit.do")
-	public String edit(Model model, HttpServletRequest req) {
+	public String view(Model model, HttpServletRequest req) {
 		
 		ParameterDTO parameterDTO = new ParameterDTO();
 		parameterDTO.setF_code(req.getParameter("f_code"));
