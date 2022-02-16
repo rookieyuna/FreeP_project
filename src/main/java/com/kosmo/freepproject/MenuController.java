@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.HandlerMapping;
 
 import board.BoardDAOImpl;
 import menu.MenuImpl;
@@ -314,4 +315,44 @@ public class MenuController {
 		
 		return "redirect:menu.do?g_code="+g_code;
 	}
+	
+	
+	@RequestMapping(value={"/order/orderDIY.do", "/order/orderDrink.do", "/order/orderSide.do", "/order/orderNormal.do"})
+	public String orderDIY(Model model, HttpServletRequest req) {
+		String requestUrl = (String)req.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
+		String path = req.getSession().getServletContext().getRealPath("/resources/uploads");
+				
+		//Mapper로 전달할 파라미터를 저장할 DTO 객체 생성
+		ParameterDTO parameterDTO = new ParameterDTO();
+
+		parameterDTO.setSearchField(req.getParameter("searchField"));
+		parameterDTO.setSearchTxt(req.getParameter("searchTxt"));
+		parameterDTO.setG_code(req.getParameter("g_code"));
+		
+		
+
+		String g_code = parameterDTO.getG_code();
+		
+
+		ArrayList<MenuVO> lists =
+			sqlSession.getMapper(MenuImpl.class).selectAllmenu();
+		
+
+		model.addAttribute("lists", lists);
+		model.addAttribute("g_code", g_code);
+		model.addAttribute("path", path);
+		
+		if(requestUrl.equals("/order/orderDIY.do")) {
+			return "/order/orderDIY";
+	    }else if(requestUrl.equals("/order/orderDrink.do")){
+	    	return "/order/orderDrink";
+	    }else if(requestUrl.equals("/order/orderSide.do")){
+	    	return "/order/orderSide";
+	    }else if(requestUrl.equals("/order/orderNormal.do")){
+	    	return "/order/orderNormal";
+	    }else {
+	    	return "";
+	    }
+        
+	}	
 }

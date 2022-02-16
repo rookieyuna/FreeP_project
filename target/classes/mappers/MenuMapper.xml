@@ -94,4 +94,9 @@
   		SELECT p_sfile FROM product WHERE p_code=#{p_code}
   	</select>
   	
+
+	<select id="selectAllmenu" resultType="menu.MenuVO">  	
+  		SELECT * FROM product
+  	</select>
+
   </mapper>
