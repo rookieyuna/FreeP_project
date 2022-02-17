@@ -6,6 +6,11 @@
 
 <mapper namespace="mypage.MypageImpl">
 
+	<!-- 메인 -->
+	<select id="myName" resultType="String" parameterType="util.ParameterDTO">
+	   SELECT name FROM member WHERE id=#{id}
+	</select>
+
 	<select id="myMcode" resultType="String" parameterType="util.ParameterDTO">
 	   SELECT m_code FROM member WHERE id=#{id}
 	</select>
@@ -25,25 +30,25 @@
 	</select>
 	
 	
+	<!-- 주문내역 -->
+	<select id="myOrderCount" resultType="int" parameterType="java.lang.String">
+	   SELECT COUNT(*) FROM ordered WHERE m_code=#{m_code}
+	</select>
 	
 	
-	
-	<!-- <select id="listPage" resultType="member.MemberVO" parameterType="util.ParameterDTO">
+	<select id="listPage" resultType="orderlist.OrderlistVO" parameterType="util.ParameterDTO">
 	SELECT * FROM (
 	      SELECT Tb.*, rownum rNum From (
-	         SELECT * FROM member 
-	         WHERE grade=#{grade}
-	         <if test="searchTxt!=null and !searchTxt.equals('')">
-	            AND ${searchField} like '%'||#{searchTxt}||'%'
-	         </if>
-	         ORDER BY m_code DESC
+	         SELECT * FROM ordered 
+	         WHERE m_code=#{m_code}
+	         ORDER BY or_idx DESC
 	      ) Tb
 	   )
 	   WHERE rNum BETWEEN #{start} AND #{end}
 	</select>
 	
 	
-	@Param 어노테이션에서 지정한 별칭을 사용하여 인파라미터를 처리
+	<!-- @Param 어노테이션에서 지정한 별칭을 사용하여 인파라미터를 처리
 	<insert id="regist">
 		INSERT INTO member (m_code, id, name, pass, phone, email, grade)
 		VALUES

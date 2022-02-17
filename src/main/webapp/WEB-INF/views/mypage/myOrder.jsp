@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -86,15 +87,45 @@
                                         </tr>
                                     </thead>
 
-                                    <!-- 문의 내역 없음 -->
+                                    <!-- 주문 내역 없음 -->
                                     <tbody class="board-list empty hide">
-                                            <tr>
-                                            <td colspan="4">주문하신 내용이 없습니다.</td>
+                                        <tr>
+                                            <td colspan="5">주문하신 내용이 없습니다.</td>
                                         </tr>
                                     </tbody>
 
+									<tbody class="board-list fill">
+									<c:forEach items="${lists }" var="row" varStatus="status">
+										<tr>
+											<th><c:out value="${status.count }"></c:out></th>
+											<!-- 아래 주문내용 수정해야함 -->
+											<td >${row.m_code }</td>
+											<td>${row.or_date }</td>
+											<c:choose>
+						                    	<c:when test="${row.state eq '1'}"><td>주문완료</td></c:when>
+						                    	<c:when test="${row.state eq '2'}"><td>주문접수</td></c:when>
+						                    	<c:when test="${row.state eq '3'}"><td>조리중</td></c:when>
+						                    	<c:when test="${row.state eq '4'}"><td>배달시작</td></c:when>
+						                    	<c:otherwise><td>배달완료</td></c:otherwise>
+						                    </c:choose>
+											<!-- 리뷰 수정해야함 -->
+											<c:choose>
+												<!-- 리뷰가 있다면 -->
+						                    	<c:when test="${empty review}">
+						                    		<td class="review_true"></td>
+						                    	</c:when>
+						                    	<!-- 없으면 -->
+						                    	<c:otherwise>
+						                    		<td class="review_false"><button onClick="location.href='./myReviewWrite.do'"></button></td>
+						                    	</c:otherwise>
+						                    </c:choose>
+										</tr>
+									</c:forEach>
+									</tbody>
+									
+									
                                     <!-- 주문 내역 있음 -->
-                                    <tbody class="board-list fill">
+                                    <!-- <tbody class="board-list fill">
                                         <tr>
                                             <td>2</td>
                                             <td>[DIY] 나만의 피자 + 콜라 + 소스</td>
@@ -109,10 +140,18 @@
                                             <td>주문완료</td>
                                             <td class="review_false"><button onClick="location.href='./myReviewWrite.html'"></button></td>
                                         </tr>
-                                    </tbody>
+                                    </tbody> -->
                                 </table>
                             </div>
-                            <div class="pagingArea">
+                            <!-- 페이지 번호 -->
+							<div class="pagingArea">
+								<div class="common-pagingType-1">
+									<ul class="pagination">
+										${pagingImg }
+									</ul>
+								</div>
+							</div>
+                            <!-- <div class="pagingArea">
                                 <div class="common-pagingType-1">
                                     <a href="#" class="btn-prev" title="이전 페이지로 이동"><span class="hidden">이전 페이지로 이동</span></a>
                                     <a href="#none" title="현재 페이지" class="sel"><span>1</span></a>
@@ -127,9 +166,9 @@
                                     <a href="#"><span>10</span></a>
                                     <a href="#" class="btn-next" title="다음 페이지로 이동"><span class="hidden">다음 페이지로 이동</span></a>
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="btn-wrap">
-                                <a href="/FreeP/order/orderDIY.html" class="btn-type v4">다른 제품 보러가기</a>
+                                <a href="../order/orderNormal.do" class="btn-type v4">다른 제품 보러가기</a>
                             </div>
                         </div>
 

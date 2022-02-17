@@ -4,6 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib prefix="form" 
 	uri="http://www.springframework.org/tags/form" %> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
 <%@ page import="org.springframework.security.core.Authentication" %>
 <!DOCTYPE html>
@@ -82,7 +83,7 @@
                                                     <div class="my-oil-details section-left">
                                                         <br>
                                                         <p class="user">
-                                                            <strong class="user-name">${user_id }</strong>님 반갑습니다.
+                                                            <strong class="user-name font-secondary font-color-primary">${name }</strong>님 반갑습니다.
                                                         </p>
                                                         <div class="my-info">
                                                             <div class="title-wrap title-type2">
@@ -134,7 +135,9 @@
 	                                                                        <dl class="item">
 	                                                                            <dt>할인금액</dt>
 	                                                                            <dd>
-	                                                                            	<strong class="font-secondary font-color-primary">${row.cp_price }</strong>
+	                                                                            	<strong class="font-secondary font-color-primary">
+			                                                                            <fmt:formatNumber value="${row.cp_price }" pattern="#,###"/>
+	                                                                            	</strong><span>원</span>
 	                                                                            </dd>
 	                                                                        </dl>
 	                                                                        <dl class="item">
@@ -162,8 +165,9 @@
                                                                     <li>
                                                                         <dl class="item">
                                                                             <dt>사용 가능 적립금</dt>
-                                                                            <dd><strong
-                                                                                    class="font-secondary font-color-primary">${myPoint }</strong><span>원</span>
+                                                                            <dd><strong class="font-secondary font-color-primary">
+                                                                            		<fmt:formatNumber value="${myPoint }" pattern="#,###"/>
+                                                                                </strong><span>원</span>
                                                                             </dd>
                                                                         </dl>
                                                                     </li>
