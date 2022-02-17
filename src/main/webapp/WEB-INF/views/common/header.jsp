@@ -7,21 +7,19 @@
 <%@ page import="org.springframework.security.core.Authentication" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
-
 <div id="header-wrap">
     <div class="top-wrap">
         <div class="inner-box" id="tip-box-top">
             <!-- 로고 -->
             <a href="/freepproject/index.do" class="btn-logo">
                 <img src="/freepproject/images/01brand/brand_logo_type007.png" alt="logo" style="width: 130px;">
-                <h1 class="hidden">도미노피자</h1>
             </a>
             
 			<sec:authorize access="isAnonymous()">
             <!-- 로그인/회원가입 -->
             <div class="util-nav">
                 <a href="/freepproject/member/login.do">로그인</a>
-                <a href="/freepproject/member/regist.do">회원가입</a>
+                <a href="/freepproject/member/regist1.do">회원가입</a>
                 <a href="/freepproject/order/cart.do"><span class="material-icons-outlined">shopping_cart</span></a>
             </div>
 			</sec:authorize>
@@ -30,7 +28,7 @@
             <!-- 로그아웃/마이페이지 -->
             <div class="util-nav">
             <a><form:form method="post" action="${pageContext.request.contextPath}/member/logout">
-				<input type="submit" value="로그아웃" style="font-size: 14px"/>
+				<input class="logout" type="submit" value="로그아웃" />
 			</form:form></a>
 	            <a href="/freepproject/mypage/myMain.do">마이페이지</a>
 	            <a href="/freepproject/order/cart.do"><span class="material-icons-outlined">shopping_cart</span></a>

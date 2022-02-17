@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -60,6 +62,12 @@
                         </div>
 
                         
+						<div class="title-wrap-center">
+                            <h3 class="title-type">
+                                음료 & 소스
+                            </h3>
+                        </div>
+
 
                         <div class="otherMenu menu-list">
                             <div class="menu-cart">
@@ -70,76 +78,11 @@
                                 </button>
                                 <div class="menu-cart-modal">
                                     <h4>선택품목</h4>
+                                    <form action="#" id="orderCart" name="orderCart" method="post" onsubmit="" >
                                     <table class="cart-modal-wrap">
                                         <tbody>
-                                            <!-- set list -->
-                                            <tr class="set">
-                                                <td>
-                                                    <table class="set-item">
-                                                        <tr>
-                                                            <td>
-                                                                <p class="set-title">오리지날</p>
-                                                                <div class="quantity-box">
-                                                                    <ul class="size-select">
-                                                                        <li class="active"><button class="size-L">L</button></li>
-                                                                        <li><button class="size-M">M</button></li>
-                                                                    </ul>
-                                                                </div>
-                                                            </td>
-                                                            <td><span class="kcal">124</span></td>
-                                                            <td><span class="won">2,000</span></td>
-                                                        </tr>
-                                                    </table>
-                                                    <table class="set-item">
-                                                        <tr>
-                                                            <td>갈릭소스</td><td><span class="kcal">124</span></td><td><span class="won">2,000</span></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>양상추</td><td><span class="kcal">124</span></td><td><span class="won">2,000</span></td>
-                                                        </tr>
-                                                    </table>
-                                                </td>
-                                            </tr>
-
-                                            <tr class="set">
-                                                <td>
-                                                    <table class="set-item">
-                                                        <tr>
-                                                            <td>
-                                                                <p class="set-title">콤비네이션 피자</p>
-                                                                <div class="quantity-box">
-                                                                    <ul class="size-select">
-                                                                        <li class="active"><button class="size-L">L</button></li>
-                                                                        <li><button class="size-M">M</button></li>
-                                                                    </ul>
-                                                                </div>
-                                                            </td>
-                                                            <td><span class="kcal">124</span></td>
-                                                            <td><span class="won">2,000</span></td>
-                                                        </tr>
-                                                    </table>
-                                                </td>
-                                            </tr>
+                                            <!-- set 시작 -->
                                             
-                                            <tr class="set">
-                                                <td>
-                                                    <table class="set-item">
-                                                        <tr>
-                                                            <td>
-                                                                <p class="set-title">파인애플 피자</p>
-                                                                <div class="quantity-box">
-                                                                    <ul class="size-select">
-                                                                        <li class="active"><button class="size-L">L</button></li>
-                                                                        <li><button class="size-M">M</button></li>
-                                                                    </ul>
-                                                                </div>
-                                                            </td>
-                                                            <td><span class="kcal">124</span></td>
-                                                            <td><span class="won">2,000</span></td>
-                                                        </tr>
-                                                    </table>
-                                                </td>
-                                            </tr>
                                         </tbody>
                                     </table>
 
@@ -152,301 +95,55 @@
                                         </ul>
                                     </div>
                                     <div class="fx cart-total">
-                                        <h5>총 선택정보</h5>
-                                        <p><span class="kcal total">1024</span></p>
-                                        <p><span class="won total">22,000</span></p>
+                                        <p><span>총 선택정보</span><span class="kcal total">1024</span><span class="won total">22,000</span></p>
                                     </div>
-                                    <a href="/FreeP/common/cart.html" class="cart-btn">장바구니</a>
+                                    <a href="/FreeP/common/cart.html" class="cart-btn">장바구니 담기</a>
                                 </div>
                             </div>
 
                             <!-- 사이드 메뉴 영역 -->
-                            <div class="title-wrap-center">
-                                <h3 class="title-type">
-                                    음료 & 소스
-                                </h3>
-                            </div>
-                            
-                            <div class="now-product">
-                                <ul>
-                                    <!-- 사이드 리스트 -->
-                                    <li>
-                                        <div class="prd-img">
-                                            <a href="#">
-                                                <img class="lazyload"
-                                                    src="../images/04product/06drink/ETC_d_001.png"
-                                                    alt="#">
-                                            </a>
-                                        </div>
-                                        <div class="prd-cont">
-                                            <div class="subject">ETC NAME<div class="label-box">
-                                                    <span class="label limit">기간한정</span>
-                                                </div>
+                            <ul class="NORMALmenu now-product drink">
+                            <c:choose>
+							<c:when test="${empty lists }">
+								<div>아무것도 없어요</div>
+							</c:when>
+                                
+                            <c:otherwise>
+                            <c:forEach items="${lists }" var="row">
+							<c:if test="${row.g_code eq 6}">	
+                                <!-- 사이드 리스트 -->
+                                <li class="select-item">
+                                    <div class="prd-img">
+                                       <img class="lazyload"
+                                                src="../uploads/${row.p_sfile }"
+                                                alt="${row.p_name }">
+                                    </div>
+                                    <div class="prd-cont">
+                                        <div class="subject">
+                                            <input type="text" value="${row.p_code }" class="order-code">
+                                            <div class="order-name">${row.p_name }</div>
+                                            <div class="label-box">
+                                                <span class="label limit">기간한정</span>
                                             </div>
                                         </div>
-                                        <div class="prd-price">
-                                            <div class="price-box">
-                                                <span class="price"><span class="price">8,800원</span>
-                                            </div>
+                                    </div>
+                                    <div class="prd-price">
+                                        <div class="price-box">
+                                            <span class="price1 won">${row.p_price }</span>
                                         </div>
-                                        <div class="hashtag">
-                                            
-                                        </div>
-                                    </li>
-    
-                                    <li>
-                                        <div class="prd-img">
-                                            <a href="#">
-                                                <img class="lazyload"
-                                                    src="../images/04product/06drink/ETC_d_002.png"
-                                                    alt="#">
-                                            </a>
-                                        </div>
-                                        <div class="prd-cont">
-                                            <div class="subject">ETC NAME<div class="label-box">
-                                                    <span class="label limit">기간한정</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="prd-price">
-                                            <div class="price-box">
-                                                <span class="price"><span class="price">8,800원</span>
-                                            </div>
-                                        </div>
-                                        <div class="hashtag">
-                                            
-                                        </div>
-                                    </li>
-    
-                                    <li>
-                                        <div class="prd-img">
-                                            <a href="#">
-                                                <img class="lazyload"
-                                                    src="../images/04product/06drink/ETC_d_003.png"
-                                                    alt="#">
-                                            </a>
-                                        </div>
-                                        <div class="prd-cont">
-                                            <div class="subject">ETC NAME<div class="label-box">
-                                                    <span class="label limit">기간한정</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="prd-price">
-                                            <div class="price-box">
-                                                <span class="price"><span class="price">8,800원</span>
-                                                
-                                            </div>
-                                        </div>
-                                        <div class="hashtag">
-                                            
-                                        </div>
-                                    </li>
-    
-                                    <li>
-                                        <div class="prd-img">
-                                            <a href="#">
-                                                <img class="lazyload"
-                                                    src="../images/04product/06drink/ETC_d_004.png"
-                                                    alt="#">
-                                            </a>
-                                        </div>
-                                        <div class="prd-cont">
-                                            <div class="subject">ETC NAME<div class="label-box">
-                                                    <span class="label limit">기간한정</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="prd-price">
-                                            <div class="price-box">
-                                                <span class="price"><span class="price">8,800원</span>
-                                                
-                                            </div>
-                                        </div>
-                                        <div class="hashtag">
-                                            
-                                        </div>
-                                    </li>
-    
-                                    <li>
-                                        <div class="prd-img">
-                                            <a href="#">
-                                                <img class="lazyload"
-                                                    src="../images/04product/06drink/ETC_d_005.png"
-                                                    alt="#">
-                                            </a>
-                                        </div>
-                                        <div class="prd-cont">
-                                            <div class="subject">ETC NAME<div class="label-box">
-                                                    <span class="label limit">기간한정</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="prd-price">
-                                            <div class="price-box">
-                                                <span class="price"><span class="price">8,800원</span>
-                                                
-                                            </div>
-                                        </div>
-                                        <div class="hashtag">
-                                            
-                                        </div>
-                                    </li>
-    
-                                    <li>
-                                        <div class="prd-img">
-                                            <a href="#">
-                                                <img class="lazyload"
-                                                    src="../images/04product/06drink/ETC_d_006.png"
-                                                    alt="#">
-                                            </a>
-                                        </div>
-                                        <div class="prd-cont">
-                                            <div class="subject">ETC NAME<div class="label-box">
-                                                    <span class="label limit">기간한정</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="prd-price">
-                                            <div class="price-box">
-                                                <span class="price"><span class="price">8,800원</span>
-                                                
-                                            </div>
-                                        </div>
-                                        <div class="hashtag">
-                                            
-                                        </div>
-                                    </li>
-    
-                                    <li>
-                                        <div class="prd-img">
-                                            <a href="#">
-                                                <img class="lazyload"
-                                                    src="../images/04product/06drink/ETC_s_001.png"
-                                                    alt="#">
-                                            </a>
-                                        </div>
-                                        <div class="prd-cont">
-                                            <div class="subject">ETC NAME<div class="label-box">
-                                                    <span class="label limit">기간한정</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="prd-price">
-                                            <div class="price-box">
-                                                <span class="price"><span class="price">8,800원</span>
-                                                
-                                            </div>
-                                        </div>
-                                        <div class="hashtag">
-                                            
-                                        </div>
-                                    </li>
-    
-                                    <li>
-                                        <div class="prd-img">
-                                            <a href="#">
-                                                <img class="lazyload"
-                                                    src="../images/04product/06drink/ETC_s_002.png"
-                                                    alt="#">
-                                            </a>
-                                        </div>
-                                        <div class="prd-cont">
-                                            <div class="subject">ETC NAME<div class="label-box">
-                                                    <span class="label limit">기간한정</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="prd-price">
-                                            <div class="price-box">
-                                                <span class="price"><span class="price">8,800원</span>
-                                                
-                                            </div>
-                                        </div>
-                                        <div class="hashtag">
-                                            
-                                        </div>
-                                    </li>
-                                    
-                                    <li>
-                                        <div class="prd-img">
-                                            <a href="#">
-                                                <img class="lazyload"
-                                                    src="../images/04product/06drink/ETC_s_003.png"
-                                                    alt="#">
-                                            </a>
-                                        </div>
-                                        <div class="prd-cont">
-                                            <div class="subject">ETC NAME<div class="label-box">
-                                                    <span class="label limit">기간한정</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="prd-price">
-                                            <div class="price-box">
-                                                <span class="price"><span class="price">8,800원</span>
-                                                
-                                            </div>
-                                        </div>
-                                        <div class="hashtag">
-                                            
-                                        </div>
-                                    </li>
-    
-                                    <li>
-                                        <div class="prd-img">
-                                            <a href="#">
-                                                <img class="lazyload"
-                                                    src="../images/04product/06drink/ETC_s_004.png"
-                                                    alt="#">
-                                            </a>
-                                        </div>
-                                        <div class="prd-cont">
-                                            <div class="subject">ETC NAME<div class="label-box">
-                                                    <span class="label limit">기간한정</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="prd-price">
-                                            <div class="price-box">
-                                                <span class="price"><span class="price">8,800원</span>
-                                                
-                                            </div>
-                                        </div>
-                                        <div class="hashtag">
-                                            
-                                        </div>
-                                    </li>
-    
-                                    <li>
-                                        <div class="prd-img">
-                                            <a href="#">
-                                                <img class="lazyload"
-                                                    src="../images/04product/06drink/ETC_s_005.png"
-                                                    alt="#">
-                                            </a>
-                                        </div>
-                                        <div class="prd-cont">
-                                            <div class="subject">ETC NAME<div class="label-box">
-                                                    <span class="label limit">기간한정</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="prd-price">
-                                            <div class="price-box">
-                                                <span class="price"><span class="price">8,800원</span>
-                                                
-                                            </div>
-                                        </div>
-                                        <div class="hashtag">
-                                            
-                                        </div>
-                                    </li>
-                                    <!-- //사이드 리스트 -->
-                                </ul>
-                            </div>
+                                    </div>
+                                    <div class="hashtag">
+                                        
+                                    </div>
+                                </li>
+							</c:if>
+							</c:forEach>
+							</c:otherwise>
+							</c:choose>
+                                <!-- //사이드 리스트 -->
+                            </ul>
+
                         </div>
-                        
                         <!-- // 사이드 메뉴 영역 -->
 
                     </article>
@@ -492,6 +189,7 @@
   <script>includeHTML();</script>
   
   <script src="../js/motion.js"></script>
+  <script src="../js/cartMotion.js"></script>
   <script src="../js/ui.js"></script>
   
 </body>

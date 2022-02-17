@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -59,7 +61,7 @@
                         </div>
 
 
-                        <div class="otherMenu menu-list">
+						  <div class="otherMenu menu-list">
                             <div class="menu-cart">
                                 <button class="menu-cart-btn">
                                     <span class="material-icons-outlined">
@@ -68,76 +70,10 @@
                                 </button>
                                 <div class="menu-cart-modal">
                                     <h4>선택품목</h4>
+                                    <form action="#" id="orderCart" name="orderCart" method="post" onsubmit="" >
                                     <table class="cart-modal-wrap">
                                         <tbody>
-                                            <!-- set list -->
-                                            <tr class="set">
-                                                <td>
-                                                    <table class="set-item">
-                                                        <tr>
-                                                            <td>
-                                                                <p class="set-title">오리지날</p>
-                                                                <div class="quantity-box">
-                                                                    <ul class="size-select">
-                                                                        <li class="active"><button class="size-L">L</button></li>
-                                                                        <li><button class="size-M">M</button></li>
-                                                                    </ul>
-                                                                </div>
-                                                            </td>
-                                                            <td><span class="kcal">124</span></td>
-                                                            <td><span class="won">2,000</span></td>
-                                                        </tr>
-                                                    </table>
-                                                    <table class="set-item">
-                                                        <tr>
-                                                            <td>갈릭소스</td><td><span class="kcal">124</span></td><td><span class="won">2,000</span></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>양상추</td><td><span class="kcal">124</span></td><td><span class="won">2,000</span></td>
-                                                        </tr>
-                                                    </table>
-                                                </td>
-                                            </tr>
-
-                                            <tr class="set">
-                                                <td>
-                                                    <table class="set-item">
-                                                        <tr>
-                                                            <td>
-                                                                <p class="set-title">콤비네이션 피자</p>
-                                                                <div class="quantity-box">
-                                                                    <ul class="size-select">
-                                                                        <li class="active"><button class="size-L">L</button></li>
-                                                                        <li><button class="size-M">M</button></li>
-                                                                    </ul>
-                                                                </div>
-                                                            </td>
-                                                            <td><span class="kcal">124</span></td>
-                                                            <td><span class="won">2,000</span></td>
-                                                        </tr>
-                                                    </table>
-                                                </td>
-                                            </tr>
-                                            
-                                            <tr class="set">
-                                                <td>
-                                                    <table class="set-item">
-                                                        <tr>
-                                                            <td>
-                                                                <p class="set-title">파인애플 피자</p>
-                                                                <div class="quantity-box">
-                                                                    <ul class="size-select">
-                                                                        <li class="active"><button class="size-L">L</button></li>
-                                                                        <li><button class="size-M">M</button></li>
-                                                                    </ul>
-                                                                </div>
-                                                            </td>
-                                                            <td><span class="kcal">124</span></td>
-                                                            <td><span class="won">2,000</span></td>
-                                                        </tr>
-                                                    </table>
-                                                </td>
-                                            </tr>
+                                           
                                         </tbody>
                                     </table>
 
@@ -150,372 +86,201 @@
                                         </ul>
                                     </div>
                                     <div class="fx cart-total">
-                                        <h5>총 선택정보</h5>
-                                        <p><span class="kcal total">1024</span></p>
-                                        <p><span class="won total">22,000</span></p>
+                                        <p><span>총 선택정보</span><span class="kcal total">1024</span><span class="won total">22,000</span></p>
                                     </div>
-                                    <a href="/FreeP/common/cart.html" class="cart-btn">장바구니</a>
+                                    <a href="/FreeP/common/cart.html" class="cart-btn">장바구니 담기</a>
                                 </div>
                             </div>
+
+							
+							<c:choose>
+							<c:when test="${empty lists }">
+								<div>아무것도 없어요</div>
+							</c:when>
+                                
+                            <c:otherwise>
 
                             <div class="title-wrap-center">
                                 <h3 class="title-type">
                                     스페셜 에디션
                                 </h3>
                             </div>
-                            
-                            <div class="now-product">
-                                <ul>
-                                    <!-- 피자&사이드 -->
-                                    <li>
-                                        <div class="prd-img">
-                                            <a href="#">
-                                                <img class="lazyload"
-                                                    src="../images/04product/01pizza/hut/PIZ_nor_001.png"
-                                                    alt="#">
-                                            </a>
-                                        </div>
-                                        <div class="prd-cont">
-                                            <div class="subject">PIZZA NAME<div class="label-box">
-                                                    <span class="label limit">기간한정</span>
-                                                </div>
+
+                            <ul class="NORMALmenu now-product normalPizza">
+                                <!-- 피자&사이드 -->
+							<c:forEach items="${lists }" var="row">
+							<c:if test="${row.g_code eq 1}">	
+							<c:if test="${fn:contains(row.p_code, '111100')}">
+                                <li class="select-item">
+                                    <div class="prd-img">
+                                        <img class="lazyload"
+                                            src="../uploads/../uploads/../uploads/${row.p_sfile }"
+                                            alt="${row.p_name }">
+                                    </div>
+                                    <div class="prd-cont">
+                                        <div class="subject">
+                                            <input type="text" value="${row.p_code }" class="order-code">
+                                            <div class="order-name">${row.p_name }</div>
+                                            <div class="label-box">
+                                                <span class="label limit">기간한정</span>
                                             </div>
                                         </div>
-                                        <div class="prd-price">
-                                            <div class="price-box">
-                                                <span class="price"><span class="size_l">L</span>26,900원&nbsp;</span>
-                                                <span class="price"><span class="size_m">M</span>20,000원</span>
-                                            </div>
+                                    </div>
+                                    <div class="prd-price">
+                                        <div class="price-box">
+                                            <span class="size_l">${row.p_size }</span><span class="price1 won">${row.p_price }</span>
+                                            <span class="size_m">M</span><span class="price2 won">6000</span>
                                         </div>
-                                        <div class="hashtag">
-                                            <span>#피자에 만두 bibigo! 도미노&amp;비비고 합작!</span>
-                                            <span>#블랙 슈림프 스틱+코카-콜라1.25L 1천원</span>
-                                        </div>
-                                    </li>
+                                    </div>
+                                    <div class="hashtag">
+                                        <span># 기가막혀 이맛이야!</span>
+                                        <span># 불고기 + 오리지날 도우 + 치즈</span>
+                                    </div>
+                                </li>
+                            </c:if>
+							</c:if>
+							</c:forEach>
+
+                                <!-- //피자&사이드 -->
+                            </ul>
     
-                                    <li>
-                                        <div class="prd-img">
-                                            <a href="#">
-                                                <img class="lazyload"
-                                                    src="../images/04product/01pizza/hut/PIZ_nor_002.png"
-                                                    alt="#">
-                                            </a>
-                                        </div>
-                                        <div class="prd-cont">
-                                            <div class="subject">PIZZA NAME<div class="label-box">
-                                                    <span class="label limit">기간한정</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="prd-price">
-                                            <div class="price-box">
-                                                <span class="price"><span class="size_l">L</span>26,900원&nbsp;</span>
-                                                <span class="price"><span class="size_m">M</span>20,000원</span>
-                                            </div>
-                                        </div>
-                                        <div class="hashtag">
-                                            <span>#피자에 만두 bibigo! 도미노&amp;비비고 합작!</span>
-                                            <span>#블랙 슈림프 스틱+코카-콜라1.25L 1천원</span>
-                                        </div>
-                                    </li>
-    
-                                    <li>
-                                        <div class="prd-img">
-                                            <a href="#">
-                                                <img class="lazyload"
-                                                    src="../images/04product/01pizza/hut/PIZ_nor_003.png"
-                                                    alt="#">
-                                            </a>
-                                        </div>
-                                        <div class="prd-cont">
-                                            <div class="subject">PIZZA NAME<div class="label-box">
-                                                    <span class="label limit">기간한정</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="prd-price">
-                                            <div class="price-box">
-                                                <span class="price"><span class="size_l">L</span>26,900원&nbsp;</span>
-                                                <span class="price"><span class="size_m">M</span>20,000원</span>
-                                            </div>
-                                        </div>
-                                        <div class="hashtag">
-                                            <span>#피자에 만두 bibigo! 도미노&amp;비비고 합작!</span>
-                                            <span>#블랙 슈림프 스틱+코카-콜라1.25L 1천원</span>
-                                        </div>
-                                    </li>
-    
-                                    <li>
-                                        <div class="prd-img">
-                                            <a href="#">
-                                                <img class="lazyload"
-                                                    src="../images/04product/01pizza/hut/PIZ_nor_004.png"
-                                                    alt="#">
-                                            </a>
-                                        </div>
-                                        <div class="prd-cont">
-                                            <div class="subject">PIZZA NAME<div class="label-box">
-                                                    <span class="label limit">기간한정</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="prd-price">
-                                            <div class="price-box">
-                                                <span class="price"><span class="size_l">L</span>26,900원&nbsp;</span>
-                                                <span class="price"><span class="size_m">M</span>20,000원</span>
-                                            </div>
-                                        </div>
-                                        <div class="hashtag">
-                                            <span>#피자에 만두 bibigo! 도미노&amp;비비고 합작!</span>
-                                            <span>#블랙 슈림프 스틱+코카-콜라1.25L 1천원</span>
-                                        </div>
-                                    </li>
-    
-                                    <!-- //피자&사이드 -->
-                                </ul>
-                            </div>
-    
+
                             <div class="title-wrap-center">
                                 <h3 class="title-type">
-                                    프리미엄</h3>
+                                    프리미엄
+                                </h3>
                             </div>
-                            <div class="now-product">
-                                <ul>
-                                    <!-- 피자&사이드 -->
-                                    <li>
-                                        <div class="prd-img">
-                                            <a href="#">
-                                                <img class="lazyload"
-                                                    src="../images/04product/01pizza/hut/PIZ_nor_005.png"
-                                                    alt="#">
-                                            </a>
-                                        </div>
-                                        <div class="prd-cont">
-                                            <div class="subject">PIZZA NAME<div class="label-box">
-                                                    <span class="label limit">기간한정</span>
-                                                </div>
+							
+                            <ul class="NORMALmenu now-product normalPizza">
+                                <!-- 피자&사이드 -->
+ 							<c:forEach items="${lists }" var="row">
+							<c:if test="${row.g_code eq 1}">	
+							<c:if test="${fn:contains(row.p_code, '111101')}">
+                                <li class="select-item">
+                                    <div class="prd-img">
+                                        <img class="lazyload"
+                                            src="../uploads/../uploads/${row.p_sfile }"
+                                            alt="${row.p_name }">
+                                    </div>
+                                    <div class="prd-cont">
+                                        <div class="subject">
+                                            <input type="text" value="${row.p_code }" class="order-code">
+                                            <div class="order-name">${row.p_name }</div>
+                                            <div class="label-box">
+                                                <span class="label limit">기간한정</span>
                                             </div>
                                         </div>
-                                        <div class="prd-price">
-                                            <div class="price-box">
-                                                <span class="price"><span class="size_l">L</span>26,900원&nbsp;</span>
-                                                <span class="price"><span class="size_m">M</span>20,000원</span>
-                                            </div>
+                                    </div>
+                                    <div class="prd-price">
+                                        <div class="price-box">
+                                            <span class="size_l">${row.p_size }</span><span class="price1 won">${row.p_price }</span>
+                                            <span class="size_m">M</span><span class="price2 won">6000</span>
                                         </div>
-                                        <div class="hashtag">
-                                            <span>#피자에 만두 bibigo! 도미노&amp;비비고 합작!</span>
-                                            <span>#블랙 슈림프 스틱+코카-콜라1.25L 1천원</span>
-                                        </div>
-                                    </li>
-    
-                                    <li>
-                                        <div class="prd-img">
-                                            <a href="#">
-                                                <img class="lazyload"
-                                                    src="../images/04product/01pizza/hut/PIZ_nor_006.png"
-                                                    alt="#">
-                                            </a>
-                                        </div>
-                                        <div class="prd-cont">
-                                            <div class="subject">PIZZA NAME<div class="label-box">
-                                                    <span class="label limit">기간한정</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="prd-price">
-                                            <div class="price-box">
-                                                <span class="price"><span class="size_l">L</span>26,900원&nbsp;</span>
-                                                <span class="price"><span class="size_m">M</span>20,000원</span>
-                                            </div>
-                                        </div>
-                                        <div class="hashtag">
-                                            <span>#피자에 만두 bibigo! 도미노&amp;비비고 합작!</span>
-                                            <span>#블랙 슈림프 스틱+코카-콜라1.25L 1천원</span>
-                                        </div>
-                                    </li>
-    
-                                    <li>
-                                        <div class="prd-img">
-                                            <a href="#">
-                                                <img class="lazyload"
-                                                    src="../images/04product/01pizza/hut/PIZ_nor_007.png"
-                                                    alt="#">
-                                            </a>
-                                        </div>
-                                        <div class="prd-cont">
-                                            <div class="subject">PIZZA NAME<div class="label-box">
-                                                    <span class="label limit">기간한정</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="prd-price">
-                                            <div class="price-box">
-                                                <span class="price"><span class="size_l">L</span>26,900원&nbsp;</span>
-                                                <span class="price"><span class="size_m">M</span>20,000원</span>
-                                            </div>
-                                        </div>
-                                        <div class="hashtag">
-                                            <span>#피자에 만두 bibigo! 도미노&amp;비비고 합작!</span>
-                                            <span>#블랙 슈림프 스틱+코카-콜라1.25L 1천원</span>
-                                        </div>
-                                    </li>
-                                    <!-- //피자&사이드 -->
-    
-                                </ul>
-                            </div>
-    
-                            <!-- 하단 클래식피자 리스트  -->
+                                    </div>
+                                    <div class="hashtag">
+                                        <span># 기가막혀 이맛이야!</span>
+                                        <span># 불고기 + 오리지날 도우 + 치즈</span>
+                                    </div>
+                                </li>
+                            </c:if>
+							</c:if>
+							</c:forEach>
+                                <!-- //피자&사이드 -->
+                            </ul>
+
+
                             <div class="title-wrap-center">
-                                <h3 class="title-type">하프앤하프 시그니처</h3>
-                            </div>
-                            <div class="now-product">
-                                <ul>
-                                    <li>
-                                        <div class="prd-img">
-                                            <a href="#">
-                                                <img class="lazyload"
-                                                    src="../images/04product/01pizza/hut/PIZ_nor_008.png"
-                                                    alt="#">
-                                            </a>
-                                        </div>
-                                        <div class="prd-cont">
-                                            <div class="subject">PIZZA NAME<div class="label-box">
-                                                    <span class="label limit">기간한정</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="prd-price">
-                                            <div class="price-box">
-                                                <span class="price"><span class="size_l">L</span>26,900원&nbsp;</span>
-                                                <span class="price"><span class="size_m">M</span>20,000원</span>
-                                            </div>
-                                        </div>
-                                        <div class="hashtag">
-                                            <span>#피자에 만두 bibigo! 도미노&amp;비비고 합작!</span>
-                                            <span>#블랙 슈림프 스틱+코카-콜라1.25L 1천원</span>
-                                        </div>
-                                    </li>
-    
-                                    <!-- 하프앤하프 더보기 하드코팅 -->
-    
-                                </ul>
-                            </div>
-    
-                            <div class="title-wrap-center">
-                                <h3 class="title-type">클래식</h3>
-                            </div>
-                            <div class="now-product">
-                                <ul>
-                                    <li>
-                                        <div class="prd-img">
-                                            <a href="#">
-                                                <img class="lazyload"
-                                                    src="../images/04product/01pizza/hut/PIZ_nor_009.png"
-                                                    alt="#">
-                                            </a>
-                                        </div>
-                                        <div class="prd-cont">
-                                            <div class="subject">PIZZA NAME<div class="label-box">
-                                                    <span class="label limit">기간한정</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="prd-price">
-                                            <div class="price-box">
-                                                <span class="price"><span class="size_l">L</span>26,900원&nbsp;</span>
-                                                <span class="price"><span class="size_m">M</span>20,000원</span>
-                                            </div>
-                                        </div>
-                                        <div class="hashtag">
-                                            <span>#피자에 만두 bibigo! 도미노&amp;비비고 합작!</span>
-                                            <span>#블랙 슈림프 스틱+코카-콜라1.25L 1천원</span>
-                                        </div>
-                                    </li>
-    
-                                    <li>
-                                        <div class="prd-img">
-                                            <a href="#">
-                                                <img class="lazyload"
-                                                    src="../images/04product/01pizza/hut/PIZ_nor_010.png"
-                                                    alt="#">
-                                            </a>
-                                        </div>
-                                        <div class="prd-cont">
-                                            <div class="subject">PIZZA NAME<div class="label-box">
-                                                    <span class="label limit">기간한정</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="prd-price">
-                                            <div class="price-box">
-                                                <span class="price"><span class="size_l">L</span>26,900원&nbsp;</span>
-                                                <span class="price"><span class="size_m">M</span>20,000원</span>
-                                            </div>
-                                        </div>
-                                        <div class="hashtag">
-                                            <span>#피자에 만두 bibigo! 도미노&amp;비비고 합작!</span>
-                                            <span>#블랙 슈림프 스틱+코카-콜라1.25L 1천원</span>
-                                        </div>
-                                    </li>
-    
-                                    <li>
-                                        <div class="prd-img">
-                                            <a href="#">
-                                                <img class="lazyload"
-                                                    src="../images/04product/01pizza/hut/PIZ_nor_011.png"
-                                                    alt="#">
-                                            </a>
-                                        </div>
-                                        <div class="prd-cont">
-                                            <div class="subject">PIZZA NAME<div class="label-box">
-                                                    <span class="label limit">기간한정</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="prd-price">
-                                            <div class="price-box">
-                                                <span class="price"><span class="size_l">L</span>26,900원&nbsp;</span>
-                                                <span class="price"><span class="size_m">M</span>20,000원</span>
-                                            </div>
-                                        </div>
-                                        <div class="hashtag">
-                                            <span>#피자에 만두 bibigo! 도미노&amp;비비고 합작!</span>
-                                            <span>#블랙 슈림프 스틱+코카-콜라1.25L 1천원</span>
-                                        </div>
-                                    </li>
-    
-                                    <li>
-                                        <div class="prd-img">
-                                            <a href="#">
-                                                <img class="lazyload"
-                                                    src="../images/04product/01pizza/hut/PIZ_nor_012.png"
-                                                    alt="#">
-                                            </a>
-                                        </div>
-                                        <div class="prd-cont">
-                                            <div class="subject">PIZZA NAME<div class="label-box">
-                                                    <span class="label limit">기간한정</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="prd-price">
-                                            <div class="price-box">
-                                                <span class="price"><span class="size_l">L</span>26,900원&nbsp;</span>
-                                                <span class="price"><span class="size_m">M</span>20,000원</span>
-                                            </div>
-                                        </div>
-                                        <div class="hashtag">
-                                            <span>#피자에 만두 bibigo! 도미노&amp;비비고 합작!</span>
-                                            <span>#블랙 슈림프 스틱+코카-콜라1.25L 1천원</span>
-                                        </div>
-                                    </li>
-                                </ul>
+                                <h3 class="title-type">
+                                    하프앤하프 시그니처
+                                </h3>
                             </div>
 
+                            <ul class="NORMALmenu now-product normalPizza">
+                                <!-- 피자&사이드 -->
+							<c:forEach items="${lists }" var="row">
+							<c:if test="${row.g_code eq 1}">	
+							<c:if test="${fn:contains(row.p_code, '111102')}">
+                                <li class="select-item">
+                                    <div class="prd-img">
+                                        <img class="lazyload"
+                                            src="../uploads/../uploads/${row.p_sfile }"
+                                            alt="${row.p_name }">
+                                    </div>
+                                    <div class="prd-cont">
+                                        <div class="subject">
+                                            <input type="text" value="${row.p_code }" class="order-code">
+                                            <div class="order-name">${row.p_name }</div>
+                                            <div class="label-box">
+                                                <span class="label limit">기간한정</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="prd-price">
+                                        <div class="price-box">
+                                            <span class="size_l">${row.p_size }</span><span class="price1 won">${row.p_price }</span>
+                                            <span class="size_m">M</span><span class="price2 won">6000</span>
+                                        </div>
+                                    </div>
+                                    <div class="hashtag">
+                                        <span># 기가막혀 이맛이야!</span>
+                                        <span># 불고기 + 오리지날 도우 + 치즈</span>
+                                    </div>
+                                </li>
+                            </c:if>
+							</c:if>
+							</c:forEach>
+                                <!-- //피자&사이드 -->
+                            </ul>
+
+
+                            <div class="title-wrap-center">
+                                <h3 class="title-type">
+                                    클래식
+                                </h3>
+                            </div>
+
+                            <ul class="NORMALmenu now-product normalPizza">
+                                <!-- 피자&사이드 -->
+							<c:forEach items="${lists }" var="row">
+							<c:if test="${row.g_code eq 1}">	
+							<c:if test="${fn:contains(row.p_code, '111103')}">
+                                <li class="select-item">
+                                    <div class="prd-img">
+                                        <img class="lazyload"
+                                            src="../uploads/../uploads/${row.p_sfile }"
+                                            alt="${row.p_name }">
+                                    </div>
+                                    <div class="prd-cont">
+                                        <div class="subject">
+                                            <input type="text" value="${row.p_code }" class="order-code">
+                                            <div class="order-name">${row.p_name }</div>
+                                            <div class="label-box">
+                                                <span class="label limit">기간한정</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="prd-price">
+                                        <div class="price-box">
+                                            <span class="size_l">${row.p_size }</span><span class="price1 won">${row.p_price }</span>
+                                            <span class="size_m">M</span><span class="price2 won">6000</span>
+                                        </div>
+                                    </div>
+                                    <div class="hashtag">
+                                        <span># 기가막혀 이맛이야!</span>
+                                        <span># 불고기 + 오리지날 도우 + 치즈</span>
+                                    </div>
+                                </li>
+                            </c:if>
+							</c:if>
+							</c:forEach>
+                                <!-- //피자&사이드 -->
+                            </ul>
+                            
+                            </c:otherwise>
+                            </c:choose>
+                            
                         </div>
-                        <!-- NEW 피자 영역 -->
-                        
-                        <!-- NEW 피자 영역 -->
+
                         <!-- //NEW 피자 영역 -->
 
                     </article>
@@ -561,6 +326,7 @@
   <script>includeHTML();</script>
   
   <script src="../js/motion.js"></script>
+  <script src="../js/cartMotion.js"></script>
   <script src="../js/ui.js"></script>
   
 

@@ -23,4 +23,6 @@ public interface MenuImpl {
 	public void deletefile(String p_code);
 	
 	public String selectsfile(String p_code);
+	
+	public ArrayList<MenuVO> selectAllmenu();
 }

@@ -41,18 +41,18 @@ public class HomeController {
 	
 //	@RequestMapping("/member/login.do")
 //	public String login() {return "member/login";}
-	@RequestMapping("/member/regist.do")
-	public String regStep1() {
-		return "member/regStep1";}
+//	@RequestMapping("/member/regist.do")
+//	public String regStep1() {
+//		return "member/regStep1";}
 	
-	@RequestMapping("/order/orderDIY.do")
-	public String orderDIY() {return "order/orderDIY";}
-	@RequestMapping("/order/orderNormal.do")
-	public String orderNormal() {return "order/orderNormal";}
-	@RequestMapping("/order/orderSide.do")
-	public String orderSide() {return "order/orderSide";}
-	@RequestMapping("/order/orderDrink.do")
-	public String orderDrink() {return "order/orderDrink";}
+//	@RequestMapping("/order/orderDIY.do")
+//	public String orderDIY() {return "order/orderDIY";}
+//	@RequestMapping("/order/orderNormal.do")
+//	public String orderNormal() {return "order/orderNormal";}
+//	@RequestMapping("/order/orderSide.do")
+//	public String orderSide() {return "order/orderSide";}
+//	@RequestMapping("/order/orderDrink.do")
+//	public String orderDrink() {return "order/orderDrink";}
 	
 	/*
 	 * @RequestMapping("/order/cart.do") public String cart() {return

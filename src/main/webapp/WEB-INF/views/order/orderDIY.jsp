@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -69,93 +71,19 @@
 
                         <div class="menu-list">
                             <div class="menu-cart">
-                                <button class="menu-cart-btn">
+                                <button type="button" class="menu-cart-btn">
                                     <span class="material-icons-outlined">
                                         shopping_cart
                                     </span>
                                 </button>
                                 <div class="menu-cart-modal">
                                     <h4>선택품목</h4>
+                                    <form action="#" id="orderCart" name="orderCart" method="post" onsubmit="" >
                                     <table class="cart-modal-wrap">
                                         <tbody>
                                             <!-- set 시작 -->
-                                            <tr class="set">
-                                                <td>
-                                                    <table class="set-item">
-                                                        <tr>
-                                                            <td>
-                                                                <p class="set-title">오리지날</p>
-                                                                <div class="quantity-box">
-                                                                    <ul class="size-select">
-                                                                        <li class="active"><button class="size-L">L</button></li>
-                                                                        <li><button class="size-M">M</button></li>
-                                                                    </ul>
-                                                                </div>
-                                                            </td>
-                                                            <td><span class="kcal">124</span></td>
-                                                            <td><span class="won">2,000</span></td>
-                                                        </tr>
-                                                    </table>
-                                                    <table class="set-item">
-                                                        <tr>
-                                                            <td>갈릭소스</td><td><span class="kcal">124</span></td><td><span class="won">2,000</span></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>양상추</td><td><span class="kcal">124</span></td><td><span class="won">2,000</span></td>
-                                                        </tr>
-                                                    </table>
-                                                </td>
-                                            </tr>
                                             
-                                            <tr class="set">
-                                                <td>
-                                                    <table class="set-item">
-                                                        <tr>
-                                                            <td>
-                                                                <p class="set-title">오리지날</p>
-                                                                <div class="quantity-box">
-                                                                    <ul class="size-select">
-                                                                        <li class="active"><button class="size-L">L</button></li>
-                                                                        <li><button class="size-M">M</button></li>
-                                                                    </ul>
-                                                                </div>
-                                                            </td>
-                                                            <td><span class="kcal">124</span></td>
-                                                            <td><span class="won">2,000</span></td>
-                                                        </tr>
-                                                    </table>
-                                                    <table class="set-item">
-                                                        <tr>
-                                                            <td>양상추</td><td><span class="kcal">124</span></td><td><span class="won">2,000</span></td>
-                                                        </tr>
-                                                    </table>
-                                                </td>
-                                            </tr>
 
-                                            <tr class="set">
-                                                <td>
-                                                    <table class="set-item">
-                                                        <tr>
-                                                            <td>
-                                                                <p class="set-title">오리지날</p>
-                                                                <div class="quantity-box">
-                                                                    <ul class="size-select">
-                                                                        <li class="active"><button class="size-L">L</button></li>
-                                                                        <li><button class="size-M">M</button></li>
-                                                                    </ul>
-                                                                </div>
-                                                            </td>
-                                                            <td><span class="kcal">124</span></td>
-                                                            <td><span class="won">2,000</span></td>
-                                                        </tr>
-                                                    </table>
-                                                    <table class="set-item">
-                                                        <tr>
-                                                            <td>양상추</td><td><span class="kcal">124</span></td><td><span class="won">2,000</span></td>
-                                                        </tr>
-                                                    </table>
-                                                </td>
-                                            </tr>
                                         </tbody>
                                     </table>
 
@@ -168,27 +96,39 @@
                                         </ul>
                                     </div>
                                     <div class="fx cart-total">
-                                        <h5>총 선택정보</h5>
-                                        <p><span class="kcal total">1024</span></p>
-                                        <p><span class="won total">22,000</span></p>
+                                        <p><span>총 선택정보</span><span class="kcal total">1024</span><span class="won total">22,000</span></p>
                                     </div>
-                                    <a href="../order/cart.do" class="cart-btn">장바구니</a>
+                                    <a href="/FreeP/common/cart.html" class="cart-btn">장바구니 담기</a>
                                 </div>
                             </div>
-
-                            <ul class="DIYmenu fx">
+							
+							
+                            <ul class="DIYmenu">
+                            
+                            <c:choose>
+							<c:when test="${empty lists }">
+								<div>아무것도 없어요</div>
+							</c:when>
+                                
+                            <c:otherwise>
+                            
+										
                                 <li class="menu-depth dough">
                                     <div class="DIYmenu_section">
                                         도우 ( 필수선택 )
                                     </div>
-                                    <ul class="DIYmenu_section_list">
-                                        <li class="">
+                                    <ul class="DIYmenu_section_list now-product">
+                                    
+										<!-- 게시물이 있을때 -->
+							<c:forEach items="${lists }" var="row">
+							<c:if test="${row.g_code eq 2}">			
+                                        <li class="select-item">
                                             <div class="prd-img">
                                                 <div>
                                                     <img class="lazyload"
-                                                        src="../images/04product/04topping/pizzaDough01-removebg-preview.png" alt="#">
+                                                        src="../uploads/../uploads/${row.p_sfile }" alt="${row.p_name }">
                                                 </div>
-                                                <button class="btn-detail">
+                                                <button type="button" class="btn-detail">
                                                     <i class="DIYmenu-detail">
                                                         <span class="material-icons info">
                                                             info
@@ -203,7 +143,8 @@
                                                     <div class="label-box">
                                                         <span class="label limit">기간한정</span>
                                                     </div>
-                                                    <div>오리지날</div>
+                                                    <input type="text" value="${row.p_code }" class="order-code">
+                                                    <div class="order-name">${row.p_name }</div>
                                                 </div>
                                                 <div class="prd-origin">
                                                     <p><span>원산지 : </span>국내산</p>
@@ -212,61 +153,31 @@
         
                                             <div class="prd-price">
                                                 <div class="price-box">
-                                                    <span class="price">5,900원&nbsp;</span>
+                                                    <span class="size_l">${row.p_size }</span><span class="price1 won">${row.p_price }</span>
+                                                    <span class="size_m">M</span><span class="price2 won">3500</span>
                                                 </div>
                                             </div>
                                         </li>
-
-                                        <li>
-                                            <div class="prd-img">
-                                                <div>
-                                                    <img class="lazyload"
-                                                        src="../images/04product/04topping/pizzaDough01-removebg-preview.png" alt="#">
-                                                </div>
-                                                <button class="btn-detail">
-                                                    <i class="DIYmenu-detail">
-                                                        <span class="material-icons info">
-                                                            info
-                                                        </span>
-                                                    </i>
-                                                    <span class="hidden">상세버튼</span>
-                                                </button>
-                                            </div>
-        
-                                            <div class="prd-cont">
-                                                <div class="subject">
-                                                    <div class="label-box">
-                                                        <span class="label limit">기간한정</span>
-                                                    </div>
-                                                    <div>나폴리</div>
-                                                </div>
-                                                <div class="prd-origin">
-                                                    <p><span>원산지 : </span>국내산</p>
-                                                </div>
-                                            </div>
-        
-                                            <div class="prd-price">
-                                                <div class="price-box">
-                                                    <span class="price">5,900원&nbsp;</span>
-                                                </div>
-                                            </div>
-                                        </li>
-
+                            </c:if>
+                            </c:forEach>         
                                     </ul>
                                 </li>
+							
 
                                 <li class="menu-depth sauce">
                                     <div class="DIYmenu_section">
                                         소스 ( 필수선택 )
                                     </div>
-                                    <ul class="DIYmenu_section_list">
-                                        <li>
+                                    <ul class="DIYmenu_section_list now-product">
+                            <c:forEach items="${lists }" var="row">        
+                            <c:if test="${row.g_code eq 3}">        
+                                        <li class="select-item">
                                             <div class="prd-img">
                                                 <div>
                                                     <img class="lazyload"
-                                                        src="../images/04product/04topping/DIY_t_001.png" alt="#">
+                                                        src="../uploads/${row.p_sfile }" alt="${row.p_name }">
                                                 </div>
-                                                <button class="btn-detail">
+                                                <button type="button" class="btn-detail">
                                                     <i class="DIYmenu-detail">
                                                         <span class="material-icons info">
                                                             info
@@ -281,7 +192,8 @@
                                                     <div class="label-box">
                                                         <span class="label limit">기간한정</span>
                                                     </div>
-                                                    <div>닭가슴살</div>
+                                                    <input type="text" value="${row.p_code }" class="order-code">
+                                                    <div class="order-name">${row.p_name }</div>
                                                 </div>
                                                 <div class="prd-origin">
                                                     <p><span>원산지 : </span>국내산</p>
@@ -290,165 +202,30 @@
         
                                             <div class="prd-price">
                                                 <div class="price-box">
-                                                    <span class="price">5,900원&nbsp;</span>
+                                                    <span class="price1 won">${row.p_price }</span>
                                                 </div>
                                             </div>
                                         </li>
-
-                                        <li>
-                                            <div class="prd-img">
-                                                <div>
-                                                    <img class="lazyload"
-                                                        src="../images/04product/04topping/DIY_t_001.png" alt="#">
-                                                </div>
-                                                <button class="btn-detail">
-                                                    <i class="DIYmenu-detail">
-                                                        <span class="material-icons info">
-                                                            info
-                                                        </span>
-                                                    </i>
-                                                    <span class="hidden">상세버튼</span>
-                                                </button>
-                                            </div>
-        
-                                            <div class="prd-cont">
-                                                <div class="subject">
-                                                    <div class="label-box">
-                                                        <span class="label limit">기간한정</span>
-                                                    </div>
-                                                    <div>닭가슴살</div>
-                                                </div>
-                                                <div class="prd-origin">
-                                                    <p><span>원산지 : </span>국내산</p>
-                                                </div>
-                                            </div>
-        
-                                            <div class="prd-price">
-                                                <div class="price-box">
-                                                    <span class="price">5,900원&nbsp;</span>
-                                                </div>
-                                            </div>
-                                        </li>
-
-                                        <li>
-                                            <div class="prd-img">
-                                                <div>
-                                                    <img class="lazyload"
-                                                        src="../images/04product/04topping/DIY_t_001.png" alt="#">
-                                                </div>
-                                                <button class="btn-detail">
-                                                    <i class="DIYmenu-detail">
-                                                        <span class="material-icons info">
-                                                            info
-                                                        </span>
-                                                    </i>
-                                                    <span class="hidden">상세버튼</span>
-                                                </button>
-                                            </div>
-        
-                                            <div class="prd-cont">
-                                                <div class="subject">
-                                                    <div class="label-box">
-                                                        <span class="label limit">기간한정</span>
-                                                    </div>
-                                                    <div>닭가슴살</div>
-                                                </div>
-                                                <div class="prd-origin">
-                                                    <p><span>원산지 : </span>국내산</p>
-                                                </div>
-                                            </div>
-        
-                                            <div class="prd-price">
-                                                <div class="price-box">
-                                                    <span class="price">5,900원&nbsp;</span>
-                                                </div>
-                                            </div>
-                                        </li>
-
-                                        <li>
-                                            <div class="prd-img">
-                                                <div>
-                                                    <img class="lazyload"
-                                                        src="../images/04product/04topping/DIY_t_001.png" alt="#">
-                                                </div>
-                                                <button class="btn-detail">
-                                                    <i class="DIYmenu-detail">
-                                                        <span class="material-icons info">
-                                                            info
-                                                        </span>
-                                                    </i>
-                                                    <span class="hidden">상세버튼</span>
-                                                </button>
-                                            </div>
-        
-                                            <div class="prd-cont">
-                                                <div class="subject">
-                                                    <div class="label-box">
-                                                        <span class="label limit">기간한정</span>
-                                                    </div>
-                                                    <div>닭가슴살</div>
-                                                </div>
-                                                <div class="prd-origin">
-                                                    <p><span>원산지 : </span>국내산</p>
-                                                </div>
-                                            </div>
-        
-                                            <div class="prd-price">
-                                                <div class="price-box">
-                                                    <span class="price">5,900원&nbsp;</span>
-                                                </div>
-                                            </div>
-                                        </li>
-
-                                        <li>
-                                            <div class="prd-img">
-                                                <div>
-                                                    <img class="lazyload"
-                                                        src="../images/04product/04topping/DIY_t_001.png" alt="#">
-                                                </div>
-                                                <button class="btn-detail">
-                                                    <i class="DIYmenu-detail">
-                                                        <span class="material-icons info">
-                                                            info
-                                                        </span>
-                                                    </i>
-                                                    <span class="hidden">상세버튼</span>
-                                                </button>
-                                            </div>
-        
-                                            <div class="prd-cont">
-                                                <div class="subject">
-                                                    <div class="label-box">
-                                                        <span class="label limit">기간한정</span>
-                                                    </div>
-                                                    <div>닭가슴살</div>
-                                                </div>
-                                                <div class="prd-origin">
-                                                    <p><span>원산지 : </span>국내산</p>
-                                                </div>
-                                            </div>
-        
-                                            <div class="prd-price">
-                                                <div class="price-box">
-                                                    <span class="price">5,900원&nbsp;</span>
-                                                </div>
-                                            </div>
-                                        </li>
+							</c:if>
+							</c:forEach>
                                     </ul>
                                 </li>
-
-                                <li class="menu-depth">
+							
+							
+                                <li class="menu-depth topping">
                                     <div class="DIYmenu_section">
                                         토핑 ( 최대 5개 )
                                     </div>
-                                    <ul class="DIYmenu_section_list topping">
-                                        <li>
+                                    <ul class="DIYmenu_section_list now-product">
+                            <c:forEach items="${lists }" var="row">        
+                            <c:if test="${row.g_code eq 4}">         
+                                        <li class="select-item">
                                             <div class="prd-img">
                                                 <div>
                                                     <img class="lazyload"
-                                                        src="../images/04product/04topping/DIY_t_001.png" alt="#">
+                                                        src="../uploads/${row.p_sfile }" alt="${row.p_name }">
                                                 </div>
-                                                <button class="btn-detail">
+                                                <button type="button" class="btn-detail">
                                                     <i class="DIYmenu-detail">
                                                         <span class="material-icons info">
                                                             info
@@ -463,7 +240,8 @@
                                                     <div class="label-box">
                                                         <span class="label limit">기간한정</span>
                                                     </div>
-                                                    <div>닭가슴살</div>
+                                                    <input type="text" value="${row.p_code }" class="order-code">
+                                                    <div class="order-name">${row.p_name }</div>
                                                 </div>
                                                 <div class="prd-origin">
                                                     <p><span>원산지 : </span>국내산</p>
@@ -472,155 +250,25 @@
         
                                             <div class="prd-price">
                                                 <div class="price-box">
-                                                    <span class="price">5,900원&nbsp;</span>
+                                                    <span class="price1 won">${row.p_price }</span>
                                                 </div>
                                             </div>
                                         </li>
-
-                                        <li>
-                                            <div class="prd-img">
-                                                <div>
-                                                    <img class="lazyload"
-                                                        src="../images/04product/04topping/DIY_t_001.png" alt="#">
-                                                </div>
-                                                <button class="btn-detail">
-                                                    <i class="DIYmenu-detail">
-                                                        <span class="material-icons info">
-                                                            info
-                                                        </span>
-                                                    </i>
-                                                    <span class="hidden">상세버튼</span>
-                                                </button>
-                                            </div>
-        
-                                            <div class="prd-cont">
-                                                <div class="subject">
-                                                    <div class="label-box">
-                                                        <span class="label limit">기간한정</span>
-                                                    </div>
-                                                    <div>닭가슴살</div>
-                                                </div>
-                                                <div class="prd-origin">
-                                                    <p><span>원산지 : </span>국내산</p>
-                                                </div>
-                                            </div>
-        
-                                            <div class="prd-price">
-                                                <div class="price-box">
-                                                    <span class="price">5,900원&nbsp;</span>
-                                                </div>
-                                            </div>
-                                        </li>
-
-                                        <li>
-                                            <div class="prd-img">
-                                                <div>
-                                                    <img class="lazyload"
-                                                        src="../images/04product/04topping/DIY_t_001.png" alt="#">
-                                                </div>
-                                                <button class="btn-detail">
-                                                    <i class="DIYmenu-detail">
-                                                        <span class="material-icons info">
-                                                            info
-                                                        </span>
-                                                    </i>
-                                                    <span class="hidden">상세버튼</span>
-                                                </button>
-                                            </div>
-        
-                                            <div class="prd-cont">
-                                                <div class="subject">
-                                                    <div class="label-box">
-                                                        <span class="label limit">기간한정</span>
-                                                    </div>
-                                                    <div>닭가슴살</div>
-                                                </div>
-                                                <div class="prd-origin">
-                                                    <p><span>원산지 : </span>국내산</p>
-                                                </div>
-                                            </div>
-        
-                                            <div class="prd-price">
-                                                <div class="price-box">
-                                                    <span class="price">5,900원&nbsp;</span>
-                                                </div>
-                                            </div>
-                                        </li>
-
-                                        <li>
-                                            <div class="prd-img">
-                                                <div>
-                                                    <img class="lazyload"
-                                                        src="../images/04product/04topping/DIY_t_001.png" alt="#">
-                                                </div>
-                                                <button class="btn-detail">
-                                                    <i class="DIYmenu-detail">
-                                                        <span class="material-icons info">
-                                                            info
-                                                        </span>
-                                                    </i>
-                                                    <span class="hidden">상세버튼</span>
-                                                </button>
-                                            </div>
-        
-                                            <div class="prd-cont">
-                                                <div class="subject">
-                                                    <div class="label-box">
-                                                        <span class="label limit">기간한정</span>
-                                                    </div>
-                                                    <div>닭가슴살</div>
-                                                </div>
-                                                <div class="prd-origin">
-                                                    <p><span>원산지 : </span>국내산</p>
-                                                </div>
-                                            </div>
-        
-                                            <div class="prd-price">
-                                                <div class="price-box">
-                                                    <span class="price">5,900원&nbsp;</span>
-                                                </div>
-                                            </div>
-                                        </li>
-
-                                        <li>
-                                            <div class="prd-img">
-                                                <div>
-                                                    <img class="lazyload"
-                                                        src="../images/04product/04topping/DIY_t_001.png" alt="#">
-                                                </div>
-                                                <button class="btn-detail">
-                                                    <i class="DIYmenu-detail">
-                                                        <span class="material-icons info">
-                                                            info
-                                                        </span>
-                                                    </i>
-                                                    <span class="hidden">상세버튼</span>
-                                                </button>
-                                            </div>
-        
-                                            <div class="prd-cont">
-                                                <div class="subject">
-                                                    <div class="label-box">
-                                                        <span class="label limit">기간한정</span>
-                                                    </div>
-                                                    <div>닭가슴살</div>
-                                                </div>
-                                                <div class="prd-origin">
-                                                    <p><span>원산지 : </span>국내산</p>
-                                                </div>
-                                            </div>
-        
-                                            <div class="prd-price">
-                                                <div class="price-box">
-                                                    <span class="price">5,900원&nbsp;</span>
-                                                </div>
-                                            </div>
-                                        </li>
+                            </c:if> 
+                            </c:forEach>      
                                     </ul>
                                 </li>
-                                <!-- DIY재료 -->
+
+
+	                    	</c:otherwise>
+                        	</c:choose>
                             </ul>
+                            	
+
                             
+                            <div class="DIY_make">
+                                <button type="button" class="">DIY 만들기</button>
+                            </div>
                             <!-- 제품 list 끝 -->
 
                             <!-- 제품 info 정보 창 모달 -->
@@ -633,8 +281,8 @@
                                     <div class="pop-content">
                                         <div class="tab-type v2 js_tab">
                                             <ul>
-                                                <li class="active"><button href="#allergy1">영양성분</button></li>
-                                                <li><button href="#allergy2">원산지</button></li>
+                                                <li class="active"><button type="button">영양성분</button></li>
+                                                <li><button type="button">원산지</button></li>
                                             </ul>
                                         </div>
                                         <div id="allergy1" class="tab-content active">
@@ -763,6 +411,7 @@
   <script>includeHTML();</script>
   
   <script src="../js/motion.js"></script>
+  <script src="../js/cartMotion.js"></script>
   <script src="../js/ui.js"></script>
   
 </body>

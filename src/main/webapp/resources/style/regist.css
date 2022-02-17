@@ -426,7 +426,7 @@ input[type="file"], input[type="email"], input[type="tel"], textarea {
   display: none;
 }
 
-input[type="radio"], input[type="checkbox"] {
+input[type="radio"] {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -1418,7 +1418,8 @@ input[readonly] {
   display: block;
 }
 
-input[type="radio"], input[type="checkbox"] {
+input[type="radio"],
+input[type="checkbox"] {
   /* -webkit-appearance: none; */
   -moz-appearance: none;
   -webkit-appearance: none;

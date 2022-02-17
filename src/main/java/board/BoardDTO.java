@@ -1,7 +1,7 @@
 package board;
 
 import lombok.Data;
- 
+
 @Data
 public class BoardDTO {
 	private int b_idx;
