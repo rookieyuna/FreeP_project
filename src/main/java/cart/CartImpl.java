@@ -19,4 +19,6 @@ public interface CartImpl {
 	
 	public int sum1(int a);
 	public int sum2(int a);
+	
+	public void deleteCart(int cart);
 }

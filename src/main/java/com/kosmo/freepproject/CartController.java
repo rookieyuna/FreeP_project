@@ -4,17 +4,24 @@ import java.security.Principal;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import board.BoardDAOImpl;
 import cart.CartDTO;
 import cart.CartImpl;
-import util.PagingUtil;
 
 @Controller
 public class CartController {
@@ -107,6 +114,22 @@ public class CartController {
 		
 		model.addAttribute("sum", a+b);
 		return "common/cart";
-	}	
+	}
+	
+	@RequestMapping(value = "/order/delete_action.do")
+	@ResponseBody
+	public String delete_action(Model model, HttpServletRequest req){
+	    
+	    try{			
+	       int cart = Integer.parseInt(req.getParameter("idx"));
+	                
+	       sqlSession.getMapper(CartImpl.class).deleteCart(cart);
+	        
+	    }catch(Exception e){
+	    	e.printStackTrace();
+	    }
+	    
+	    return null;
+	}
 	
 }

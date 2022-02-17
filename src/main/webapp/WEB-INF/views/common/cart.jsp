@@ -44,29 +44,31 @@
 		document.getElementById("sum").innerText = (sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
 	}
 	
-$(function(){
-		//해당 버튼을 눌렀을때 ajax메서드를 호출한다. 
-		$('#btnBoard').click(function(){
-			
-			//리스트를 요청했을때 loading이미지를 보임처리한다. 
-			$('#loading').show();		
-			
-			$.ajax({
-				type : 'get', //전송방식
-				url : '../restapi/boardList.do', //요청URL 
-				data : {nowPage : $('#nowPage').val()}, //파라미터
-				contentType : "text/html;charset:utf-8", 
-				dataType : "json", //콜백 데이터 타입
-				success : sucCallBack, //요청에 성공했을때 호출되는 콜백 함수
-				error : errCallBack //실패했을때의 콜백 함수
-			});
-		});
-		/*
-		trigger() 함수는 특정 이벤트를 자동으로 발생시켜준다. 
-		아래의경우 페이지가 로드되면 해당 버튼을 클릭해준다. 
-		*/
-		$('#btnBoard').trigger('click');
-});	
+	function fn_delete(idx){
+	    if(!confirm("삭제를 하시겠습니까?"))
+	    return false;
+	    	    
+	    $.ajax({ 
+	            url: "../order/delete_action.do", 
+	            type: "POST", 
+	            contentType: "application/json;charset=UTF-8",
+	            data:{idx : idx},
+	            dataType : "json",
+	            success : susCallBack,
+	            error : errCallBack
+	            }) 
+	            .done(function() {
+	           	 	alert("삭제되었습니다.");
+	            
+	            }) 
+	            .fail(function(e) {  
+	                alert("삭제를 실패하였습니다.");
+	            }) 
+	            .always(function() { 
+	                
+	            }); 
+	    
+	}
 	
 
 </script>
@@ -176,7 +178,7 @@ $(function(){
                                             <em>${row.p_price }</em>
                                         </div>
                                         <div class="prd-delete">
-                                            <a href="javascript:changeGoodsCnt('delete',0,'RPZ253HL', '1', 1, 0);"
+                                            <a href="javascript:void(0)" onclick="fn_delete('${row.ct_idx}');"
                                                 class="btn-close">
                                                 <span class="hidden">삭제</span>
                                             </a>
@@ -234,7 +236,7 @@ $(function(){
                                             <em>${row.d_price }</em>
                                         </div>
                                         <div class="prd-delete">
-                                            <a href="javascript:changeGoodsCnt('delete',0,'RPZ253HL', '1', 1, 0);"
+                                            <a href="javascript:void(0)" onclick="fn_delete('${row.ct_idx}');"
                                                 class="btn-close">
                                                 <span class="hidden">삭제</span>
                                             </a>

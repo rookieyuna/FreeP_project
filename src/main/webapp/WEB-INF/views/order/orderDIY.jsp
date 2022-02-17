@@ -120,7 +120,7 @@
                                     <ul class="DIYmenu_section_list now-product">
                                     
 										<!-- 게시물이 있을때 -->
-							<c:forEach items="${lists }" var="row">
+							<c:forEach items="${lists }" var="row" step="2">
 							<c:if test="${row.g_code eq 2}">			
                                         <li class="select-item">
                                             <div class="prd-img">
@@ -154,7 +154,7 @@
                                             <div class="prd-price">
                                                 <div class="price-box">
                                                     <span class="size_l">${row.p_size }</span><span class="price1 won">${row.p_price }</span>
-                                                    <span class="size_m">M</span><span class="price2 won">3500</span>
+                                                    <span class="size_m">${row.p_size1} </span><span class="price2 won">${row.p_price1 }</span>
                                                 </div>
                                             </div>
                                         </li>

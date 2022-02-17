@@ -45,4 +45,8 @@
     			C.ct_code = d.diy_idx
    				and C.m_code = #{param1}
 	</select>
+	
+	<delete id="deleteCart">
+		delete from cart where ct_idx=#{param1}
+	</delete>
   </mapper>
