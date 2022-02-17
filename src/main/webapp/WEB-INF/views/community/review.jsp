@@ -74,7 +74,7 @@
                                     <div class="review best">
                                         <h2>베스트 리뷰</h2>
                                         
-                                        <!-- 리뷰클릭시 나오는 상세모달창 -->
+                                        <!-- 리뷰클릭시 나오는 상세모달창 (motion.js line.110) -->
                                         <div class="review-detail-modal pop-layer pop-menu" id="pop-menu-detail">
                                             <div class="dim"></div>
                                             <div class="pop-wrap">
