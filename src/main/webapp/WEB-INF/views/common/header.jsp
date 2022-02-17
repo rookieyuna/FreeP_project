@@ -7,7 +7,6 @@
 <%@ page import="org.springframework.security.core.Authentication" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
-
 <div id="header-wrap">
     <div class="top-wrap">
         <div class="inner-box" id="tip-box-top">
@@ -29,7 +28,7 @@
             <!-- 로그아웃/마이페이지 -->
             <div class="util-nav">
             <a><form:form method="post" action="${pageContext.request.contextPath}/member/logout">
-				<input type="submit" value="로그아웃" style="font-size: 14px"/>
+				<input class="logout" type="submit" value="로그아웃" />
 			</form:form></a>
 	            <a href="/freepproject/mypage/myMain.do">마이페이지</a>
 	            <a href="/freepproject/order/cart.do"><span class="material-icons-outlined">shopping_cart</span></a>

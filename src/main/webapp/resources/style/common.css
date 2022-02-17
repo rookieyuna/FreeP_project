@@ -455,6 +455,15 @@ html.fixed, body.fixed {
   color: #111;
 }
 
+/* header 로그아웃버튼 디자인 추가 */
+.inner-box .util-nav .logout{
+	font-size: 14px;
+	background: none;
+    border: none;
+    line-height: 39px;
+    padding: 0;
+}
+
 #header .util-nav .lang .select-type2 select, #header .util-nav .lang .select-type.type2 select, #header .util-nav .lang .company .sel_box select, .company #header .util-nav .lang .sel_box select {
   width: 60px;
   height: 27px;
