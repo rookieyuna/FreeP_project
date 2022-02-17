@@ -86,17 +86,22 @@ public class MypageController {
 				sqlSession.getMapper(MypageImpl.class).orderlist(dto);
 		
 //		StringBuffer sb = new StringBuffer();
-//		List<String> total_name;
-//		for (int i = 0; i < lists.size(); i++) {
-//			int or_idx = lists.get(i).getOr_idx();
-//			total_name = sqlSession.getMapper(MypageImpl.class).totalname(or_idx);
-//			System.out.println("total_name:"+total_name);
-//			for(String value : total_name) {
+		List<String> total_name;
+		
+		for (int i = 0; i < lists.size(); i++) {
+			int or_idx = lists.get(i).getOr_idx();
+			total_name = sqlSession.getMapper(MypageImpl.class).totalname(or_idx);
+			System.out.println("total_name:"+total_name);
+			
+			String names = "";
+			for(String n : total_name) {
 //				sb.append(value);
-//				System.out.println("value:"+value);
-//			}
-//			//sb = lists.set(i, (OrderlistVO) total_name);
-//        }
+				names += n+ " + ";
+//				System.out.println("names:"+names);
+			}
+			lists.get(i).setTotal_name(names);
+//			sb = lists.set(i, (OrderlistVO) total_name);
+        }
 		
 		String pagingImg = PagingUtil_main.pagingImg(totalOrderCount,
 	            pageSize, blockPage, nowPage, 
