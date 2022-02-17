@@ -185,18 +185,11 @@
                                     </a>
                                     <ul>
                                         <li>
-                                            <a href="list">
+                                            <a href="question.do">
                                                 <i class="metismenu-icon"></i>
                                                 문의목록
                                             </a>
                                         </li>
-                                        <li>
-                                            <a href="list">
-                                                <i class="metismenu-icon"></i>
-                                                문의상세
-                                            </a>
-                                        </li>
-                                                                 
                                     </ul>
                                 </li>
                                 

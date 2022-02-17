@@ -64,7 +64,7 @@
                         <div class="sp_play">
                             <div class="sp_play_wrap freep_community">
 
-								<form name="q" id="q" method="post" action="/mypage/qustionProc">
+								<form name="q" id="q" method="post" action="">
 									<div class="question-layer" id="pop-write">
 										<div class="question-wrap">
 											<div class="question-content">
@@ -96,44 +96,6 @@
 																</dd>
 															</dl>
 															<dl>
-																<dt>매장선택</dt>
-																<dd class="form-group">
-																	<div class="form-item">
-																		<div class="select-type2">
-																			<select id="sel2" name="branch_region"
-																				onChange="changeBranch($('#sel2 option:selected').val());">
-																				<option>지역</option>
-																				<option value="서울">서울</option>
-																				<option value="인천">인천</option>
-																				<option value="경기">경기</option>
-																				<option value="강원">강원</option>
-																				<option value="충남">충남</option>
-																				<option value="충북">충북</option>
-																				<option value="대전">대전</option>
-																				<option value="경남">경남</option>
-																				<option value="경북">경북</option>
-																				<option value="대구">대구</option>
-																				<option value="전남">전남</option>
-																				<option value="전북">전북</option>
-																				<option value="광주">광주</option>
-																				<option value="울산">울산</option>
-																				<option value="부산">부산</option>
-																				<option value="제주">제주</option>
-																				<option value="세종특별자치시">세종특별자치시</option>
-																			</select>
-																		</div>
-																	</div>
-																	<div class="form-item">
-																		<div class="select-type2">
-																			<select id="sel3" name="branch_code">
-																				<option>매장 선택</option>
-																				<option>셀렉트박스2</option>
-																			</select>
-																		</div>
-																	</div>
-																</dd>
-															</dl>
-															<dl>
 																<dt>제목</dt>
 																<dd>
 																	<div class="form-item">
@@ -146,6 +108,14 @@
 																<dd>
 																	<div class="form-item">
 																		<textarea name="content" id="content" cols="30" rows="10"></textarea>
+																	</div>
+																</dd>
+															</dl>
+															<dl>
+																<dt>첨부파일</dt>
+																<dd>
+																	<div class="form-item">
+																		<input type="file" id="subject" name="file" />
 																	</div>
 																</dd>
 															</dl>

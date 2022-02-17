@@ -45,11 +45,12 @@
 	</select>
   	
   	
-  	
+  
   	<insert id="write" parameterType="board.BoardDTO">
-  		INSERT into board(b_idx, m_code, b_cate, title, contents, writer, ofile, sfile) 
-  		VALUES (seq_board_num.nextval, #{m_code}, #{b_cate}, #{title}, #{contents}, #{writer},#{ofile}, #{sfile})
+  		INSERT into board(b_idx, m_code, b_cate, title, contents, writer, ofile, sfile, q_category) 
+  		VALUES (seq_board_num.nextval, #{m_code}, #{b_cate}, #{title}, #{contents}, #{writer},#{ofile}, #{sfile}, #{q_category})
   	</insert>
+  	
   	<select  id="findm_code" resultType="int">
   		SELECT m_code FROM member WHERE id=#{param1}
   	</select>
