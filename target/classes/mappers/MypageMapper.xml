@@ -37,16 +37,16 @@
 	
 	
 	<select id="orderlist" resultType="orderlist.OrderlistVO" parameterType="util.ParameterDTO">
-	<!-- SELECT * FROM (
+	SELECT * FROM (
 	      SELECT Tb.*, rownum rNum From (
 	         SELECT * FROM ordered 
 	         WHERE m_code=#{m_code}
 	         ORDER BY or_idx DESC
 	      ) Tb
 	   )
-	   WHERE rNum BETWEEN #{start} AND #{end} -->
+	   WHERE rNum BETWEEN #{start} AND #{end}
 	   
-	SELECT * FROM (
+	<!-- SELECT * FROM (
 	      SELECT Tb.*, DENSE_RANK() OVER(order by or_idx) rNum From (
 	         SELECT O.or_idx, or_date, state,
 	            (case
@@ -63,7 +63,7 @@
 	            WHERE O.m_code=#{m_code}
 	      ) Tb
 	   )
-	WHERE rNum BETWEEN #{start} AND #{end}
+	WHERE rNum BETWEEN #{start} AND #{end} -->
 	</select>
 	
 	
