@@ -14,7 +14,6 @@
             <!-- 로고 -->
             <a href="/freepproject/index.do" class="btn-logo">
                 <img src="/freepproject/images/01brand/brand_logo_type007.png" alt="logo" style="width: 130px;">
-                <h1 class="hidden">도미노피자</h1>
             </a>
             
 			<sec:authorize access="isAnonymous()">
