@@ -22,7 +22,6 @@ public class QuestionController {
 	@Autowired
 	public void setSqlSession(SqlSession sqlSession) {
 		this.sqlSession = sqlSession;
-		//System.out.println("Mybatis 사용준비끝");
 	}
 	
 	
