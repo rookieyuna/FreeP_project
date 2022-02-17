@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -71,7 +73,8 @@
                                 <div class="con_inner_mid review_list">
                                     <div class="review best">
                                         <h2>베스트 리뷰</h2>
-
+                                        
+                                        <!-- 리뷰클릭시 나오는 상세모달창 -->
                                         <div class="review-detail-modal pop-layer pop-menu" id="pop-menu-detail">
                                             <div class="dim"></div>
                                             <div class="pop-wrap">
@@ -211,7 +214,7 @@
                                                     
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> <!-- end of 상세모달창 -->
 
                                         <ul>
                                             <li>
@@ -304,7 +307,32 @@
                                     <div class="review normal">
                                         <h2>일반 리뷰</h2>
                                         <ul>
-                                        
+                                        	<c:forEach items="${lists }" var="row"> 
+                                            <li>
+                                            	<c:set var="file" value="${row.rv_sfile1 }" />
+                                                <div class="img_wrap">
+	                                                <c:if test="${file != null }">
+	                                                    <a href="#normal"><img src="../uploads/${row.rv_sfile1 }"></a>
+	                                                </c:if>
+                                                </div>
+                                                <div class="text_wrap">
+                                                    <div class="review_text">
+                                                        <div class="review_icon normal"></div>
+                                                        <div class="review_name">${row.title}</div>
+                                                        <div class="review_like">
+                                                            <div class="favorite-heart">
+                                                                <i class="material-icons unlike">favorite</i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="review_cont">
+                                                        <p>
+                                                            ${row.contents}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            </c:forEach>
                                             <li>
                                                 <div class="img_wrap">
                                                     <a href="#normal"><img src="../images/04product/01pizza/maru/0120200821213326.jpg"></a>
@@ -326,193 +354,16 @@
                                                     </div>
                                                 </div>
                                             </li>
-                                            
-                                           
-                                            <li>
-                                                <div class="img_wrap">
-                                                    <a href="#normal"><img src="../images/04product/01pizza/maru/0120200821213326.jpg"></a>
-                                                </div>
-                                                <div class="text_wrap">
-                                                    <div class="review_text">
-                                                        <div class="review_icon diy"></div>
-                                                        <div class="review_name">Wozniak</div>
-                                                        <div class="review_like">
-                                                            <div class="favorite-heart">
-                                                                <i class="material-icons unlike">favorite</i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="review_cont">
-                                                        <p>
-                                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Id augue arcu vulputate phasellus pharetra. Nunc eget ut neque risus adipiscing nibh ac. In eget diam convallis leo.
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            
-                                           
-                                            <li>
-                                                <div class="img_wrap">
-                                                    <a href="#normal"><img src="../images/04product/01pizza/maru/0120200821213326.jpg"></a>
-                                                </div>
-                                                <div class="text_wrap">
-                                                    <div class="review_text">
-                                                        <div class="review_icon normal"></div>
-                                                        <div class="review_name">Wozniak</div>
-                                                        <div class="review_like">
-                                                            <div class="favorite-heart">
-                                                                <i class="material-icons unlike">favorite</i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="review_cont">
-                                                        <p>
-                                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Id augue arcu vulputate phasellus pharetra. Nunc eget ut neque risus adipiscing nibh ac. In eget diam convallis leo.
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            
-                                           
-                                            <li>
-                                                <div class="img_wrap">
-                                                    <a href="#normal"><img src="../images/04product/01pizza/maru/0120200821213326.jpg"></a>
-                                                </div>
-                                                <div class="text_wrap">
-                                                    <div class="review_text">
-                                                        <div class="review_icon diy"></div>
-                                                        <div class="review_name">Wozniak</div>
-                                                        <div class="review_like">
-                                                            <div class="favorite-heart">
-                                                                <i class="material-icons unlike">favorite</i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="review_cont">
-                                                        <p>
-                                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Id augue arcu vulputate phasellus pharetra. Nunc eget ut neque risus adipiscing nibh ac. In eget diam convallis leo.
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            
-                                           
-                                            <li>
-                                                <div class="img_wrap">
-                                                    <a href="#normal"><img src="../images/04product/01pizza/maru/0120200821213326.jpg"></a>
-                                                </div>
-                                                <div class="text_wrap">
-                                                    <div class="review_text">
-                                                        <div class="review_icon diy"></div>
-                                                        <div class="review_name">Wozniak</div>
-                                                        <div class="review_like">
-                                                            <div class="favorite-heart">
-                                                                <i class="material-icons unlike">favorite</i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="review_cont">
-                                                        <p>
-                                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Id augue arcu vulputate phasellus pharetra. Nunc eget ut neque risus adipiscing nibh ac. In eget diam convallis leo.
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            
-                                           
-                                            <li>
-                                                <div class="img_wrap">
-                                                    <a href="#normal"><img src="../images/04product/01pizza/maru/0120200821213326.jpg"></a>
-                                                </div>
-                                                <div class="text_wrap">
-                                                    <div class="review_text">
-                                                        <div class="review_icon normal"></div>
-                                                        <div class="review_name">Wozniak</div>
-                                                        <div class="review_like">
-                                                            <div class="favorite-heart">
-                                                                <i class="material-icons unlike">favorite</i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="review_cont">
-                                                        <p>
-                                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Id augue arcu vulputate phasellus pharetra. Nunc eget ut neque risus adipiscing nibh ac. In eget diam convallis leo.
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            
-                                           
-                                            <li>
-                                                <div class="img_wrap">
-                                                    <a href="#normal"><img src="../images/04product/01pizza/maru/0120200821213326.jpg"></a>
-                                                </div>
-                                                <div class="text_wrap">
-                                                    <div class="review_text">
-                                                        <div class="review_icon diy"></div>
-                                                        <div class="review_name">Wozniak</div>
-                                                        <div class="review_like">
-                                                            <div class="favorite-heart">
-                                                                <i class="material-icons unlike">favorite</i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="review_cont">
-                                                        <p>
-                                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Id augue arcu vulputate phasellus pharetra. Nunc eget ut neque risus adipiscing nibh ac. In eget diam convallis leo.
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            
-                                           
-                                            <li>
-                                                <div class="img_wrap">
-                                                    <a href="#normal"><img src="../images/04product/01pizza/maru/0120200821213326.jpg"></a>
-                                                </div>
-                                                <div class="text_wrap">
-                                                    <div class="review_text">
-                                                        <div class="review_icon diy"></div>
-                                                        <div class="review_name">Wozniak</div>
-                                                        <div class="review_like">
-                                                            <div class="favorite-heart">
-                                                                <i class="material-icons unlike">favorite</i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="review_cont">
-                                                        <p>
-                                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Id augue arcu vulputate phasellus pharetra. Nunc eget ut neque risus adipiscing nibh ac. In eget diam convallis leo.
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            
-                                           
-                                         
                                         </ul>
                                     </div>
                                     <div class="pagingArea">
                                         <div class="common-pagingType-1">
-                                            <a href="#" class="btn-prev" title="이전 페이지로 이동"><span class="hidden">이전 페이지로 이동</span></a>
-                                            <a href="#none" title="현재 페이지" class="sel"><span>1</span></a>
-                                            <a href="#"><span>2</span></a>
-                                            <a href="#"><span>3</span></a>
-                                            <a href="#"><span>4</span></a>
-                                            <a href="#"><span>5</span></a>
-                                            <a href="#"><span>6</span></a>
-                                            <a href="#"><span>7</span></a>
-                                            <a href="#"><span>8</span></a>
-                                            <a href="#"><span>9</span></a>
-                                            <a href="#"><span>10</span></a>
-                                            <a href="#" class="btn-next" title="다음 페이지로 이동"><span class="hidden">다음 페이지로 이동</span></a>
+                                             ${pagingImg } 
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
-
                 </div>
             </div>
         </div>

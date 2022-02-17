@@ -24,6 +24,7 @@ import util.ParameterDTO;
 import review.ReviewBoardDAOImpl;
 import review.ReviewBoardDTO;
 import util.PagingUtil;
+import util.PagingUtil_front;
 /*
  
  */
@@ -482,4 +483,70 @@ public class ReviewController {
 		//삭제 처리를 완료한 후 리스트로 이동
 		return "redirect:review.do";
 	}
+	
+	
+	
+	
+	
+	
+	/* front 리뷰게시판 일반 리뷰 리스트 보여주기 2/17 JYA */
+	@RequestMapping("/community/review.do")
+	public String reviewList(Model model, HttpServletRequest req) {
+		
+		//게시물 전체갯수 
+		int totalRecordCount =
+			sqlSession.getMapper(ReviewBoardDAOImpl.class).getTotalCount();
+		
+		//페이지 처리를 위한 설정값
+		int pageSize = 4;//한 페이지당 출력할 게시물의 갯수
+		int blockPage = 2;//한 블럭당 출력할 페이지번호의 갯수
+		//전체 페이지 수 계산
+		//int totalPage = (int)Math.ceil((double)totalRecordCount/pageSize);
+
+		int nowPage = (req.getParameter("nowPage")==null || req.getParameter("nowPage").equals("")) 
+			? 1 : Integer.parseInt(req.getParameter("nowPage"));
+		
+		//해당 페이지에 출력할 게시물의 구간을 계산한다. 
+		int start = (nowPage-1) * pageSize + 1;
+		int end = pageSize * nowPage;  
+		
+		//게시물 데이터 읽어오기
+		ArrayList<ReviewBoardDTO> lists =
+			sqlSession.getMapper(ReviewBoardDAOImpl.class).listPage(start, end);
+				
+		String pagingImg =
+			PagingUtil_front.pagingImg(totalRecordCount, pageSize, blockPage, nowPage,
+				req.getContextPath()+"/admin/review.do?");
+		model.addAttribute("pagingImg", pagingImg);
+		
+		//내용에 대한 줄바꿈 처리
+		for(ReviewBoardDTO dto : lists){
+			String temp = dto.getContents().replace("\r\n","<br/>");
+			dto.setContents(temp);
+		}
+		model.addAttribute("lists", lists);		
+		
+		return "community/review";
+	}	
+	
+	
+	//리뷰 상세보기
+	@RequestMapping("/community/reviewdetail.do")
+	public String reviewdetail(Model model, HttpServletRequest req) {
+
+		ReviewBoardDTO boardDTO = new ReviewBoardDTO();
+		boardDTO.setRv_idx( Integer.parseInt(req.getParameter("idx"))); 
+		
+		ReviewBoardDTO dto = 
+				sqlSession.getMapper(ReviewBoardDAOImpl.class).view(boardDTO);
+		  
+		model.addAttribute("dto", dto); 
+		return "community/review";
+	}
+	
+	
+	
+	
+	
+	
 }

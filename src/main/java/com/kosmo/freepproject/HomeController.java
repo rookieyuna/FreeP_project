@@ -61,8 +61,8 @@ public class HomeController {
 	@RequestMapping("/order/order.do")
 	public String order() {return "common/order";}
 	
-	@RequestMapping("/community/review.do")
-	public String review() {return "community/review";}
+//	@RequestMapping("/community/review.do")
+//	public String review() {return "community/review";}
 	@RequestMapping("/community/event.do")
 	public String event() {return "community/event";}
 	@RequestMapping("/community/question.do")
