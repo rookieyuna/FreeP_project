@@ -1,11 +1,12 @@
 package mypage;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
 import coupon.CouponVO;
-import member.MemberVO;
 import orderlist.OrderlistVO;
 import util.ParameterDTO;
 
@@ -29,5 +30,7 @@ public interface MypageImpl {
 	//주문내역 카운트
 	public int myOrderCount(String m_code);
 	//주문내역
-	public ArrayList<OrderlistVO> listPage(ParameterDTO dto);
+	public ArrayList<OrderlistVO> orderlist(ParameterDTO dto);
+	//주문상품명
+	public List<String> totalname(int or_idx);
 }

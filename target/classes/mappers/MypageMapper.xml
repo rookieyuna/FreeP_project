@@ -36,15 +36,51 @@
 	</select>
 	
 	
-	<select id="listPage" resultType="orderlist.OrderlistVO" parameterType="util.ParameterDTO">
-	SELECT * FROM (
+	<select id="orderlist" resultType="orderlist.OrderlistVO" parameterType="util.ParameterDTO">
+	<!-- SELECT * FROM (
 	      SELECT Tb.*, rownum rNum From (
 	         SELECT * FROM ordered 
 	         WHERE m_code=#{m_code}
 	         ORDER BY or_idx DESC
 	      ) Tb
 	   )
-	   WHERE rNum BETWEEN #{start} AND #{end}
+	   WHERE rNum BETWEEN #{start} AND #{end} -->
+	   
+	SELECT * FROM (
+	      SELECT Tb.*, DENSE_RANK() OVER(order by or_idx) rNum From (
+	         SELECT O.or_idx, or_date, state,
+	            (case
+	                when P.p_name is not null then P.p_name
+	                when D.d_name is not null then D.d_name
+	            end) as total_name
+	            from ordered O
+	                inner join order_product OP
+	                    on O.or_idx=OP.or_idx
+	                full outer join product P
+	                    on P.p_code=OP.code
+	                full outer join diy D
+	                    on D.diy_idx=OP.code
+	            WHERE O.m_code=#{m_code}
+	      ) Tb
+	   )
+	WHERE rNum BETWEEN #{start} AND #{end}
+	</select>
+	
+	
+	<select id="totalname" resultType="java.lang.String" parameterType="int">
+	SELECT 
+	    (case
+	        when P.p_name is not null then P.p_name
+        	when D.d_name is not null then D.d_name
+	    end) as names
+	    from ordered O
+	        inner join order_product OP
+	            on O.or_idx=OP.or_idx
+	        left outer join product P
+	            on P.p_code=OP.code
+	        left outer join diy D
+	            on D.diy_idx=OP.code
+    	WHERE O.or_idx=#{or_idx}
 	</select>
 	
 	

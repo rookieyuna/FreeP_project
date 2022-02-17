@@ -2,6 +2,8 @@ package com.kosmo.freepproject;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -81,8 +83,20 @@ public class MypageController {
 
 		//출력할 주문내역 select
 		ArrayList<OrderlistVO> lists = 
-				sqlSession.getMapper(MypageImpl.class).listPage(dto);
+				sqlSession.getMapper(MypageImpl.class).orderlist(dto);
 		
+//		StringBuffer sb = new StringBuffer();
+//		List<String> total_name;
+//		for (int i = 0; i < lists.size(); i++) {
+//			int or_idx = lists.get(i).getOr_idx();
+//			total_name = sqlSession.getMapper(MypageImpl.class).totalname(or_idx);
+//			System.out.println("total_name:"+total_name);
+//			for(String value : total_name) {
+//				sb.append(value);
+//				System.out.println("value:"+value);
+//			}
+//			//sb = lists.set(i, (OrderlistVO) total_name);
+//        }
 		
 		String pagingImg = PagingUtil_main.pagingImg(totalOrderCount,
 	            pageSize, blockPage, nowPage, 

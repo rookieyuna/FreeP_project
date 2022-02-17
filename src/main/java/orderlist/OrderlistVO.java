@@ -14,4 +14,5 @@ public class OrderlistVO {
 	private int total_price;//최종결제금액
 	private String credit;//결제수단
 	private String state;//주문상태
+	private String total_name;//주문한 상품목록(주문내역용)
 }

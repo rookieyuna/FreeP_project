@@ -99,8 +99,8 @@
 										<tr>
 											<th><c:out value="${status.count }"></c:out></th>
 											<!-- 아래 주문내용 수정해야함 -->
-											<td >${row.m_code }</td>
-											<td>${row.or_date }</td>
+											<td >${row.total_name }</td>
+											<td >${row.or_date }</td>
 											<c:choose>
 						                    	<c:when test="${row.state eq '1'}"><td>주문완료</td></c:when>
 						                    	<c:when test="${row.state eq '2'}"><td>주문접수</td></c:when>
@@ -108,8 +108,9 @@
 						                    	<c:when test="${row.state eq '4'}"><td>배달시작</td></c:when>
 						                    	<c:otherwise><td>배달완료</td></c:otherwise>
 						                    </c:choose>
+						                    <td class="review_true"></td>
 											<!-- 리뷰 수정해야함 -->
-											<c:choose>
+											<%-- <c:choose>
 												<!-- 리뷰가 있다면 -->
 						                    	<c:when test="${empty review}">
 						                    		<td class="review_true"></td>
@@ -118,7 +119,7 @@
 						                    	<c:otherwise>
 						                    		<td class="review_false"><button onClick="location.href='./myReviewWrite.do'"></button></td>
 						                    	</c:otherwise>
-						                    </c:choose>
+						                    </c:choose> --%>
 										</tr>
 									</c:forEach>
 									</tbody>
