@@ -155,4 +155,19 @@ public class MemberController {
 		
 		return "redirect:member.do?grade="+grade;
 	}
+	
+	
+	//회원가입 첫번째 페이지 매핑
+		@RequestMapping("/member/regist1.do")
+		public String regStep1() {return "member/regStep1";}
+		//회원가입 두번째 페이지
+		@RequestMapping(value="/member/regist2.do", method=RequestMethod.POST)
+		public String regStep2() {
+			
+			
+			
+			return "member/regStep2";}
+		//회원가입 세번째 페이지
+		@RequestMapping(value="/member/regist3.do" , method=RequestMethod.POST)
+		public String regStep3() {return "member/regStep3";}
 }

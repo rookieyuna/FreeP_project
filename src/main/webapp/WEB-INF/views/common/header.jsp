@@ -20,7 +20,7 @@
             <!-- 로그인/회원가입 -->
             <div class="util-nav">
                 <a href="/freepproject/member/login.do">로그인</a>
-                <a href="/freepproject/member/regist.do">회원가입</a>
+                <a href="/freepproject/member/regist1.do">회원가입</a>
                 <a href="/freepproject/order/cart.do"><span class="material-icons-outlined">shopping_cart</span></a>
             </div>
 			</sec:authorize>

@@ -1,10 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="form" 
-	uri="http://www.springframework.org/tags/form" %> 
-<%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
-<%@ page import="org.springframework.security.core.Authentication" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %> 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,6 +23,25 @@
         rel="stylesheet">
     <!-- js 라이브러리 영역 -->
     <script src="../js/jquery-3.6.0.js"></script>
+    <style type="text/css">
+    	.text_reg{
+    		width: 500px;
+    		height: 300px;
+    		margin-top :20px
+    	}
+    </style>
+    <script>
+	function ckCheck(Chk) {
+	   var chk1=document.Chk.agreement1.checked;
+	   if(chk1==""){
+	    alert('약관에동의해 주세요');
+	    Chk.agreement1.focus();
+	   
+	    return false;
+	   }
+	   console.log("chk1:",chk1);
+	}
+	</script>
 </head>
 <body>
     <!-- header s -->
@@ -52,7 +68,7 @@
                         <div class="join-step1">
                             <div class="step-list">
                                 <ul>
-                                    <li class="active">01 본인인증</li>
+                                    <li class="active">01 약관동의</li>
                                     <li>02 개인정보입력</li>
                                     <li id="last">03 가입완료</li>
                                 </ul>
@@ -60,14 +76,29 @@
                             <div class="info-text-wrap">
                                 <a href="javascript:UI.layerPopUp({selId: '#pop-accredit'});" class="notice-text">본인인증 안내</a>
                                 <strong class="title">반갑습니다.</strong>
-                                <p>
-                                                    도미노피자 회원가입을 위해서는 본인인증이 필요합니다.<br>
-                                                    회원가입은 아동의 개인정보 보호를 위해 만 14세 이상만 가능합니다.
-                                </p>
-                                <div class="btn-wrap">
-                                    <a href="javascript:goCheckByPhone();" class="btn-type v4">휴대전화 인증</a>
-                                    <a href="javascript:goCheckByIpin();" class="btn-type v4">아이핀 인증</a>
-                                </div>
+                                <div style="white-space:nowrap ;">
+	                                <textarea class="text_reg" rows="30" cols="30" name="contents" readonly>
+	                                
+주식회사 FreeP(이하 ‘회사’라고 함)은 회사에서 제공하는 서비스(이하 ‘서비스’라고 함)를 이용하는 회원님(이하 ‘이용자’라고 함)의 개인정보를 매우 소중하게 생각하고 있으며, 이용자의 개인정보를 보호하기 위하여 최선의 노력을 다하고 있습니다.
+회사는 『정보통신망이용촉진및정보보호등에관한법률』을 비롯한 모든 개인정보보호 관련 법률규정을 준수하고 있으며 회사의 개인정보보호정책을 별도로 제정하고 이를 준수함으로써 이용자의 개인정보를 더욱 보호하고 있습니다. 또한 회사는 개인정보보호정책을 항상 회사 홈페이지 첫 화면에 공개함으로써 이용자들이 언제나 쉽게 열람할 수 있도록 조치하고 있습니다.
+										
+회사의 개인정보보호정책은 관련 법률 및 고시의 변경 또는 내부 운영방침의 변경에 따라 변경될 수 있습니다. 회사의 개인정보보호정책이 수정될 경우 변경된 사항은 홈페이지를 통하여 공지합니다. FreeP (이하 ‘회사’라고 함) 은 회사에서 제공하는 서비스 (이하 ‘서비스’라고 함) 를 이용하는 회원님 (이하 ‘이용자’라고 함) 의 개인정보를 매우 소중하게 생각하고 있으며, 이용자의 개인정보를 보호하기 위하여 최선의 노력을 다하고 있습니다.
+회사는 『정보통신망이용촉진및정보보호등에관한법률』을 비롯한 모든 개인정보보호 관련 법률규정을 준수하고 있으며 회사의 개인정보보호정책을 별도로 제정하고 이를 준수함으로써 이용자의 개인정보를 더욱 보호하고 있습니다. 또한 회사는 개인정보보호정책을 항상 회사 홈페이지 첫 화면에 공개함으로써 이용자들이 언제나 쉽게 열람할 수 있도록 조치하고 있습니다.
+										
+회사의 개인정보보호정책은 관련 법률 및 고시의 변경 또는 내부 운영방침의 변경에 따라 변경될 수 있습니다. 회사의 개인정보보호정책이 수정될 경우 변경된 사항은 홈페이지를 통하여 공지합니다.
+										
+									</textarea>
+								</div>    
+                                <form:form name="Chk" method="post" action="./regist2.do" onsubmit="return ckCheck(this);">
+	                                
+	                                <div class="btn-wrap">
+	                                	
+	                                	<p><input type="checkbox" name="agreement1" value="1"  checked="checked">이용약관과 개인정보취급방침에 동의합니다.</p>
+	                                	
+	                                    <button type="submit" class="btn-type v4">가입하기</button>
+	                                    
+	                                </div>
+                                </form:form>
                             </div>
                         </div>
                     </article>

@@ -41,9 +41,9 @@ public class HomeController {
 	
 //	@RequestMapping("/member/login.do")
 //	public String login() {return "member/login";}
-	@RequestMapping("/member/regist.do")
-	public String regStep1() {
-		return "member/regStep1";}
+//	@RequestMapping("/member/regist.do")
+//	public String regStep1() {
+//		return "member/regStep1";}
 	
 //	@RequestMapping("/order/orderDIY.do")
 //	public String orderDIY() {return "order/orderDIY";}
