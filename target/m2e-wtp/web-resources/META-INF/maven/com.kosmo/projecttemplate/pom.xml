@@ -136,7 +136,11 @@
 	<!-- MariaDB 의존설정 https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client -->
 	<!-- <dependency> <groupId>org.mariadb.jdbc</groupId> <artifactId>mariadb-java-client</artifactId> 
 		<version>2.3.0</version> </dependency> -->
-
+	<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.13.1</version>
+	</dependency>	
 
 
 	<!-- Mybatis 의존설정 -->
@@ -186,6 +190,8 @@
 		    <artifactId>spring-security-taglibs</artifactId>
 		    <version>4.2.1.RELEASE</version>
 		</dependency>
+		
+		
    </dependencies>
     <build>
         <plugins>

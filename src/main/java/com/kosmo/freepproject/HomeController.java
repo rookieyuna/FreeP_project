@@ -54,8 +54,10 @@ public class HomeController {
 	@RequestMapping("/order/orderDrink.do")
 	public String orderDrink() {return "order/orderDrink";}
 	
-	@RequestMapping("/order/cart.do")
-	public String cart() {return "common/cart";}
+	/*
+	 * @RequestMapping("/order/cart.do") public String cart() {return
+	 * "common/cart";}
+	 */
 	@RequestMapping("/order/order.do")
 	public String order() {return "common/order";}
 	

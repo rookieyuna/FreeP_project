@@ -22,9 +22,54 @@
         rel="stylesheet">
     <!-- js 라이브러리 영역 -->
     <script src="../js/jquery-3.6.0.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 
 <body id="body">
+<script>
+	function money(idx){		
+		var price = document.getElementById("price_"+idx).innerHTML;
+		document.getElementById("price_"+idx).innerHTML = (price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+ "원");			
+		var total = document.getElementById("total_"+idx).innerHTML;
+		document.getElementById("total_"+idx).innerHTML = (total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원");
+	}
+	function money1(idx){		
+		var price = document.getElementById("pricediy_"+idx).innerHTML;
+		document.getElementById("pricediy_"+idx).innerHTML = (price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+ "원");
+		var total = document.getElementById("totaldiy_"+idx).innerHTML;
+		document.getElementById("totaldiy_"+idx).innerHTML = (total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원");
+	}
+	function sum(){		
+		var sum = document.getElementById("sum").innerText;
+		document.getElementById("sum").innerText = (sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+	}
+	
+$(function(){
+		//해당 버튼을 눌렀을때 ajax메서드를 호출한다. 
+		$('#btnBoard').click(function(){
+			
+			//리스트를 요청했을때 loading이미지를 보임처리한다. 
+			$('#loading').show();		
+			
+			$.ajax({
+				type : 'get', //전송방식
+				url : '../restapi/boardList.do', //요청URL 
+				data : {nowPage : $('#nowPage').val()}, //파라미터
+				contentType : "text/html;charset:utf-8", 
+				dataType : "json", //콜백 데이터 타입
+				success : sucCallBack, //요청에 성공했을때 호출되는 콜백 함수
+				error : errCallBack //실패했을때의 콜백 함수
+			});
+		});
+		/*
+		trigger() 함수는 특정 이벤트를 자동으로 발생시켜준다. 
+		아래의경우 페이지가 로드되면 해당 버튼을 클릭해준다. 
+		*/
+		$('#btnBoard').trigger('click');
+});	
+	
+
+</script>
     <header id="header">
         <%@ include file="./header.jsp" %>
     </header>
@@ -87,6 +132,9 @@
                                         <div>금액</div>
                                         <div></div>
                                     </li>
+                                    <c:forEach items="${lists }" var="row"> 
+                                    <input type="hidden" id="Oprice_${row.ct_idx}" value="${row.p_price }" />  
+                                    <!-- 일반제품일경우 -->
                                     <li class="row" id="sold-out0">
                                         <div class="sold-out-btn" id="sold-out-btn0" style="display:none">
                                             <p>Sold Out</p>
@@ -95,22 +143,23 @@
                                         </div>
                                         <div class="prd-info">
                                             <div class="prd-img">
-                                                <img src="https://cdn.dominos.co.kr/admin/upload/goods/20220113_IFF5qj8e.jpg"
-                                                    alt="새해 복 만두"
+                                                <img src="../uploads/${row.p_sfile }"
+                                                    alt="${row.ct_name }"
                                                     onerror="this.src='https://cdn.dominos.co.kr/admin/upload/goods/goods_default.jpg'">
                                             </div>
                                             <div class="prd-cont">
-                                                <div class="subject">새해 복 만두</div>
+                                                <div class="subject">${row.ct_name }</div>
                                                 <div class="option">
                                                     <input type="hidden" name="pizza" value="1">
-                                                    씬 /L</div>
-                                                <div class="price">
-                                                    26,900원
+                                                    ${row.p_size}</div>
+                                                <div class="price" id="price_${row.ct_idx }">
+                                                  ${row.p_price }
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div class="prd-option">
+                                        <!-- 토핑옵션 -->
                                         </div>
                                         <div class="prd-quantity">
                                             <div class="quantity-box v2">
@@ -123,8 +172,8 @@
                                                     class="plus"><button class="btn-plus"></button></a>
                                             </div>
                                         </div>
-                                        <div class="prd-total">
-                                            <em>26,900</em>원
+                                        <div class="prd-total" id="total_${row.ct_idx }">
+                                            <em>${row.p_price }</em>
                                         </div>
                                         <div class="prd-delete">
                                             <a href="javascript:changeGoodsCnt('delete',0,'RPZ253HL', '1', 1, 0);"
@@ -133,101 +182,74 @@
                                             </a>
                                         </div>
                                     </li>
+                                    <script>money(${row.ct_idx });</script>
+                                    </c:forEach>
                                     
-                                    <input type="hidden" name="quickGoodsUseYN" value="N">
-                                    <li class="row" id="sold-out1">
-                                        <div class="sold-out-btn" id="sold-out-btn1" style="display:none">
+                                    <c:forEach items="${listsdiy }" var="row" varStatus="status">   
+                                    <!-- diy피자 -->
+                                    <li class="row" id="sold-out0">
+                                        <div class="sold-out-btn" id="sold-out-btn0" style="display:none">
                                             <p>Sold Out</p>
-                                            <a href="javascript:changeGoodsCnt('delete',1,'SST133A1_HP93', '1', 1, 0);"
+                                            <a href="javascript:changeGoodsCnt('delete',0,'RPZ253HL', '1', 1, 0);"
                                                 class="btn-type4-brd3">삭제</a>
                                         </div>
                                         <div class="prd-info">
                                             <div class="prd-img">
-                                                <img src="https://cdn.dominos.co.kr/admin/upload/goods/goods_default.jpg"
-                                                    alt="[반값] 블랙앵거스 스테이크 피자 라이스볼 반값"
+                                                <img src="../uploads/${row.p_sfile }"
+                                                    alt="${row.ct_name }"
                                                     onerror="this.src='https://cdn.dominos.co.kr/admin/upload/goods/goods_default.jpg'">
                                             </div>
                                             <div class="prd-cont">
-                                                <div class="subject">[반값] 블랙앵거스 스테이크 피자 라이스볼 반값</div>
-                                                <div class="price">
-                                                    5,400원
+                                                <div class="subject">${row.ct_name }</div>
+                                                <div class="option">
+                                                    <input type="hidden" name="pizza" value="1">
+                                                   </div>
+                                                <div class="price" id="pricediy_${row.ct_idx }">
+                                                ${row.d_price }
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div class="prd-option">
+                                        	<div class="subject">+ ${row.dough_name } , ${row.dough_price }, ${row.dough_size }</div>
+                                       		<div class="subject">+ ${row.sauce_name } , ${row.sauce_price }, ${row.sauce_size }</div>
+                                       		<div class="subject">+ ${row.topping1_name } , ${row.topping1_price }, ${row.topping1_size }</div>
+                                        	<c:set var="topping" value="${row.topping2} "/>
+                                        	<c:if test="${topping}">
+                                         	+ ${row.topping2_name } , ${row.topping2_price }, ${row.topping2_size }
+                                        	</c:if>
                                         </div>
                                         <div class="prd-quantity">
                                             <div class="quantity-box v2">
                                                 <a href="javascript:void(0);"
-                                                    onclick="changeGoodsCnt('minus',1,'SST133A1_HP93', '1', 1, -1);"
+                                                    onclick="changeGoodsCnt('minus',0,'RPZ253HL', '1', 1, -1);"
                                                     class="minus"><button class="btn-minus"></button></a>
-                                                <input type="number" class="qty1" id="qty1" value="1" readonly="">
+                                                <input type="number" class="qty0" id="qty0" value="1" readonly="">
                                                 <a href="javascript:void(0);"
-                                                    onclick="changeGoodsCnt('plus',1,'SST133A1_HP93', '1', 1, 1);"
+                                                    onclick="changeGoodsCnt('plus',0,'RPZ253HL', '1', 1, 1);"
                                                     class="plus"><button class="btn-plus"></button></a>
                                             </div>
                                         </div>
-                                        <div class="prd-total">
-                                            <em>5,400</em>원
+                                        <div class="prd-total" id="totaldiy_${row.ct_idx }" >
+                                            <em>${row.d_price }</em>
                                         </div>
                                         <div class="prd-delete">
-                                            <a href="javascript:changeGoodsCnt('delete',1,'SST133A1_HP93', '1', 1, 0);"
+                                            <a href="javascript:changeGoodsCnt('delete',0,'RPZ253HL', '1', 1, 0);"
                                                 class="btn-close">
                                                 <span class="hidden">삭제</span>
                                             </a>
                                         </div>
                                     </li>
-                                    <li class="row" id="sold-out2">
-                                        <div class="sold-out-btn" id="sold-out-btn2" style="display:none">
-                                            <p>Sold Out</p>
-                                            <a href="javascript:changeGoodsCnt('delete',2,'RDK028L1', '1', 1, 0);"
-                                                class="btn-type4-brd3">삭제</a>
-                                        </div>
-                                        <div class="prd-info">
-                                            <div class="prd-img">
-                                                <img src="https://cdn.dominos.co.kr/admin/upload/goods/20210226_6Uq69TSp.jpg"
-                                                    alt="캐나다 드라이 진저 에일 250ML"
-                                                    onerror="this.src='https://cdn.dominos.co.kr/admin/upload/goods/goods_default.jpg'">
-                                            </div>
-                                            <div class="prd-cont">
-                                                <div class="subject">캐나다 드라이 진저 에일 250ML</div>
-                                                <input type="hidden" name="drink" value="1">
-                                                <div class="price">
-                                                    1,000원
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="prd-option">
-                                        </div>
-                                        <div class="prd-quantity">
-                                            <div class="quantity-box v2">
-                                                <a href="javascript:void(0);"
-                                                    onclick="changeGoodsCnt('minus',2,'RDK028L1', '1', 1, -1);"
-                                                    class="minus"><button class="btn-minus"></button></a>
-                                                <input type="number" class="qty2" id="qty2" value="1" readonly="">
-                                                <a href="javascript:void(0);"
-                                                    onclick="changeGoodsCnt('plus',2,'RDK028L1', '1', 1, 1);"
-                                                    class="plus"><button class="btn-plus"></button></a>
-                                            </div>
-                                        </div>
-                                        <div class="prd-total">
-                                            <em>1,000</em>원
-                                        </div>
-                                        <div class="prd-delete">
-                                            <a href="javascript:changeGoodsCnt('delete',2,'RDK028L1', '1', 1, 0);"
-                                                class="btn-close">
-                                                <span class="hidden">삭제</span>
-                                            </a>
-                                        </div>
-                                    </li>
+                                    <script>money1(${row.ct_idx });</script>
+                                    </c:forEach> 
                                     <!-- 총 주문 금액 -->
-                                    <li class="total-price2 side">
-                                        <p>총 금액 <em>33,300</em>원</p>
+                                    <li class="total-price2 side" >
+                                        <p>총 금액 <em id="sum">${sum }</em>원</p>
                                     </li>
+                                    
                                     <!-- //총 주문 금액 -->
                                 </ul>
+                                <script>sum();</script>
                             </div>
                         </div>
                         <!-- //주문 내역 -->
