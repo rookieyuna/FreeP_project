@@ -33,4 +33,6 @@ public interface MypageImpl {
 	public ArrayList<OrderlistVO> orderlist(ParameterDTO dto);
 	//주문상품명
 	public List<String> totalname(int or_idx);
+	//리뷰작성여부
+	public int myReviewChk(int or_idx);
 }

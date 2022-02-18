@@ -69,8 +69,6 @@ public class MypageController {
 		int pageSize = 2; //한 페이지당 출력할 주문내역의 개수
 		int blockPage = 2; //한 블럭당 출력할 페이지 번호의 개수
 		
-		int totalPage = (int)Math.ceil((double)totalOrderCount/pageSize);
-		
 		int nowPage = (req.getParameter("nowPage")==null || req.getParameter("nowPage").equals(""))
 				? 1 : Integer.parseInt(req.getParameter("nowPage"));
 		
@@ -91,16 +89,21 @@ public class MypageController {
 		for (int i = 0; i < lists.size(); i++) {
 			int or_idx = lists.get(i).getOr_idx();
 			total_name = sqlSession.getMapper(MypageImpl.class).totalname(or_idx);
-			System.out.println("total_name:"+total_name);
+			//System.out.println("total_name:"+total_name);
 			
-			String names = "";
-			for(String n : total_name) {
-//				sb.append(value);
-				names += n+ " + ";
-//				System.out.println("names:"+names);
-			}
+			String names = String.join(" + ", total_name);
+//			for(String n : total_name) {
+////				sb.append(value);
+//				names += n+ " + ";
+////				System.out.println("names:"+names);
+//			}
 			lists.get(i).setTotal_name(names);
 //			sb = lists.set(i, (OrderlistVO) total_name);
+			
+			int reviewChk = sqlSession.getMapper(MypageImpl.class).myReviewChk(or_idx);
+			//System.out.println("reviewChk:"+reviewChk);
+			lists.get(i).setReviewChk(reviewChk);
+			//System.out.println(lists);
         }
 		
 		String pagingImg = PagingUtil_main.pagingImg(totalOrderCount,

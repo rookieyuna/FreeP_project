@@ -84,6 +84,14 @@
 	</select>
 	
 	
+	<select id="myReviewChk" resultType="int" parameterType="int">
+	   SELECT COUNT(*) FROM reviewboard WHERE or_idx=#{or_idx}
+	</select>
+	
+	
+	
+	
+	
 	<!-- @Param 어노테이션에서 지정한 별칭을 사용하여 인파라미터를 처리
 	<insert id="regist">
 		INSERT INTO member (m_code, id, name, pass, phone, email, grade)
