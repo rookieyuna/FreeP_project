@@ -110,7 +110,7 @@
 						                    </c:choose>
 											<c:choose>
 						                    	<c:when test="${row.reviewChk eq '0'}">
-						                    		<td class="review_false"><button onClick="location.href='./myReviewWrite.do'"></button></td>
+						                    		<td class="review_false"><button onClick="location.href='./myReviewWrite.do?or_idx=${row.or_idx }'"></button></td>
 						                    	</c:when>
 						                    	<c:otherwise><td class="review_true"></td></c:otherwise>
 						                    </c:choose>

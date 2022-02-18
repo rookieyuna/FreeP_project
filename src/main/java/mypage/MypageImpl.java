@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import coupon.CouponVO;
 import orderlist.OrderlistVO;
+import point.PointVO;
 import util.ParameterDTO;
 
 
@@ -35,4 +36,17 @@ public interface MypageImpl {
 	public List<String> totalname(int or_idx);
 	//리뷰작성여부
 	public int myReviewChk(int or_idx);
+	
+	
+	/*********************쿠폰내역************************/
+	//쿠폰내역
+	public ArrayList<CouponVO> couponlist(ParameterDTO dto);
+	
+	
+	/*********************포인트내역************************/
+	//쿠폰내역
+	public ArrayList<PointVO> pointlist(ParameterDTO dto);
+	//회원가입일
+	public String myRegidate(String m_code);
+	
 }

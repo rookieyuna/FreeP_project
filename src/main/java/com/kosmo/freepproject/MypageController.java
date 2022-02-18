@@ -18,6 +18,7 @@ import member.MemberImpl;
 import member.MemberVO;
 import mypage.MypageImpl;
 import orderlist.OrderlistVO;
+import point.PointVO;
 import util.PagingUtil_main;
 import util.PagingUtil_mem;
 import util.ParameterDTO;
@@ -80,8 +81,7 @@ public class MypageController {
 		dto.setEnd(end);
 
 		//출력할 주문내역 select
-		ArrayList<OrderlistVO> lists = 
-				sqlSession.getMapper(MypageImpl.class).orderlist(dto);
+		ArrayList<OrderlistVO> lists = sqlSession.getMapper(MypageImpl.class).orderlist(dto);
 		
 //		StringBuffer sb = new StringBuffer();
 		List<String> total_name;
@@ -116,10 +116,69 @@ public class MypageController {
 		//검색 기능이 추가된 view를 반환
 		return "mypage/myOrder";
 	}
+		
+	
+	@RequestMapping("/mypage/myReviewWrite.do")
+	public String myReviewWrite() {
+		return "mypage/myReviewWrite";
+	}
 	
 	
+	//쿠폰 리스트
 	@RequestMapping("/mypage/myCoupon.do")
-	public String myCoupon() {
+	public String myCoupon(Principal principal, Model model, HttpServletRequest req) {
+
+		ParameterDTO dto = new ParameterDTO();
+		dto.setId(principal.getName());
+		String m_code = sqlSession.getMapper(MypageImpl.class).myMcode(dto);
+		dto.setM_code(m_code);
+		
+		//쿠폰 수 카운트
+		int myCouponCount = sqlSession.getMapper(MypageImpl.class).myCouponCount(m_code);
+		
+		int pageSize = 2; //한 페이지당 출력할 쿠폰의 개수
+		int blockPage = 2; //한 블럭당 출력할 페이지 번호의 개수
+		
+		int nowPage = (req.getParameter("nowPage")==null || req.getParameter("nowPage").equals(""))
+				? 1 : Integer.parseInt(req.getParameter("nowPage"));
+		
+		int start = (nowPage-1) * pageSize +1;
+		int end = nowPage * pageSize;
+		
+		//위에서 계산한 주문내역의 구간 start, end를 DTO에 저장
+		dto.setStart(start);
+		dto.setEnd(end);
+
+		//출력할 쿠폰 select
+		ArrayList<CouponVO> couponlist = sqlSession.getMapper(MypageImpl.class).couponlist(dto);
+		
+		String pagingImg = PagingUtil_main.pagingImg(myCouponCount,
+	            pageSize, blockPage, nowPage, 
+	            req.getContextPath()+"/mypage/myCoupon.do?");
+		
+		model.addAttribute("pagingImg", pagingImg);
+		model.addAttribute("couponlist", couponlist);
+		
+		
+		
+		
+		
+		
+		//적립횟수 카운트(가입시 기본적립금 지급하므로 주문횟수+1)
+		int pointUpdateCount = sqlSession.getMapper(MypageImpl.class).myOrderCount(m_code) +1;
+		String regidate = sqlSession.getMapper(MypageImpl.class).myRegidate(m_code);
+		
+		//출력할 적립금 내역 select
+		ArrayList<PointVO> pointlist = sqlSession.getMapper(MypageImpl.class).pointlist(dto);
+		
+		String pagingImg2 = PagingUtil_main.pagingImg(pointUpdateCount,
+	            pageSize, blockPage, nowPage, 
+	            req.getContextPath()+"/mypage/myCoupon.do?");
+		
+		model.addAttribute("regidate", regidate);
+		model.addAttribute("pagingImg2", pagingImg2);
+		model.addAttribute("pointlist", pointlist);
+		
 		return "mypage/myCoupon";
 	}
 	

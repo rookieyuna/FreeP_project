@@ -90,6 +90,36 @@
 	
 	
 	
+	<!-- 쿠폰내역(페이징) -->
+	<select id="couponlist" resultType="coupon.CouponVO" parameterType="util.ParameterDTO">
+		SELECT * FROM (
+		  SELECT Tb.*, rownum rNum From (
+		     SELECT * FROM coupon 
+		     INNER JOIN mycoupon USING(cp_idx)
+		     WHERE m_code=#{m_code}
+		     ORDER BY expire_date ASC
+		  ) Tb
+		)
+		WHERE rNum BETWEEN #{start} AND #{end}
+	</select>
+
+
+	<!-- 포인트 내역 -->
+	<select id="pointlist" resultType="point.PointVO" parameterType="util.ParameterDTO">
+	SELECT * FROM (
+      SELECT total_price*0.1 save_point, po_price, or_date, rownum rNum From (
+         SELECT * FROM ordered 
+         WHERE m_code=#{m_code}
+         ORDER BY or_date DESC
+      ) Tb
+    )
+    WHERE rNum BETWEEN #{start} AND #{end}
+	</select>
+	
+	<!-- 회원가입일 -->
+	<select id="myRegidate" resultType="String" parameterType="java.lang.String">
+	   SELECT regidate FROM member WHERE m_code=#{m_code}
+	</select>
 	
 	
 	<!-- @Param 어노테이션에서 지정한 별칭을 사용하여 인파라미터를 처리
