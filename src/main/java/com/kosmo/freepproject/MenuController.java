@@ -320,37 +320,17 @@ public class MenuController {
 	@RequestMapping(value={"/order/orderDIY.do", "/order/orderDrink.do", "/order/orderSide.do", "/order/orderNormal.do"})
 	public String orderDIY(Model model, HttpServletRequest req) {
 		String requestUrl = (String)req.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
-		String path = req.getSession().getServletContext().getRealPath("/resources/uploads");
-				
-		/*
-		 * //Mapper로 전달할 파라미터를 저장할 DTO 객체 생성 ParameterDTO parameterDTO = new
-		 * ParameterDTO();
-		 * 
-		 * parameterDTO.setSearchField(req.getParameter("searchField"));
-		 * parameterDTO.setSearchTxt(req.getParameter("searchTxt"));
-		 * parameterDTO.setG_code(req.getParameter("g_code"));
-		 * 
-		 * 
-		 * 
-		 * String g_code = parameterDTO.getG_code();
-		 */
-		
 
 		ArrayList<MenuVO> lists =
 			sqlSession.getMapper(MenuImpl.class).selectAllmenu();
 		
-		for(int i=0 ; i < lists.size() ; i+=2) {
-			
-			lists.get(i).setP_price1(lists.get(i+1).getP_price());
-			lists.get(i).setP_size1(lists.get(i+1).getP_size());
+		for(int i=0 ; i < lists.size()-1 ; i+=2) {
+			if(lists.get(i).getP_name().equals(lists.get(i+1).getP_name())) {
+				lists.get(i).setP_price1(lists.get(i+1).getP_price());
+				lists.get(i).setP_size1(lists.get(i+1).getP_size());												
+			}
 		}
-		
-		
 		model.addAttribute("lists", lists);
-		
-		/*
-		 * model.addAttribute("g_code", g_code); model.addAttribute("path", path);
-		 */
 		
 		if(requestUrl.equals("/order/orderDIY.do")) {
 			return "/order/orderDIY";
@@ -363,6 +343,5 @@ public class MenuController {
 	    }else {
 	    	return "";
 	    }
-        
 	}	
 }

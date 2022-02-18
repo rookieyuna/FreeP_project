@@ -126,7 +126,7 @@
                                             <div class="prd-img">
                                                 <div>
                                                     <img class="lazyload"
-                                                        src="../uploads/../uploads/${row.p_sfile }" alt="${row.p_name }">
+                                                        src="../uploads/${row.p_sfile }" alt="${row.p_name }">
                                                 </div>
                                                 <button type="button" class="btn-detail">
                                                     <i class="DIYmenu-detail">
@@ -147,14 +147,14 @@
                                                     <div class="order-name">${row.p_name }</div>
                                                 </div>
                                                 <div class="prd-origin">
-                                                    <p><span>원산지 : </span>국내산</p>
+                                                    <p><span>원산지 : 국내산</span> / <span class="kcal">${row.p_info }</span></p>
                                                 </div>
                                             </div>
         
                                             <div class="prd-price">
                                                 <div class="price-box">
-                                                    <span class="size_l">${row.p_size }</span><span class="price1 won">${row.p_price }</span>
-                                                    <span class="size_m">${row.p_size1} </span><span class="price2 won">${row.p_price1 }</span>
+                                                    <span class="size_l">${row.p_size1 }</span><span class="price1 won">${row.p_price1 }</span>
+                                                    <span class="size_m">${row.p_size } </span><span class="price2 won">${row.p_price }</span>
                                                 </div>
                                             </div>
                                         </li>
@@ -217,7 +217,7 @@
                                         토핑 ( 최대 5개 )
                                     </div>
                                     <ul class="DIYmenu_section_list now-product">
-                            <c:forEach items="${lists }" var="row">        
+                            <c:forEach items="${lists }" var="row" step="2">        
                             <c:if test="${row.g_code eq 4}">         
                                         <li class="select-item">
                                             <div class="prd-img">
@@ -250,7 +250,8 @@
         
                                             <div class="prd-price">
                                                 <div class="price-box">
-                                                    <span class="price1 won">${row.p_price }</span>
+                                                    <span class="size_l">${row.p_size1 }</span><span class="price1 won">${row.p_price1 }</span>
+                                                    <span class="size_m">${row.p_size } </span><span class="price2 won">${row.p_price }</span>
                                                 </div>
                                             </div>
                                         </li>
