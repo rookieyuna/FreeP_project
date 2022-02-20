@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %> 
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -7,6 +9,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="_csrf" content="${_csrf.token}">
+	<meta name="_csrf_header" content="${_csrf.headerName}">
     <title>나만의 맞춤 피자 Free</title>
 
     <!-- font 영역 -->
@@ -22,8 +26,96 @@
         rel="stylesheet">
     <!-- js 라이브러리 영역 -->
     <script src="../js/jquery-3.6.0.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    
 </head>
+<style>
+	.store .point{
+		width: 170px;
+	    font-size: 18px;
+	}
+	.store .point1{
+		width: 60px;
+	    margin-top: auto;
+	    margin-left: 10px;
+	    height: 42px;
+	    background-color: #ff6510;
+	    color: white;
+	}
+</style>
+<script>
+$(document).ready(function(){
+	$('#recipient').change(function(){
+		if($('#recipient').is(":checked")){
+			fn_custInfo();
+		}else{
+			//체크박스해제이벤트
+			document.getElementById("customerName").value = "";
+			$("#customerName").removeAttr("disabled");
+			document.getElementById("tel2").value = "";
+			$("#tel2").removeAttr("disabled");
+			document.getElementById("tel3").value = "";
+			$("#tel3").removeAttr("disabled");
+			$("#tel1").removeAttr("disabled");
+			 $("#tel1").val("010").prop("selected", true);
+		}
+	});
+	
+	
+});
+	function sum(){		
+		var sum = document.getElementById("sum").innerText;
+		document.getElementById("sum").innerText = (sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+	}
+</script>
+<script>
+function fn_custInfo(){
 
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+ 
+     $.ajax({ 
+            url: "cusInfo.do", 
+            type: "POST", 
+            beforeSend : function(xhr){
+        		xhr.setRequestHeader(header, token);
+            },
+            async:false,
+            dataType : "json",
+            success : function(data){      	
+            	var tableData="";
+            	var cus = data.lists;
+            	var tel1 = data.tel1;
+            	var tel2 = data.tel2;
+            	
+            	tableData += ' <dl><dt>이름</dt><dd><div class="form-item"><input type="text" id="customerName" name="customerName" value="'+cus.name+'" maxlength="30" disabled>';
+            	tableData += '</div></dd></dl>';
+            	
+            	$('#cusName').html(tableData);           
+            	
+            	tableData = ' <dt>연락처</dt><dd><div class="form"><div class="form-group2 select-group">';
+            	tableData += '<div class="form-item"><div class="select-type2">';
+            	tableData += '<select id="tel1" name="tel1" title="휴대전화번호" value="'+tel1 +'" disabled>';
+            	tableData += '<option value="010">010</option><option value="011">011</option><option value="016">016</option>';
+                tableData += '<option value="017">017</option> <option value="018">018</option> <option value="019">019</option>'; 
+                tableData += ' </select></div><input type="text" id="tel2" name="tel2" maxlength="4" class="i_text" title="휴대전화번호" value="'+tel2+'" disabled>';
+                tableData += '<input type="text" id="tel3" name="tel3" maxlength="4" class="i_text" title="휴대전화번호" value="'+data.tel3+'" disabled>';
+                tableData += ' </div></div></div></dd>';
+            	
+                $('#cusPhone').html(tableData);   
+                
+                $("#tel1").val(tel1).prop("selected", true);
+            },
+            error : function(request,statue,error){
+            	alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"
+            			+"\n"+"error:"+error)
+            	
+            }
+            });
+            
+}
+
+</script>
 <body id="body">
     <header id="header">
         <%@ include file="./header.jsp" %>
@@ -38,8 +130,8 @@
                         <h2 class="page-title">결제하기</h2>
                         <div class="depth-area">
                             <ol>
-                                <li><a href="https://web.dominos.co.kr/main">홈</a></li>
-                                <li><a href="https://web.dominos.co.kr/basket/detail">장바구니</a></li>
+                                <li><a href="../">홈</a></li>
+                                <li><a href="../order/cart.do">장바구니</a></li>
                                 <li><strong>결제하기</strong></li>
                             </ol>
                         </div>
@@ -80,18 +172,18 @@
                                                 <div class="form-group">
                                                     <div class="form-item">
                                                         <div class="chk-box v3">
-                                                            <input type="checkbox" name="order_type" id="recipient" onchange="recipientChange()">
-                                                            <label class="checkbox" for="recipient"></label>
+                                                            <input type="checkbox" name="order_type" id="recipient">
+                                                            <label class="checkbox" for="recipient" id="checkbox"></label>
                                                             <label for="recipient">주문자와 동일</label>
                                                         </div>
                                                     </div>
                                                     
-                                                    </div>
+                                                 </div>
                                             </dd>
                                         </dl>
-                                        
-                                        <dl>
-                                            <dl>
+                                     
+                                        <dl id="cusName">
+                                             <dl>
                                                 <dt>이름</dt>
                                                 <dd>
                                                     <div class="form-item">
@@ -101,7 +193,7 @@
                                             </dl>
                                         </dl>
                                         
-                                        <dl>
+                                        <dl id="cusPhone">
                                             <dt>연락처</dt>
                                             <dd>
                                                 <div class="form">
@@ -125,14 +217,7 @@
                                                     </div>
                                             </dd>
                                         </dl>
-                                        
-                                        <!-- <div class="form-item tel">
-                                            <input type="text"  id="customerName" name="customerName" value="" maxlength="30">
-                                            <input type="text" id="tel1" name="tel1" value="" />
-                                            <input type="hidden" id="tel2" name="tel2" value="" />
-                                            <input type="hidden" id="tel3" name="tel3" value="" />
-                                        </div> -->
-                                        
+                              
                                         <dl>
                                             <dt>요청사항</dt>
                                             <dd>
@@ -159,13 +244,6 @@
                                 </div>
                             </div>
 
-                            
-
-
-
-
-
-
                         </div><!-- //step-wrap -->
 
                         <!-- 주문내역 -->
@@ -176,16 +254,21 @@
                             <div class="order-step">
                                 <ul>
                                     <li>
+                                    	<c:forEach items="${lists }" var="row">   
                                         <div class="menu">
                                             <!-- 피자 명  -->
-                                            <strong class="goods_name">마스터 트리플 피자L</strong>
+                                            <strong class="goods_name">${row.ct_name }</strong>                                            
+                                            <c:if test="${row.ct_count  ne '1'}">
+                                            	<strong class="goods_name"> x ${row.ct_count }</strong>
+                                            </c:if>
                                             <!-- //피자 명  -->
                                         </div>
-                                        <div class="topping">
+                                        </c:forEach>
+                                       <!--  <div class="topping">
                                             <div class="item">
                                                 <span>양파 x 2</span> / <span>10,000</span>원
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </li>
                                 </ul>
                             </div>
@@ -201,326 +284,60 @@
                                 <ul>
                                     <li id="myCoupon"><a href="#"
                                             class="btn-type-brd5">프리피 온라인 쿠폰 선택</a></li>
-                                    <li id="voucher"><a href="#"
-                                            class="btn-type-brd5 ">포인트 사용하기</a></li>
+                                </ul>
+                                <ul > 
+                                    <li id="voucher">
+                                    	<label class="btn-type-brd5" onclick="fn_voucher();">포인트 사용하기</label>
+                                        <div class="store">
+                                            <input type="text" id="customerName" class="point" placeholder="사용할 포인트 입력" value="" maxlength="10"/>
+                                           	<button type="button" class="point1">사용</button>
+                                            <label class="point2">사용가능포인트 : </label>
+                                        </div>
+                                     </li>                           
                                 </ul>
                             </div> <!-- //discount-step -->
-
-
                         </div>
                         <!-- //할인 적용 -->
-
+                        <script>
+                        function fn_voucher(){                       	
+                        	var token = $("meta[name='_csrf']").attr("content");
+                            var header = $("meta[name='_csrf_header']").attr("content");
+                            
+                         
+                             $.ajax({ 
+                                    url: "../order/cusPoint.do", 
+                                    type: "POST", 
+                                    beforeSend : function(xhr){
+                                		xhr.setRequestHeader(header, token);
+                                    },
+                                    async:false,
+                                    dataType : "json",
+                                    success : function(data){
+                              			var tableData = "";
+              								//form으로 하면 안될거같음. submit되면 새로고침처럼 화면이 맨 위로 가버려서.. validate따로 함수 만들어야할듯 버튼 onclick해서.. 
+                              			tableData += '<form><div class="store"><input type="number" id="customerName" class="point" placeholder="사용할 포인트 입력" value="" maxlength="10"';
+                              			tableData += 'min="'+1000+'" max="'+data.point+'" step="100"/>';
+                              			tableData +='<button type="submit" class="point1">사용</button><label class="point2">사용가능포인트 :'+data.point+' </label></div></form>';
+                              			
+                                    	$('#voucher').html(tableData);   
+                                    },
+                                    error : function(request,statue,error){
+                                    	alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"
+                                    			+"\n"+"error:"+error)
+                                    	
+                                    }
+                                    });
+                          
+                                    
+                        }
+                        </script>
 
 
                         <!-- 결제방법 -->
                         <div class="step-wrap pay-step" id="pay_info">
                             <input type="hidden" id="userInfo" value="">
                             <input type="hidden" id="flagPin" value="">
-                            <script>
-                                $(document).ready(function () {
-
-                                    $("#dc_info .discount-step ul li").on("click", function () {
-                                    	//할인적용목차에서 프리피 온라인 쿠폰 선택 or 포인트 사용하기 를 눌렀다면 
-                                        if ($('#reserve_gubun').val() == "TD" || $('#reserve_gubun')
-                                            .val() == "TM") { //그런데 이런 값? 이라면...
-                                            alert(
-                                                "할인 설정을 변경하면 예약 시간 설정이 초기화됩니다. 할인 선택 후 예약 시간을 다시 선택해 주세요.");
-                                        }
-                                    });
-
-                                    //if("18" == "1259"){
-                                    //	$('.dominopay-div').hide();
-                                    //}else {
-                                    //	$('.dominopay-div').show();
-                                    //}
-
-                                    if ("" != "Y") {
-                                        var item = "input[name=itemCHK]";
-                                        $("input:checkbox[name=itemCHK]").prop("checked", false);
-                                    }
-
-                                    // checkbox
-                                    $("input[type='checkbox']").change(function () {
-                                        if ($(this).is(':checked')) {
-                                            $(this).parent().addClass('selected');
-                                            $(this).attr('checked', true);
-                                        } else {
-                                            $(this).parent().removeClass('selected');
-                                            $(this).attr('checked', false);
-                                        }
-                                    });
-
-                                    // S: 200818 도미노페이 고도화
-
-                                    // 결제수단
-                                    // $(".hide-box").hide();
-                                    // $("input:radio[name=pay]").click(function () {
-                                    //     if ($("input[name=pay]:checked").val() == "card") {
-                                    //         $("#pay-card").show();
-                                    //         $("#pay-cash").hide();
-                                    //     } else if ($("input[name=pay]:checked").val() == "cash") {
-                                    //         {
-                                    //             $("#pay-card").hide();
-                                    //             $("#pay-cash").show();
-                                    //         }
-                                    //     } else {
-                                    //         $("#pay-card").hide();
-                                    //         $("#pay-cash").hide();
-                                    //     }
-                                    // });
-
-
-
-                                    $('.dominoPay-slider').slick({
-                                        slide: '.dominoPay-item',
-                                        infinite: false,
-                                        draggable: true,
-                                        slidesToShow: 1,
-                                        slidesToScroll: 1,
-                                        centerMode: true,
-                                        centerPadding: '20px',
-                                        variableWidth: true,
-                                        arrows: true,
-                                        cssEase: 'ease',
-                                        dots: false,
-
-                                    });
-
-                                    $('.dominoPay-slider .dominoPay-item').on('click', function () {
-                                        actIndex = $(this).attr('data-slick-index');
-                                        var slider = $('.dominoPay-slider');
-                                        slider[0].slick.slickGoTo(actIndex);
-                                    });
-
-                                    $('.dominoPay-slider').on('afterChange', function () {
-                                        $(".dominoPay-item").removeClass('__selected');
-                                        $('.slick-current').addClass('__selected');
-                                    });
-
-                                    $('.slick-current').addClass('__selected');
-                                    $('.dominoPay-slider').on('init reInit afterChange', function (event, slick,
-                                        currentSlide, nextSlide) {
-                                        $('.dominoPay-item').removeClass('__selected');
-                                        $('.slick-current').addClass('__selected');
-
-
-                                        if ("28720" < 50000) {
-                                            $('.dc_month').attr('disabled', 'true');
-                                        }
-                                        // 현금영수증 영역 초기화
-                                        initCashReceipt($("#prmt_idx").val());
-                                    });
-
-                                    //도미노페이 회원이지만 최종결제방법값이 null인 경우 예외처리
-                                    if ("" == "Y" && "" == "") {
-                                        $("#settlement_method").val("D");
-                                        $('#pay_method').val("2");
-                                    }
-
-                                    $('input[name="select-payMethod"]').change(function () {
-                                        var selectMethod = $(this).attr('id');
-
-                                        if (selectMethod === 'sel-dominopay') {
-                                            //$('.dominopay-wrap').addClass('__active');
-                                            $('.btn-dominopay').addClass('selected');
-                                            //$('.otherMethod-wrap').removeClass('__active');
-                                            $('.otherMethod-wrap').addClass('__active');
-                                            $('.btn-changeMethod').removeClass('__active');
-                                            $('.btn-otherMethod').removeClass('selected');
-                                            $('.btn-changeMethod').attr('style', 'display:block;');
-                                        } else if (selectMethod === 'sel-otherMethod') {
-                                            //$('.dominopay-wrap').removeClass('__active');
-                                            //$('.otherMethod-wrap').addClass('__active');
-                                            $('.btn-changeMethod').addClass('__active');
-                                            $('.btn-otherMethod').addClass('selected');
-                                            $('.btn-dominopay').removeClass('selected');
-
-                                            // 다른 결제 선택시 직전 결제 값 세팅 Start
-                                            if ("" != "") { //최종결제 수단 저장 방식이면
-                                                //$("#pay_info").html($(data).find("#pay_info_final_payment").html());
-
-                                                //var dataValue = $("#finalPayMent .payTxt").data('value').split('|');
-                                                var dataValue = "";
-                                                var mid = "";
-
-                                                $('.btn-otherMethod').addClass('selected');
-                                                $('#sel-otherMethod').prop('checked', true);
-
-                                                if ("" == "K" && $("#pay_method_5").length != 0) {
-                                                    mid = $("#pay_method_5").data("mid");
-                                                    $("#pay_method_5").addClass("selected").find(
-                                                        "input:radio").prop("checked", true);
-                                                    dataValue = $("#pay_method_5").data('value').split(
-                                                        '|');
-
-                                                } else if ("" == 'P' && $("#pay_method_7").length !=
-                                                    0) {
-                                                    mid = $("#pay_method_7").data("mid");
-                                                    $("#pay_method_7").addClass("selected").find(
-                                                        "input:radio").prop("checked", true);
-                                                    dataValue = $("#pay_method_7").data('value').split(
-                                                        '|');
-
-                                                } else if ("" == 'N' && $("#pay_method_8").length !=
-                                                    0) {
-                                                    mid = $("#pay_method_8").data("mid");
-                                                    $("#pay_method_8").addClass("selected").find(
-                                                        "input:radio").prop("checked", true);
-                                                    dataValue = $("#pay_method_8").data('value').split(
-                                                        '|');
-
-                                                } else if ("" == 'I' && $("#pay_method_9").length !=
-                                                    0) {
-                                                    mid = $("#pay_method_9").data("mid");
-                                                    $("#pay_method_9").addClass("selected").find(
-                                                        "input:radio").prop("checked", true);
-                                                    dataValue = $("#pay_method_9").data('value').split(
-                                                        '|');
-
-                                                } else if ("" == 'F' && $("#pay_method_A").length !=
-                                                    0) {
-                                                    mid = $("#pay_method_A").data("mid");
-                                                    $("#pay_method_A").addClass("selected").find(
-                                                        "input:radio").prop("checked", true);
-                                                    dataValue = $("#pay_method_A").data('value').split(
-                                                        '|');
-
-                                                } else if ("" == 'A' && $("#pay_method_6").length !=
-                                                    0) {
-                                                    mid = "ok";
-                                                    $("#pay_method_6").addClass("selected").find(
-                                                        "input:radio").prop("checked", true);
-                                                    dataValue = $("#pay_method_6").data('value').split(
-                                                        '|');
-
-                                                } else if ("" == '9' && $("#pay_method_4").length !=
-                                                    0) {
-                                                    mid = "ok";
-                                                    $("#pay_method_4").addClass("selected").find(
-                                                        "input:radio").prop("checked", true);
-                                                    dataValue = $("#pay_method_4").data('value').split(
-                                                        '|');
-
-                                                } else if ("" == 'D' && $("#pay_method_2").length !=
-                                                    0) {
-                                                    mid = "ok";
-                                                    $("#pay_method_2").addClass("selected").find(
-                                                        "input:radio").prop("checked", true);
-                                                    dataValue = $("#pay_method_2").data('value').split(
-                                                        '|');
-
-                                                    $('.btn-dominopay').removeClass('selected');
-                                                    $('#sel-dominopay').prop('checked', false);
-
-                                                    $('.btn-otherMethod').addClass('selected');
-                                                    $('#sel-otherMethod').prop('checked', true);
-
-                                                } else if ("" == '2' && $("#pay_method_3").length !=
-                                                    0) {
-                                                    mid = "ok";
-                                                    $("#pay_method_3").addClass("selected").find(
-                                                        "input:radio").prop("checked", true);
-                                                    dataValue = $("#pay_method_3").data('value').split(
-                                                        '|');
-
-                                                } else if ("" == '1' && $("#pay_method_1").length !=
-                                                    0) {
-                                                    mid = "ok";
-                                                    $("#pay_method_1").addClass("selected").find(
-                                                        "input:radio").prop("checked", true);
-                                                    dataValue = $("#pay_method_1").data('value').split(
-                                                        '|');
-                                                    $('#pay_method_sub_1').addClass("__active");
-                                                } else {
-                                                    mid = "ok";
-                                                }
-
-                                                $("#settlement_method").val(dataValue[0]);
-                                                $("#pay_method").val(dataValue[1]);
-                                                $("#pay_method_chk").val(dataValue[2]);
-                                                $("#payment_save").val("Y");
-
-                                                if ($("#pay_method").val() == '1') {
-                                                    $("#pay_method_sub_1").show();
-                                                }
-                                                //현재 결제수단을 미리 저장해 놈.
-                                                settlement_method = $("#settlement_method").val();
-                                                pay_method = $("#pay_method").val();
-                                                pay_method_chk = $("#pay_method_chk").val();
-
-                                                //드라이브픽업, 상품권 , 해당 결제수단 결재 불가 매장 일 때
-                                                if (typeof mid == "undefined" || mid == null || mid ==
-                                                    '' || mid == "undefined") {
-                                                    $("#pay_info").html($(data).find("#basicPayInfo")
-                                                        .html());
-
-                                                    //$('.after_pay .title-type6').removeClass();
-                                                    //$(".final_payment_box").css("display","none");//결제수단 저장 버튼 제거
-                                                    //$('.after_pay').css('display', 'none'); //현장결제 비노출
-                                                    $("#payment_save").val('N');
-                                                }
-                                                if ($("#drive_yn").val() == 'Y') {
-                                                    //드라이빙 픽업 서비스는 선결제만 가능, 최종결제 수단이 선결제라면 결제수단 저장 폼으로 노출
-                                                    if (settlement_method == 1 || settlement_method ==
-                                                        2) { //최종결제 수단이 후불이라면
-                                                        $("#pay_info").html($(data).find(
-                                                            "#basicPayInfo").html());
-                                                        $(".final_payment_box").css("display",
-                                                        "none"); //결제수단 저장 버튼 제거
-                                                        //$('.after_pay').css('display', 'none'); //현장결제 비노출
-
-                                                    }
-                                                }
-                                            }
-                                            // 다른 결제 선택시 직전 결제 값 세팅 end
-                                        }
-
-                                        // 현금영수증 영역 초기화
-                                        initCashReceipt($("#prmt_idx").val());
-                                    });
-
-                                    $('.btn-dominopay').on('click', function () {
-                                        //$('.dominopay-wrap').addClass('__active');
-                                        //$('.otherMethod-wrap').removeClass('__active');
-                                        $('.btn-changeMethod').removeClass('__active');
-                                        $('.btn-changeMethod').attr('style', 'display:block;');
-                                    });
-
-                                    $('.btn-changeMethod').on('click', function () {
-                                        event.preventDefault();
-                                        $('#sel-dominopay').prop('checked', false);
-                                        $('#sel-otherMethod').prop('checked', true);
-                                        $('.btn-dominopay').removeClass('selected');
-                                        $('#sel-otherMethod').closest('.chk-box').addClass('selected');
-
-                                        //$('.otherMethod-wrap').addClass('__active');
-                                        //$('.dominopay-wrap').removeClass('__active');
-                                        $('.btn-changeMethod').attr('style', 'display:none;');
-                                    });
-
-                                    /* $('.btn-favor').on('click', function () {
-                                        event.preventDefault();
-                                        $(this).find('i').toggleClass('__selected');
-                                    }); */
-                                    // E: 200818 도미노페이 고도화
-
-                                    // 현금영수증 영역 초기화
-                                    initCashReceipt($("#prmt_idx").val());
-                                });
-
-
-                                if ("" == "Y") {
-                                    var item = "input[name=itemCHK]";
-                                    $("input:checkbox[name=itemCHK]").prop("checked", false);
-                                } else {
-                                    var item = "input[name=itemCHK]";
-                                    $("input:checkbox[name=itemCHK]").prop("checked", true);
-                                }
-
-                                if ("28720" < 50000) {
-                                    $('.dc_month').attr('disabled', 'true');
-                                }
-                            </script>
+                            
                             <div class="title-wrap">
                                 <h3 class="title-type"><strong>결제수단 선택</strong></h3>
                             </div>
@@ -604,19 +421,20 @@
                                     <ul>
                                         <li>
                                             <p class="tit">총 상품 금액</p>
-                                            <p class="price"><em>35,900</em>원</p>
+                                            <p class="price"><em id="sum">${sum }</em>원</p>
                                         </li>
                                         <li class="discount">
                                             <p class="tit">총 할인 금액</p>
-                                            <p class="price"><em>7,180</em>원</p>
+                                            <p class="price"><em id="sum1">7,180</em>원</p>
                                         </li>
                                         <li class="total">
                                             <p class="tit">총 결제 금액</p>
-                                            <p class="price"><em>28,720</em>원</p>
+                                            <p class="price"><em id="total">28,720</em>원</p>
                                         </li>
                                     </ul>
                                     
                                 </div>
+                                <script>sum();</script>
                             </div>
                         </div>
                         <!-- // 결제 금액, 퀵 오더로 설정, 결제 및 주문완료 -->

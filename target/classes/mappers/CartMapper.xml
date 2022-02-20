@@ -32,14 +32,14 @@
   	</select>
 
 	<select id="sum1" resultType="int">
-	select sum(p_price)
+	select nvl(sum(p_price * ct_count),0)
 			from cart C, product P 
 			where 
     			C.ct_code = P.p_code
    				and C.m_code = #{param1}
 	</select>
 	<select id="sum2" resultType="int">
-	select  sum(d_price)
+	select nvl(sum(d_price * ct_count),0)
 			from cart C, diy d
 			where 
     			C.ct_code = d.diy_idx
@@ -49,4 +49,12 @@
 	<delete id="deleteCart">
 		delete from cart where ct_idx=#{param1}
 	</delete>
+	
+	<delete id="deleteCartall">
+		delete from cart where m_code=#{param1}
+	</delete>
+	
+	<update id="updateCart">
+		update cart set ct_count=#{param1} where ct_idx=#{param2}
+	</update>
   </mapper>

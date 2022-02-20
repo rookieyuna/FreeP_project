@@ -58,8 +58,10 @@ public class HomeController {
 	 * @RequestMapping("/order/cart.do") public String cart() {return
 	 * "common/cart";}
 	 */
-	@RequestMapping("/order/order.do")
-	public String order() {return "common/order";}
+	/*
+	 * @RequestMapping("/order/order.do") public String order() {return
+	 * "common/order";}
+	 */
 	
 //	@RequestMapping("/community/review.do")
 //	public String review() {return "community/review";}
@@ -96,7 +98,12 @@ public class HomeController {
 	 * }
 	 */
 
-	
+	@RequestMapping(value="/order/cart2", method=RequestMethod.GET) 
+	 public String base1() { 
+		 System.out.println("homecontrollerasdf");
+		 return "/common/cart2"; 
+		
+	}
 	
 	 @RequestMapping(value="/admin/{var}", method=RequestMethod.GET) 
 	 public String base(@PathVariable String var) { 

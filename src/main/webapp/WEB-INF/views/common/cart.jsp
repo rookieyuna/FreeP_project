@@ -7,6 +7,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="_csrf" content="${_csrf.token}">
+	<meta name="_csrf_header" content="${_csrf.headerName}">
     <title>나만의 맞춤 피자 Free</title>
 
     <!-- font 영역 -->
@@ -43,33 +45,41 @@
 		var sum = document.getElementById("sum").innerText;
 		document.getElementById("sum").innerText = (sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
 	}
+</script>
+<script>
 	
+
+
 	function fn_delete(idx){
 	    if(!confirm("삭제를 하시겠습니까?"))
 	    return false;
 	    	    
-	    $.ajax({ 
+	    var token = $("meta[name='_csrf']").attr("content");
+	    var header = $("meta[name='_csrf_header']").attr("content");
+	 
+	     $.ajax({ 
 	            url: "../order/delete_action.do", 
 	            type: "POST", 
-	            contentType: "application/json;charset=UTF-8",
-	            data:{idx : idx},
-	            dataType : "json",
-	            success : susCallBack,
-	            error : errCallBack
-	            }) 
-	            .done(function() {
-	           	 	alert("삭제되었습니다.");
+	            beforeSend : function(xhr){
+	        		xhr.setRequestHeader(header, token);
+	            },
+	            async:false,
+	            data: {"idx":idx},
+	            dataType : "text",
+	            success : function(){
+	            	//이거 수정해야댐.. 새로고침되버려서
+	            	/* document.location.reload(true);   */        	
+	            	$("#cart-list").load(window.location.href + "#cart-list"); 
+	            },
+	            error : function(request,statue,error){
+	            	alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"
+	            			+"\n"+"error:"+error)
+	            	
+	            }
+	            });
 	            
-	            }) 
-	            .fail(function(e) {  
-	                alert("삭제를 실패하였습니다.");
-	            }) 
-	            .always(function() { 
-	                
-	            }); 
-	    
 	}
-	
+	 
 
 </script>
     <header id="header">
@@ -178,7 +188,7 @@
                                             <em>${row.p_price }</em>
                                         </div>
                                         <div class="prd-delete">
-                                            <a href="javascript:void(0)" onclick="fn_delete('${row.ct_idx}');"
+                                            <a href="javascript:void(0)" onclick="fn_delete(${row.ct_idx});"
                                                 class="btn-close">
                                                 <span class="hidden">삭제</span>
                                             </a>

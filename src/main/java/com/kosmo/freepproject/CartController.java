@@ -2,22 +2,17 @@ package com.kosmo.freepproject;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import board.BoardDAOImpl;
 import cart.CartDTO;
@@ -109,10 +104,11 @@ public class CartController {
 		model.addAttribute("lists", lists);
 		
 		//장바구니에 저장되어있는 것들 총 금액?
-		int a = sqlSession.getMapper(CartImpl.class).sum1(m_code);
-		int b = sqlSession.getMapper(CartImpl.class).sum2(m_code);
 		
-		model.addAttribute("sum", a+b);
+		int sum = sqlSession.getMapper(CartImpl.class).sum1(m_code);
+		int sum1 = sqlSession.getMapper(CartImpl.class).sum2(m_code);
+	
+		model.addAttribute("sum", sum+sum1); 
 		return "common/cart";
 	}
 	
@@ -122,14 +118,142 @@ public class CartController {
 	    
 	    try{			
 	       int cart = Integer.parseInt(req.getParameter("idx"));
-	                
 	       sqlSession.getMapper(CartImpl.class).deleteCart(cart);
 	        
 	    }catch(Exception e){
 	    	e.printStackTrace();
 	    }
+	    return "";
+	}
+	
+	@RequestMapping(value = "/order/deleteall_action.do")
+	@ResponseBody
+	public String deleteall_action(Model model, HttpServletRequest req,Principal principal){
+		
+		String user_id = "";
+		user_id = principal.getName();
+		int m_code = 
+				sqlSession.getMapper(BoardDAOImpl.class).findm_code(user_id);
 	    
-	    return null;
+	    try{			
+	       sqlSession.getMapper(CartImpl.class).deleteCartall(m_code);
+	        
+	    }catch(Exception e){
+	    	e.printStackTrace();
+	    }
+	    return "";
+	}
+	
+	@RequestMapping(value = "/order/update_action.do")
+	@ResponseBody
+	public String update_action(Model model, HttpServletRequest req){
+	    
+	    try{			
+	       int cart = Integer.parseInt(req.getParameter("idx"));	    
+	       int num = Integer.parseInt(req.getParameter("num"));	
+	       int org = Integer.parseInt(req.getParameter("org"));
+	       org = org + num;
+	      
+	       sqlSession.getMapper(CartImpl.class).updateCart(org,cart);
+
+	        
+	    }catch(Exception e){
+	    	e.printStackTrace();
+	    }
+	    
+	    return "";
+	}
+	
+	
+	
+	@RequestMapping("/order/cart1.do")
+	@ResponseBody
+	public Map<String,Object> list1(Model model, HttpServletRequest req, Principal principal) {
+
+		//회원코드 
+		String user_id = "";
+		user_id = principal.getName();
+		int m_code = 
+				sqlSession.getMapper(BoardDAOImpl.class).findm_code(user_id);
+		
+		
+		//cart테이블 전체 리스트 불러오기(diy피자)
+		 ArrayList<CartDTO> listsdiy =
+			sqlSession.getMapper(CartImpl.class).listPagediy(m_code);
+		 	
+		//토핑들 불러오기 리스트로 리팩토링 해야댐
+		
+		for(CartDTO diy : listsdiy) {
+			int a = diy.getDough();  
+			CartDTO dough = sqlSession.getMapper(CartImpl.class).objectdiy(a);
+			diy.setDough_name(dough.getP_name());		
+			diy.setDough_price(dough.getP_price());
+			diy.setDough_size(dough.getP_size());
+			
+			a = diy.getSauce();
+			CartDTO sauce = sqlSession.getMapper(CartImpl.class).objectdiy(a);
+			diy.setSauce_name(sauce.getP_name());		
+			diy.setSauce_price(sauce.getP_price());
+			diy.setSauce_size(sauce.getP_size());	
+
+			a = diy.getTopping1();
+			CartDTO topping1 = sqlSession.getMapper(CartImpl.class).objectdiy(a);
+			diy.setTopping1_name(topping1.getP_name());		
+			diy.setTopping1_price(topping1.getP_price());
+			diy.setTopping1_size(topping1.getP_size());	
+			
+			a = diy.getTopping2();
+			if(a != 0) {
+				CartDTO topping2 = sqlSession.getMapper(CartImpl.class).objectdiy(a);
+				diy.setTopping2_name(topping2.getP_name());		
+				diy.setTopping2_price(topping2.getP_price());
+				diy.setTopping2_size(topping2.getP_size());	
+			}
+			a = diy.getTopping3();
+			if(a != 0) {
+				CartDTO topping3 = sqlSession.getMapper(CartImpl.class).objectdiy(a);
+				diy.setTopping3_name(topping3.getP_name());		
+				diy.setTopping3_price(topping3.getP_price());
+				diy.setTopping3_size(topping3.getP_size());	
+			}
+			a = diy.getTopping4();
+			if(a != 0) {
+				CartDTO topping4 = sqlSession.getMapper(CartImpl.class).objectdiy(a);
+				diy.setTopping4_name(topping4.getP_name());		
+				diy.setTopping4_price(topping4.getP_price());
+				diy.setTopping4_size(topping4.getP_size());	
+			}
+			a = diy.getTopping5();
+			if(a != 0) {
+				CartDTO topping5 = sqlSession.getMapper(CartImpl.class).objectdiy(a);
+				diy.setTopping5_name(topping5.getP_name());		
+				diy.setTopping5_price(topping5.getP_price());
+				diy.setTopping5_size(topping5.getP_size());	
+			}
+			 
+		}
+		//model.addAttribute("listsdiy", listsdiy);	
+		  
+		 
+		
+		//cart테이블 전체 리스트 불러오기 (일반제품)
+		ArrayList<CartDTO> lists =
+			sqlSession.getMapper(CartImpl.class).listPage(m_code);
+		//model.addAttribute("lists", lists);
+		
+		//장바구니에 저장되어있는 것들 총 금액?
+		
+		int sum = sqlSession.getMapper(CartImpl.class).sum1(m_code);
+		int sum1 = sqlSession.getMapper(CartImpl.class).sum2(m_code);
+		
+		//model.addAttribute("sum", sum+sum1); 
+		
+		 Map<String, Object> result = new HashMap<String, Object>();
+		 result.put("listsdiy", listsdiy);
+		 result.put("lists", lists);
+		 result.put("sum", sum+sum1);
+		 
+		return result;
 	}
 	
 }
