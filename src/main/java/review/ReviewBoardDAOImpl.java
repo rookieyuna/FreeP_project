@@ -18,7 +18,8 @@ import util.ParameterDTO;
 public interface ReviewBoardDAOImpl {
 	
 	public int getTotalCount();
-	public ArrayList<ReviewBoardDTO> listPage( int s, int e);
+	public ArrayList<ReviewBoardDTO> listPage(int s, int e);
+	public ArrayList<ReviewBoardDTO> listBest(int s, int e);
 	
 	public int getTotalCountSearch(ParameterDTO parameterDTO);
 	public ArrayList<ReviewBoardDTO> listPageSearch(ParameterDTO parameterDTO);

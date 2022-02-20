@@ -183,7 +183,7 @@ public class MypageController {
 //		model.addAttribute("pagingImg2", pagingImg2);
 		model.addAttribute("pointlist", pointlist);
 		
-		return "mypage/myCoupon";
+		return "mypage/myCoupon1";
 	}
 	
 	

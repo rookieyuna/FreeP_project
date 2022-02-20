@@ -1,5 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    Object principal = auth.getPrincipal();
+ 
+    String name = "";
+    if(principal != null) {
+        name = auth.getName();
+    }
+%>    
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -25,6 +36,20 @@
 
 </head>
 
+<script type="text/javascript">
+function checkValidate(f){
+	if(f.title.value==""){
+		alert("제목을 입력하세요");
+		f.title.focus();
+		return false;
+	}
+	if(f.contents.value==""){
+		alert("내용을 입력하세요");
+		f.contents.focus();
+		return false;
+	}
+}
+</script>
 <body id="body">
     <header id="header">
         <%@ include file="../common/header.jsp" %>
@@ -65,8 +90,9 @@
                             <p>맛있게 드셨나요? 프리피가 어떠셨는지 알려주세요!</p>
                         </div>
                         <div class="faq">
-                            <form id="reviewForm" name="reviewForm" method="post" action="#" enctype="multipart/form-data">
-								<input type="hidden" id="email" name="email" value="" />
+                        	<form:form id="reviewForm" commandName="reviewForm" method="post" onsubmit="return checkValidate(this);"
+                        		action="./myReviewWriteAction.do" enctype="multipart/form-data">
+                        	<input type="hidden" name="id" value="<%= name %>" />
 							<div class="tab-content active" id="online">
 								<div class="online_form">
 									<ul>
@@ -76,8 +102,8 @@
 												<div class="form_field">
 													<div class="form_item">
 														<span class="i_label" style="position: absolute;"></span>
-														<input type="text" name="order_no" id="order_no" class="i_text"
-																maxlength="20" value="order-12345" readonly
+														<input type="text" name="or_idx" id="order_no" class="i_text"
+																maxlength="20" value="${or_idx}" readonly
 																style="width:650px">
 													</div>
 												</div>
@@ -89,7 +115,7 @@
 												<div class="form_field">
 													<div class="form_item">
 														<span class="i_label" style="position: absolute;"></span>
-														<input type="text" name="subject" id="subject" class="i_text"
+														<input type="text" name="title" id="subject" class="i_text"
 																maxlength="50" style="width:650px">
 													</div>
 												</div>
@@ -103,7 +129,7 @@
 												<div class="form_field">
 													<div class="form_item">
 														<span class="i_label" style="position: absolute;"></span>
-														<input type="text" name="subject" id="subject" class="i_text"
+														<input type="text" name="myPizzaName" id="subject" class="i_text"
 																maxlength="50" style="width:650px">
 													</div>
 												</div>
@@ -116,7 +142,7 @@
 												<div class="form_field">
 													<div class="form_item">
 														<span class="i_label" style="position: absolute;"></span>
-														<textarea name="content" id="qanContent" class="i_text"></textarea>
+														<textarea name="contents" id="qanContent" class="i_text"></textarea>
 													</div>
 												</div>
 												<span class="i_error">내용을 입력하세요</span>
@@ -160,11 +186,11 @@
 									</ul>
 								</div>
 								<div class="btn-wrap">
-									<a href="javascript:doReset();" class="btn-type v4">다시입력</a>
-									<a href="javascript:proc();" class="btn-type v6">작성완료</a>
+									<button class="btn-type v4" type="reset">다시입력</button>
+									<button class="btn-type v6">작성완료</button>
 								</div>
 							</div>
-							</form>
+							</form:form>
                         </div>
                     </article>
                 </div>
