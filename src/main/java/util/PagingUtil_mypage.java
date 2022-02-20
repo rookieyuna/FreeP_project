@@ -1,6 +1,6 @@
 package util;
 
-public class PagingUtil_front {
+public class PagingUtil_mypage {
    public static String pagingImg(
       int totalRecordCount,
       int pageSize,
@@ -27,7 +27,7 @@ public class PagingUtil_front {
          //첫번째 페이지 블럭에서는 출력되지 않음
          //두번째 페이지 블럭부터 출력됨.
          pagingStr += ""
-           + "<a href='"+page+"nowPage=1' class='btn-prev' title='이전 페이지로 이동'><span class='hidden'>이전 페이지로 이동</span></a>";
+           + "<a href='"+page+"&nowPage=1' class='btn-prev' title='이전 페이지로 이동'><span class='hidden'>이전 페이지로 이동</span></a>";
 
          //pagingStr += ""
          //   + "<li class='page-item'><a class='page-link' href='"+page+"nowPage="+(intTemp-blockPage)+"'>"
@@ -47,7 +47,7 @@ public class PagingUtil_front {
 
          }
          else {
-            pagingStr += "<a href='"+page+"nowPage="+intTemp+"'><span>"+intTemp+"</span></a>";
+            pagingStr += "<a href='"+page+"&nowPage="+intTemp+"'><span>"+intTemp+"</span></a>";
          }
          intTemp++;
          blockCount++;
@@ -60,7 +60,7 @@ public class PagingUtil_front {
          //   + "<a class='page-link' href='"+page+"nowPage="+intTemp+"'>"
          //   + "<i class='bi bi-skip-end-fill'></i></a></li>";
          
-         pagingStr += "<a href='"+page+"nowPage="+totalPage+"' class='btn-next' title='다음 페이지로 이동'><span class='hidden'>다음 페이지로 이동</span></a>";
+         pagingStr += "<a href='"+page+"&nowPage="+totalPage+"' class='btn-next' title='다음 페이지로 이동'><span class='hidden'>다음 페이지로 이동</span></a>";
  
       }      
 

@@ -117,14 +117,14 @@
                                         </table>
                                     </div>
                                     
-                                    <!-- 페이지 번호 -->
+                                    <%-- <!-- 페이지 번호 -->
 									<div class="pagingArea">
 										<div class="common-pagingType-1">
 											<ul class="pagination">
 												${pagingImg }
 											</ul>
 										</div>
-									</div>
+									</div> --%>
                                 </div>
                                 
                                 <div class="point-area">
@@ -202,27 +202,27 @@
                                         </table>
                                     </div>
                                     
-                                    <!-- 페이지 번호 -->
+                                    <%-- <!-- 페이지 번호 -->
 									<div class="pagingArea">
 										<div class="common-pagingType-1">
 											<ul class="pagination">
 												${pagingImg2 }
 											</ul>
 										</div>
-									</div>
+									</div> --%>
                                     
                                 </div>
                             </div>
                             
                             
                             <!-- 페이지 번호 -->
-							<%-- <div class="pagingArea">
+							<div class="pagingArea">
 								<div class="common-pagingType-1">
 									<ul class="pagination">
 										${pagingImg }
 									</ul>
 								</div>
-							</div> --%>
+							</div>
 
                             <!-- 적립금 -->
                             <div class="btn-wrap">
