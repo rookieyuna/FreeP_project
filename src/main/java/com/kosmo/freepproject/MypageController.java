@@ -171,7 +171,7 @@ public class MypageController {
 			
 			model.addAttribute("pagingImg", pagingImg);
 		}
-		else if(req.getParameter("point").equals("coupon")) {
+		else if(req.getParameter("cate").equals("point")) {
 			String pagingImg = PagingUtil_mypage.pagingImg(pointUpdateCount,
 		            pageSize, blockPage, nowPage, 
 		            req.getContextPath()+"/mypage/myCoupon.do?cate=point");

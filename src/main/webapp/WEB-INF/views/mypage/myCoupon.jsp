@@ -26,7 +26,45 @@
     <!-- js 라이브러리 영역 -->
     <script src="../js/jquery-3.6.0.js"></script>
 
+<script>
+$(".btnC1").click(function(){
+    if($(this).parent().hasClass("active")){
+    	if($(this).id=="point"){
+	    	$(location).attr("href", "./myCoupon.do?cate=point");
+    	}
+    	else if($(this).id=="coupon"){
+    		$(location).attr("href", "./myCoupon.do?cate=coupon");
+    	}
+    }else{
+        $(this).parent().toggleClass("active");
+        if($(this).id=="point"){
+	    	$(location).attr("href", "./myCoupon.do?cate=point");
+    	}
+    	else if($(this).id=="coupon"){
+    		$(location).attr("href", "./myCoupon.do?cate=coupon");
+    	}
+        $(this).parent().siblings().toggleClass("active");
 
+        var checkingIndex = $(this).parent().index();
+        
+        $(".tab-list>div").removeClass("active");
+        $(".tab-list>div:eq("+checkingIndex+")").toggleClass("active");
+    }
+});
+/* $(".btnC1").click(function(){
+    if($(this).parent().hasClass("active")){
+    	
+    }else{
+        $(this).parent().toggleClass("active"), $(this).attr('href')= "./myCoupon.do?cate=point";
+        $(this).parent().siblings().toggleClass("active"), $(this).attr('href')= "./myCoupon.do?cate=point";
+
+        var checkingIndex = $(this).parent().index();
+        
+        $(".tab-list>div").removeClass("active");
+        $(".tab-list>div:eq("+checkingIndex+")").toggleClass("active");
+    }
+}); */
+</script>
 </head>
 
 <body id="body">
@@ -72,8 +110,8 @@
                         <div class="CP-wrap">
                             <div class="tab-type6"><!--2020-01-03 클래스명수정-->
                                 <ul class="tabTab">
-                                    <li class="active"><button class="btnC1 myCP_list_btn">내 쿠폰</button></li>
-                                    <li><button class="btnC1 myCP_list_btn">내 적립금</button></li>
+                                    <li class="active"><button class="btnC1 myCP_list_btn" id="coupon">내 쿠폰</button></li>
+                                    <li><button class="btnC1 myCP_list_btn" id="point">내 적립금</button></li> <!-- onclick="location.href='./myCoupon.do?cate=point';" -->
                                 </ul>
                             </div>
 
@@ -117,14 +155,14 @@
                                         </table>
                                     </div>
                                     
-                                    <%-- <!-- 페이지 번호 -->
+                                    <!-- 페이지 번호 -->
 									<div class="pagingArea">
 										<div class="common-pagingType-1">
 											<ul class="pagination">
 												${pagingImg }
 											</ul>
 										</div>
-									</div> --%>
+									</div>
                                 </div>
                                 
                                 <div class="point-area">
@@ -202,27 +240,27 @@
                                         </table>
                                     </div>
                                     
-                                    <%-- <!-- 페이지 번호 -->
+                                    <!-- 페이지 번호 -->
 									<div class="pagingArea">
 										<div class="common-pagingType-1">
 											<ul class="pagination">
-												${pagingImg2 }
+												${pagingImg }
 											</ul>
 										</div>
-									</div> --%>
+									</div>
                                     
                                 </div>
                             </div>
                             
                             
                             <!-- 페이지 번호 -->
-							<div class="pagingArea">
+							<%-- <div class="pagingArea">
 								<div class="common-pagingType-1">
 									<ul class="pagination">
 										${pagingImg }
 									</ul>
 								</div>
-							</div>
+							</div> --%>
 
                             <!-- 적립금 -->
                             <div class="btn-wrap">
