@@ -3,6 +3,7 @@ package com.kosmo.freepproject;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.UUID;
@@ -20,6 +21,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import board.BoardDAOImpl;
 import board.BoardDTO;
+import mypage.MypageImpl;
 import util.ParameterDTO;
 import review.ReviewBoardDAOImpl;
 import review.ReviewBoardDTO;
@@ -32,7 +34,10 @@ import util.PagingUtil_front;
 public class ReviewController {
 	
 	@Autowired
-	private SqlSession sqlSession; 
+	private SqlSession sqlSession;
+	
+	
+	/************************리뷰 관리자페이지**************************/
 	
 	//리뷰 게시판 리스트 보여주기
 	@RequestMapping("/admin/review.do")
@@ -486,7 +491,7 @@ public class ReviewController {
 	
 	
 	
-	
+	/************************리뷰 프론트페이지**************************/
 	
 	
 	/* front 리뷰게시판 일반 리뷰 리스트 보여주기 2/17 JYA */
@@ -516,7 +521,7 @@ public class ReviewController {
 				
 		String pagingImg =
 			PagingUtil_front.pagingImg(totalRecordCount, pageSize, blockPage, nowPage,
-				req.getContextPath()+"/admin/review.do?");
+				req.getContextPath()+"/community/review.do?");
 		model.addAttribute("pagingImg", pagingImg);
 		
 		//내용에 대한 줄바꿈 처리
@@ -524,7 +529,13 @@ public class ReviewController {
 			String temp = dto.getContents().replace("\r\n","<br/>");
 			dto.setContents(temp);
 		}
-		model.addAttribute("lists", lists);		
+		model.addAttribute("lists", lists);
+		
+		
+		//베스트 리뷰 읽어오기
+		ArrayList<ReviewBoardDTO> listsBest =
+				sqlSession.getMapper(ReviewBoardDAOImpl.class).listBest(1, 4);
+		model.addAttribute("listsBest", listsBest);
 		
 		return "community/review";
 	}	
@@ -546,7 +557,123 @@ public class ReviewController {
 	
 	
 	
+	//리뷰 글 작성페이지로 이동 (마이페이지)
+	@RequestMapping("/mypage/myReviewWrite.do")
+	public String myReviewWrite(Model model, HttpServletRequest req) {
+		
+
+		int or_idx = Integer.parseInt(req.getParameter("or_idx")); 
+		model.addAttribute("or_idx", or_idx);
+		
+		
+		return "mypage/myReviewWrite";
+	}
 	
+	
+	
+	//리뷰 글 작성완료 (마이페이지)
+
+	@RequestMapping(value="/mypage/myReviewWriteAction.do", method=RequestMethod.POST)
+	public String myReviewWriteAction(Principal principal, Model model, MultipartHttpServletRequest req) {
+		
+		//dto에 id를 저장
+		ParameterDTO dto = new ParameterDTO();
+		dto.setId(principal.getName());
+		//id를 이용해서 회원이름 가져옴
+		String name = sqlSession.getMapper(MypageImpl.class).myName(dto);
+		
+		ReviewBoardDTO boarddto = new ReviewBoardDTO();
+		boarddto.setOr_idx(Integer.parseInt(req.getParameter("or_idx"))); //주문번호
+		boarddto.setTitle(req.getParameter("title")); 
+		boarddto.setContents(req.getParameter("contents"));
+		boarddto.setWriter(name);
+		//회원코드 가져오기 
+		int m_code = 
+				sqlSession.getMapper(ReviewBoardDAOImpl.class).findm_code(req.getParameter("id"));
+		boarddto.setM_code(m_code);
+
+
+		//나만의 피자이름 얻어오기
+		//String myPizzaName = req.getParameter("myPizzaName");
+		
+		/********나만의 피자 컬럼 업데이트 필요**********/
+		
+		//물리적경로 얻어오기
+		String path = req.getSession().getServletContext().getRealPath("/resources/uploads");
+		MultipartFile mfile = null;
+
+		String originalName;
+		String saveFileName;
+		try { 
+			//파일1
+			mfile = req.getFile("file1");
+			originalName = new String(mfile.getOriginalFilename().getBytes(),"UTF-8");
+			if("".equals(originalName)) { //업로드된 파일이 없을때
+				originalName = "";
+				saveFileName = "";
+
+				boarddto.setRv_ofile1(originalName);
+				boarddto.setRv_sfile1(saveFileName);
+			}
+			else {			//업로드된 파일이 있을때
+				String ext = originalName.substring(originalName.lastIndexOf('.'));
+				saveFileName = getUuid() + ext;
+	
+				Path path1 = Paths.get(path+File.separator+saveFileName).toAbsolutePath();		
+				mfile.transferTo(path1.toFile()); 
+				boarddto.setRv_ofile1(originalName);
+				boarddto.setRv_sfile1(saveFileName);
+			}
+			//파일2
+			mfile = req.getFile("file2");
+			originalName = new String(mfile.getOriginalFilename().getBytes(),"UTF-8");
+			if("".equals(originalName)) {
+				originalName = "";
+				saveFileName = "";
+
+				boarddto.setRv_ofile2(originalName);
+				boarddto.setRv_sfile2(saveFileName);
+			}
+			else {			
+				String ext = originalName.substring(originalName.lastIndexOf('.'));
+				saveFileName = getUuid() + ext;
+	
+				Path path1 = Paths.get(path+File.separator+saveFileName).toAbsolutePath();		
+				mfile.transferTo(path1.toFile()); 
+				boarddto.setRv_ofile2(originalName);
+				boarddto.setRv_sfile2(saveFileName);
+			}
+			//파일3
+			mfile = req.getFile("file3");
+			originalName = new String(mfile.getOriginalFilename().getBytes(),"UTF-8");
+			if("".equals(originalName)) {
+				originalName = "";
+				saveFileName = "";
+
+				boarddto.setRv_ofile3(originalName);
+				boarddto.setRv_sfile3(saveFileName);
+			}
+			else {			
+				String ext = originalName.substring(originalName.lastIndexOf('.'));
+				saveFileName = getUuid() + ext;
+	
+				Path path1 = Paths.get(path+File.separator+saveFileName).toAbsolutePath();		
+				mfile.transferTo(path1.toFile()); 
+				boarddto.setRv_ofile3(originalName);
+				boarddto.setRv_sfile3(saveFileName);
+			}
+			//DB에 인서트
+			sqlSession.getMapper(ReviewBoardDAOImpl.class).write( boarddto );
+
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		//쓰기 처리를 완료한 후 리스트로 이동
+		return "redirect:myOrder.do";
+
+	}
+
 	
 	
 }

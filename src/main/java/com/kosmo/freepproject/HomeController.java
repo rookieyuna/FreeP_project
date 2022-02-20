@@ -70,6 +70,14 @@ public class HomeController {
 	@RequestMapping("/community/question.do")
 	public String question() {return "community/question";}
 	
+	
+	@RequestMapping("/mypage/myCoupon1.do")
+	public String myCoupon1() {return "mypage/myCoupon1";}
+	@RequestMapping("/mypage/myCoupon2.do")
+	public String myCoupon2() {return "mypage/myCoupon2";}
+	
+	
+	
 	@RequestMapping("/company/intro.do")
 	public String intro() {return "company/about/intro";}
 	@RequestMapping("/company/notice.do")

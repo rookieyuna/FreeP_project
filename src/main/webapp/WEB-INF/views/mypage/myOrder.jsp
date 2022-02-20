@@ -108,11 +108,17 @@
 						                    	<c:when test="${row.state eq '4'}"><td>배달시작</td></c:when>
 						                    	<c:otherwise><td>배달완료</td></c:otherwise>
 						                    </c:choose>
+						                    <!-- 배달완료전/ 배달완료 후 작성한 리뷰가 있는경우/ 작성된 리뷰가 없는 경우 -->
 											<c:choose>
-						                    	<c:when test="${row.reviewChk eq '0'}">
+						                    	<c:when test="${row.reviewChk eq '0' and row.state le '4'}">
+						                    		<td></td>
+						                    	</c:when>
+						                    	<c:when test="${row.reviewChk eq '0' and row.state eq '5'}">
 						                    		<td class="review_false"><button onClick="location.href='./myReviewWrite.do?or_idx=${row.or_idx }'"></button></td>
 						                    	</c:when>
-						                    	<c:otherwise><td class="review_true"></td></c:otherwise>
+						                    	<c:when test="${row.reviewChk ne '0'}">
+						                    		<td class="review_true"></td>
+						                    	</c:when>
 						                    </c:choose>
 										</tr>
 									</c:forEach>

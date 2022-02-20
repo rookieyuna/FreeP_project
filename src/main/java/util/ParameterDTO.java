@@ -18,6 +18,8 @@ public class ParameterDTO {
 	
 	//회원구분을 위한 변수
 	private String grade;
+	//쿠폰/적립금 구분을 위한 변수
+	private String cate;
 	
 	//검색어 처리를 위한 멤버변수
 	private String searchField; //검색할 필드명

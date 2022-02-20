@@ -25,7 +25,19 @@
     <!-- js 라이브러리 영역 -->
     <script src="../js/jquery-3.6.0.js"></script>
 </head>
-
+<script type="text/javascript">
+	$().ready(function(){
+		
+		$("#writeBtn").click(function(){
+			$("#reviewForm").attr({
+				"method" : "post",
+				"action" : "<c:url value="/community/reviewdetail.do" />"
+			});
+			$("#reviewForm").submit();
+		});
+		
+	});
+</script>
 <body id="body">
     <header id="header">
         <%@ include file="../common/header.jsp" %>
@@ -72,7 +84,7 @@
 
                                 <div class="con_inner_mid review_list">
                                     <div class="review best">
-                                        <h2>베스트 리뷰</h2>
+                                        
                                         
                                         <!-- 리뷰클릭시 나오는 상세모달창 (motion.js line.110) -->
                                         <div class="review-detail-modal pop-layer pop-menu" id="pop-menu-detail">
@@ -215,16 +227,19 @@
                                                 </div>
                                             </div>
                                         </div> <!-- end of 상세모달창 -->
-
+		
+		
+                                        <h2>베스트 리뷰</h2>
                                         <ul>
+                                        	<c:forEach items="${listsBest }" var="row"> 
                                             <li>
                                                 <div class="img_wrap">
-                                                    <a href="#best"><img src="../images/05community/1b6078b5bd51521860a43103b0a6cae5.jpg"></a>
+                                                    <a href="#best"><img src="../uploads/${row.rv_sfile1 }"></a>
                                                 </div>
                                                 <div class="text_wrap">
                                                     <div class="review_text">
                                                         <div class="review_icon diy"></div>
-                                                        <div class="review_name">Wozniak</div>
+                                                        <div class="review_name">${row.title}</div>
                                                         <div class="review_like">
                                                             <div class="favorite-heart">
                                                                 <i class="material-icons unlike">favorite</i>
@@ -233,54 +248,13 @@
                                                     </div>
                                                     <div class="review_cont">
                                                         <p>
-                                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Id augue arcu vulputate phasellus pharetra. Nunc eget ut neque risus adipiscing nibh ac. In eget diam convallis leo.
+                                                            ${row.contents}
                                                         </p>
                                                     </div>
                                                 </div>
                                             </li>
-                                            <li>
-                                                <div class="img_wrap">
-                                                    <a href="#best"><img src="../images/05community/5460a0721c26e6d3c7a1848ac1a24abd.jpg"></a>
-                                                </div>
-                                                <div class="text_wrap">
-                                                    <div class="review_text">
-                                                        <div class="review_icon best diy"></div>
-                                                        <div class="review_name">Wozniak</div>
-                                                        <div class="review_like">
-                                                            <div class="favorite-heart">
-                                                                <i class="material-icons unlike">favorite</i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="review_cont">
-                                                        <p>
-                                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Id augue arcu vulputate phasellus pharetra. Nunc eget ut neque risus adipiscing nibh ac. In eget diam convallis leo.
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="img_wrap">
-                                                    <a href="#best"><img src="../images/05community/5748f66613de9ac009fd9337e99b6e6b.jpg"></a>
-                                                </div>
-                                                <div class="text_wrap">
-                                                    <div class="review_text">
-                                                        <div class="review_icon best diy"></div>
-                                                        <div class="review_name">Wozniak</div>
-                                                        <div class="review_like">
-                                                            <div class="favorite-heart">
-                                                                <i class="material-icons unlike">favorite</i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="review_cont">
-                                                        <p>
-                                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Id augue arcu vulputate phasellus pharetra. Nunc eget ut neque risus adipiscing nibh ac. In eget diam convallis leo.
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li>
+                                            </c:forEach>
+                                            <!-- <li>
                                                 <div class="img_wrap">
                                                     <a href="#best"><img src="../images/05community/ecfec5c38e6d033c7f01b77eecc1bf8a.jpg"></a>
                                                 </div>
@@ -300,7 +274,7 @@
                                                         </p>
                                                     </div>
                                                 </div>
-                                            </li>
+                                            </li> -->
                                         </ul>
                                     </div>
 
@@ -333,7 +307,7 @@
                                                 </div>
                                             </li>
                                             </c:forEach>
-                                            <li>
+                                            <!-- <li>
                                                 <div class="img_wrap">
                                                     <a href="#normal"><img src="../images/04product/01pizza/maru/0120200821213326.jpg"></a>
                                                 </div>
@@ -353,7 +327,7 @@
                                                         </p>
                                                     </div>
                                                 </div>
-                                            </li>
+                                            </li> -->
                                         </ul>
                                     </div>
                                     <div class="pagingArea">
