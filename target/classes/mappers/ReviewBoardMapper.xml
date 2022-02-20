@@ -8,6 +8,7 @@
   	<select id="getTotalCount" resultType="int">
   		
   		SELECT COUNT(*) FROM reviewboard
+  		
   	</select>  	
   	<select id="listPage" resultType="review.ReviewBoardDTO">
   		
@@ -20,9 +21,21 @@
   	</select>
   	
   	
+  	<select id="listBest" resultType="review.ReviewBoardDTO">
+  		select * from(
+			select rv_idx, m_code, title, contents, writer, postdate, hits, rv_ofile1, rv_sfile1, rv_ofile2, rv_sfile2, rv_ofile3, rv_sfile3, or_idx, rv_best, rownum rNum from(
+			select 
+			    count(*) rank, rv_idx, R.m_code, title, contents, writer, postdate, hits, rv_ofile1, rv_sfile1, rv_ofile2, rv_sfile2, rv_ofile3, rv_sfile3, or_idx, rv_best
+			from reviewboard R 
+			    inner join likedreview L using(rv_idx) 
+			group by rv_idx, R.m_code, title, contents, writer, postdate, hits, rv_ofile1, rv_sfile1, rv_ofile2, rv_sfile2, rv_ofile3, rv_sfile3, or_idx, rv_best
+			order by rank desc)) WHERE rNum BETWEEN #{param1} AND #{param2}
+  	</select>
+  	
+  	
   	<select id="getTotalCountSearch" resultType="int" parameterType="util.ParameterDTO">
   		
-  		SELECT COUNT(*) FROM  reviewboard 
+  		SELECT COUNT(*) FROM reviewboard 
   		<if test="searchTxt!=null and !searchTxt.equals('')">
   			WHERE ${searchField} like '%'||#{searchTxt}||'%'
   		</if>
