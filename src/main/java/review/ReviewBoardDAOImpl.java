@@ -40,4 +40,8 @@ public interface ReviewBoardDAOImpl {
 	public void edit(ReviewBoardDTO boardDTO);
 	
 	
+	//좋아요 리뷰 테이블 추가 및 삭제 메서드 JYA
+	public void likeReview(LikedReviewDTO likedReviewDTO); 
+	public void dislikeReview(int rv_idx, int m_code);
+	
 }

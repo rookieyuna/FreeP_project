@@ -243,6 +243,7 @@ public class ReviewController {
 		return "/admin/review-detail";
 	}
 	
+	
 	//리뷰 수정버튼 눌렀을때 데이터 가져오는거
 	@RequestMapping("/admin/reviewedit.do")
 	public String edit(Model model, HttpServletRequest req) {
@@ -546,12 +547,13 @@ public class ReviewController {
 	public String reviewdetail(Model model, HttpServletRequest req) {
 
 		ReviewBoardDTO boardDTO = new ReviewBoardDTO();
-		boardDTO.setRv_idx( Integer.parseInt(req.getParameter("idx"))); 
+		boardDTO.setRv_idx( Integer.parseInt(req.getParameter("rv_idx"))); 
 		
 		ReviewBoardDTO dto = 
 				sqlSession.getMapper(ReviewBoardDAOImpl.class).view(boardDTO);
 		  
-		model.addAttribute("dto", dto); 
+		model.addAttribute("dto", dto);
+		
 		return "community/review";
 	}
 	
@@ -562,8 +564,8 @@ public class ReviewController {
 	public String myReviewWrite(Model model, HttpServletRequest req) {
 		
 
-		int or_idx = Integer.parseInt(req.getParameter("or_idx")); 
-		model.addAttribute("or_idx", or_idx);
+		int rv_idx = Integer.parseInt(req.getParameter("rv_idx")); 
+		model.addAttribute("rv_idx", rv_idx);
 		
 		
 		return "mypage/myReviewWrite";

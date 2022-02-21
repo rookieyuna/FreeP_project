@@ -25,19 +25,7 @@
     <!-- js 라이브러리 영역 -->
     <script src="../js/jquery-3.6.0.js"></script>
 </head>
-<script type="text/javascript">
-	$().ready(function(){
-		
-		$("#writeBtn").click(function(){
-			$("#reviewForm").attr({
-				"method" : "post",
-				"action" : "<c:url value="/community/reviewdetail.do" />"
-			});
-			$("#reviewForm").submit();
-		});
-		
-	});
-</script>
+
 <body id="body">
     <header id="header">
         <%@ include file="../common/header.jsp" %>
@@ -281,12 +269,15 @@
                                     <div class="review normal">
                                         <h2>일반 리뷰</h2>
                                         <ul>
-                                        	<c:forEach items="${lists }" var="row"> 
+                                        	<c:forEach items="${lists }" var="row">
                                             <li>
                                             	<c:set var="file" value="${row.rv_sfile1 }" />
-                                                <div class="img_wrap">
+                                                <div class="img_wrap" onclick="reviewDetailOpen('${row.rv_idx}');">
 	                                                <c:if test="${file != null }">
 	                                                    <a href="#normal"><img src="../uploads/${row.rv_sfile1 }"></a>
+	                                                </c:if>
+	                                                <c:if test="${file == null }">
+	                                                    <a href="#normal"><img src="../uploads/normal_11110001"></a>
 	                                                </c:if>
                                                 </div>
                                                 <div class="text_wrap">
@@ -295,7 +286,20 @@
                                                         <div class="review_name">${row.title}</div>
                                                         <div class="review_like">
                                                             <div class="favorite-heart">
-                                                                <i class="material-icons unlike">favorite</i>
+                                                            	<!-- 미로그인 상태에서 클릭시 로그인하도록 하기 위해 나눠놓음 -->
+                                                            	<sec:authorize access="isAnonymous()">
+                                                                	<i class="login-request material-icons unlike">favorite</i>
+                                                                </sec:authorize>
+																<sec:authorize access="isAuthenticated()">
+																	<c:choose>
+																	  <c:when test="${like_idx eq null}">
+																	  	<i class="like-update material-icons unlike">favorite</i>
+																	  </c:when>
+																	  <c:otherwise>
+																	    <i class="like-update material-icons like">favorite</i>
+																	  </c:otherwise>
+																	</c:choose>
+																</sec:authorize>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -306,6 +310,7 @@
                                                     </div>
                                                 </div>
                                             </li>
+
                                             </c:forEach>
                                             <!-- <li>
                                                 <div class="img_wrap">
@@ -354,5 +359,44 @@
     <script src="../js/motion.js"></script>
     <script src="../js/ui.js"></script>
 </body>
+<script type="text/javascript">
+/* 
+	$().ready(function(){
+		
+		$("#img_wrap").click(function(){
+			$("#reviewListFrm").attr({
+				"method" : "post",
+				"action" : "<c:url value="/community/reviewdetail.do" />"
+			});
+			$("#reviewListFrm").submit();
+		}); 
+	}
 
+	function reviewDetailOpen(rv_idx)
+    {
+        location.href='${path}/community/reviewdetail.do?rv_idx='+rv_idx;
+    }
+*/   
+*
+$(document).ready(function(){
+	$('.img_wrap').click(function(){ 
+		$.ajax({ 
+			url: "/community/reviewdetail.do",
+			type:"POST", 
+			contentType:'application/json;charset=utf-8', 
+			dataType:'json', 
+			success:function(response) { 
+				reviewDetail(response); 
+			}, 
+			error: function(data){
+       	      	alert("에러가 발생했습니다.");
+			} 
+		}); 
+	}); 
+	function reviewDetail(data){ 
+		
+	};
+});
+  
+</script>
 </html>

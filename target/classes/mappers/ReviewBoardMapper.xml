@@ -108,5 +108,16 @@
   		WHERE rv_idx=#{rv_idx}
   	</update>
 
+
+
+
+	<!--좋아요 리뷰 테이블 추가 및 삭제 메서드 JYA-->
+	<insert id="likeReview" parameterType="review.LikedReviewDTO">
+  		INSERT INTO likedreview values (seq_likedreview_idx.nextval, #{rv_idx}, #{m_code})
+  	</insert>
+  	
+  	<delete id="dislikeReview">
+  	 	DELETE FROM likedreview WHERE rv_idx=#{param1} and m_code=#{param2}
+  	</delete>
   	
   </mapper>

@@ -1,7 +1,26 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
+<%@ page import="org.springframework.security.core.Authentication" %>
+<%
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    Object principal = auth.getPrincipal();
+ 
+    String name = "";
+    if(principal != null) {
+        name = auth.getName();
+    }
+%>
 <!DOCTYPE html>
 <html lang="ko">
+<script>
+function questionSubmit(){
+	alert("1:1문의 제출이 완료되었습니다!^^")
+	
+}
+</script>
 
 <head>
     <meta charset="UTF-8">
@@ -64,7 +83,10 @@
                         <div class="sp_play">
                             <div class="sp_play_wrap freep_community">
 
-								<form name="q" id="q" method="post" action="">
+								<form:form commandName="writeFrm" method="post"
+									action="./questionWriteAction.do" enctype="multipart/form-data" onsubmit="questionSubmit();">
+								<input type="hidden" name="cate" value="3" />
+								<input type="hidden" name="id" value="<%= name %>" />
 									<div class="question-layer" id="pop-write">
 										<div class="question-wrap">
 											<div class="question-content">
@@ -80,16 +102,14 @@
 																<dd>
 																	<div class="form-item">
 																		<div class="select-type2">
-																			<select id="sel" name="type_div1">
+																			<select id="sel" name="qcate">
 																				<option value="">선택</option>
-																				<option value="제품관련">제품관련</option>
-																				<option value="배달서비스 관련">배달서비스 관련</option>
-																				<option value="직원 서비스 관련">직원 서비스 관련</option>
-																				<option value="콜센타 관련">콜센타 관련</option>
-																				<option value="칭찬">칭찬</option>
-																				<option value="제안">제안</option>
-																				<option value="단순문의">단순문의</option>
-																				<option value="기타">기타</option>
+																				<option value="1">제품관련</option>
+																				<option value="2">배달 서비스 관련</option>
+																				<option value="3">직원 서비스 관련</option>
+																				<option value="4">칭찬</option>
+																				<option value="5">제안</option>
+																				<option value="6">기타</option>
 																			</select>
 																		</div>
 																	</div>
@@ -99,7 +119,7 @@
 																<dt>제목</dt>
 																<dd>
 																	<div class="form-item">
-																		<input type="text" id="subject" name="subject" />
+																		<input type="text" id="subject" name="title" />
 																	</div>
 																</dd>
 															</dl>
@@ -107,7 +127,7 @@
 																<dt class="top">문의내용</dt>
 																<dd>
 																	<div class="form-item">
-																		<textarea name="content" id="content" cols="30" rows="10"></textarea>
+																		<textarea name="contents" id="content" cols="30" rows="10"></textarea>
 																	</div>
 																</dd>
 															</dl>
@@ -123,8 +143,8 @@
 													</div>
 
 													<div class="btn-wrap">
-														<a href="javascript:doReset();" class="btn-type v5">다시입력</a>
-														<a href="javascript:proc();" class="btn-type v4">문의하기</a>
+														<button type="reset" class="btn-type v5">다시입력</button>
+														<button class="btn-type v4">문의하기</button>
 													</div>
 
 												</div>
@@ -154,10 +174,8 @@
 											</div>
 										</div>
 									</div>
-								</form>
-
+								</form:form>
                             </div>
-
                         </div>
                     </article>
                 </div>
