@@ -3,6 +3,7 @@ $(function(){
     var flag = 0;
     var orderList = [];
     var radioFlag = 0;
+	var toppingNumFlag = 1;
 
     // DIY메뉴 3개이상 선택시 DIY만들기 버튼 활성화
     $(".DIYmenu .select-item").click(function(){
@@ -40,6 +41,10 @@ $(function(){
                 var orderSelect = {
                     code : $(".now-product .select-item.active").eq(i).find(".prd-cont .order-code").val(),
                     name : $(".now-product .select-item.active").eq(i).find(".prd-cont .order-name").text(),
+                    kcal1 : $(".now-product .select-item.active").eq(i).find(".prd-cont .info1").text(),
+                    kcal2 : $(".now-product .select-item.active").eq(i).find(".prd-cont .info2").text(),
+                    size1 : $(".now-product .select-item.active").eq(i).find(".prd-price .size_l").text(),
+                    size2 : $(".now-product .select-item.active").eq(i).find(".prd-price .size_m").text(),
                     price1 : $(".now-product .select-item.active").eq(i).find(".prd-price .price1").text(),
                     price2 : $(".now-product .select-item.active").eq(i).find(".prd-price .price2").text(),
                 };
@@ -52,22 +57,47 @@ $(function(){
                 + '    <td>'
                 + '        <div class="select_main_menu">'
                 + '            <ul class="main_menu_size">'
-                + '                <li class="selected"><input type="radio" name="sel_size'+flag+'" value="large" id="sel_size'+flag+'-1" checked><label class="sel_size_L" for="sel_size'+flag+'-1"></label></li>'
-                + '                <li><input type="radio" name="sel_size'+flag+'" value="medium" id="sel_size'+flag+'-2"><label class="sel_size_M" for="sel_size'+flag+'-2"></label></li>'
+                + '                <li class="selected"><input type="radio" name="sel_size'+flag+'" value="'+orderList[0].size1+'" id="sel_size'+flag+'-1"  checked disabled="disabled"><label class="sel_size_L" for="sel_size'+flag+'-1"></label></li>'
+                + '                <li><input type="radio" name="sel_size'+flag+'" value="'+orderList[0].size2+'" id="sel_size'+flag+'-2"><label class="sel_size_M" for="sel_size'+flag+'-2"></label></li>'
                 + '            </ul>'
-                + '            <p class="main_menu_sel"><input type="text" value="'+orderList[0].code+'">'+orderList[0].name+'</p>'
-                + '            <p class="menu_info kcal">1050</p>'
+                + '            <p class="main_menu_sel"><input type="text" name="DOUGH" value="'+orderList[0].code+'">'+orderList[0].name+'</p>'
+                + '            <p class="menu_info kcal">'+orderList[0].kcal1+'</p>'
                 + '            <p class="menu_info won">'+orderList[0].price1+'</p>'
                 + '        </div>'
                 + '        <ul class="select_main_sub">'
             );
-            for(var i=1; i<orderList.length; i++){
-                $(".cart-modal-wrap>tbody .set").last().find(".select_main_sub").append(
-                    '<li>'
-                    + '<p><input type="text" value="'+orderList[i].code+'"><span>'+orderList[i].name+'</span><span class="menu_info kcal">125</span><span class="menu_info won">'+orderList[i].price1+'</span></p>'
-                    + '</li>'
-                );
+
+			for(var i=1; i<orderList.length; i++){
+				if(orderList[i].code.includes("4444")){
+					var subMenuStr = 
+						'<li>'
+						+ '<ul class="sub_menu_lay2"><li><input type="text" name="TOPPING'+toppingNumFlag+'" value="'+orderList[i].code+'"><span>'+orderList[i].name+'</span></li>'
+						+ '<li>'
+						+ '	   <ul class="sub_menu_size">'
+	               		+ '        <li class="selected"><input type="radio" name="sub_sel_size'+radioFlag+'" value="'+orderList[i].size1+'" id="sub_sel_size'+radioFlag+'-'+i+'"  checked disabled="disabled"><label class="sub_sel_size_L" for="sub_sel_size'+radioFlag+'-'+i+'"></label></li>'
+	               		+ '        <li><input type="radio" name="sub_sel_size'+radioFlag+'" value="'+orderList[i].size2+'" id="sub_sel_size'+radioFlag+'-'+(i+1)+'"><label class="sub_sel_size_M" for="sub_sel_size'+radioFlag+'-'+(i+1)+'"></label></li>'
+	                	+ '    </ul>'
+						+ '</li>'
+						+ '<li><span class="menu_info kcal">'+orderList[i].kcal1+'</span></li>'
+						+ '<li><span class="menu_info won">'+orderList[i].price1+'</span></li>'
+						+'</li></ul>'
+					$(".cart-modal-wrap>tbody .set").last().find(".select_main_sub").append(
+	                    subMenuStr
+	                );
+					toppingNumFlag++;
+				}else{
+					$(".cart-modal-wrap>tbody .set").last().find(".select_main_sub").append(
+
+						'<li>'
+	                    + '<p><input type="text" name="SAUCE" value="'+orderList[i].code+'"><span>'+orderList[i].name+'</span><span class="menu_info kcal">125</span><span class="menu_info won">'+orderList[i].price1+'</span></p>'
+						+ '</li>'
+
+	                );
+				}
+				
+                radioFlag++;
             }
+            
             $(".cart-modal-wrap>tbody .set").last().find("td").after(    
                 '<td><button type="button" class="set_del"><span class="material-icons-outlined">clear</span>'
             );
@@ -75,13 +105,22 @@ $(function(){
             $(".select-item").removeClass("active");
             $(".DIYmenu>.menu-depth:not(:eq(0))").hide();
             $(this).removeClass("active");
+	
+			
+		
+			// 초기화
+			toppingNumFlag = 1;
             flag++;
             orderList = [];
+
+		// 총 선택정보
+		totalCart();
 
         }else{
             alert("도우, 소스, 토핑(최소 1개)을 모두 선택해주세요");
         }
-
+		
+		
     });
 
 
@@ -106,6 +145,10 @@ $(function(){
             var orderSelect = {
                 code : $(this).find(".prd-cont .order-code").val(),
                 name : $(this).find(".prd-cont .order-name").text(),
+				kcal1 : $(this).find(".prd-cont .info1").text(),
+                kcal2 : $(this).find(".prd-cont .info2").text(),
+                size1 : $(this).find(".prd-price .size_l").text(),
+                size2 : $(this).find(".prd-price .size_m").text(),
                 price1 : $(this).find(".prd-price .price1").text(),
                 price2 : $(this).find(".prd-price .price2").text()
             };
@@ -120,8 +163,8 @@ $(function(){
                 +'        <div class="select_main_menu">'
                 +'            <ul class="main_menu_size">'
                 +'            </ul>'
-                +'            <p class="main_menu_sel"><input type="text" value="'+orderList[flag-1].code+'">'+orderList[flag-1].name+'</p>'
-                +'            <p class="menu_info kcal">1050</p>'
+                +'            <p class="main_menu_sel"><input type="text" name="ct_code" value="'+orderList[flag-1].code+'">'+orderList[flag-1].name+'</p>'
+                +'            <p class="menu_info kcal">'+orderList[flag-1].kcal1+'</p>'
                 +'            <p class="menu_info won">'+orderList[flag-1].price1+'</p>'
                 +'        </div>'
                 +'    </td>'
@@ -137,8 +180,8 @@ $(function(){
                 for(var key in orderList){
                     if(orderList[key].code == codeStr){
                         $(".main_menu_sel input[value="+codeStr+"]").parents(".set").find(".main_menu_size").append(
-                            '                <li class="selected"><input type="radio" name="sel_size'+(radioFlag)+'" value="large" id="sel_size'+(radioFlag)+'-1" checked><label class="sel_size_L" for="sel_size'+(radioFlag)+'-1"></label></li>'
-                            + '                <li><input type="radio" name="sel_size'+(radioFlag)+'" value="medium" id="sel_size'+(radioFlag)+'-2"><label class="sel_size_M" for="sel_size'+(radioFlag)+'-2"></label></li>'    
+                            '                <li class="selected"><input type="radio" name="sel_size'+(radioFlag)+'" value="'+orderList[flag-1].size1+'" id="sel_size'+(radioFlag)+'-1" checked disabled="disabled"><label class="sel_size_L" for="sel_size'+(radioFlag)+'-1"></label></li>'
+                            + '                <li><input type="radio" name="sel_size'+(radioFlag)+'" value="'+orderList[flag-1].size2+'" id="sel_size'+(radioFlag)+'-2"><label class="sel_size_M" for="sel_size'+(radioFlag)+'-2"></label></li>'    
                         );
                     }
                 }
@@ -160,39 +203,70 @@ $(function(){
 			flag--;
         }
 
+		// 총 선택정보
+		totalCart();
+
     });
 
 
 
     // 동적으로 추가된 radio버튼 조작
-    $(document).on('click','input[id^=sel_size]', function () {
+    $(document).on('click','input[id*=sel_size]', function () {
         $('input:radio[name=' + $(this).attr('name') + ']').parent().removeClass('selected');
         $(this).parent().addClass('selected');
+		$('input:radio[name=' + $(this).attr('name') + ']').removeClass('selected').attr("disabled", false);
+		$(this).attr("disabled", true);
 
         var sizeVal = $(this).parent("li").index()+1;
-        var codeStr = $(this).parents(".set").find(".main_menu_sel input").val();
-        var cutStr = codeStr.substring(0, 4);
+        let mainCodeStr = $(this).parents(".set").find(".main_menu_sel input").val();
+        var mainCutStr = mainCodeStr.substring(0, 4);
+		var subCodeStr = $(this).parents(".sub_menu_lay2").find("li:eq(0) input").val();
 
-        if(cutStr == 1111 || cutStr == 5555 || cutStr == 6666){
+        if(mainCutStr == 1111 || mainCutStr == 5555 || mainCutStr == 6666){
             for(var key in orderList){
-                if(orderList[key].code == codeStr){
-    
+                if(orderList[key].code == mainCodeStr || orderList[key].code == parseInt(mainCodeStr)-1){
+    				
                     if(sizeVal==1){
+						$(this).parents(".set").find(".select_main_menu .main_menu_sel input[type=text][name=ct_code]").attr("value", Number(mainCodeStr)-1);
                         $(this).parents(".set").find(".select_main_menu .menu_info.won").text(orderList[key].price1);
+                        $(this).parents(".set").find(".select_main_menu .menu_info.kcal").text(orderList[key].kcal1);
                     }else if(sizeVal==2){
-                        $(this).parents(".set").find(".select_main_menu .menu_info.won").text(orderList[key].price2);
+						$(this).parents(".set").find(".select_main_menu .main_menu_sel input[type=text][name=ct_code]").attr("value", Number(mainCodeStr)+1);
+						$(this).parents(".set").find(".select_main_menu .menu_info.won").text(orderList[key].price2);
+                        $(this).parents(".set").find(".select_main_menu .menu_info.kcal").text(orderList[key].kcal2);
                     }
                 }
             }
         }else{
-            var doughPrice = $(".select-item .prd-cont input[value="+codeStr+"]").parents(".select-item");
-            if(sizeVal==1){
-                $(this).parents(".set").find(".select_main_menu .menu_info.won").text(doughPrice.find(".prd-price .price1").text());
-            }else if(sizeVal==2){
-                $(this).parents(".set").find(".select_main_menu .menu_info.won").text(doughPrice.find(".prd-price .price2").text());
-            }
-        }
+            var doughSel = $(".select-item .prd-cont input[value="+mainCodeStr+"]").parents(".select-item");
+            var toppingSel = $(".select-item .prd-cont input[value="+subCodeStr+"]").parents(".select-item");
+			
+				if($(this).parents().hasClass("select_main_menu")){
+					if(sizeVal==1){
+						doughSel = $(".select-item .prd-cont input[value="+(mainCodeStr-1)+"]").parents(".select-item");
+						$(this).parents(".select_main_menu").find(".main_menu_sel input[type=text][name=DOUGH]").attr("value", Number(mainCodeStr)-1);
+		                $(this).parents(".select_main_menu").find(".menu_info.won").text(doughSel.find(".prd-price .price1").text());
+		                $(this).parents(".select_main_menu").find(".menu_info.kcal").text(doughSel.find(".prd-origin .info1").text());
+		            }else if(sizeVal==2){
+						$(this).parents(".select_main_menu").find(".main_menu_sel input[type=text][name=DOUGH]").attr("value", Number(mainCodeStr)+1);
+		                $(this).parents(".select_main_menu").find(".menu_info.won").text(doughSel.find(".prd-price .price2").text());
+						$(this).parents(".select_main_menu").find(".menu_info.kcal").text(doughSel.find(".prd-origin .info2").text());
+		            }	
+				}else if($(this).parents().hasClass("select_main_sub")){
+					var subCodeTemp = $(this).parents(".sub_menu_lay2").find("li").eq(0).find("input[type=text][name^=TOPPING]").val();
+					if(sizeVal==1){
+						toppingSel = $(".select-item .prd-cont input[value="+(subCodeStr-1)+"]").parents(".select-item");
+						$(this).parents(".sub_menu_lay2").find("li").eq(0).find("input[type=text][name^=TOPPING]").attr("value", Number(subCodeTemp)-1);
+		                $(this).parents(".sub_menu_lay2").find(".menu_info.won").text(toppingSel.find(".prd-price .price1").text());
+		                $(this).parents(".sub_menu_lay2").find(".menu_info.kcal").text(toppingSel.find(".prd-origin .info1").text());
+		            }else if(sizeVal==2){
+						$(this).parents(".sub_menu_lay2").find("li").eq(0).find("input[type=text][name^=TOPPING]").attr("value", Number(subCodeTemp)+1);
+		                $(this).parents(".sub_menu_lay2").find(".menu_info.won").text(toppingSel.find(".prd-price .price2").text());
+						$(this).parents(".sub_menu_lay2").find(".menu_info.kcal").text(toppingSel.find(".prd-origin .info2").text());
+		            }
+				}	
 
+        }
     });
 
 
@@ -214,9 +288,113 @@ $(function(){
         }else{
             $(this).parents(".set").remove();
         }
-
+		totalCart();
     });
 
 	
-    
+    $(document).on('change','input[id*=sel_size]', function () {
+		totalCart();
+    });
 });
+
+function totalCart(){
+	var key=0;
+	const totalKcal = [];
+	const selKcal = $(".menu_info.kcal");
+	for(key=0; key<selKcal.length; key++){ 
+		totalKcal.push(parseInt(selKcal.eq(key).text().replace(",", "")));
+	}		
+	const kcalResult = totalKcal.reduce(function add(sum, currValue) {
+	  return sum + currValue;
+	}, 0);
+	
+	
+	const totalPrice = [];
+	const selPrice = $(".menu_info.won");
+	console.log(selPrice);
+	for(key=0; key<selPrice.length; key++){ 
+		totalPrice.push(parseInt(selPrice.eq(key).text().replace(",", "")));
+	}		
+	console.log(totalPrice);
+	const priceResult = totalPrice.reduce(function add(sum, currValue) {
+	  return sum + currValue;
+	}, 0);
+
+
+	$(".menu-cart-modal .kcal.total").text(kcalResult.toLocaleString('ko-KR'));
+	$(".menu-cart-modal .won.total").text(priceResult.toLocaleString('ko-KR'));
+}
+
+function btnClick() { 
+	var checkSet = $("#insertCart").find(".set").length;
+	console.log(checkSet);
+	var t = $("#insertCart").serializeArray();
+	var arr = {
+		
+	};
+	var dough={};
+		
+	var totalArr = [];
+	var flag=0;
+	console.log(t);
+	while(flag<checkSet){
+		for(var key in t){
+			if(t[key].name=="_csrf"){
+				arr.csrf = t[key].value;
+				totalArr.push(arr);	
+			}else if(t[key].name=="DOUGH"){
+				dough.dough = t[key].value;
+			}else if(t[key].name=="SAUCE"){
+				dough.sauce = t[key].value;
+			}else if(t[key].name=="TOPPING1"){
+				dough.topping1 = t[key].value;
+			}else if(t[key].name=="TOPPING2"){
+				dough.topping2 = t[key].value;
+			}else if(t[key].name=="TOPPING3"){
+				dough.topping3 = t[key].value;
+			}else if(t[key].name=="TOPPING4"){
+				dough.topping4 = t[key].value;
+			}else if(t[key].name=="TOPPING5"){
+				dough.topping5 = t[key].value;
+			}else{
+				break;
+			}
+			console.log(totalArr);
+		}
+		totalArr.push(dough);
+		console.log(totalArr);
+		flag++;
+	}
+	
+	
+	
+}
+		
+	
+	
+
+/*function serialize (rawData) {
+	console.log(rawData);
+	let test = [];
+    let rtnData = {}; 
+    for (let [key, value] of rawData) {
+		let sel = document.querySelectorAll("[name=" + key + "]");
+	  
+		// Array Values 
+		if (sel.length > 1) {
+			if (rtnData[key] === undefined) {
+				rtnData[key] = []; 
+			} 
+			rtnData[key].push(value); 
+		} 
+		// Other 
+		else { 
+			rtnData[key] = value;
+		} 
+	} 
+	return rtnData;
+}*/
+
+function serialize (rawData) {
+	console.log(JSON.stringify(rawData));
+}

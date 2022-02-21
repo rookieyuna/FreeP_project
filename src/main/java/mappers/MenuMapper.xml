@@ -99,4 +99,12 @@
   		SELECT * FROM product order by p_code asc
   	</select>
 
+
+
+	<insert id="insertCart" parameterType="String">
+  		INSERT INTO cart(ct_idx, m_code, ct_code, ct_name, ct_count)
+			SELECT seq_ct_idx.nextval, #{param2}, #{param1}, P.p_name, 1 
+			FROM product P
+            WHERE P.p_code = #{param1}
+  	</insert>
   </mapper>

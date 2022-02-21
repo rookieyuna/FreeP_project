@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -70,13 +71,16 @@
                                 </button>
                                 <div class="menu-cart-modal">
                                     <h4>선택품목</h4>
-                                    <form action="#" id="orderCart" name="orderCart" method="post" onsubmit="" >
+                                    <form action="./insertCart.do" id="insertCart" name="insertCart" method="post" onsubmit="" >
+                                    <input type="hidden"
+										name="${_csrf.parameterName}"
+										value="${_csrf.token}"/>
                                     <table class="cart-modal-wrap">
                                         <tbody>
                                            
                                         </tbody>
                                     </table>
-
+									</form>
                                     <div class="DIY-cart-mypick">
                                         <h5><span>FreeP</span>이런 토핑은 어떠세요?</h5>
                                         <ul>
@@ -86,9 +90,9 @@
                                         </ul>
                                     </div>
                                     <div class="fx cart-total">
-                                        <p><span>총 선택정보</span><span class="kcal total">1024</span><span class="won total">22,000</span></p>
+                                        <p><span>총 선택정보</span><span class="kcal total">0</span><span class="won total">0</span></p>
                                     </div>
-                                    <a href="/FreeP/common/cart.html" class="cart-btn">장바구니 담기</a>
+                                    <button type="submit" class="cart-btn" form="insertCart">장바구니 담기</button>
                                 </div>
                             </div>
 
@@ -108,7 +112,7 @@
 
                             <ul class="NORMALmenu now-product normalPizza">
                                 <!-- 피자&사이드 -->
-							<c:forEach items="${lists }" var="row">
+							<c:forEach items="${lists }" var="row" begin="0" step="2">
 							<c:if test="${row.g_code eq 1}">	
 							<c:if test="${fn:contains(row.p_code, '111100')}">
                                 <li class="select-item">
@@ -125,11 +129,14 @@
                                                 <span class="label limit">기간한정</span>
                                             </div>
                                         </div>
+                                        <div class="prd-origin">
+                                            <p style="display:none;"><span class="kcal info1">${row.p_info1 }</span><span class="kcal info2">${row.p_info }</span></p>
+                                        </div>
                                     </div>
                                     <div class="prd-price">
                                         <div class="price-box">
-                                            <span class="size_l">${row.p_size }</span><span class="price1 won">${row.p_price }</span>
-                                            <span class="size_m">M</span><span class="price2 won">6000</span>
+                                            <span class="size_l">${row.p_size1 }</span><span class="price1 won"><fmt:formatNumber value="${row.p_price1 }" pattern="#,###" /></span>
+                                            <span class="size_m">${row.p_size }</span><span class="price2 won"><fmt:formatNumber value="${row.p_price }" pattern="#,###" /></span>
                                         </div>
                                     </div>
                                     <div class="hashtag">
@@ -153,13 +160,13 @@
 							
                             <ul class="NORMALmenu now-product normalPizza">
                                 <!-- 피자&사이드 -->
- 							<c:forEach items="${lists }" var="row">
+ 							<c:forEach items="${lists }" var="row" begin="0" step="2">
 							<c:if test="${row.g_code eq 1}">	
 							<c:if test="${fn:contains(row.p_code, '111101')}">
                                 <li class="select-item">
                                     <div class="prd-img">
                                         <img class="lazyload"
-                                            src="../uploads/../uploads/${row.p_sfile }"
+                                            src="../uploads/../uploads/../uploads/${row.p_sfile }"
                                             alt="${row.p_name }">
                                     </div>
                                     <div class="prd-cont">
@@ -170,11 +177,14 @@
                                                 <span class="label limit">기간한정</span>
                                             </div>
                                         </div>
+                                        <div class="prd-origin">
+                                            <p style="display:none;"><span class="kcal info1">${row.p_info1 }</span><span class="kcal info2">${row.p_info }</span></p>
+                                        </div>
                                     </div>
                                     <div class="prd-price">
                                         <div class="price-box">
-                                            <span class="size_l">${row.p_size }</span><span class="price1 won">${row.p_price }</span>
-                                            <span class="size_m">M</span><span class="price2 won">6000</span>
+                                            <span class="size_l">${row.p_size1 }</span><span class="price1 won"><fmt:formatNumber value="${row.p_price1 }" pattern="#,###" /></span>
+                                            <span class="size_m">${row.p_size }</span><span class="price2 won"><fmt:formatNumber value="${row.p_price }" pattern="#,###" /></span>
                                         </div>
                                     </div>
                                     <div class="hashtag">
@@ -197,13 +207,13 @@
 
                             <ul class="NORMALmenu now-product normalPizza">
                                 <!-- 피자&사이드 -->
-							<c:forEach items="${lists }" var="row">
+							<c:forEach items="${lists }" var="row" begin="0" step="2">
 							<c:if test="${row.g_code eq 1}">	
 							<c:if test="${fn:contains(row.p_code, '111102')}">
                                 <li class="select-item">
                                     <div class="prd-img">
                                         <img class="lazyload"
-                                            src="../uploads/../uploads/${row.p_sfile }"
+                                            src="../uploads/../uploads/../uploads/${row.p_sfile }"
                                             alt="${row.p_name }">
                                     </div>
                                     <div class="prd-cont">
@@ -214,11 +224,14 @@
                                                 <span class="label limit">기간한정</span>
                                             </div>
                                         </div>
+                                        <div class="prd-origin">
+                                            <p style="display:none;"><span class="kcal info1">${row.p_info1 }</span><span class="kcal info2">${row.p_info }</span></p>
+                                        </div>
                                     </div>
                                     <div class="prd-price">
                                         <div class="price-box">
-                                            <span class="size_l">${row.p_size }</span><span class="price1 won">${row.p_price }</span>
-                                            <span class="size_m">M</span><span class="price2 won">6000</span>
+                                            <span class="size_l">${row.p_size1 }</span><span class="price1 won"><fmt:formatNumber value="${row.p_price1 }" pattern="#,###" /></span>
+                                            <span class="size_m">${row.p_size }</span><span class="price2 won"><fmt:formatNumber value="${row.p_price }" pattern="#,###" /></span>
                                         </div>
                                     </div>
                                     <div class="hashtag">
@@ -241,13 +254,13 @@
 
                             <ul class="NORMALmenu now-product normalPizza">
                                 <!-- 피자&사이드 -->
-							<c:forEach items="${lists }" var="row">
+							<c:forEach items="${lists }" var="row" begin="0" step="2">
 							<c:if test="${row.g_code eq 1}">	
 							<c:if test="${fn:contains(row.p_code, '111103')}">
                                 <li class="select-item">
                                     <div class="prd-img">
                                         <img class="lazyload"
-                                            src="../uploads/../uploads/${row.p_sfile }"
+                                            src="../uploads/../uploads/../uploads/${row.p_sfile }"
                                             alt="${row.p_name }">
                                     </div>
                                     <div class="prd-cont">
@@ -258,11 +271,14 @@
                                                 <span class="label limit">기간한정</span>
                                             </div>
                                         </div>
+                                        <div class="prd-origin">
+                                            <p style="display:none;"><span class="kcal info1">${row.p_info1 }</span><span class="kcal info2">${row.p_info }</span></p>
+                                        </div>
                                     </div>
                                     <div class="prd-price">
                                         <div class="price-box">
-                                            <span class="size_l">${row.p_size }</span><span class="price1 won">${row.p_price }</span>
-                                            <span class="size_m">M</span><span class="price2 won">6000</span>
+                                            <span class="size_l">${row.p_size1 }</span><span class="price1 won"><fmt:formatNumber value="${row.p_price1 }" pattern="#,###" /></span>
+                                            <span class="size_m">${row.p_size }</span><span class="price2 won"><fmt:formatNumber value="${row.p_price }" pattern="#,###" /></span>
                                         </div>
                                     </div>
                                     <div class="hashtag">

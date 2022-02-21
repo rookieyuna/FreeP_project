@@ -1,9 +1,13 @@
 package menu;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
+import cart.CartDTO;
 import util.ParameterDTO;
 
 
@@ -25,4 +29,9 @@ public interface MenuImpl {
 	public String selectsfile(String p_code);
 	
 	public ArrayList<MenuVO> selectAllmenu();
+	
+	public void insertCart(@Param("code") String code, @Param("m_codeStr") String a);
+	
 }
+
+

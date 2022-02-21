@@ -3,7 +3,13 @@ package com.kosmo.freepproject;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,11 +20,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.HandlerMapping;
 
 import board.BoardDAOImpl;
+import cart.CartDTO;
+import cart.CartImpl;
 import menu.MenuImpl;
 import menu.MenuVO;
 import util.PagingUtil_menu;
@@ -318,18 +327,20 @@ public class MenuController {
 	
 	
 	@RequestMapping(value={"/order/orderDIY.do", "/order/orderDrink.do", "/order/orderSide.do", "/order/orderNormal.do"})
-	public String orderDIY(Model model, HttpServletRequest req) {
+	public String menuList(Model model, HttpServletRequest req) {
 		String requestUrl = (String)req.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
 
 		ArrayList<MenuVO> lists =
 			sqlSession.getMapper(MenuImpl.class).selectAllmenu();
 		
-		for(int i=0 ; i < lists.size()-1 ; i+=2) {
+		for(int i=0 ; i < lists.size()-1; i++) {
 			if(lists.get(i).getP_name().equals(lists.get(i+1).getP_name())) {
 				lists.get(i).setP_price1(lists.get(i+1).getP_price());
-				lists.get(i).setP_size1(lists.get(i+1).getP_size());												
+				lists.get(i).setP_size1(lists.get(i+1).getP_size());
+				lists.get(i).setP_info1(lists.get(i+1).getP_info());
 			}
 		}
+
 		model.addAttribute("lists", lists);
 		
 		if(requestUrl.equals("/order/orderDIY.do")) {
@@ -344,4 +355,46 @@ public class MenuController {
 	    	return "";
 	    }
 	}	
+	
+	// 장바구니 등록
+	@RequestMapping(value={"/order/insertCart.do"}, method=RequestMethod.POST)
+	public String insertCart(Model model, HttpServletRequest req, Principal principal) {
+		String requestUrl = (String)req.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
+		String referer = req.getHeader("Referer");
+		
+		//회원코드 
+		String user_id = "";
+		user_id = principal.getName();
+		System.out.println("user_id="+ user_id);
+		int m_code = 
+				sqlSession.getMapper(BoardDAOImpl.class).findm_code(user_id);
+		String m_codeStr = Integer.toString(m_code);
+
+		try {
+			if(referer.contains("orderDIY")) {
+				// DOUGH / SAUCE / TOPPING1~5
+				String[] dough = (String[]) req.getParameterValues("dough");
+				String[] SAUCE = (String[]) req.getParameterValues("dough");
+				String[] TOPPING1 = (String[]) req.getParameterValues("dough");
+//				
+			}else {
+				String[] code = (String[]) req.getParameterValues("ct_code");
+				
+				for(int i=0; i<code.length; i++) {
+					System.out.println("code : "+code[i]);
+					sqlSession.getMapper(MenuImpl.class).insertCart(code[i], m_codeStr);
+				}
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+		// 장바구니 담기 후 이전 페이지(주문하기)이동
+		return "redirect:"+ referer;
+	}
 }
+
+

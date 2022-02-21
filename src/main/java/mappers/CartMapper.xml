@@ -50,6 +50,7 @@
 		delete from cart where ct_idx=#{param1}
 	</delete>
 	
+
 	<delete id="deleteCartall">
 		delete from cart where m_code=#{param1}
 	</delete>
@@ -57,4 +58,5 @@
 	<update id="updateCart">
 		update cart set ct_count=#{param1} where ct_idx=#{param2}
 	</update>
+
   </mapper>

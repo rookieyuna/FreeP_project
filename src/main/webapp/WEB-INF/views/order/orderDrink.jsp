@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -78,14 +79,18 @@
                                 </button>
                                 <div class="menu-cart-modal">
                                     <h4>선택품목</h4>
-                                    <form action="#" id="orderCart" name="orderCart" method="post" onsubmit="" >
+                                    <form action="./insertCart.do" id="insertCart" name="insertCart" method="post" onsubmit="" >
+                                    <input type="hidden"
+										name="${_csrf.parameterName}"
+										value="${_csrf.token}"/>
                                     <table class="cart-modal-wrap">
                                         <tbody>
                                             <!-- set 시작 -->
                                             
                                         </tbody>
                                     </table>
-
+									</form>
+									
                                     <div class="DIY-cart-mypick">
                                         <h5><span>FreeP</span>이런 토핑은 어떠세요?</h5>
                                         <ul>
@@ -95,9 +100,9 @@
                                         </ul>
                                     </div>
                                     <div class="fx cart-total">
-                                        <p><span>총 선택정보</span><span class="kcal total">1024</span><span class="won total">22,000</span></p>
+                                        <p><span>총 선택정보</span><span class="kcal total">0</span><span class="won total">0</span></p>
                                     </div>
-                                    <a href="/FreeP/common/cart.html" class="cart-btn">장바구니 담기</a>
+                                    <button type="submit" class="cart-btn" form="insertCart">장바구니 담기</button>
                                 </div>
                             </div>
 
@@ -129,7 +134,7 @@
                                     </div>
                                     <div class="prd-price">
                                         <div class="price-box">
-                                            <span class="price1 won">${row.p_price }</span>
+                                            <span class="price1 won"><fmt:formatNumber value="${row.p_price }" pattern="#,###" /></span>
                                         </div>
                                     </div>
                                     <div class="hashtag">

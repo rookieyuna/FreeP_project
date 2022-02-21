@@ -10,11 +10,21 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
-		<bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<bean name="dataSourceSpied" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 	    <property name="driverClassName" value="oracle.jdbc.OracleDriver" />
 	    <property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" />
 	    <property name="username" value="freep" />
 	    <property name="password" value="1234" />    
 	</bean>		
+	<bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">           
+	    <constructor-arg ref="dataSourceSpied" />               
+	    <property name="logFormatter">                   
+	      <bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">                       
+	        <property name="loggingType" value="MULTI_LINE" />                       
+	        <property name="sqlPrefix" value="SQL : "/>                   
+	      </bean>              
+	    </property>       
+  	</bean>
+
 			
 </beans>

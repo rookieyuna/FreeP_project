@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -78,7 +80,10 @@
                                 </button>
                                 <div class="menu-cart-modal">
                                     <h4>선택품목</h4>
-                                    <form action="#" id="orderCart" name="orderCart" method="post" onsubmit="" >
+                                     <form action="./insertCart.do" id="insertCart" name="insertCart" method="post" onsubmit="" >
+                                    <input type="hidden"
+										name="${_csrf.parameterName}"
+										value="${_csrf.token}"/>
                                     <table class="cart-modal-wrap">
                                         <tbody>
                                             <!-- set 시작 -->
@@ -86,7 +91,7 @@
 
                                         </tbody>
                                     </table>
-
+									</form>
                                     <div class="DIY-cart-mypick">
                                         <h5><span>FreeP</span>이런 토핑은 어떠세요?</h5>
                                         <ul>
@@ -96,9 +101,9 @@
                                         </ul>
                                     </div>
                                     <div class="fx cart-total">
-                                        <p><span>총 선택정보</span><span class="kcal total">1024</span><span class="won total">22,000</span></p>
+                                        <p><span>총 선택정보</span><span class="kcal total">0</span><span class="won total">0</span></p>
                                     </div>
-                                    <a href="/FreeP/common/cart.html" class="cart-btn">장바구니 담기</a>
+                                    <button onclick="btnClick()">장바구니 담기</button>
                                 </div>
                             </div>
 							
@@ -147,14 +152,14 @@
                                                     <div class="order-name">${row.p_name }</div>
                                                 </div>
                                                 <div class="prd-origin">
-                                                    <p><span>원산지 : 국내산</span> / <span class="kcal">${row.p_info }</span></p>
+                                                    <p><span>원산지 : 국내산</span> / <span class="kcal info1">${row.p_info1 }</span><span class="kcal info2" style="display:none;">${row.p_info }</span></p>
                                                 </div>
                                             </div>
         
                                             <div class="prd-price">
                                                 <div class="price-box">
-                                                    <span class="size_l">${row.p_size1 }</span><span class="price1 won">${row.p_price1 }</span>
-                                                    <span class="size_m">${row.p_size } </span><span class="price2 won">${row.p_price }</span>
+                                                    <span class="size_l">${row.p_size1 }</span><span class="price1 won"><fmt:formatNumber value="${row.p_price1 }" pattern="#,###" /></span>
+                                                    <span class="size_m">${row.p_size }</span><span class="price2 won"><fmt:formatNumber value="${row.p_price }" pattern="#,###" /></span>
                                                 </div>
                                             </div>
                                         </li>
@@ -196,13 +201,13 @@
                                                     <div class="order-name">${row.p_name }</div>
                                                 </div>
                                                 <div class="prd-origin">
-                                                    <p><span>원산지 : </span>국내산</p>
+                                                    <p><span class="kcal">${row.p_info }</span></p>
                                                 </div>
                                             </div>
         
                                             <div class="prd-price">
                                                 <div class="price-box">
-                                                    <span class="price1 won">${row.p_price }</span>
+                                                    <span class="price1 won"><fmt:formatNumber value="${row.p_price }" pattern="#,###" /></span>                                                    
                                                 </div>
                                             </div>
                                         </li>
@@ -217,9 +222,10 @@
                                         토핑 ( 최대 5개 )
                                     </div>
                                     <ul class="DIYmenu_section_list now-product">
-                            <c:forEach items="${lists }" var="row" step="2">        
+                            <c:forEach items="${lists }" var="row" begin="1" step="2">        
                             <c:if test="${row.g_code eq 4}">         
                                         <li class="select-item">
+                                        	<p>${status.count }</p>
                                             <div class="prd-img">
                                                 <div>
                                                     <img class="lazyload"
@@ -244,14 +250,14 @@
                                                     <div class="order-name">${row.p_name }</div>
                                                 </div>
                                                 <div class="prd-origin">
-                                                    <p><span>원산지 : </span>국내산</p>
+                                                    <p><span>원산지 : 국내산</span> / <span class="kcal info1">${row.p_info1 }</span><span class="kcal info2" style="display:none;">${row.p_info }</span></p>
                                                 </div>
                                             </div>
         
                                             <div class="prd-price">
                                                 <div class="price-box">
-                                                    <span class="size_l">${row.p_size1 }</span><span class="price1 won">${row.p_price1 }</span>
-                                                    <span class="size_m">${row.p_size } </span><span class="price2 won">${row.p_price }</span>
+													<span class="size_l">${row.p_size1 }</span><span class="price1 won"><fmt:formatNumber value="${row.p_price1 }" pattern="#,###" /></span>
+                                                    <span class="size_m">${row.p_size }</span><span class="price2 won"><fmt:formatNumber value="${row.p_price }" pattern="#,###" /></span>
                                                 </div>
                                             </div>
                                         </li>
@@ -401,7 +407,7 @@
             </div>
         </div>
     </div>
-
+	<textarea name="" id="txtarea_json" cols="30" rows="10"></textarea>
     <footer id="footer">
         <%@ include file="../common/footer.jsp" %>
     </footer>
