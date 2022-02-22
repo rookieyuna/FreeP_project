@@ -51,7 +51,13 @@
 	</delete>
 
 
-
+	<!-- 매장검색 -->
+	<select id="getList" resultType="store.StoreVO" parameterType="util.ParameterDTO">
+	   SELECT * FROM store
+	   <if test="searchTxt!=null and !searchTxt.equals('')">
+	      WHERE ${searchField} LIKE '%'||#{searchTxt}||'%'
+	   </if>
+	</select>
 
 
 

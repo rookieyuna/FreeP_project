@@ -28,4 +28,7 @@ public interface StoreImpl {
 	//삭제처리
 	public int delete(String b_code);
 	
+	//매장검색 부분
+	public ArrayList<StoreVO> getList(ParameterDTO parameterDTO);
+	
 }
