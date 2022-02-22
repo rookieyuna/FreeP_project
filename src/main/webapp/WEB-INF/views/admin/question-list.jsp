@@ -34,7 +34,7 @@ $(function(){
 								</div>
 								<div>
 									1:1문의
-									<div class="page-title-subheading">손님이 1:1 문의한 목록</div>
+									<div class="page-title-subheading">1:1 문의 목록</div>
 								</div>
 							</div>
 							
@@ -48,7 +48,7 @@ $(function(){
 						<div class="col-lg-12">
 							<div class="main-card mb-3 card">
 								<div class="card-body">
-									<h5 class="card-title">1:1문의</h5>
+									<h5 class="card-title">1:1문의 목록</h5>
 									<form:form action="" id="boardlist">
 									<table class="mb-0 table table-striped" style="table-layout: fixed">
 										<colgroup>
@@ -75,7 +75,7 @@ $(function(){
 											<tr>
 												<th><input type="checkbox" name="chk" value="${row.b_idx }"></th>
 												<td >${row.writer }</td>
-												<td><a href="./detail.do?idx=${row.b_idx}">${row.title }</a></td>
+												<td><a href="./question-detail.do?idx=${row.b_idx}">${row.title }</a></td>
 												<td style="text-overflow:ellipsis; overflow:hidden; white-space:nowrap;" ><nobr>${row.contents}</nobr></td>
 												<td>${row.postdate }</td>
 												<td>
@@ -119,8 +119,7 @@ $(function(){
 									</div>
 									<div class="row mt-3">
 										<div class="col d-flex justify-content-end">
-											<button type="button" class="btn btn-primary"
-												onclick="location.href='board-write';">추가하기</button>
+											
 											<button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal">
 												삭제하기
                                         	</button>
