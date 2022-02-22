@@ -82,8 +82,8 @@ public class HomeController {
 	public String intro() {return "company/about/intro";}
 	@RequestMapping("/company/notice.do")
 	public String notice() {return "company/notice";}
-	@RequestMapping("/company/searchStore.do")
-	public String searchStore() {return "company/searchStore";}
+	//@RequestMapping("/company/searchStore.do")
+	//public String searchStore() {return "company/searchStore";}
 	
 	@RequestMapping("/etc/faq.do")
 	public String faq() {return "etc/faq";}

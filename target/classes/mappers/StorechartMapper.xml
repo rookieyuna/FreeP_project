@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace ="store.StorechartImpl">
+
+	<select id="getTotalCount" resultType="int" parameterType="util.ParameterDTO">
+	   SELECT COUNT(*) FROM store s inner join ordered o 
+	   	ON s.b_code=o.b_code
+	</select>
+
+	<select id="listPage" resultType="store.StorechartVO" parameterType="util.ParameterDTO">
+	 
+		SELECT s.b_code, b_name, cp_price, po_price, sum(total_price) total_price, 
+	    	to_char(to_date(or_date), 'YYYY-MM')
+	    FROM store s LEFT JOIN ordered o ON s.b_code=o.b_code
+	   	 WHERE or_date BETWEEN '2022-02-01' AND '2022-02-28'
+	    	GROUP BY s.b_code, b_name, credit, cp_price, po_price, 
+	       			to_char(to_date(or_date), 'YYYY-MM')
+	       		ORDER BY b_code
+	       		
+    </select>
+	
+	<!-- 차트에 넣을 데이터 -->
+	<!-- <select id="getDayPay" resultType="store.StorechartVO" >
+		SELECT s.b_code, b_name, sum(total_price) total_price
+			FROM store s LEFT JOIN ordered o ON s.b_code=o.b_code
+	   		 WHERE or_date BETWEEN '2022-02-01' AND '2022-02-28'
+	   		 	group by s.b_code, b_name, total_price, or_date
+			
+	
+			SELECT DAY, NVL(total_price, 0) total_price FROM (
+			    SELECT ROWNUM DAY
+			    FROM store 
+			    WHERE ROWNUM &lt;= (
+			        SELECT TO_CHAR(LAST_DAY(TO_DATE(#{yearMonth},'YYYY-MM')), 'DD') TM 
+			        FROM DUAL
+			    )
+			) s
+			LEFT OUTER JOIN (
+			    SELECT
+			    TO_CHAR(or_date, 'DD') AS DAY,
+			        SUM(total_price) AS PAY
+			    FROM ordered
+			    
+			    WHERE TO_CHAR(or_date, 'YYYY-MM') = #{yearMonth}
+			    
+			    GROUP BY TO_CHAR(or_date, 'DD')    
+			) o USING(DAY)
+			ORDER BY 1
+			
+	</select> -->
+	
+	<select id="getDayPay" resultType="map" >
+			SELECT b_code, or_date, NVL(total_price, 0) total_price FROM (
+			    SELECT ROWNUM b_code
+			    FROM ALL_OBJECTS  
+			    WHERE ROWNUM &lt;= (
+			        SELECT TO_CHAR(LAST_DAY(TO_DATE(#{or_date},'YYYY-MM')), 'DD') TM 
+			        FROM DUAL
+			    )
+			) A
+			LEFT OUTER JOIN (
+			    SELECT
+			    TO_CHAR(or_date, 'DD') AS or_date,
+			        SUM(total_price) AS total_price
+			    FROM ordered
+			    	WHERE TO_CHAR(or_date, 'YYYY-MM') = #{or_date}
+			    		GROUP BY TO_CHAR(or_date, 'DD')    
+			) B USING(b_code)
+			ORDER BY 1
+			
+	</select>
+	
+</mapper>
+ 
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
