@@ -19,4 +19,5 @@ public class MenuVO {
 		private String p_size1;
 		private String p_info1;
 	
+	
 }

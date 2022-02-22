@@ -26,6 +26,8 @@
         rel="stylesheet">
     <!-- js 라이브러리 영역 -->
     <script src="../js/jquery-3.6.0.js"></script>
+    
+    <meta name="csrf-token" content="${_csrf.token}"/>
 </head>
 
 <body id="body">
@@ -80,10 +82,7 @@
                                 </button>
                                 <div class="menu-cart-modal">
                                     <h4>선택품목</h4>
-                                     <form action="./insertCart.do" id="insertCart" name="insertCart" method="post" onsubmit="" >
-                                    <input type="hidden"
-										name="${_csrf.parameterName}"
-										value="${_csrf.token}"/>
+                                    <form action="./insertCart.do" id="insertCart" name="insertCart" method="post" onsubmit="" >
                                     <table class="cart-modal-wrap">
                                         <tbody>
                                             <!-- set 시작 -->
@@ -103,7 +102,7 @@
                                     <div class="fx cart-total">
                                         <p><span>총 선택정보</span><span class="kcal total">0</span><span class="won total">0</span></p>
                                     </div>
-                                    <button onclick="btnClick()">장바구니 담기</button>
+                                    <button id="insertCartDIYbtn" class="cart-btn" >장바구니 담기</button>
                                 </div>
                             </div>
 							

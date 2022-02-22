@@ -32,6 +32,8 @@ public interface MenuImpl {
 	
 	public void insertCart(@Param("code") String code, @Param("m_codeStr") String a);
 	
+	public void insertCartDiy(Map<String, Object> map);
+	
 }
 
 

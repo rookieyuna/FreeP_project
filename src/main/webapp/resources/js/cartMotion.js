@@ -323,78 +323,76 @@ function totalCart(){
 
 	$(".menu-cart-modal .kcal.total").text(kcalResult.toLocaleString('ko-KR'));
 	$(".menu-cart-modal .won.total").text(priceResult.toLocaleString('ko-KR'));
+
 }
 
-function btnClick() { 
-	var checkSet = $("#insertCart").find(".set").length;
-	console.log(checkSet);
-	var t = $("#insertCart").serializeArray();
-	var arr = {
+
+
+
+$(document).ready(function() {
+	
+	$("#insertCartDIYbtn").click(function(e){
+		e.stopPropagation();
+		var totalArr = [];
+		var jsonData = $("#insertCart").serializeArray();
+		var flag = $("#insertCart .set").length;
 		
-	};
-	var dough={};
-		
-	var totalArr = [];
-	var flag=0;
-	console.log(t);
-	while(flag<checkSet){
-		for(var key in t){
-			if(t[key].name=="_csrf"){
-				arr.csrf = t[key].value;
-				totalArr.push(arr);	
-			}else if(t[key].name=="DOUGH"){
-				dough.dough = t[key].value;
-			}else if(t[key].name=="SAUCE"){
-				dough.sauce = t[key].value;
-			}else if(t[key].name=="TOPPING1"){
-				dough.topping1 = t[key].value;
-			}else if(t[key].name=="TOPPING2"){
-				dough.topping2 = t[key].value;
-			}else if(t[key].name=="TOPPING3"){
-				dough.topping3 = t[key].value;
-			}else if(t[key].name=="TOPPING4"){
-				dough.topping4 = t[key].value;
-			}else if(t[key].name=="TOPPING5"){
-				dough.topping5 = t[key].value;
-			}else{
-				break;
+		if(jsonData.name=="_csrf"){
+			
+		}else{
+			for(var j=1; j<flag+1; j++){
+				eval("var set"+j+"={}");
 			}
-			console.log(totalArr);
+			
+			let i=0;
+			while(i<flag){
+				for(var key in jsonData){
+					
+					if(jsonData[key].name=="DOUGH"){
+						++i;
+						eval("set"+i).dough = jsonData[key].value;
+					}else if(jsonData[key].name=="SAUCE"){
+						eval("set"+i).sauce = jsonData[key].value;
+					}else if(jsonData[key].name=="TOPPING1"){
+						eval("set"+i).topping1 = jsonData[key].value;
+					}else if(jsonData[key].name=="TOPPING2"){
+						eval("set"+i).topping2 = jsonData[key].value;
+					}else if(jsonData[key].name=="TOPPING3"){
+						eval("set"+i).topping3 = jsonData[key].value;
+					}else if(jsonData[key].name=="TOPPING4"){
+						eval("set"+i).topping4 = jsonData[key].value;
+					}else if(jsonData[key].name=="TOPPING5"){
+						eval("set"+i).topping5 = jsonData[key].value;
+					}else{
+						console.log(error);
+					}
+					
+				}
+			}
+			for(var z=1; z<flag+1; z++){
+				totalArr.push(eval("set"+z));
+			}
 		}
-		totalArr.push(dough);
-		console.log(totalArr);
-		flag++;
+		reqAjaxCartDiy(totalArr);
+	});
+	
+	function reqAjaxCartDiy(sendData) {
+		$.ajax({
+			headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+		    , url:'./insertCartDiy.do'
+		    , method : 'POST'
+			, traditional: true
+		    , data: {
+				data: JSON.stringify(sendData)
+			}
+		    , dataType: 'json'
+			, success: function (res) {
+		        if (res.result) {
+		          alert("완료 되었습니다");
+		        }
+		     }
+		})	
 	}
-	
-	
-	
-}
-		
-	
-	
+});		
 
-/*function serialize (rawData) {
-	console.log(rawData);
-	let test = [];
-    let rtnData = {}; 
-    for (let [key, value] of rawData) {
-		let sel = document.querySelectorAll("[name=" + key + "]");
-	  
-		// Array Values 
-		if (sel.length > 1) {
-			if (rtnData[key] === undefined) {
-				rtnData[key] = []; 
-			} 
-			rtnData[key].push(value); 
-		} 
-		// Other 
-		else { 
-			rtnData[key] = value;
-		} 
-	} 
-	return rtnData;
-}*/
-
-function serialize (rawData) {
-	console.log(JSON.stringify(rawData));
-}
+	
