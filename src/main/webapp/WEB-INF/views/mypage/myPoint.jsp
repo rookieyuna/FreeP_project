@@ -72,52 +72,90 @@
                         <div class="CP-wrap">
                             <div class="tab-type6"><!--2020-01-03 클래스명수정-->
                                 <ul class="tabTab">
-                                    <li class="active"><button class="btnC1">내 쿠폰</button></li>
-                                    <li><button class="btnC1" onclick="location.href='myCoupon2.do';">내 적립금</button></li>
+                                    <li><button class="btnC1" onclick="location.href='myCoupon.do';">내 쿠폰</button></li>
+                                    <li class="active"><button class="btnC1">내 적립금</button></li>
                                 </ul>
                             </div>
+                                <div class="point-area">
+                                    <div class="table-type4">
+                                        <table class="myPoint_list">
+                                            <caption>나의 적립금 내역</caption>
 
-                            <div class="tab-list">
-                                <div class="coupon-area active">
-                                    <div class="myCoup_lsit table-type4">
-                                        <table class="myCP_list">
-                                            <caption>내 쿠폰 목록</caption>
-                                            <colgroup>
-                                                <col style="width:50%">
-                                                <col style="width:50%">
-                                            </colgroup>
                                             <thead>
                                             <tr>
-                                                <th>쿠폰명</th>
-                                                <th>유효기간</th>
+                                                <th>내용</th>
+                                                <th>적립금액</th>
+                                                <th>사용금액</th>
+                                                <th>적립/사용날짜</th>
                                             </tr>
                                             </thead>
-                                            
-                                            <c:choose>
-												<c:when test="${empty couponlist }">
+
+											<c:choose>
+												<c:when test="${empty pointlist }">
 						                    		<tbody class="board-list empty hide">
-		                                                <tr>
-		                                                    <td colspan="2">보유하신 쿠폰이 없습니다.</td>
-		                                                </tr>
+						                    			<tr>
+							                    			<td colspan="5">보유하신 적립금 내역이 없습니다.</td>
+						                    			</tr>
+		                                                <%-- <tr>
+		                                                    <!-- <td colspan="5">보유하신 적립금 내역이 없습니다.</td> -->
+		                                                    <td>회원가입 선물 적립금</td>
+		                                                    <td>+2,000원</td>
+		                                                    <td>0원</td>
+		                                                    <td>${regidate }</td>
+		                                                </tr> --%>
 		                                            </tbody>
 												</c:when>
 												<c:otherwise>
 													<tbody class="board-list fill">
-														<c:forEach items="${couponlist }" var="row">
+														<c:forEach items="${pointlist }" var="row">
 															<tr>
-			                                                    <td>[${row.cp_name }] ${row.cp_cate }</td>
-			                                                    <c:set var="issue_date" value="${row.issue_date }" />
-			                                                    <c:set var="expire_date" value="${row.expire_date }" />
-			                                                    <td>${fn:substring(issue_date, 0, 10)} ~ ${fn:substring(expire_date, 0, 10)}</td>
+			                                                    <td>피자 주문</td>
+			                                                    
+			                                                    <td>+<fmt:formatNumber value="${row.save_point }" pattern="#,###"/>원</td>
+			                                                    <c:choose>
+											                    	<c:when test="${row.po_price gt '0'}"><td>-<fmt:formatNumber value="${row.po_price }" pattern="#,###"/>원</td></c:when>
+											                    	<c:otherwise><td><fmt:formatNumber value="${row.po_price }" pattern="#,###"/>원</td></c:otherwise>
+											                    </c:choose>
+			                                                    <td>${row.or_date }</td>
 			                                                </tr>
 														</c:forEach>
+			                                                <%-- <tr>
+			                                                    <td>회원가입 선물 적립금</td>
+			                                                    <td>+2,000원</td>
+			                                                    <td>0원</td>
+			                                                    <c:set var="regidate" value="${regidate }" />
+			                                                    <td>${fn:substring(regidate, 0, 10)}</td>
+			                                                </tr> --%>
 													</tbody>
 												</c:otherwise>
                                             </c:choose>
+                                            <!-- 적립금 내역 없음 -->
+                                            <!-- <tbody class="board-list empty hide">
+                                                <tr>
+                                                    <td colspan="4">보유하신 적립금 내역이 없습니다.</td>
+                                                </tr>
+                                            </tbody>
+
+                                            적립금 내역 있음
+                                            <tbody class="board-list fill">
+                                                <tr>
+                                                    <td>적립</td>
+                                                    <td>회원가입 선물 적립금</td>
+                                                    <td>+2000원</td>
+                                                    <td>2022.02.06</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>사용</td>
+                                                    <td>피자 주문</td>
+                                                    <td>-1500원</td>
+                                                    <td>2022.02.08</td>
+                                                </tr>
+                                            </tbody> -->
                                         </table>
-                                    </div>
+                                    </div>                                    
                                 </div>
                             </div>
+                            
                             
                             <!-- 페이지 번호 -->
 							<div class="pagingArea">
@@ -135,7 +173,7 @@
                         </div>
 
 
-	
+
 
                     </article>
                 </div>

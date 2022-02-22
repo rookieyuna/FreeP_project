@@ -26,7 +26,45 @@
     <!-- js 라이브러리 영역 -->
     <script src="../js/jquery-3.6.0.js"></script>
 
+<script>
+$(".btnC1").click(function(){
+    if($(this).parent().hasClass("active")){
+    	if($(this).id=="point"){
+	    	$(location).attr("href", "./myCoupon.do?cate=point");
+    	}
+    	else if($(this).id=="coupon"){
+    		$(location).attr("href", "./myCoupon.do?cate=coupon");
+    	}
+    }else{
+        $(this).parent().toggleClass("active");
+        if($(this).id=="point"){
+	    	$(location).attr("href", "./myCoupon.do?cate=point");
+    	}
+    	else if($(this).id=="coupon"){
+    		$(location).attr("href", "./myCoupon.do?cate=coupon");
+    	}
+        $(this).parent().siblings().toggleClass("active");
 
+        var checkingIndex = $(this).parent().index();
+        
+        $(".tab-list>div").removeClass("active");
+        $(".tab-list>div:eq("+checkingIndex+")").toggleClass("active");
+    }
+});
+/* $(".btnC1").click(function(){
+    if($(this).parent().hasClass("active")){
+    	
+    }else{
+        $(this).parent().toggleClass("active"), $(this).attr('href')= "./myCoupon.do?cate=point";
+        $(this).parent().siblings().toggleClass("active"), $(this).attr('href')= "./myCoupon.do?cate=point";
+
+        var checkingIndex = $(this).parent().index();
+        
+        $(".tab-list>div").removeClass("active");
+        $(".tab-list>div:eq("+checkingIndex+")").toggleClass("active");
+    }
+}); */
+</script>
 </head>
 
 <body id="body">
@@ -72,10 +110,61 @@
                         <div class="CP-wrap">
                             <div class="tab-type6"><!--2020-01-03 클래스명수정-->
                                 <ul class="tabTab">
-                                    <li><button class="btnC1" onclick="location.href='myCoupon1.do';">내 쿠폰</button></li>
-                                    <li class="active"><button class="btnC1">내 적립금</button></li>
+                                    <li class="active"><button class="btnC1 myCP_list_btn" id="coupon">내 쿠폰</button></li>
+                                    <li><button class="btnC1 myCP_list_btn" id="point">내 적립금</button></li> <!-- onclick="location.href='./myCoupon.do?cate=point';" -->
                                 </ul>
                             </div>
+
+                            <div class="tab-list">
+                                <div class="coupon-area active">
+                                    <div class="myCoup_lsit table-type4">
+                                        <table class="myCP_list">
+                                            <caption>내 쿠폰 목록</caption>
+                                            <colgroup>
+                                                <col style="width:50%">
+                                                <col style="width:50%">
+                                            </colgroup>
+                                            <thead>
+                                            <tr>
+                                                <th>쿠폰명</th>
+                                                <th>유효기간</th>
+                                            </tr>
+                                            </thead>
+                                            
+                                            <c:choose>
+												<c:when test="${empty couponlist }">
+						                    		<tbody class="board-list empty hide">
+		                                                <tr>
+		                                                    <td colspan="2">보유하신 쿠폰이 없습니다.</td>
+		                                                </tr>
+		                                            </tbody>
+												</c:when>
+												<c:otherwise>
+													<tbody class="board-list fill">
+														<c:forEach items="${couponlist }" var="row">
+															<tr>
+			                                                    <td>[${row.cp_name }] ${row.cp_cate }</td>
+			                                                    <c:set var="issue_date" value="${row.issue_date }" />
+			                                                    <c:set var="expire_date" value="${row.expire_date }" />
+			                                                    <td>${fn:substring(issue_date, 0, 10)} ~ ${fn:substring(expire_date, 0, 10)}</td>
+			                                                </tr>
+														</c:forEach>
+													</tbody>
+												</c:otherwise>
+                                            </c:choose>
+                                        </table>
+                                    </div>
+                                    
+                                    <!-- 페이지 번호 -->
+									<div class="pagingArea">
+										<div class="common-pagingType-1">
+											<ul class="pagination">
+												${pagingImg }
+											</ul>
+										</div>
+									</div>
+                                </div>
+                                
                                 <div class="point-area">
                                     <div class="table-type4">
                                         <table class="myPoint_list">
@@ -149,19 +238,29 @@
                                                 </tr>
                                             </tbody> -->
                                         </table>
-                                    </div>                                    
+                                    </div>
+                                    
+                                    <!-- 페이지 번호 -->
+									<div class="pagingArea">
+										<div class="common-pagingType-1">
+											<ul class="pagination">
+												${pagingImg }
+											</ul>
+										</div>
+									</div>
+                                    
                                 </div>
                             </div>
                             
                             
                             <!-- 페이지 번호 -->
-							<div class="pagingArea">
+							<%-- <div class="pagingArea">
 								<div class="common-pagingType-1">
 									<ul class="pagination">
 										${pagingImg }
 									</ul>
 								</div>
-							</div>
+							</div> --%>
 
                             <!-- 적립금 -->
                             <div class="btn-wrap">

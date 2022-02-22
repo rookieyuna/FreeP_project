@@ -19,19 +19,9 @@ public class PagingUtil_front {
       */
       int intTemp = (((nowPage-1) / blockPage) * blockPage) + 1;
       
-      
-      
-      
-      //3.처음페이지 바로가기 & 이전페이지블럭 바로가기
+      //3.이전페이지블럭 바로가기
       if(intTemp != 1) {
-         //첫번째 페이지 블럭에서는 출력되지 않음
-         //두번째 페이지 블럭부터 출력됨.
-         pagingStr += ""
-           + "<a href='"+page+"nowPage=1' class='btn-prev' title='이전 페이지로 이동'><span class='hidden'>이전 페이지로 이동</span></a>";
-
-         //pagingStr += ""
-         //   + "<li class='page-item'><a class='page-link' href='"+page+"nowPage="+(intTemp-blockPage)+"'>"
-         //   + "<i class='bi bi-skip-start-fill'></i></a></li>";         
+    	  pagingStr += "<a href='"+page+"nowPage="+(intTemp-blockPage)+"' class='btn-prev' title='이전 페이지로 이동'><span class='hidden'>이전 페이지로 이동</span></a>";
       }
       
       //페이지표시 제어를 위한 변수
@@ -47,20 +37,16 @@ public class PagingUtil_front {
 
          }
          else {
-            pagingStr += "<a href='"+page+"nowPage="+intTemp+"'><span>"+intTemp+"</span></a>";
+        	 pagingStr += "<a href='"+page+"nowPage="+intTemp+"'><span>"+intTemp+"</span></a>";
          }
          intTemp++;
          blockCount++;
       }
       
       
-      //5.다음페이지블럭 & 마지막페이지 바로가기
+      //5.다음페이지블럭 바로가기
       if(intTemp <= totalPage) {
-         //pagingStr += "<li class='page-item'>"
-         //   + "<a class='page-link' href='"+page+"nowPage="+intTemp+"'>"
-         //   + "<i class='bi bi-skip-end-fill'></i></a></li>";
-         
-         pagingStr += "<a href='"+page+"nowPage="+totalPage+"' class='btn-next' title='다음 페이지로 이동'><span class='hidden'>다음 페이지로 이동</span></a>";
+    	  pagingStr += "<a href='"+page+"nowPage="+intTemp+"' class='btn-next' title='다음 페이지로 이동'><span class='hidden'>다음 페이지로 이동</span></a>";
  
       }      
 

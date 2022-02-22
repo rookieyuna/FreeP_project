@@ -26,45 +26,7 @@
     <!-- js 라이브러리 영역 -->
     <script src="../js/jquery-3.6.0.js"></script>
 
-<script>
-$(".btnC1").click(function(){
-    if($(this).parent().hasClass("active")){
-    	if($(this).id=="point"){
-	    	$(location).attr("href", "./myCoupon.do?cate=point");
-    	}
-    	else if($(this).id=="coupon"){
-    		$(location).attr("href", "./myCoupon.do?cate=coupon");
-    	}
-    }else{
-        $(this).parent().toggleClass("active");
-        if($(this).id=="point"){
-	    	$(location).attr("href", "./myCoupon.do?cate=point");
-    	}
-    	else if($(this).id=="coupon"){
-    		$(location).attr("href", "./myCoupon.do?cate=coupon");
-    	}
-        $(this).parent().siblings().toggleClass("active");
 
-        var checkingIndex = $(this).parent().index();
-        
-        $(".tab-list>div").removeClass("active");
-        $(".tab-list>div:eq("+checkingIndex+")").toggleClass("active");
-    }
-});
-/* $(".btnC1").click(function(){
-    if($(this).parent().hasClass("active")){
-    	
-    }else{
-        $(this).parent().toggleClass("active"), $(this).attr('href')= "./myCoupon.do?cate=point";
-        $(this).parent().siblings().toggleClass("active"), $(this).attr('href')= "./myCoupon.do?cate=point";
-
-        var checkingIndex = $(this).parent().index();
-        
-        $(".tab-list>div").removeClass("active");
-        $(".tab-list>div:eq("+checkingIndex+")").toggleClass("active");
-    }
-}); */
-</script>
 </head>
 
 <body id="body">
@@ -110,8 +72,8 @@ $(".btnC1").click(function(){
                         <div class="CP-wrap">
                             <div class="tab-type6"><!--2020-01-03 클래스명수정-->
                                 <ul class="tabTab">
-                                    <li class="active"><button class="btnC1 myCP_list_btn" id="coupon">내 쿠폰</button></li>
-                                    <li><button class="btnC1 myCP_list_btn" id="point">내 적립금</button></li> <!-- onclick="location.href='./myCoupon.do?cate=point';" -->
+                                    <li class="active"><button class="btnC1">내 쿠폰</button></li>
+                                    <li><button class="btnC1" onclick="location.href='myPoint.do?';">내 적립금</button></li>
                                 </ul>
                             </div>
 
@@ -154,113 +116,17 @@ $(".btnC1").click(function(){
                                             </c:choose>
                                         </table>
                                     </div>
-                                    
-                                    <!-- 페이지 번호 -->
-									<div class="pagingArea">
-										<div class="common-pagingType-1">
-											<ul class="pagination">
-												${pagingImg }
-											</ul>
-										</div>
-									</div>
-                                </div>
-                                
-                                <div class="point-area">
-                                    <div class="table-type4">
-                                        <table class="myPoint_list">
-                                            <caption>나의 적립금 내역</caption>
-
-                                            <thead>
-                                            <tr>
-                                                <th>내용</th>
-                                                <th>적립금액</th>
-                                                <th>사용금액</th>
-                                                <th>적립/사용날짜</th>
-                                            </tr>
-                                            </thead>
-
-											<c:choose>
-												<c:when test="${empty pointlist }">
-						                    		<tbody class="board-list empty hide">
-		                                                <tr>
-		                                                    <!-- <td colspan="5">보유하신 적립금 내역이 없습니다.</td> -->
-		                                                    <td>회원가입 선물 적립금</td>
-		                                                    <td>+2,000원</td>
-		                                                    <td>0원</td>
-		                                                    <td>${regidate }</td>
-		                                                </tr>
-		                                            </tbody>
-												</c:when>
-												<c:otherwise>
-													<tbody class="board-list fill">
-														<c:forEach items="${pointlist }" var="row">
-															<tr>
-			                                                    <td>피자 주문</td>
-			                                                    
-			                                                    <td>+<fmt:formatNumber value="${row.save_point }" pattern="#,###"/>원</td>
-			                                                    <c:choose>
-											                    	<c:when test="${row.po_price gt '0'}"><td>-<fmt:formatNumber value="${row.po_price }" pattern="#,###"/>원</td></c:when>
-											                    	<c:otherwise><td><fmt:formatNumber value="${row.po_price }" pattern="#,###"/>원</td></c:otherwise>
-											                    </c:choose>
-			                                                    <td>${row.or_date }</td>
-			                                                </tr>
-														</c:forEach>
-			                                                <tr>
-			                                                    <td>회원가입 선물 적립금</td>
-			                                                    <td>+2,000원</td>
-			                                                    <td>0원</td>
-			                                                    <c:set var="regidate" value="${regidate }" />
-			                                                    <td>${fn:substring(regidate, 0, 10)}</td>
-			                                                </tr>
-													</tbody>
-												</c:otherwise>
-                                            </c:choose>
-                                            <!-- 적립금 내역 없음 -->
-                                            <!-- <tbody class="board-list empty hide">
-                                                <tr>
-                                                    <td colspan="4">보유하신 적립금 내역이 없습니다.</td>
-                                                </tr>
-                                            </tbody>
-
-                                            적립금 내역 있음
-                                            <tbody class="board-list fill">
-                                                <tr>
-                                                    <td>적립</td>
-                                                    <td>회원가입 선물 적립금</td>
-                                                    <td>+2000원</td>
-                                                    <td>2022.02.06</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>사용</td>
-                                                    <td>피자 주문</td>
-                                                    <td>-1500원</td>
-                                                    <td>2022.02.08</td>
-                                                </tr>
-                                            </tbody> -->
-                                        </table>
-                                    </div>
-                                    
-                                    <!-- 페이지 번호 -->
-									<div class="pagingArea">
-										<div class="common-pagingType-1">
-											<ul class="pagination">
-												${pagingImg }
-											</ul>
-										</div>
-									</div>
-                                    
                                 </div>
                             </div>
                             
-                            
                             <!-- 페이지 번호 -->
-							<%-- <div class="pagingArea">
+							<div class="pagingArea">
 								<div class="common-pagingType-1">
 									<ul class="pagination">
 										${pagingImg }
 									</ul>
 								</div>
-							</div> --%>
+							</div>
 
                             <!-- 적립금 -->
                             <div class="btn-wrap">
@@ -269,7 +135,7 @@ $(".btnC1").click(function(){
                         </div>
 
 
-
+	
 
                     </article>
                 </div>
