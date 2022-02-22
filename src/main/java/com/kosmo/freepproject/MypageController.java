@@ -195,5 +195,12 @@ public class MypageController {
 		return "mypage/myReview";
 	}
 	
-	 
+
+	//리뷰 리스트
+	@RequestMapping("/mypage/myFavorite.do")
+	public String myFavorite(Principal principal, Model model, HttpServletRequest req) {
+		
+		
+		return "mypage/myFavorite";
+	} 
 }

@@ -59,7 +59,7 @@
                                     <li><a href="../mypage/myOrder.do">주문내역</a></li>
                                     <li><a href="../mypage/myCoupon.do">쿠폰/적립금</a></li>
                                     <li><a href="../mypage/myReview.do">MY리뷰</a></li>
-                                    <li><a href="#">나만의피자</a></li>
+                                    <li><a href="../mypage/myFavorite.do">나만의피자</a></li>
                                     <li><a href="#">1:1문의</a></li>
                                     <li><a href="#">정보수정</a></li>
                                 </ul>
