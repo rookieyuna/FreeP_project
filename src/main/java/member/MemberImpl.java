@@ -25,6 +25,14 @@ public interface MemberImpl {
 			@Param("_email") String email,
 			@Param("_grade") String grade);
 	
+	
+	//메인 회원가입
+	public int regAction(MemberVO memberVO);
+	
+	//아이디 중복체크
+	public int idChk(String id) throws Exception;
+	
+	
 	//기존 게시물의 내용을 읽어오기 위한 메서드
 	public MemberVO view(ParameterDTO parameterDTO);
 	

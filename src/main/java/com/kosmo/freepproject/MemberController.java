@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import member.MemberImpl;
 import member.MemberVO;
@@ -162,12 +163,36 @@ public class MemberController {
 		public String regStep1() {return "member/regStep1";}
 		//회원가입 두번째 페이지
 		@RequestMapping(value="/member/regist2.do", method=RequestMethod.POST)
-		public String regStep2() {
+		public String regStep2() {return "member/regStep2";}
+		
+		//회원가입 처리 입력값 DB로 넘기고 regStep3로 이동
+		@RequestMapping(value="/member/regAction.do" , method = RequestMethod.POST)
+		public String regAction(Model model, HttpServletRequest req) {
+			
+			String phone = req.getParameter("hand_tel1")+"-"+req.getParameter("hand_tel2")+"-"+req.getParameter("hand_tel3");
+			String email = req.getParameter("email1")+"@"+req.getParameter("email2");
+			String address = req.getParameter("address")+" "+req.getParameter("address2");
 			
 			
+			MemberVO memberVO = new MemberVO();
+			memberVO.setId(req.getParameter("id")); 
+			memberVO.setName(req.getParameter("name")); 
+			memberVO.setPass(req.getParameter("pass")); 
+			memberVO.setPhone(phone); 
+			memberVO.setEmail(email);
+			memberVO.setZipcode(req.getParameter("zipcode"));
+			memberVO.setAddress(address); 
+			System.out.println(memberVO);
+			sqlSession.getMapper(MemberImpl.class).regAction(memberVO);
 			
-			return "member/regStep2";}
-		//회원가입 세번째 페이지
-		@RequestMapping(value="/member/regist3.do" , method=RequestMethod.POST)
-		public String regStep3() {return "member/regStep3";}
+			return "member/regStep3";}
+		
+		//아이디 중복 체크
+		@ResponseBody
+		@RequestMapping(value="/member/id_check_person.do", method = RequestMethod.GET)
+		public int id_check_person(Model model, HttpServletRequest req) throws Exception{
+			String id = (String) req.getParameter("id");
+			return sqlSession.getMapper(MemberImpl.class).idChk(id);
+			
+		}
 }

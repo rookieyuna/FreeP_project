@@ -44,6 +44,18 @@
 		(seq_member_num.nextval, #{_id}, #{_name}, #{_pass}, #{_phone}, #{_email}, #{_grade})
 	</insert>
 	
+	<!-- 관리자 말고 메인 회원가입 -->
+	<insert id="regAction" parameterType="member.MemberVO">
+  		INSERT into member(m_code, id, name, pass, phone, email, zipcode, address )
+				VALUES (seq_member_num.nextval, #{id}, #{name}, #{pass}, #{phone}, #{email}, #{zipcode}, #{address})
+  	</insert>
+  	
+  	<!-- 아이디 중복체크 -->
+  	<select id="idChk" resultType="int">
+  		SELECT COUNT(*) FROM member WHERE id = #{id}
+  	
+  	</select>
+	
 	
 	<select id="view" resultType="member.MemberVO" parameterType="util.ParameterDTO">
 		SELECT * FROM member WHERE m_code=#{m_code}
