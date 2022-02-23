@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>  
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -58,58 +60,41 @@
                             </div>
 
                             <div class="board-view">
-                                <form id="newsForm" name="newsForm" method="post">
+                                <form:form id="newsForm" name="newsForm" method="post">
                                     <dl class="board-content">
-                                        <input type="hidden" id="type" name="type" value="N">
-                                        <input type="hidden" id="pageNo" name="pageNo" value="1">
-                                        <input type="hidden" id="search" name="search" value="subject">
-                                        <input type="hidden" id="condition" name="condition" value="">
-                                        <dt><strong>피자 가격 인상 안내</strong>
+                                        
+                                        <dt><strong>${dto.title}</strong>
                                             <ul>
-                                                <li>2022-01-27</li>
+                                                <li>${dto.postdate }</li>
                                                 <li>조회
-                                                    <span>375</span>
+                                                    <span>${dto.hits }</span>
                                                 </li>
                                             </ul>
                                         </dt>
                                         <dd>
                                             <p>
-                                                세계 배달 피자 리더 도미노피자를 사랑해주시는고객님들께 진심으로 감사드립니다.
-                                                <br>
-                                                한국 도미노피자는 최고 품질의 피자를 최상의 서비스로 제공해 드리기 위해 항상 최선을 다해왔습니다.<br>
-                                                하지만 지속적인 원가 상승으로 인해 2022년 1월 27일(목)부터 부득이하게
-                                                피자 10종의 가격을 인상하게 되었습니다.
-                                                <br>
-                                                (자세한 내용은 홈페이지 내 메뉴에서 확인 가능합니다.)
+                                            	
+                                              ${dto.contents }
                                             </p>
-                                            <p>&nbsp;</p>
-                                            <p>
-                                                고객 여러분의 넓은 이해와 양해를 부탁드리며
-                                                <br>
-                                                최고의 서비스와 최고의 메뉴로 고객님의 사랑과 관심에
-                                                <br>보답할 수 있도록 최선을 다 하겠습니다.
-                                            </p>
-                                            <p>감사합니다.</p>
+
                                         </dd>
                                     </dl>
                                     <ul class="board-button">
                                         <li>
                                             <span>이전</span>
-                                            <a href="https://web.dominos.co.kr/bbs/newsView?idx=2643#none"
-                                                onclick="goView('2645', 'view'); return false;">설 연휴(2월 1일) 영업매장 안내
+                                            <a href="./noticeView.do?idx=${pre.b_idx }">${pre.title }
                                             </a>
                                         </li>
                                         <li>
                                             <span>다음</span>
-                                            <a href="https://web.dominos.co.kr/bbs/newsView?idx=2643#none"
-                                                onclick="goView('2642', 'view'); return false;">도미챗/마이키친 APP 서비스 종료 안내
+                                            <a href="./noticeView.do?idx=${next.b_idx }">${next.title }
                                             </a>
                                         </li>
                                     </ul>
-                                </form>
+                                </form:form>
                             </div>
                             <div class="btn-wrap">
-                                <a href="" class="btn-type v2">목록</a>
+                                <a href="http://localhost:8081/freepproject/company/notice.do" class="btn-type v2">목록</a>
                             </div>
                         </article>
                     </div>

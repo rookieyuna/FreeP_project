@@ -38,4 +38,9 @@ public interface BoardDAOImpl {
 	public void deletefile(int a);
 	public void deletefile2(int a);
 	
+	public void updatehit(int a);
+	
+	public BoardDTO titlepre(int a); 
+	
+	public BoardDTO titlenext(int a);
 }

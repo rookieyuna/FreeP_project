@@ -90,5 +90,23 @@
   		WHERE b_idx=#{b_idx}
   	</update>
   	
+  	<update id="updatehit" parameterType="int">
+  		UPDATE board SET hits=hits+1 
+		WHERE b_idx=#{b_idx}
+  	</update>
+  	
+  	<select id="titlepre" resultType="board.BoardDTO" parameterType="int">
+  		SELECT * FROM (
+    SELECT Tb.*, rownum rNum from 
+        (SELECT B_IDX, title FROM board WHERE b_idx<![CDATA[<]]>#{b_idx} order by b_idx desc) Tb)
+	WHERE rNum=1
+  	</select>
+  	
+  	<select id="titlenext" resultType="board.BoardDTO" parameterType="int">
+  		SELECT * FROM (
+    SELECT Tb.*, rownum rNum FROM 
+        (SELECT B_IDX, title FROM board WHERE b_idx<![CDATA[>]]>#{b_idx} order by b_idx asc) Tb)
+	WHERE rNum=1
+  	</select>
   	
   </mapper>
