@@ -8,7 +8,7 @@
 $(function(){
 	$('#deletebtn').click(function(){
 		if($("input:checkbox[name=chk]:checked").length == 0){
-			alert("삭제할 항목을 체크해주세요");
+			alert("삭제할 항목을 체크해주세요.");
 		}else{
 			$('#boardlist').attr("action","./removechk.do").submit();			
 		}
