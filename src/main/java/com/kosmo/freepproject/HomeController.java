@@ -65,8 +65,8 @@ public class HomeController {
 	
 //	@RequestMapping("/community/review.do")
 //	public String review() {return "community/review";}
-	@RequestMapping("/community/event.do")
-	public String event() {return "community/event";}
+//	@RequestMapping("/community/event.do")
+//	public String event() {return "community/event";}
 	@RequestMapping("/community/question.do")
 	public String question() {return "community/question";}
 	
@@ -80,8 +80,8 @@ public class HomeController {
 	
 	@RequestMapping("/company/intro.do")
 	public String intro() {return "company/about/intro";}
-	@RequestMapping("/company/notice.do")
-	public String notice() {return "company/notice";}
+	//@RequestMapping("/company/notice.do")
+	//public String notice() {return "company/notice";}
 	//@RequestMapping("/company/searchStore.do")
 	//public String searchStore() {return "company/searchStore";}
 	

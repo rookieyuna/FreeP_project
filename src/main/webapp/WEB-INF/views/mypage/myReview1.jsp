@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -28,7 +31,7 @@
 
 <body id="body">
     <header id="header">
-        <%@ include file="../common/header.jsp" %>
+       <%@ include file="../common/header.jsp" %>
     </header>
 
     <div id="container">
@@ -48,11 +51,10 @@
                         <div class="menu-nav-wrap">
                             <div class="menu-nav">
                                 <ul>
-									<li><a href="../mypage/myMain.do">MY프리피</a></li>
+                                    <li><a href="../mypage/myMain.do">MY프리피</a></li>
                                     <li><a href="../mypage/myOrder.do">주문내역</a></li>
                                     <li><a href="../mypage/myCoupon.do">쿠폰/적립금</a></li>
-                                    <li class="active"><a href="../mypage/myReview.do">MY리뷰</a></li>
-                                    <li><a href="../mypage/myFavorite.do">나만의피자</a></li>
+                                    <li class="active"><a href="../mypage/myReview1.do">MY리뷰</a></li>
                                     <li><a href="../mypage/myQuestion.do">1:1문의</a></li>
                                     <li><a href="./myUserinfo.html">정보수정</a></li>
                                 </ul>
@@ -63,10 +65,18 @@
                             <h3 class="title-type">
                                 MY리뷰
                             </h3>
-                            <p>작성하신 리뷰를 확인해보세요</p>
+                            <p>작성하신 리뷰와 좋아요한 다른사람의 리뷰를 확인해보세요</p>
                         </div>
 
-                        <div class="myReview-wrap">
+                        <div class="CP-wrap">
+                            <div class="tab-type6"><!--2020-01-03 클래스명수정-->
+                                <ul class="tabTab">
+                                    <li class="active"><button class="btnC1">내가쓴리뷰</button></li>
+                                    <li><button class="btnC1" onclick="location.href='myReview2.do?';">좋아요리뷰</button></li>
+                                </ul>
+                            </div>
+
+                            <div class="myReview-wrap">
                             <div class="table-type4">
                                 <table>
                                     <colgroup>
@@ -270,6 +280,8 @@
                             </div>
                         </div>
 
+
+	
 
                     </article>
                 </div>

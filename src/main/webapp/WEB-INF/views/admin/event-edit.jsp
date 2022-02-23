@@ -15,6 +15,14 @@ $(function(){
 		const element1 = document.getElementById('element');
 		element1.innerHTML =
 			'<label for="exampleFile" class="col-sm-2 col-form-label">이미지</label><div class="col-sm-10"><input name="file" id="exampleFile" type="file" class="form-control-file" value="${dto.ofile }"> <small class="form-text text-muted">포스터나, 이미지 등록</small></div>';
+	})
+	$('#deletefile2').click(function(){
+		
+		var value1= document.getElementById('deleteofile2');
+		value1.value = "1";
+		const element1 = document.getElementById('element2');
+		element1.innerHTML =
+			'<label for="exampleFile" class="col-sm-2 col-form-label">이미지</label><div class="col-sm-10"><input name="file2" id="exampleFile" type="file" class="form-control-file" value="${dto.ofile2 }"> <small class="form-text text-muted">포스터나, 이미지 등록</small></div>';
 	}) 	
 })
 
@@ -79,6 +87,7 @@ $(function(){
 											class="form-control">${dto.contents }</textarea>
 									</div>
 								</div>
+								<!-- 파일1번 -->
 									<c:set var="file1" value="${dto.sfile }"/>
 									<input type="hidden" id="deleteofile" name="deleteofile" />
 									<c:if test="${empty file1}">
@@ -100,6 +109,34 @@ $(function(){
 													style="width:200px;float:left;" value="${dto.ofile }">							
 												<button type="button" class="btn btn-secondary" id="deletefile">파일 삭제
 												</button>
+											</div>
+										</div>
+									</c:if>
+									<!-- 파일2번 -->
+										<input type="hidden" name="pre_sfile2" value="${dto.sfile2}"/>
+									<c:set var="file2" value="${dto.sfile2 }"/>		
+									<input type="hidden" id="deleteofile2" name="deleteofile2" />						
+									<c:if test="${not empty file2}">
+										<div class="position-relative row form-group" id="element2">
+											<label for="exampleText" class="col-sm-2 col-form-label"></label>
+											<div class="col-sm-10">
+												
+												<input name="pre_file2" id="pre_file2" class="form-control"
+													style="width:200px;float:left;" value="${dto.ofile2 }">	
+													<%-- <input type="hidden" name="pre_sfile2" value="${dto.rv_sfile2}"/>	 --%>					
+												<button type="button" class="btn btn-secondary" id="deletefile2">파일 삭제
+												</button>
+											</div>
+										</div>
+									</c:if>
+									<c:if test="${empty file2}">
+									
+										<div class="position-relative row form-group">
+											<label for="exampleFile" class="col-sm-2 col-form-label">이미지</label>
+											<div class="col-sm-10">
+												<input name="file2" id="exampleFile" type="file"
+													class="form-control-file" value="${dto.ofile2 }"> <small
+													class="form-text text-muted">포스터나, 이미지 등록</small>
 											</div>
 										</div>
 									</c:if>

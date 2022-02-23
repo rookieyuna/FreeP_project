@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+  
 <!DOCTYPE html>
 <html lang="en">
 
@@ -92,7 +94,8 @@
                                         </div>
                                     </div>
                                     <div class="table-type3">
-                                        <p class="side">총 35건</p>
+                                    
+                                        <p class="side">총 ${totalRecordCount }건</p>
                                         <table>
                                             <caption>news</caption>
                                             <colgroup>
@@ -110,107 +113,37 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>402</td>
-                                                    <td><a href="./noticeView.html">
-                                                            <p>설날맞이 도미노콘 이벤트 당첨자 안내</p>
-                                                        </a></td>
-                                                    <td>2022-02-04</td>
-                                                    <td>21</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>401</td>
-                                                    <td>
-                                                        <a href="#">
-                                                            <p>설 연휴(2월 1일) 영업매장 안내</p>
-                                                        </a></td>
-                                                    <td>2022-01-28</td>
-                                                    <td>8715</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>400</td>
-                                                    <td>
-                                                        <a href="#">
-                                                            <p>피자 가격 인상 안내</p>
-                                                        </a></td>
-                                                    <td>2022-01-27</td>
-                                                    <td>372</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>399</td>
-                                                    <td>
-                                                        <a href="#">
-                                                            <p>도미챗/마이키친 APP 서비스 종료 안내</p>
-                                                        </a></td>
-                                                    <td>2022-01-26</td>
-                                                    <td>61</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>398</td>
-                                                    <td><a href="#">
-                                                            <p>음료(2종) 가격 인상 안내</p>
-                                                        </a></td>
-                                                    <td>2022-01-14</td>
-                                                    <td>255</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>397</td>
-                                                    <td><a href="#">
-                                                            <p>12월 31일(금) 연장 영업 안내</p>
-                                                        </a></td>
-                                                    <td>2021-12-30</td>
-                                                    <td>396</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>396</td>
-                                                    <td><a href="#">
-                                                            <p>크리스마스 이브(24일) 연장영업 안내</p>
-                                                        </a></td>
-                                                    <td>2021-12-23</td>
-                                                    <td>384</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>395</td>
-                                                    <td><a href="#">
-                                                            <p>날씨로 인한 배달 지연 안내</p>
-                                                        </a></td>
-                                                    <td>2021-12-17</td>
-                                                    <td>239</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>394</td>
-                                                    <td><a href="#">
-                                                            <p>'고스트버스터즈: 라이즈' 영화예매권 증정 이벤트</p>
-                                                        </a></td>
-                                                    <td>2021-12-08</td>
-                                                    <td>196</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>393</td>
-                                                    <td><a href="#">
-                                                            <p>음료(6종) 가격 인상 안내</p>
-                                                        </a></td>
-                                                    <td>2021-12-03</td>
-                                                    <td>281</td>
-                                                </tr>
+                                           	<c:choose>
+											<c:when test="${empty lists }">
+												<tr>
+													<td colspan="4">
+														등록된 공지사항이 없습니다.
+													</td>
+												</tr>
+											</c:when>
+											
+											<c:otherwise>
+												<c:forEach items="${lists }" var="row" ><!-- 리스트반복시작 -->
+												<tr>
+												<!-- start, end값 설정 확인 후 변수명 수정dto.b_idx  -->
+													<td>${row.b_idx }</td>
+													<td>
+														<a href="./noticeView.do?idx=${row.b_idx}&nowPage=${nowPage}">${row.title}</a>
+													</td>
+													<td>${row.postdate }</td>
+													<td>${row.hits }</td>
+												<!-- <td class="text-center">--</td> -->
+												</tr><!-- 리스트반복끝 -->
+												</c:forEach>
+											</c:otherwise>
+											</c:choose>
                                             </tbody>
                                         </table>
                                     </div>
                                     <div class="pagingArea">
-                                        <div class="common-pagingType-1">
-                                            <a href="#" class="btn-prev" title="이전 페이지로 이동"><span class="hidden">이전 페이지로 이동</span></a>
-                                            <a href="#none" title="현재 페이지" class="sel"><span>1</span></a>
-                                            <a href="#"><span>2</span></a>
-                                            <a href="#"><span>3</span></a>
-                                            <a href="#"><span>4</span></a>
-                                            <a href="#"><span>5</span></a>
-                                            <a href="#"><span>6</span></a>
-                                            <a href="#"><span>7</span></a>
-                                            <a href="#"><span>8</span></a>
-                                            <a href="#"><span>9</span></a>
-                                            <a href="#"><span>10</span></a>
-                                            <a href="#" class="btn-next" title="다음 페이지로 이동"><span class="hidden">다음 페이지로 이동</span></a>
-                                        </div>
+                                    	<div class="common-pagingType-1">
+                                    		${ pagingStr }
+                                        </div>	
                                     </div>
                                 </form>
                             </div>

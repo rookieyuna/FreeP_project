@@ -190,10 +190,15 @@ public class MypageController {
 	}
 		
 		
-	@RequestMapping("/mypage/myReview.do")
-	public String myReview() {
-		return "mypage/myReview";
+	@RequestMapping("/mypage/myReview1.do")
+	public String myRevie1w() {
+		return "mypage/myReview1";
 	}
+	@RequestMapping("/mypage/myReview2.do")
+	public String myReview2() {
+		return "mypage/myReview2";
+	}
+	
 	
 
 	//리뷰 리스트
@@ -202,5 +207,12 @@ public class MypageController {
 		
 		
 		return "mypage/myFavorite";
-	} 
+	}
+	
+	
+	//1:1문의목록페이지 이동
+	@RequestMapping("/mypage/myQuestion.do")
+	public String myQuestion() {
+		return "mypage/myQuestion";
+	}
 }

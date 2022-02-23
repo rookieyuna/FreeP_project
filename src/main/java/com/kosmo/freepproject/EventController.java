@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import board.BoardDAOImpl;
 import board.BoardDTO;
 import board.ParameterDTO;
+import review.ReviewBoardDAOImpl;
 import util.PagingUtil;
 
 @Controller
@@ -121,7 +122,7 @@ public class EventController {
 		//System.out.println("생성된UUID-2:"+ uuid);
 		return uuid;
 	}
-
+	//글쓰기 
 	@RequestMapping(value="/admin/eventAction.do", method=RequestMethod.POST)
 	public String writeAction(Model model, MultipartHttpServletRequest req) {
 
@@ -162,20 +163,34 @@ public class EventController {
 
 				//UUID를 통해 생성된 문자열과 확장자를 결합해서 파일명을 완성한다. 
 				saveFileName = getUuid() + ext;
-				
-				/*
-				 * System.out.println("saveFileName:  "+saveFileName);
-				 * System.out.println("path: asdf "+path);
-				 */
+
 				//물리적경로에 새롭게 생성된 파일명으로 파일 저장				
 				Path path1 = Paths.get(path+File.separator+saveFileName).toAbsolutePath();		
 	            mfile.transferTo(path1.toFile()); 
 	            
 	            boarddto.setOfile(originalName);
 	            boarddto.setSfile(saveFileName);
-			} 			
+			}
+			mfile = req.getFile("file2");
+			originalName = new String(mfile.getOriginalFilename().getBytes(),"UTF-8");
+			if("".equals(originalName)) {
+				originalName = "";
+				saveFileName = "";
+
+				boarddto.setOfile2(originalName);
+				boarddto.setSfile2(saveFileName);
+			}
+			else {			
+				String ext = originalName.substring(originalName.lastIndexOf('.'));
+				saveFileName = getUuid() + ext;
+	
+				Path path1 = Paths.get(path+File.separator+saveFileName).toAbsolutePath();		
+				mfile.transferTo(path1.toFile()); 
+				boarddto.setOfile2(originalName);
+				boarddto.setSfile2(saveFileName);
+			}
 			
-			  sqlSession.getMapper(BoardDAOImpl.class).write( boarddto );
+			  sqlSession.getMapper(BoardDAOImpl.class).writeEvent( boarddto );
 			 
 		}
 		catch(Exception e) {
@@ -185,7 +200,7 @@ public class EventController {
 		//쓰기 처리를 완료한 후 리스트로 이동
 		return "redirect:event.do";
 	}
-	
+	//상세보기
 	@RequestMapping("/admin/eventdetail.do")
 	public String detail(Model model, HttpServletRequest req) {
 		
@@ -214,7 +229,7 @@ public class EventController {
 		return "/admin/event-edit";
 	}
 
-	
+	//이벤트 수정
 	@RequestMapping(value="/admin/eventeditAction.do", method=RequestMethod.POST)
 	public String editAction(Model model, MultipartHttpServletRequest req) {
 
@@ -244,29 +259,22 @@ public class EventController {
 			{
 				boardDTO.setSfile(req.getParameter("pre_sfile"));
 				boardDTO.setOfile(req.getParameter("pre_file"));
-				
 			}
 			else
-			{
-				
+			{	
 				mfile = req.getFile("file");
-				
 				//한글깨짐방지 처리 후 전송된 파일명을 가져온다. 
 				originalName = new String(mfile.getOriginalFilename().getBytes(),"UTF-8");
-				
 				//서버로 전송된 파일이 없다면 while문의 처음으로 돌아간다. 
 				if("".equals(originalName)) {
 					originalName = "";
-					saveFileName = "";
-					
+					saveFileName = "";	
 				}
 				else {			
 					//파일명에서 확장자를 따낸다. 
-					String ext = originalName.substring(originalName.lastIndexOf('.'));
-					
+					String ext = originalName.substring(originalName.lastIndexOf('.'));	
 					//UUID를 통해 생성된 문자열과 확장자를 결합해서 파일명을 완성한다. 
-					saveFileName = getUuid() + ext;
-					
+					saveFileName = getUuid() + ext;	
 					//물리적경로에 새롭게 생성된 파일명으로 파일 저장				
 					Path path1 = Paths.get(path+File.separator+saveFileName).toAbsolutePath();		
 					mfile.transferTo(path1.toFile()); 
@@ -274,7 +282,43 @@ public class EventController {
 				boardDTO.setSfile(saveFileName ); 
 				boardDTO.setOfile( originalName); 
 			}
-			
+			//파일2번
+			var = req.getParameter("deleteofile2");
+			if(var.equals("1"))
+			{				
+				//기존에 있던 파일 uploads 폴더에서 삭제
+				String deletefile = req.getParameter("pre_sfile2");
+				File file = new File(path+File.separator+deletefile);
+				if(file.exists()) {					
+					file.delete();
+				}				
+				sqlSession.getMapper(BoardDAOImpl.class).deletefile2(Integer.parseInt(req.getParameter("pre_idx")));								
+			}
+			if(req.getParameter("pre_file2") != null)
+			{
+				boardDTO.setSfile2(req.getParameter("pre_sfile2"));
+				boardDTO.setOfile2(req.getParameter("pre_file2"));				
+			}
+			else {							
+				mfile = req.getFile("file2");
+				originalName = new String(mfile.getOriginalFilename().getBytes(),"UTF-8");
+				if("".equals(originalName)) {
+					originalName = "";
+					saveFileName = "";
+					
+					boardDTO.setOfile2(originalName);
+					boardDTO.setSfile2(saveFileName);
+				}
+				else {			
+					String ext = originalName.substring(originalName.lastIndexOf('.'));
+					saveFileName = getUuid() + ext;
+					
+					Path path1 = Paths.get(path+File.separator+saveFileName).toAbsolutePath();		
+					mfile.transferTo(path1.toFile()); 
+					boardDTO.setOfile2(originalName);				
+					boardDTO.setSfile2(saveFileName);
+				}
+			}
 			
 			boardDTO.setB_idx( Integer.parseInt(req.getParameter("pre_idx"))); 
 			boardDTO.setTitle( req.getParameter("title"));
@@ -305,10 +349,15 @@ public class EventController {
 
 			//기존에 있던 파일 uploads 폴더에서 삭제
 			String deletefile = req.getParameter("pre_sfile");
+			String deletefile2 = req.getParameter("pre_sfile2");
 			File file = new File(path+File.separator+deletefile);
+			File file2 = new File(path+File.separator+deletefile2);
 			if(file.exists()) {
 
 				file.delete();
+			}
+			if(file2.exists()) {
+				file2.delete();
 			}
 
 			sqlSession.getMapper(BoardDAOImpl.class).delete(
@@ -346,6 +395,12 @@ public class EventController {
 				if(file.exists()) {
 
 					file.delete();
+				}
+				sfile =
+						sqlSession.getMapper(BoardDAOImpl.class).selectsfile2(bd_no[i]);				
+				file = new File(path+File.separator+sfile);
+				if(file.exists()) {
+					file.delete(); 
 				}
 
 				sqlSession.getMapper(BoardDAOImpl.class).delete(

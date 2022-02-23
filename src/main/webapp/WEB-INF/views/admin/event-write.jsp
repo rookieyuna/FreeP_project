@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>     
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>      
 <%@ include file="./commons/header.jsp" %>
 <body>
 <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
@@ -68,6 +68,15 @@
 									<label for="exampleFile" class="col-sm-2 col-form-label">이미지</label>
 									<div class="col-sm-10">
 										<input name="file" id="exampleFile" type="file"
+											class="form-control-file"> <small
+											class="form-text text-muted">포스터나, 이미지 등록</small>
+									</div>
+								</div>
+								
+								<div class="position-relative row form-group">
+									<label for="exampleFile" class="col-sm-2 col-form-label">이미지</label>
+									<div class="col-sm-10">
+										<input name="file2" id="exampleFile" type="file"
 											class="form-control-file"> <small
 											class="form-text text-muted">포스터나, 이미지 등록</small>
 									</div>

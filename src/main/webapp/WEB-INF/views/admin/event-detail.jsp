@@ -80,12 +80,26 @@
 										
 									</div>								
 								</c:if>
+								
+								<c:set var="file" value="${dto.sfile2 }" />
+								<c:if test="${not empty file }">								
+									<div class="position-relative row form-group">
+										<label for="exampleFile" class="col-sm-2 col-form-label">이미지</label>
+										<a
+											href="download.do?fileName=${dto.sfile2 }&oriFileName=${dto.ofile2 }">
+											[다운로드] </a>		
+									</div>									
+									<div class="position-relative row form-group">
+										<label for="exampleFile" class="col-sm-2 col-form-label"></label>
+										<img src="../uploads/${dto.sfile2 }" alt="" width="200px" height="100px"/>		
+									</div>								
+								</c:if>
 								</form:form>
 
 								<div class="position-relative row form-check">
 									<div class="col-sm-10 offset-sm-2">
 										<button class="btn btn-primary" onclick="location.href='./eventedit.do?idx=${dto.b_idx}';">수정하기</button>
-										<button class="btn btn-success" onclick="location.href='./eventremove.do?idx=${dto.b_idx}&pre_sfile=${dto.sfile }';">삭제하기</button>
+										<button class="btn btn-success" onclick="location.href='./eventremove.do?idx=${dto.b_idx}&pre_sfile=${dto.sfile }&pre_sfile2=${dto.sfile2 }';">삭제하기</button>
 										
 									</div>
 								</div>

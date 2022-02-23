@@ -51,6 +51,12 @@
   		VALUES (seq_board_num.nextval, #{m_code}, #{b_cate}, #{title}, #{contents}, #{writer},#{ofile}, #{sfile}, #{q_category})
   	</insert>
   	
+  	<!-- 이벤트 글쓰기 -->
+  	<insert id="writeEvent" parameterType="board.BoardDTO">
+  		INSERT into board(b_idx, m_code, b_cate, title, contents, writer, ofile, sfile, ofile2, sfile2, q_category) 
+  		VALUES (seq_board_num.nextval, #{m_code}, #{b_cate}, #{title}, #{contents}, #{writer},#{ofile}, #{sfile}, #{ofile2}, #{sfile2}, #{q_category})
+  	</insert>
+  	
   	<select  id="findm_code" resultType="int">
   		SELECT m_code FROM member WHERE id=#{param1}
   	</select>
@@ -62,7 +68,7 @@
   	
   	<update id="edit" >
   		UPDATE board SET title =#{title}, contents=#{contents}, 
-  		sfile=#{sfile}, ofile=#{ofile} WHERE b_idx=#{b_idx}
+  		sfile=#{sfile}, ofile=#{ofile},sfile2=#{sfile2}, ofile2=#{ofile2} WHERE b_idx=#{b_idx}
   	</update>
   	
   	<delete id="delete">
@@ -72,11 +78,35 @@
   	<select id="selectsfile" resultType="String">  	
   		SELECT sfile FROM board WHERE b_idx = #{param1}
   	</select>
-  	
+  	<select id="selectsfile2" resultType="String">  	
+  		SELECT sfile2 FROM board WHERE b_idx = #{param1}
+  	</select>
   	<update id="deletefile">
   		UPDATE board SET ofile=null, sfile=null
   		WHERE b_idx=#{b_idx}
   	</update>
+  	<update id="deletefile2">
+  		UPDATE board SET ofile2=null, sfile2=null
+  		WHERE b_idx=#{b_idx}
+  	</update>
   	
+  	<update id="updatehit" parameterType="int">
+  		UPDATE board SET hits=hits+1 
+		WHERE b_idx=#{b_idx}
+  	</update>
+  	
+  	<select id="titlepre" resultType="board.BoardDTO" parameterType="int">
+  		SELECT * FROM (
+    SELECT Tb.*, rownum rNum from 
+        (SELECT B_IDX, title FROM board WHERE b_idx<![CDATA[<]]>#{b_idx} order by b_idx desc) Tb)
+	WHERE rNum=1
+  	</select>
+  	
+  	<select id="titlenext" resultType="board.BoardDTO" parameterType="int">
+  		SELECT * FROM (
+    SELECT Tb.*, rownum rNum FROM 
+        (SELECT B_IDX, title FROM board WHERE b_idx<![CDATA[>]]>#{b_idx} order by b_idx asc) Tb)
+	WHERE rNum=1
+  	</select>
   	
   </mapper>

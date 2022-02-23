@@ -14,6 +14,8 @@ public class BoardDTO {
 	private String writer;
 	private String ofile;
 	private String sfile;
+	private String ofile2;
+	private String sfile2;
 	private int q_category;
 	
 	

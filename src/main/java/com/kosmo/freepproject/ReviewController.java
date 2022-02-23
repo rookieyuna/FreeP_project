@@ -597,7 +597,8 @@ public class ReviewController {
 		boarddto.setOr_idx(Integer.parseInt(req.getParameter("or_idx"))); //주문번호
 		boarddto.setTitle(req.getParameter("title")); 
 		boarddto.setContents(req.getParameter("contents"));
-		boarddto.setWriter(name);
+		boarddto.setWriter(req.getParameter("writer"));
+		
 		//회원코드 가져오기 
 		int m_code = 
 				sqlSession.getMapper(ReviewBoardDAOImpl.class).findm_code(req.getParameter("id"));

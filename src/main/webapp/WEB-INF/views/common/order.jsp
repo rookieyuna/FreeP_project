@@ -42,6 +42,32 @@
 	    background-color: #ff6510;
 	    color: white;
 	}
+	.store{
+	    display: flex;
+	    align-items: center;
+	}
+	.couponlist{
+	font-size: 15px;
+    /* border: 1px; */
+    overflow: auto;
+    width: 800px;
+    height: 150px;
+	}
+	.couponlist .couponTable{
+	    width: 799px;
+    border-spacing: 5px;
+    border-collapse: separate;
+    border: 1px solid lightgray;
+	}
+	.couponlist .coupontr{
+		height: 30px;
+	}
+	.couponlist td{
+		font-weight: 500;
+	    display: table-cell;
+	    vertical-align: middle;
+	}
+	
 </style>
 <script>
 $(document).ready(function(){
@@ -66,6 +92,14 @@ $(document).ready(function(){
 	function sum(){		
 		var sum = document.getElementById("sum").innerText;
 		document.getElementById("sum").innerText = (sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+	}
+	function sum_discount(){		
+		var sum = document.getElementById("sum1").value;
+		document.getElementById("sum1_1").innerText = (sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+	}
+	function total(){		
+		var sum = document.getElementById("total").value;
+		document.getElementById("total_1").innerText = (sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
 	}
 </script>
 <script>
@@ -282,16 +316,45 @@ function fn_custInfo(){
                             </div>
                             <div class="discount-step">
                                 <ul>
-                                    <li id="myCoupon"><a href="#"
-                                            class="btn-type-brd5">프리피 온라인 쿠폰 선택</a></li>
+                                    <li id="myCoupon">
+                                    	<label class="btn-type-brd5">프리피 온라인 쿠폰 선택</label>
+                                    	<div class="couponlist">
+											<table class="couponTable">
+												<thead>
+													<tr>
+														<td style="width:30%"></td>
+														<td style="width:60%"></td>
+														<td style="width:10%"></td>
+													</tr>
+												</thead>
+												<tbody style="display:table-row-group;">
+													<tr class="coupontr">
+														<td>쿠폰이름</td>
+														<td>쿠폰내용</td>
+														<td>~ 만료일</td>
+													</tr>
+													<tr class="coupontr">
+														<td>쿠폰이름</td>
+														<td>쿠폰내용</td>
+														<td>~ 만료일</td>
+													</tr>
+													<tr class="coupontr">
+														<td>쿠폰이름</td>
+														<td>쿠폰내용</td>
+														<td>~ 만료일</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</li>
                                 </ul>
                                 <ul > 
                                     <li id="voucher">
-                                    	<label class="btn-type-brd5" onclick="fn_voucher();">포인트 사용하기</label>
+                                    	<label class="btn-type-brd5" onclick="fn_voucher(0);">포인트 사용하기</label>
                                         <div class="store">
-                                            <input type="text" id="customerName" class="point" placeholder="사용할 포인트 입력" value="" maxlength="10"/>
+                                            <!-- <input type="text" id="customerName" class="point" placeholder="사용할 포인트 입력" value="" maxlength="10"/>
                                            	<button type="button" class="point1">사용</button>
-                                            <label class="point2">사용가능포인트 : </label>
+                                            <label class="point2">사용가능포인트 : </label> -->
                                         </div>
                                      </li>                           
                                 </ul>
@@ -299,10 +362,22 @@ function fn_custInfo(){
                         </div>
                         <!-- //할인 적용 -->
                         <script>
-                        function fn_voucher(){                       	
+                        function fn_voucher(discount){                       	
                         	var token = $("meta[name='_csrf']").attr("content");
                             var header = $("meta[name='_csrf_header']").attr("content");
                             
+                            if(discount != 0){
+                            	
+                            	var example = document.getElementById("sum1").value ;
+                            	if(( parseInt(example) - parseInt(discount)) < 0 ){
+                            		document.getElementById("sum1").value = 0;
+                            		}
+                            	document.getElementById("sum1").value = parseInt(example) - parseInt(discount);
+                            	var example = document.getElementById("total").value ;
+                            	document.getElementById("total").value = parseInt(example) + parseInt(discount);
+                            	sum_discount();
+                            	total();
+                            }
                          
                              $.ajax({ 
                                     url: "../order/cusPoint.do", 
@@ -313,22 +388,49 @@ function fn_custInfo(){
                                     async:false,
                                     dataType : "json",
                                     success : function(data){
+                                    	
                               			var tableData = "";
               								//form으로 하면 안될거같음. submit되면 새로고침처럼 화면이 맨 위로 가버려서.. validate따로 함수 만들어야할듯 버튼 onclick해서.. 
-                              			tableData += '<form><div class="store"><input type="number" id="customerName" class="point" placeholder="사용할 포인트 입력" value="" maxlength="10"';
+                              			tableData += '<div class="store"><input type="number" id="usePoint" class="point" placeholder="사용할 포인트 입력" value="" maxlength="10"';
                               			tableData += 'min="'+1000+'" max="'+data.point+'" step="100"/>';
-                              			tableData +='<button type="submit" class="point1">사용</button><label class="point2">사용가능포인트 :'+data.point+' </label></div></form>';
+                              			tableData +='<button type="button" class="point1" onclick="fn_point('+data.point+');">사용</button><span class="point2" style="font-size:14px";> 사용가능포인트 :'+data.point+' </span>';
+                              			tableData += '</div><span style="color:gray; font-size:13px;">* 포인트는 1000이상부터 100단위로 사용 가능합니다.</span>';
                               			
                                     	$('#voucher').html(tableData);   
+           	
                                     },
                                     error : function(request,statue,error){
                                     	alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"
                                     			+"\n"+"error:"+error)
                                     	
                                     }
-                                    });
-                          
-                                    
+                                    });      
+                        }
+                        
+                        function fn_point(data){
+                        	//포인트사용 버튼을 눌렀을때
+                        	//1. 값 Validate
+                        	var point = document.getElementById("usePoint").value;
+                        	
+                        	if(point < 1000 || point > data || (point % 100 != 0)){
+                        		alert("error");
+                        		return false;
+                        		
+                        	}
+                        	//validate를 통과했다면 
+                        	var tableData = "";
+                        	tableData += '<div class="store"><label class="btn-type-brd5" id="cuspoint">사용할 포인트 : '+point+'점</label>';
+                        	tableData += '<button type="button" class="point1" onclick="fn_voucher('+point+');">수정</button></div>';
+                        	$('#voucher').html(tableData); 
+                        	
+                        	var sum1 = document.getElementById("sum1_1").innerText; // -> 7180 제대로 읽어옴
+                        	//근데 parseInt()로 감싸면// 7180 그대로 나와야하는데 7이 나옵니다...
+                        	var sum2 = parseInt(sum1) + parseInt(point);
+                        	document.getElementById("sum1").value = sum2;
+                        	var example = document.getElementById("total").value ;
+                        	document.getElementById("total").value = example - sum2;
+                        	sum_discount();
+                        	total();
                         }
                         </script>
 
@@ -425,16 +527,19 @@ function fn_custInfo(){
                                         </li>
                                         <li class="discount">
                                             <p class="tit">총 할인 금액</p>
-                                            <p class="price"><em id="sum1">7,180</em>원</p>
+                                            <input type="hidden" id="sum1" value="0"/>
+                                            <p class="price"><em id="sum1_1">0</em>원</p>
                                         </li>
                                         <li class="total">
                                             <p class="tit">총 결제 금액</p>
-                                            <p class="price"><em id="total">28,720</em>원</p>
+                                            <input type="hidden" id="total" value="${sum }" />
+                                            <p class="price"><em id="total_1">${sum }</em>원</p>
                                         </li>
                                     </ul>
                                     
                                 </div>
-                                <script>sum();</script>
+                                <script>sum();
+                                sum_discount();total();</script>
                             </div>
                         </div>
                         <!-- // 결제 금액, 퀵 오더로 설정, 결제 및 주문완료 -->
