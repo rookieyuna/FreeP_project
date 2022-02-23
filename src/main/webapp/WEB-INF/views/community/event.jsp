@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -70,119 +71,46 @@
 
                                 <div class="con_inner_mid event_list">
                                     <ul id="eventListArea">
-                                        <li>
-                                            <a href="../eventView.html" target="_self">
-                                                <div class="img_wrap">
-                                                    <img
-                                                        src="../images/05community/20210401_7cAyiD07.jpg">
-                                                </div>
-                                                <div class="text_wrap">
-                                                    <div class="event_info now">프리피 Zero Waste 캠페인</div>
-                                                </div>
-                                            </a>
-                                        </li>
-
-                                        <li>
-                                            <a href="#" target="_self">
-                                                <div class="img_wrap">
-                                                    <img
-                                                        src="../images/05community/20210401_7cAyiD07.jpg">
-                                                </div>
-                                                <div class="text_wrap">
-                                                    <div class="event_info end">프리피 Zero Waste 캠페인</div>
-                                                </div>
-                                            </a>
-                                        </li>
-
-                                        <li>
-                                            <a href="#" target="_self">
-                                                <div class="img_wrap">
-                                                    <img
-                                                        src="../images/05community/20210401_7cAyiD07.jpg">
-                                                </div>
-                                                <div class="text_wrap">
-                                                    <div class="event_info end">프리피 Zero Waste 캠페인</div>
-                                                </div>
-                                            </a>
-                                        </li>
-
-                                        <li>
-                                            <a href="#" target="_self">
-                                                <div class="img_wrap">
-                                                    <img
-                                                        src="../images/05community/20210401_7cAyiD07.jpg">
-                                                </div>
-                                                <div class="text_wrap">
-                                                    <div class="event_info end">프리피 Zero Waste 캠페인</div>
-                                                </div>
-                                            </a>
-                                        </li>
-
-                                        <li>
-                                            <a href="#" target="_self">
-                                                <div class="img_wrap">
-                                                    <img
-                                                        src="../images/05community/20210401_7cAyiD07.jpg">
-                                                </div>
-                                                <div class="text_wrap">
-                                                    <div class="event_info end">프리피 Zero Waste 캠페인</div>
-                                                </div>
-                                            </a>
-                                        </li>
-
-                                        <li>
-                                            <a href="#" target="_self">
-                                                <div class="img_wrap">
-                                                    <img
-                                                        src="../images/05community/20210401_7cAyiD07.jpg">
-                                                </div>
-                                                <div class="text_wrap">
-                                                    <div class="event_info end">프리피 Zero Waste 캠페인</div>
-                                                </div>
-                                            </a>
-                                        </li>
-
-                                        <li>
-                                            <a href="#" target="_self">
-                                                <div class="img_wrap">
-                                                    <img
-                                                        src="../images/05community/20210401_7cAyiD07.jpg">
-                                                </div>
-                                                <div class="text_wrap">
-                                                    <div class="event_info end">프리피 Zero Waste 캠페인</div>
-                                                </div>
-                                            </a>
-                                        </li>
-
-                                        <li>
-                                            <a href="#" target="_self">
-                                                <div class="img_wrap">
-                                                    <img
-                                                        src="../images/05community/20210401_7cAyiD07.jpg">
-                                                </div>
-                                                <div class="text_wrap">
-                                                    <div class="event_info end">프리피 Zero Waste 캠페인</div>
-                                                </div>
-                                            </a>
-                                        </li>
-
+                                    
+                                    
+                                    <c:choose>
+										<c:when test="${empty lists }">
+											<li style="width: 100%;">
+	                                           <div class="event_list_empty" style="
+	                                               min-height: 390px;
+	                                               border-top: 1px solid #d9d9d9;
+	                                               border-bottom: 1px solid #d9d9d9;
+	                                               display: flex;
+	                                               justify-content: center;
+	                                               align-items: center;">
+	                                               <p style="text-align: center;">등록된 이벤트가 없습니다.</p>
+	                                           </div>
+	                                       </li>	
+										</c:when>
+											
+										<c:otherwise>
+											<c:forEach items="${lists }" var="row" ><!-- 리스트반복시작 -->
+													 <li>
+	                                            <a href="../eventView.do?${row.b_idx} " target="_self">
+	                                                <div class="img_wrap">
+	                                                    <img
+	                                                        src="../images/05community/${row.sfile}">
+	                                                </div>
+	                                                <div class="text_wrap">
+	                                                    <div class="event_info now">${row.title}</div>
+	                                                </div>
+	                                            </a>
+	                                        </li>
+											</c:forEach>
+										</c:otherwise>
+									</c:choose>
+                                    
 
                                     </ul>
                                     
                                     <div class="pagingArea">
                                         <div class="common-pagingType-1">
-                                            <a href="#" class="btn-prev" title="이전 페이지로 이동"><span class="hidden">이전 페이지로 이동</span></a>
-                                            <a href="#none" title="현재 페이지" class="sel"><span>1</span></a>
-                                            <a href="#"><span>2</span></a>
-                                            <a href="#"><span>3</span></a>
-                                            <a href="#"><span>4</span></a>
-                                            <a href="#"><span>5</span></a>
-                                            <a href="#"><span>6</span></a>
-                                            <a href="#"><span>7</span></a>
-                                            <a href="#"><span>8</span></a>
-                                            <a href="#"><span>9</span></a>
-                                            <a href="#"><span>10</span></a>
-                                            <a href="#" class="btn-next" title="다음 페이지로 이동"><span class="hidden">다음 페이지로 이동</span></a>
+                                           ${ pagingStr }
                                         </div>
                                     </div>
                                 </div>
