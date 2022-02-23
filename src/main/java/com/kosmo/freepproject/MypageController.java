@@ -2,7 +2,6 @@ package com.kosmo.freepproject;
 
 import java.security.Principal;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,15 +13,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import coupon.CouponVO;
-import member.MemberImpl;
-import member.MemberVO;
 import mypage.MypageImpl;
 import orderlist.OrderlistVO;
 import point.PointVO;
 import util.PagingUtil_front;
-import util.PagingUtil_main;
-import util.PagingUtil_mem;
-import util.PagingUtil_mypage;
 import util.ParameterDTO;
 
 @Controller
@@ -116,12 +110,11 @@ public class MypageController {
 		
 	
 	
-	//쿠폰, 적립금 리스트
+	//쿠폰리스트
 	@RequestMapping("/mypage/myCoupon.do")
 	public String myCoupon(Principal principal, Model model, HttpServletRequest req) {
 
 		ParameterDTO dto = new ParameterDTO();
-		dto.setCate(req.getParameter("cate"));
 		dto.setId(principal.getName());
 		String m_code = sqlSession.getMapper(MypageImpl.class).myMcode(dto);
 		dto.setM_code(m_code);
@@ -144,15 +137,39 @@ public class MypageController {
 		//출력할 쿠폰 select
 		ArrayList<CouponVO> couponlist = sqlSession.getMapper(MypageImpl.class).couponlist(dto);
 		
-//		String pagingImg = PagingUtil_mypage.pagingImg(myCouponCount,
-//	            pageSize, blockPage, nowPage, 
-//	            req.getContextPath()+"/mypage/myCoupon.do?cate=coupon");
-//		
-//		model.addAttribute("pagingImg", pagingImg);
+		String pagingImg = PagingUtil_front.pagingImg(myCouponCount,
+	            pageSize, blockPage, nowPage, 
+	            req.getContextPath()+"/mypage/myCoupon.do?");
+		
+		model.addAttribute("pagingImg", pagingImg);
 		model.addAttribute("couponlist", couponlist);
 		
+		return "mypage/myCoupon";
+	}
+	
+	
+	//적립금리스트
+	@RequestMapping("/mypage/myPoint.do")
+	public String myPoint(Principal principal, Model model, HttpServletRequest req) {
+
+		ParameterDTO dto = new ParameterDTO();
+		dto.setId(principal.getName());
+		String m_code = sqlSession.getMapper(MypageImpl.class).myMcode(dto);
+		dto.setM_code(m_code);
 		
-		////////////////////////////////////////////////////////////////////////////////////////
+		
+		int pageSize = 2; //한 페이지당 출력할 쿠폰의 개수
+		int blockPage = 2; //한 블럭당 출력할 페이지 번호의 개수
+		
+		int nowPage = (req.getParameter("nowPage")==null || req.getParameter("nowPage").equals(""))
+				? 1 : Integer.parseInt(req.getParameter("nowPage"));
+		
+		int start = (nowPage-1) * pageSize +1;
+		int end = nowPage * pageSize;
+		
+		dto.setStart(start);
+		dto.setEnd(end);
+		
 		//적립횟수 카운트(가입시 기본적립금 지급하므로 주문횟수+1)
 		int pointUpdateCount = sqlSession.getMapper(MypageImpl.class).myOrderCount(m_code) +1;
 		String regidate = sqlSession.getMapper(MypageImpl.class).myRegidate(m_code);
@@ -160,37 +177,30 @@ public class MypageController {
 		//출력할 적립금 내역 select
 		ArrayList<PointVO> pointlist = sqlSession.getMapper(MypageImpl.class).pointlist(dto);
 		
-//		String pagingImg2 = PagingUtil_mypage.pagingImg(pointUpdateCount,
-//	            pageSize, blockPage, nowPage, 
-//	            req.getContextPath()+"/mypage/myCoupon.do?cate=point");
+		String pagingImg = PagingUtil_front.pagingImg(pointUpdateCount,
+	            pageSize, blockPage, nowPage, 
+	            req.getContextPath()+"/mypage/myPoint.do?");
 		
-		if(req.getParameter("cate").equals("coupon")) {
-			String pagingImg = PagingUtil_mypage.pagingImg(myCouponCount,
-		            pageSize, blockPage, nowPage, 
-		            req.getContextPath()+"/mypage/myCoupon.do?cate=coupon");
-			
-			model.addAttribute("pagingImg", pagingImg);
-		}
-		else if(req.getParameter("cate").equals("point")) {
-			String pagingImg = PagingUtil_mypage.pagingImg(pointUpdateCount,
-		            pageSize, blockPage, nowPage, 
-		            req.getContextPath()+"/mypage/myCoupon.do?cate=point");
-			
-			model.addAttribute("pagingImg", pagingImg);
-		}
 		
+		model.addAttribute("pagingImg", pagingImg);
 		model.addAttribute("regidate", regidate);
-//		model.addAttribute("pagingImg2", pagingImg2);
 		model.addAttribute("pointlist", pointlist);
 		
-		return "mypage/myCoupon1";
+		return "mypage/myPoint";
 	}
-	
-	
+		
+		
 	@RequestMapping("/mypage/myReview.do")
 	public String myReview() {
 		return "mypage/myReview";
 	}
 	
-	 
+
+	//리뷰 리스트
+	@RequestMapping("/mypage/myFavorite.do")
+	public String myFavorite(Principal principal, Model model, HttpServletRequest req) {
+		
+		
+		return "mypage/myFavorite";
+	} 
 }

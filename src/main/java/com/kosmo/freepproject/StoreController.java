@@ -169,4 +169,29 @@ public class StoreController {
 		
 		return "redirect:storelist.do";
 	}
+	
+	//매장검색
+	@RequestMapping("/company/searchStore.do")
+	public String mapSearch(Model model, HttpServletRequest req) {
+		
+		//Mapper로 전달할 파라미터를 저장할 DTO 객체 생성
+		ParameterDTO parameterDTO = new ParameterDTO();
+		//검색어가 있을 경우 저장
+		parameterDTO.setSearchField(req.getParameter("searchField"));
+		parameterDTO.setSearchTxt(req.getParameter("searchTxt"));
+		
+		//게시물 카운트(DTO 객체를 인수로 전달)
+		int totalRecordCount = 
+				sqlSession.getMapper(StoreImpl.class).getTotalCount(parameterDTO);
+		//System.out.println("totalRecordCount"+ totalRecordCount);
+		
+		//출력할 게시물 select(DTO객체를 인수로 전달)
+		ArrayList<StoreVO> lists = 
+				sqlSession.getMapper(StoreImpl.class).getList(parameterDTO);
+		
+		model.addAttribute("lists", lists);
+		
+		//검색 기능이 추가된 view를 반환
+		return "company/searchStore";
+	}
 }

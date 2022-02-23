@@ -5,8 +5,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Principal;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Enumeration;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,21 +14,25 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.ibatis.session.SqlSession;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.HandlerMapping;
 
 import board.BoardDAOImpl;
-import cart.CartDTO;
-import cart.CartImpl;
+
 import menu.MenuImpl;
 import menu.MenuVO;
+import net.sf.json.JSONArray;
 import util.PagingUtil_menu;
 import util.ParameterDTO;
 
@@ -361,38 +364,51 @@ public class MenuController {
 	public String insertCart(Model model, HttpServletRequest req, Principal principal) {
 		String requestUrl = (String)req.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
 		String referer = req.getHeader("Referer");
-		
+
 		//회원코드 
 		String user_id = "";
 		user_id = principal.getName();
-		System.out.println("user_id="+ user_id);
+
 		int m_code = 
 				sqlSession.getMapper(BoardDAOImpl.class).findm_code(user_id);
 		String m_codeStr = Integer.toString(m_code);
 
 		try {
-			if(referer.contains("orderDIY")) {
-				// DOUGH / SAUCE / TOPPING1~5
-				String[] dough = (String[]) req.getParameterValues("dough");
-				String[] SAUCE = (String[]) req.getParameterValues("dough");
-				String[] TOPPING1 = (String[]) req.getParameterValues("dough");
-//				
-			}else {
-				String[] code = (String[]) req.getParameterValues("ct_code");
-				
-				for(int i=0; i<code.length; i++) {
-					System.out.println("code : "+code[i]);
-					sqlSession.getMapper(MenuImpl.class).insertCart(code[i], m_codeStr);
-				}
+			
+			String[] code = (String[]) req.getParameterValues("ct_code");
+			
+			for(int i=0; i<code.length; i++) {
+				System.out.println("code : "+code[i]);
+				sqlSession.getMapper(MenuImpl.class).insertCart(code[i], m_codeStr);
 			}
+			
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 		}
 		
+		return "redirect:"+ referer;
+	}
+
 		
+	@RequestMapping(path = "/order/insertCartDiy.do")
+	@ResponseBody
+	public String insertCartDiy(Model model, HttpServletRequest req, @RequestParam String data){
+		String referer = req.getHeader("Referer");
+
+		Map<String, Object> result = new HashMap<String, Object>();
+		try {
+		    List<Map<String,Object>> info = new ArrayList<Map<String,Object>>();
+		    info = JSONArray.fromObject(data);
+		     
+		    for (Map<String, Object> sendData : info) {
+		        sqlSession.getMapper(MenuImpl.class).insertCartDiy(sendData);
+		    }  
+		      result.put("result", true);
+		  } catch (Exception e) {
+		      result.put("result", false);
+		  }
 		
-		// 장바구니 담기 후 이전 페이지(주문하기)이동
 		return "redirect:"+ referer;
 	}
 }

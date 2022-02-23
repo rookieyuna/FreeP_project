@@ -5,7 +5,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -544,17 +547,23 @@ public class ReviewController {
 	
 	//리뷰 상세보기
 	@RequestMapping("/community/reviewdetail.do")
-	public String reviewdetail(Model model, HttpServletRequest req) {
+	@ResponseBody
+	public Map<String, Object> reviewdetail(Model model, HttpServletRequest req) {
 
 		ReviewBoardDTO boardDTO = new ReviewBoardDTO();
-		boardDTO.setRv_idx( Integer.parseInt(req.getParameter("rv_idx"))); 
+		boardDTO.setRv_idx(Integer.parseInt(req.getParameter("idx"))); 
+		
+		int myidx= Integer.parseInt(req.getParameter("idx"));
 		
 		ReviewBoardDTO dto = 
 				sqlSession.getMapper(ReviewBoardDAOImpl.class).view(boardDTO);
 		  
-		model.addAttribute("dto", dto);
 		
-		return "community/review";
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("dto", dto);
+		result.put("dto1", dto);
+		
+		return result;
 	}
 	
 	

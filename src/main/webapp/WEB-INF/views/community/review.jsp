@@ -9,6 +9,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="_csrf" content="${_csrf.token}">
+	<meta name="_csrf_header" content="${_csrf.headerName}">
     <title>나만의 맞춤 피자 Free</title>
 
     <!-- font 영역 -->
@@ -24,6 +26,47 @@
         rel="stylesheet">
     <!-- js 라이브러리 영역 -->
     <script src="../js/jquery-3.6.0.js"></script>
+<script type="text/javascript">
+function reviewDetailOpen(idx){ 
+	var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+	
+    console.log("idx="+idx);
+	
+	$.ajax({ 
+		url: "reviewdetail.do",
+		type:"POST", 
+		beforeSend : function(xhr){
+    		xhr.setRequestHeader(header, token);
+        },
+        async:false,
+		data: {"idx":idx},
+		dataType:'json', 
+		success:function(response) { 
+			var name = response.dto;
+			var name1 = response.dto1;
+			
+			reviewDetail(name, name1); 
+			
+		}, 
+		error: function(data){
+			alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"
+        			+"\n"+"error:"+error)
+		} 
+	}); 
+}; 
+function reviewDetail(data, data1){ 
+	
+	document.getElementById("writer").innerText=data.writer;
+	document.getElementById("title").innerText=data.title;
+	document.getElementById("postdate").innerText=data.postdate;
+	document.getElementById("contents").innerText=data.contents;
+	document.getElementById("reviewImg").src="/freepproject/uploads/"+data.rv_ofile1;
+	
+	
+};
+
+</script>
 </head>
 
 <body id="body">
@@ -85,7 +128,7 @@
                                                         <div class="con1-top-wrap">
                                                             <!-- 이미지 -->
                                                             <div class="img-wrap">
-                                                                <img src="../images/05community/1b6078b5bd51521860a43103b0a6cae5.jpg" alt="">
+                                                                <img id="reviewImg" src="../images/05community/1b6078b5bd51521860a43103b0a6cae5.jpg" alt="">
                                                                 <ul class="review-modal-slickBtn">
                                                                     <li><button type="button" data-role="none" class="slick-prev slick-arrow" aria-label="Previous" role="button">Previous</button></li>
                                                                     <li><button type="button" data-role="none" class="slick-next slick-arrow" aria-label="Next" role="button">Next</button></li>
@@ -102,12 +145,12 @@
                                                             <div class="con-top">
                                                                 <!-- 아이디 -->
                                                                 <div class="review_user">
-                                                                    <p class="review_name"><span>Wozniak</span> 님의 리뷰입니다</p>
-                                                                    <p class="review_pdate">2022-02-02</p>
+                                                                    <p class="review_name"><span id="writer">Wozniak</span> 님의 리뷰입니다</p>
+                                                                    <p class="review_pdate" id="postdate">2022-02-02</p>
                                                                 </div>
 
                                                                 <!-- 제목 -->
-                                                                <p class="review_title">입에서 새우랑 치즈가 춤춰요!</p>
+                                                                <p class="review_title" id="title">입에서 새우랑 치즈가 춤춰요!</p>
                                                                 <div class="favorite-heart">
                                                                     <div class="favorite-heart">
                                                                         <i class="material-icons unlike">favorite</i>
@@ -117,7 +160,7 @@
 
                                                             <!-- 내용 -->
                                                             <div class="con-mid">
-                                                                <p class="review_text">
+                                                                <p class="review_text" id="contents">
                                                                     치즈크러스트에 갈릭디핑 찍어 먹으면 진짜 엄청 맛있어요ㅜㅜㅜㅜ♡
                                                                 </p>
 
@@ -221,13 +264,13 @@
                                         <ul>
                                         	<c:forEach items="${listsBest }" var="row"> 
                                             <li>
-                                                <div class="img_wrap">
+                                                <div class="img_wrap" onclick="reviewDetailOpen('${row.rv_idx}');">
                                                     <a href="#best"><img src="../uploads/${row.rv_sfile1 }"></a>
                                                 </div>
                                                 <div class="text_wrap">
                                                     <div class="review_text">
                                                         <div class="review_icon diy"></div>
-                                                        <div class="review_name">${row.title}</div>
+                                                        <div class="review_name">${row.writer}</div>
                                                         <div class="review_like">
                                                             <div class="favorite-heart">
                                                                 <i class="material-icons unlike">favorite</i>
@@ -236,7 +279,7 @@
                                                     </div>
                                                     <div class="review_cont">
                                                         <p>
-                                                            ${row.contents}
+                                                            ${row.title}
                                                         </p>
                                                     </div>
                                                 </div>
@@ -283,7 +326,7 @@
                                                 <div class="text_wrap">
                                                     <div class="review_text">
                                                         <div class="review_icon normal"></div>
-                                                        <div class="review_name">${row.title}</div>
+                                                        <div class="review_name">${row.writer}</div>
                                                         <div class="review_like">
                                                             <div class="favorite-heart">
                                                             	<!-- 미로그인 상태에서 클릭시 로그인하도록 하기 위해 나눠놓음 -->
@@ -305,7 +348,7 @@
                                                     </div>
                                                     <div class="review_cont">
                                                         <p>
-                                                            ${row.contents}
+                                                            ${row.title}
                                                         </p>
                                                     </div>
                                                 </div>
@@ -359,44 +402,5 @@
     <script src="../js/motion.js"></script>
     <script src="../js/ui.js"></script>
 </body>
-<script type="text/javascript">
-/* 
-	$().ready(function(){
-		
-		$("#img_wrap").click(function(){
-			$("#reviewListFrm").attr({
-				"method" : "post",
-				"action" : "<c:url value="/community/reviewdetail.do" />"
-			});
-			$("#reviewListFrm").submit();
-		}); 
-	}
 
-	function reviewDetailOpen(rv_idx)
-    {
-        location.href='${path}/community/reviewdetail.do?rv_idx='+rv_idx;
-    }
-*/   
-*
-$(document).ready(function(){
-	$('.img_wrap').click(function(){ 
-		$.ajax({ 
-			url: "/community/reviewdetail.do",
-			type:"POST", 
-			contentType:'application/json;charset=utf-8', 
-			dataType:'json', 
-			success:function(response) { 
-				reviewDetail(response); 
-			}, 
-			error: function(data){
-       	      	alert("에러가 발생했습니다.");
-			} 
-		}); 
-	}); 
-	function reviewDetail(data){ 
-		
-	};
-});
-  
-</script>
 </html>
