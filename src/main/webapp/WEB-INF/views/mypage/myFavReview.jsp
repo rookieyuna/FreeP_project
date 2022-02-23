@@ -54,7 +54,7 @@
                                     <li><a href="../mypage/myMain.do">MY프리피</a></li>
                                     <li><a href="../mypage/myOrder.do">주문내역</a></li>
                                     <li><a href="../mypage/myCoupon.do">쿠폰/적립금</a></li>
-                                    <li class="active"><a href="../mypage/myReview1.do">MY리뷰</a></li>
+                                    <li class="active"><a href="../mypage/myReview.do">MY리뷰</a></li>
                                     <li><a href="../mypage/myQuestion.do">1:1문의</a></li>
                                     <li><a href="./myUserinfo.html">정보수정</a></li>
                                 </ul>
@@ -71,8 +71,8 @@
                         <div class="CP-wrap">
                             <div class="tab-type6"><!--2020-01-03 클래스명수정-->
                                 <ul class="tabTab">
-                                    <li class="active"><button class="btnC1">내가쓴리뷰</button></li>
-                                    <li><button class="btnC1" onclick="location.href='myReview2.do?';">좋아요리뷰</button></li>
+                                    <li><button class="btnC1" onclick="location.href='myReview.do?';">내가쓴리뷰</button></li>
+                                    <li class="active"><button class="btnC1">좋아요리뷰</button></li>
                                 </ul>
                             </div>
 
@@ -82,7 +82,8 @@
                                     <colgroup>
                                         <col style="width:10%">
                                         <col style="width:230px">
-                                        <col style="width:100%">
+                                        <col style="width:50%">
+                                        <col style="width:10%">
                                         <col style="width:15%">
                                     </colgroup>
                                     <thead>
@@ -90,48 +91,49 @@
                                             <th>번호</th>
                                             <th>사진</th>
                                             <th>리뷰내용</th>
+                                            <th>작성자</th>
                                             <th>등록날짜</th>
                                         </tr>
                                     </thead>
-                                    <!-- 문의 내역 없음 -->
-                                    <tbody class="board-list empty hide">
-                                        <tr>
-                                            <td colspan="4">남긴 리뷰가 없습니다.</td>
-                                        </tr>
-                                    </tbody>
-                                    
-                                    <!-- 문의 내역 있음 -->
-                                    <tbody class="board-list fill">
-                                        <tr>
-                                            <td>2</td>
-                                            <td><span><img src="../images/05community/1b6078b5bd51521860a43103b0a6cae5.jpg"></span></td>
-                                            <td>킹왕짱! 진짜 잘먹었어요</td>
-                                            <td>2022.02.08</td>
-                                        </tr>
-                                        <tr>
-                                            <td>1</td>
-                                            <td><span><img src="../images/05community/ecfec5c38e6d033c7f01b77eecc1bf8a.jpg"></span></td>                                            <td>이거 핵존맛임 ㅋㅋㅋㅋㅋㅋ</td>
-                                            <td>2022.01.08</td>
-                                        </tr>
-                                    </tbody>
+                                    <!-- 좋아요 한 리뷰 내역 없음 -->
+                                    <c:choose>
+	                                    <c:when test="${empty lists}">
+		                                    <tbody class="board-list empty hide">
+					                    		<tr><td colspan="5">좋아요 한 리뷰가 없습니다.</td></tr>
+		                                    </tbody>
+				                    	</c:when>
+				                    	
+	                                    <c:otherwise>
+					                    	<!-- 리뷰 있음/ 가상번호 수정해야함 -->
+		                                    <tbody class="board-list fill">
+			                                    <c:forEach items="${lists }" var="row" varStatus="status">
+													<tr>
+														<td><c:out value="${status.count }"></c:out></td>
+														<c:choose>
+									                    	<c:when test="${empty row.rv_sfile1 }">
+									                    		<td>등록된 사진 없음</td>
+									                    	</c:when>
+									                    	<c:otherwise>
+									                    		<!-- <span><img src="../images/05community/1b6078b5bd51521860a43103b0a6cae5.jpg"></span> -->
+									                    		<td><span><img src="../uploads/${row.rv_sfile1}"/></span></td>
+									                    	</c:otherwise>
+									                    </c:choose>
+														<td>${row.contents }</td>
+														<td>${row.writer }</td>
+														<td>${row.postdate }</td>
+													</tr>
+												</c:forEach>
+					                    	</tbody>
+				                    	</c:otherwise>
+				                    </c:choose>
                                 </table>
                             </div>
-                            <div class="pagingArea">
-                                <div class="common-pagingType-1">
-                                    <a href="#" class="btn-prev" title="이전 페이지로 이동"><span class="hidden">이전 페이지로 이동</span></a>
-                                    <a href="#none" title="현재 페이지" class="sel"><span>1</span></a>
-                                    <a href="#"><span>2</span></a>
-                                    <a href="#"><span>3</span></a>
-                                    <a href="#"><span>4</span></a>
-                                    <a href="#"><span>5</span></a>
-                                    <a href="#"><span>6</span></a>
-                                    <a href="#"><span>7</span></a>
-                                    <a href="#"><span>8</span></a>
-                                    <a href="#"><span>9</span></a>
-                                    <a href="#"><span>10</span></a>
-                                    <a href="#" class="btn-next" title="다음 페이지로 이동"><span class="hidden">다음 페이지로 이동</span></a>
-                                </div>
-                            </div>
+                            <!-- 페이지 번호 -->
+							<div class="pagingArea">
+								<div class="common-pagingType-1">
+									${pagingImg }
+								</div>
+							</div>
                         </div>
 
                         <div class="review-detail-modal pop-layer pop-menu" id="pop-menu-detail">

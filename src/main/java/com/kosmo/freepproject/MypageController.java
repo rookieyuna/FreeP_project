@@ -16,6 +16,9 @@ import coupon.CouponVO;
 import mypage.MypageImpl;
 import orderlist.OrderlistVO;
 import point.PointVO;
+import review.LikedReviewDTO;
+import review.ReviewBoardDAOImpl;
+import review.ReviewBoardDTO;
 import util.PagingUtil_front;
 import util.ParameterDTO;
 
@@ -189,14 +192,80 @@ public class MypageController {
 		return "mypage/myPoint";
 	}
 		
+	
+	//내 리뷰 리스트
+	@RequestMapping("/mypage/myReview.do")
+	public String myReview(Principal principal, Model model, HttpServletRequest req) {
+
+		ParameterDTO dto = new ParameterDTO();
+		dto.setId(principal.getName());
+		String m_code = sqlSession.getMapper(MypageImpl.class).myMcode(dto);
+		dto.setM_code(m_code);
 		
-	@RequestMapping("/mypage/myReview1.do")
-	public String myRevie1w() {
-		return "mypage/myReview1";
+		//리뷰내역 카운트
+		int totalreviewCount = sqlSession.getMapper(ReviewBoardDAOImpl.class).getMyCount(dto);
+		
+		int pageSize = 2; //한 페이지당 출력할 주문내역의 개수
+		int blockPage = 2; //한 블럭당 출력할 페이지 번호의 개수
+		
+		int nowPage = (req.getParameter("nowPage")==null || req.getParameter("nowPage").equals(""))
+				? 1 : Integer.parseInt(req.getParameter("nowPage"));
+		
+		int start = (nowPage-1) * pageSize +1;
+		int end = nowPage * pageSize;
+		
+		dto.setStart(start);
+		dto.setEnd(end);
+
+		//출력할 리뷰내역 select
+		ArrayList<ReviewBoardDTO> lists = sqlSession.getMapper(ReviewBoardDAOImpl.class).listMyPage(dto);
+		
+		String pagingImg = PagingUtil_front.pagingImg(totalreviewCount,
+	            pageSize, blockPage, nowPage, 
+	            req.getContextPath()+"/mypage/myReview.do?");
+		
+		model.addAttribute("pagingImg", pagingImg);
+		model.addAttribute("lists", lists);
+		
+		return "mypage/myReview";
 	}
-	@RequestMapping("/mypage/myReview2.do")
-	public String myReview2() {
-		return "mypage/myReview2";
+	
+	
+	
+	@RequestMapping("/mypage/myFavReview.do")
+	public String myFavReview(Principal principal, Model model, HttpServletRequest req) {
+
+		ParameterDTO dto = new ParameterDTO();
+		dto.setId(principal.getName());
+		String m_code = sqlSession.getMapper(MypageImpl.class).myMcode(dto);
+		dto.setM_code(m_code);
+		
+		//좋아요 한 리뷰 카운트
+		int totalFavReviewCount = sqlSession.getMapper(ReviewBoardDAOImpl.class).getMyFavCount(dto);
+		
+		int pageSize = 2; //한 페이지당 출력할 주문내역의 개수
+		int blockPage = 2; //한 블럭당 출력할 페이지 번호의 개수
+		
+		int nowPage = (req.getParameter("nowPage")==null || req.getParameter("nowPage").equals(""))
+				? 1 : Integer.parseInt(req.getParameter("nowPage"));
+		
+		int start = (nowPage-1) * pageSize +1;
+		int end = nowPage * pageSize;
+		
+		dto.setStart(start);
+		dto.setEnd(end);
+
+		//출력할 리뷰내역 select
+		ArrayList<ReviewBoardDTO> lists = sqlSession.getMapper(ReviewBoardDAOImpl.class).listMyFavPage(dto);
+		
+		String pagingImg = PagingUtil_front.pagingImg(totalFavReviewCount,
+	            pageSize, blockPage, nowPage, 
+	            req.getContextPath()+"/mypage/myFavReview.do?");
+		
+		model.addAttribute("pagingImg", pagingImg);
+		model.addAttribute("lists", lists);
+		
+		return "mypage/myFavReview";
 	}
 	
 	

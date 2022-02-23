@@ -10,6 +10,13 @@
   		SELECT COUNT(*) FROM reviewboard
   		
   	</select>  	
+  	
+  	<select id="getMyCount" resultType="int" parameterType="util.ParameterDTO">
+  		
+  		SELECT COUNT(*) FROM reviewboard WHERE m_code=#{m_code}
+  		
+  	</select>  	
+  	
   	<select id="listPage" resultType="review.ReviewBoardDTO">
   		
   		SELECT * FROM (
@@ -18,6 +25,17 @@
 		    ) Tb
 		)
 		WHERE rNum BETWEEN #{param1} AND #{param2}	
+  	</select>
+  	
+  	<select id="listMyPage" resultType="review.ReviewBoardDTO" parameterType="util.ParameterDTO">
+  		SELECT * FROM (
+		    SELECT Tb.*, rownum rNum FROM (
+		        SELECT * FROM reviewboard 
+		        WHERE m_code=#{m_code}
+		        ORDER BY rv_idx DESC
+		    ) Tb
+		)
+		WHERE rNum BETWEEN #{start} AND #{end}
   	</select>
   	
   	
@@ -119,5 +137,21 @@
   	<delete id="dislikeReview">
   	 	DELETE FROM likedreview WHERE rv_idx=#{param1} and m_code=#{param2}
   	</delete>
+
+	  	
+  	<select id="getMyFavCount" resultType="int" parameterType="util.ParameterDTO">
+  		SELECT COUNT(*) FROM likedreview WHERE m_code=#{m_code}
+  	</select>  	
   	
+  	<select id="listMyFavPage" resultType="review.ReviewBoardDTO" parameterType="util.ParameterDTO">
+  		SELECT * FROM (
+		    SELECT Tb.*, rownum rNum FROM (
+		        SELECT * FROM reviewboard 
+		        INNER JOIN likedreview USING(m_code)
+		        WHERE m_code=#{m_code}
+		        ORDER BY like_idx DESC
+		    ) Tb
+		)
+		WHERE rNum BETWEEN #{start} AND #{end}
+  	</select>
   </mapper>
