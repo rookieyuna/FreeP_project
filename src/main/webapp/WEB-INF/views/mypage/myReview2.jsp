@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -28,7 +31,7 @@
 
 <body id="body">
     <header id="header">
-        <%@ include file="../common/header.jsp" %>
+       <%@ include file="../common/header.jsp" %>
     </header>
 
     <div id="container">
@@ -48,11 +51,10 @@
                         <div class="menu-nav-wrap">
                             <div class="menu-nav">
                                 <ul>
-									<li><a href="../mypage/myMain.do">MY프리피</a></li>
+                                    <li><a href="../mypage/myMain.do">MY프리피</a></li>
                                     <li><a href="../mypage/myOrder.do">주문내역</a></li>
                                     <li><a href="../mypage/myCoupon.do">쿠폰/적립금</a></li>
-                                    <li class="active"><a href="../mypage/myReview.do">MY리뷰</a></li>
-                                    <li><a href="../mypage/myFavorite.do">나만의피자</a></li>
+                                    <li class="active"><a href="../mypage/myReview1.do">MY리뷰</a></li>
                                     <li><a href="../mypage/myQuestion.do">1:1문의</a></li>
                                     <li><a href="./myUserinfo.html">정보수정</a></li>
                                 </ul>
@@ -63,16 +65,25 @@
                             <h3 class="title-type">
                                 MY리뷰
                             </h3>
-                            <p>작성하신 리뷰를 확인해보세요</p>
+                            <p>작성하신 리뷰와 좋아요한 다른사람의 리뷰를 확인해보세요</p>
                         </div>
 
-                        <div class="myReview-wrap">
+                        <div class="CP-wrap">
+                            <div class="tab-type6"><!--2020-01-03 클래스명수정-->
+                                <ul class="tabTab">
+                                    <li><button class="btnC1" onclick="location.href='myReview1.do?';">내가쓴리뷰</button></li>
+                                    <li class="active"><button class="btnC1">좋아요리뷰</button></li>
+                                </ul>
+                            </div>
+
+                            <div class="myReview-wrap">
                             <div class="table-type4">
                                 <table>
                                     <colgroup>
                                         <col style="width:10%">
                                         <col style="width:230px">
-                                        <col style="width:100%">
+                                        <col style="width:50%">
+                                        <col style="width:10%">
                                         <col style="width:15%">
                                     </colgroup>
                                     <thead>
@@ -80,6 +91,7 @@
                                             <th>번호</th>
                                             <th>사진</th>
                                             <th>리뷰내용</th>
+                                            <th>작성자</th>
                                             <th>등록날짜</th>
                                         </tr>
                                     </thead>
@@ -96,11 +108,14 @@
                                             <td>2</td>
                                             <td><span><img src="../images/05community/1b6078b5bd51521860a43103b0a6cae5.jpg"></span></td>
                                             <td>킹왕짱! 진짜 잘먹었어요</td>
+                                            <td>루키</td>
                                             <td>2022.02.08</td>
                                         </tr>
                                         <tr>
                                             <td>1</td>
-                                            <td><span><img src="../images/05community/ecfec5c38e6d033c7f01b77eecc1bf8a.jpg"></span></td>                                            <td>이거 핵존맛임 ㅋㅋㅋㅋㅋㅋ</td>
+                                            <td><span><img src="../images/05community/ecfec5c38e6d033c7f01b77eecc1bf8a.jpg"></span></td>                                            
+                                            <td>이거 핵존맛임 ㅋㅋㅋㅋㅋㅋ</td>
+                                            <td>루키</td>
                                             <td>2022.01.08</td>
                                         </tr>
                                     </tbody>
@@ -270,6 +285,8 @@
                             </div>
                         </div>
 
+
+	
 
                     </article>
                 </div>

@@ -72,11 +72,10 @@ function checkValidate(f){
                         <div class="menu-nav-wrap">
                             <div class="menu-nav">
                                 <ul>
-                                    <li><a href="./myMain.html">MY프리피</a></li>
-                                    <li class="active"><a href="./myOrder.html">주문내역</a></li>
-                                    <li><a href="./myCoupon.html">쿠폰/적립금</a></li>
-                                    <li><a href="./myReview.html">MY리뷰</a></li>
-                                    <li><a href="./myFavorite.html">나만의피자</a></li>
+                                    <li><a href="../mypage/myMain.do">MY프리피</a></li>
+                                    <li class="active"><a href="../mypage/myOrder.do">주문내역</a></li>
+                                    <li><a href="../mypage/myCoupon.do">쿠폰/적립금</a></li>
+                                    <li><a href="../mypage/myReview1.do">MY리뷰</a></li>
                                     <li><a href="./myQuestion.html">1:1문의</a></li>
                                     <li><a href="./myUserinfo.html">정보수정</a></li>
                                 </ul>
@@ -120,6 +119,19 @@ function checkValidate(f){
 													</div>
 												</div>
 												<span class="i_error">제목을 입력하세요</span>
+											</div>
+										</li>
+										<li class="form_title">
+											<label for="subject">닉네임<span>*</span></label>
+											<div class="form_group">
+												<div class="form_field">
+													<div class="form_item">
+														<span class="i_label" style="position: absolute;"></span>
+														<input type="text" name="writer" id="subject" class="i_text"
+																maxlength="50" style="width:650px">
+													</div>
+												</div>
+												<span class="i_error">닉네임을 입력하세요</span>
 											</div>
 										</li>
 										<!-- 주문목록에 DIY피자가 있을 경우에만 노출, 유효성 조건 필수(입력, 글자수제한) -->
