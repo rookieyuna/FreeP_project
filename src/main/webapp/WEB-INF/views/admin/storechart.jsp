@@ -44,9 +44,45 @@
 					<div class="row">
 	                   <div class="col-12">
 	                       <div class="card">
+	                       <script>
+	                       function monthChk(f){
+	                    	   console.log("선택??"+ document.getElementById("yearMonth").value);
+	                    	   f.submit();
+	                       }
+	                       
+	                       function locChk(loc) {
+	                    	   console.log("선택??"+ document.getElementById("location").value);
+	                    	   loc.submit();
+							}
+	                       </script>
+	                       <form name="ffff">
 		                    	<div class="card-header">
-						            <input type="month" id="or_date" name="or_date" >
+						            <input type="month" id="yearMonth" name="yearMonth" onchange="monthChk(this);">
+						            &nbsp;
+						            <div>
+									<select id="location" onchange="locChk(this.form);">
+										<option value="" selected="">시/도</option>
+                                        <option value="01">서울특별시</option>
+                                        <option value="02">인천광역시</option>
+                                        <option value="03">경기도</option>
+                                        <option value="04">강원도</option>
+                                        <option value="05">충청남도</option>
+                                        <option value="06">충청북도</option>
+                                        <option value="07">대전</option>
+                                        <option value="08">경상남도</option>
+                                        <option value="09">경상북도</option>
+                                        <option value="10">대구</option>
+                                        <option value="11">전라남도</option>
+                                        <option value="12">전라북도</option>
+                                        <option value="13">광주</option>
+                                        <option value="14">울산</option>
+                                        <option value="15">부산광역시</option>
+                                        <option value="16">세종특별자치시</option>
+                                        <option value="17">제주도</option>
+									</select>
 								</div>
+								</div>
+							</form>
 		                        <div class="card-body">
 		                            <h4 class="card-title">월별 매출</h4>  
 									<div class="container"> 
@@ -92,6 +128,7 @@
 		                   </div>
 		                   
 		                   	<script>
+		                   	/*
 		                   	var ctx = document.getElementById('myChart')
 		                   		
 		                   	$(document).ready(function() {
@@ -111,7 +148,7 @@
 								
 								var now = new Date();
 								nowYearMonth = moment().format('YYYY-MM');
-								var yearData = {or_date:or_date|| nowYearMonth};
+								var yearData = {or_date:or_date || nowYearMonth};
 								
 								$.ajax({
 									url:"/admin/getDayPay.do",
@@ -145,16 +182,30 @@
 										});
 									}
 								})
-							}
+							} */
 		                   	
-		                   	/* var ctx = document.getElementById('myChart').getContext('2d');
+							
+							
+		                   	var ctx = document.getElementById('myChart').getContext('2d');
+							
+							var labels = [];
+							<c:forEach items="${lists}" var="row">
+								labels.push('${row.b_code}');
+							</c:forEach>
+							
+							var datas = [];
+							<c:forEach items="${lists}" var="row">
+								datas.push('${row.total_price}');
+							</c:forEach>
+							
+						
 							var myChart = new Chart(ctx, {
 							    type:'bar',
 							    data: {
-							    	labels: ['신촌점', '본점', '구로점', 'ㅇㅇ점', 'ㅇㅇ점', 'ㅇㅇ점'],
+							    	labels: labels,
 							        datasets: [{
-							            label: '# of Votes',
-							            data: [12, 19, 3, 5, 2, 3],
+							            label: '# 매출현황',
+							            data: datas,
 							            backgroundColor: [
 							                'rgba(255, 99, 132, 0.2)',
 							                'rgba(54, 162, 235, 0.2)',
@@ -171,7 +222,7 @@
 							                'rgba(153, 102, 255, 1)',
 							                'rgba(255, 159, 64, 1)'
 							            ],
-							            borderWidth: 1
+							            borderWidth: 1,
 							        }]
 							    },
 							    options: {
@@ -183,7 +234,7 @@
 							            }]
 							        }
 							    }
-							}); */
+							});   
 							</script>
 		                   	<!-- e -->
 		                   

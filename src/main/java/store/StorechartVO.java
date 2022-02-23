@@ -13,4 +13,6 @@ public class StorechartVO {
 	private int po_price;
 	private String credit;
 	private java.sql.Date or_date;
+	private String yearMonth;
+	private String location;
 }

@@ -156,7 +156,7 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="list">
+                                            <a href="storechart.do">
                                                 <i class="metismenu-icon"></i>
                                                 지점별매출
                                             </a>
