@@ -91,7 +91,7 @@
 										<c:otherwise>
 											<c:forEach items="${lists }" var="row" ><!-- 리스트반복시작 -->
 													 <li>
-	                                            <a href="../eventView.do?${row.b_idx} " target="_self">
+	                                            <a href="../community/eventView.do?idx=${row.b_idx} " target="_self">
 	                                                <div class="img_wrap">
 	                                                    <img
 	                                                        src="../images/05community/${row.sfile}">

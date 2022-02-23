@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -67,16 +68,20 @@
                                             <input type="hidden" id="pageNo" name="pageNo" value="1">
                                             <input type="hidden" id="search" name="search" value="subject">
                                             <input type="hidden" id="condition" name="condition" value="">
-                                            <dt><strong>신규가입 적립급 증정 이벤트</strong>
+                                            
+                                                            
+                                            <dt><strong>${dto.title}</strong>
                                                 <ul>
-                                                    <li>2022-03-11</li>
+                                                    <li>${dto.postdate }</li>
                                                     <li>조회
-                                                        <span>375</span>
+                                                        <span>${dto.hits }</span>
                                                     </li>
                                                 </ul>
                                             </dt>
+                                            
+                                            
                                             <dd>
-                                                <img src="../images/03visual/event01.png" alt="">
+                                                <img src="../images/03visual/${dto.sfile2}" alt="">
 
                                                 <div class="event_res">
                                                     <h6>주의사항</h6>
@@ -96,11 +101,13 @@
                                         <ul class="board-button">
                                             <li>
                                                 <span>이전</span>
-                                                <a href="#">리뷰 작성시 포인트 및 구폰 완전 뿌림</a>
+                                                <a href="./eventView.do?idx=${pre.b_idx }">${pre.title }
+                                                </a>
                                             </li>
                                             <li>
                                                 <span>다음</span>
-                                                <a href="#">10000번째 리뷰 작성자 본사 초대 이벤트</a>
+                                                <a href="./eventView.do?idx=${next.b_idx }">${next.title }
+                                                </a>
                                             </li>
                                         </ul>
                                     </form>
