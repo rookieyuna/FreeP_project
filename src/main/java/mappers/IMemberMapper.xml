@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace를 통해 서비스 역할의 인터페이스와 연결한다. -->  
+<mapper namespace="android.IAndroidDAO">
+
+	<select id="memberList" resultType="member.MemberVO">
+		SELECT * FROM member ORDER BY regidate DESC
+	</select>
+	
+	
+	<select id="memberLogin" resultType="member.MemberVO" 
+		parameterType="member.MemberVO">
+		SELECT * FROM member WHERE id=#{id} and pass=#{pass}
+	</select> 
+ 	 
+</mapper>
+
+
+
