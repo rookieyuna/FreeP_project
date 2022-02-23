@@ -23,6 +23,7 @@ public interface BoardDAOImpl {
 
 
 	public void write(BoardDTO boardDTO);
+	public void writeEvent(BoardDTO boardDTO);
 	public int findm_code(String a);
 	
 	public BoardDTO view(BoardDTO boardDTO);
@@ -32,7 +33,9 @@ public interface BoardDAOImpl {
 	public void delete(int a);
 	
 	public String selectsfile(String a);
+	public String selectsfile2(String a);
 	
 	public void deletefile(int a);
+	public void deletefile2(int a);
 	
 }

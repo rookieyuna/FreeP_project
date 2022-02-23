@@ -42,6 +42,10 @@
 	    background-color: #ff6510;
 	    color: white;
 	}
+	.store{
+	    display: flex;
+	    align-items: center;
+	}
 </style>
 <script>
 $(document).ready(function(){
@@ -66,6 +70,10 @@ $(document).ready(function(){
 	function sum(){		
 		var sum = document.getElementById("sum").innerText;
 		document.getElementById("sum").innerText = (sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+	}
+	function sum1(){		
+		var sum = document.getElementById("sum1").innerText;
+		document.getElementById("sum1").innerText = (sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
 	}
 </script>
 <script>
@@ -289,9 +297,9 @@ function fn_custInfo(){
                                     <li id="voucher">
                                     	<label class="btn-type-brd5" onclick="fn_voucher();">포인트 사용하기</label>
                                         <div class="store">
-                                            <input type="text" id="customerName" class="point" placeholder="사용할 포인트 입력" value="" maxlength="10"/>
+                                            <!-- <input type="text" id="customerName" class="point" placeholder="사용할 포인트 입력" value="" maxlength="10"/>
                                            	<button type="button" class="point1">사용</button>
-                                            <label class="point2">사용가능포인트 : </label>
+                                            <label class="point2">사용가능포인트 : </label> -->
                                         </div>
                                      </li>                           
                                 </ul>
@@ -313,11 +321,13 @@ function fn_custInfo(){
                                     async:false,
                                     dataType : "json",
                                     success : function(data){
+                                    	
                               			var tableData = "";
               								//form으로 하면 안될거같음. submit되면 새로고침처럼 화면이 맨 위로 가버려서.. validate따로 함수 만들어야할듯 버튼 onclick해서.. 
-                              			tableData += '<form><div class="store"><input type="number" id="customerName" class="point" placeholder="사용할 포인트 입력" value="" maxlength="10"';
+                              			tableData += '<div class="store"><input type="number" id="usePoint" class="point" placeholder="사용할 포인트 입력" value="" maxlength="10"';
                               			tableData += 'min="'+1000+'" max="'+data.point+'" step="100"/>';
-                              			tableData +='<button type="submit" class="point1">사용</button><label class="point2">사용가능포인트 :'+data.point+' </label></div></form>';
+                              			tableData +='<button type="button" class="point1" onclick="fn_point('+data.point+');">사용</button><span class="point2" style="font-size:14px";> 사용가능포인트 :'+data.point+' </span>';
+                              			tableData += '</div><span style="color:gray; font-size:13px;">* 포인트는 1000이상부터 100단위로 사용 가능합니다.</span>';
                               			
                                     	$('#voucher').html(tableData);   
                                     },
@@ -326,9 +336,31 @@ function fn_custInfo(){
                                     			+"\n"+"error:"+error)
                                     	
                                     }
-                                    });
-                          
-                                    
+                                    });      
+                        }
+                        
+                        function fn_point(data){
+                        	//포인트사용 버튼을 눌렀을때
+                        	//1. 값 Validate
+                        	var point = document.getElementById("usePoint").value;
+                        	
+                        	if(point < 1000 || point > data || (point % 100 != 0)){
+                        		alert("error");
+                        		return false;
+                        		
+                        	}
+                        	//validate를 통과했다면 
+                        	var tableData = "";
+                        	tableData += '<div class="store"><label class="btn-type-brd5" id="cuspoint">사용할 포인트 : '+point+'점</label>';
+                        	tableData += '<button type="button" class="point1" onclick="fn_voucher();">수정</button></div>';
+                        	$('#voucher').html(tableData); 
+                        	
+                        	var sum1 = document.getElementById("sum1").innerText;
+                        	alert("sum1:aa"+sum1);
+                        	alert("sum1"+ parseInt(sum1) + "point"+parseInt(point));
+                        	sum1 = parseInt(sum1)+parseInt(point);
+                        	document.getElementById("sum1").innerText = sum1;
+                        	sum1();
                         }
                         </script>
 
@@ -425,7 +457,7 @@ function fn_custInfo(){
                                         </li>
                                         <li class="discount">
                                             <p class="tit">총 할인 금액</p>
-                                            <p class="price"><em id="sum1">7,180</em>원</p>
+                                            <p class="price"><em id="sum1">7180</em>원</p>
                                         </li>
                                         <li class="total">
                                             <p class="tit">총 결제 금액</p>
@@ -434,7 +466,8 @@ function fn_custInfo(){
                                     </ul>
                                     
                                 </div>
-                                <script>sum();</script>
+                                <script>sum();
+                                sum1();</script>
                             </div>
                         </div>
                         <!-- // 결제 금액, 퀵 오더로 설정, 결제 및 주문완료 -->

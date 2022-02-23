@@ -73,6 +73,15 @@
 									</div>
 								</div>
 								
+								<div class="position-relative row form-group">
+									<label for="exampleFile" class="col-sm-2 col-form-label">이미지</label>
+									<div class="col-sm-10">
+										<input name="file2" id="exampleFile" type="file"
+											class="form-control-file"> <small
+											class="form-text text-muted">포스터나, 이미지 등록</small>
+									</div>
+								</div>
+								
 
 								<div class="position-relative row form-check">
 									<div class="col-sm-10 offset-sm-2">
