@@ -202,17 +202,33 @@
 		//문의하기
 			var send = false;
 		function questionSubmit(){
-			
+			/*
 			if(send){
 				alert('등록중 입니다.');
-				return true;
+			
 			}else{
 				if($('#sel').val() == '') { alert('문의유형을 선택해주세요'); $("#sel").focus(); event.preventDefault(); return;}
 				if($('#subject').val() == '') { alert('제목을 입력하세요'); $("#subject").focus(); event.preventDefault(); return;}
 				if($('#content').val() == '') { alert('문의내용을 입력하세요.'); $("#content").focus(); event.preventDefault(); return;}	
-				send = true;
-				return;
-			}	
+				
+			}	*/
+			
+			if($('#sel').val() == '') {
+				alert('문의유형을 선택해주세요'); 
+				$("#sel").focus(); event.preventDefault(); 
+				return;}
+			if($('#subject').val() == '') { 
+				alert('제목을 입력하세요'); 
+				$("#subject").focus(); event.preventDefault(); 
+				return;}
+			if($('#content').val() == '') { 
+				alert('문의내용을 입력하세요.'); 
+				$("#content").focus(); event.preventDefault(); 
+				return;}	
+			
+			alert('1:1문의 완료(답변까지 1~3소요됩니다.)');
+				return true;
+			
 		}
 		</script>
 </body>

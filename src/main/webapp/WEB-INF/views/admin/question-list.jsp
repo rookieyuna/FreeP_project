@@ -54,6 +54,7 @@ $(function(){
 										<colgroup>
 											<col width="10%"/>
 											<col width="10%"/>
+											<col width="10%"/>
 											<col width="15%"/>
 											<col width="45%"/>
 											<col width="10%"/>
@@ -62,6 +63,7 @@ $(function(){
 										<thead>
 											<tr>
 												<th>#</th>
+												<th>문의유형</th>
 												<th>작성자</th>
 												<th>제목</th>
 												<th>내용</th>
@@ -71,10 +73,36 @@ $(function(){
 										</thead>
 										<tbody>
 											<c:forEach items="${lists }" var="row">   
-											 
+											
+											
 											<tr>
 												<th><input type="checkbox" name="chk" value="${row.b_idx }"></th>
-												<td >${row.writer }</td>
+												
+												<c:if test="${row.q_category  eq '1'}">
+													<td>제품관련</td>
+												</c:if>
+												
+												<c:if test="${row.q_category  eq '2'}">
+													<td>배달 서비스 관련</td>
+												</c:if>
+												
+												<c:if test="${row.q_category  eq '3'}">
+													<td>직원 서비스 관련</td>
+												</c:if>
+												
+												<c:if test="${row.q_category  eq '4'}">
+													<td>칭찬</td>
+												</c:if>
+												
+												<c:if test="${row.q_category  eq '5'}">
+													<td>제안</td>
+												</c:if>
+												
+												<c:if test="${row.q_category  eq '6'}">
+													<td>기타</td>
+												</c:if>
+												
+												<td>${row.writer }</td>
 												<td><a href="./question-detail.do?idx=${row.b_idx}">${row.title }</a></td>
 												<td style="text-overflow:ellipsis; overflow:hidden; white-space:nowrap;" ><nobr>${row.contents}</nobr></td>
 												<td>${row.postdate }</td>
