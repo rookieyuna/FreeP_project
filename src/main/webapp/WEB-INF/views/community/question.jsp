@@ -15,12 +15,7 @@
 %>
 <!DOCTYPE html>
 <html lang="ko">
-<script>
-function questionSubmit(){
-	alert("1:1문의 제출이 완료되었습니다!^^")
-	
-}
-</script>
+
 
 <head>
     <meta charset="UTF-8">
@@ -205,16 +200,18 @@ function questionSubmit(){
 		}
 		
 		//문의하기
-		var send = false;
-		function proc(){
+			var send = false;
+		function questionSubmit(){
+			
 			if(send){
 				alert('등록중 입니다.');
+				return true;
 			}else{
-				if($('#type_div1').val() == '') { alert('유형분류를 선택해주세요'); $('#type_div1').focus(); return;}
-				if($('#subject').val() == '') { alert('제목을 입력하세요'); $('#subject').focus(); return;}
-				if($('textarea[name=content]').val() == '') { alert('내용을 입력하세요.'); $('#content').focus(); return;}	
+				if($('#sel').val() == '') { alert('문의유형을 선택해주세요'); $("#sel").focus(); event.preventDefault(); return;}
+				if($('#subject').val() == '') { alert('제목을 입력하세요'); $("#subject").focus(); event.preventDefault(); return;}
+				if($('#content').val() == '') { alert('문의내용을 입력하세요.'); $("#content").focus(); event.preventDefault(); return;}	
 				send = true;
-				$('#q').submit();
+				return;
 			}	
 		}
 		</script>
