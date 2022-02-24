@@ -102,7 +102,7 @@
                                     <div class="fx cart-total">
                                         <p><span>총 선택정보</span><span class="kcal total">0</span><span class="won total">0</span></p>
                                     </div>
-                                    <button id="insertCartDIYbtn" class="cart-btn" >장바구니 담기</button>
+                                    <button type="button" id="insertCartDIYbtn" class="cart-btn" >장바구니 담기</button>
                                 </div>
                             </div>
 							

@@ -397,7 +397,7 @@ public class MenuController {
 		
 	@RequestMapping(path = "/order/insertCartDiy.do")
 	@ResponseBody
-	public String insertCartDiy(Model model, HttpServletRequest req, Principal principal, @RequestParam String data){
+	public Map<String, Object> insertCartDiy(Model model, HttpServletRequest req, Principal principal, @RequestParam String data){
 		String referer = req.getHeader("Referer");
 		//회원코드 
 		String user_id = "";
@@ -429,12 +429,12 @@ public class MenuController {
 				sqlData.put("ct_name", d_nameStr);
 				sqlSession.getMapper(MenuImpl.class).insertCart(sqlData);
 		    }  
-		      result.put("result", true);
+		      result.put("result", referer);
 		  } catch (Exception e) {
 		      result.put("result", false);
 		  }
 		
-		return "redirect:"+ referer;
+		return result;
 	}
 }
 

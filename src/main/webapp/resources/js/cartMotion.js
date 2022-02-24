@@ -386,11 +386,15 @@ $(document).ready(function() {
 				data: JSON.stringify(sendData)
 			}
 		    , dataType: 'json'
-			, success: function (res) {
-		        if (res.result) {
-		          alert("완료 되었습니다");
-		        }
-		     }
+			, success: function(){
+				alert("상품이 장바구니에 담겼습니다");
+				window.location.reload();
+		    }
+			, error: function(data){
+				for(var i in data){
+					alert(data[i]);
+				}
+			}
 		})	
 	}
 });		
