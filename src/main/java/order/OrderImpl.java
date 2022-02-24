@@ -11,5 +11,5 @@ public interface OrderImpl {
 
 	public ArrayList<CartDTO> listCt(int a);
 	
-	//회원포인트 가져오기
+
 }

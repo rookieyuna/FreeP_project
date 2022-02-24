@@ -9,4 +9,5 @@ import util.ParameterDTO;
 
 @Service
 public interface CouponImpl {
+	public ArrayList<CouponVO> listCp(ParameterDTO a);
 }

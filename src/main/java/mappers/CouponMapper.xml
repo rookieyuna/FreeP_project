@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace ="coupon.CouponImpl">
+ 	<select id="listCp" resultType="coupon.CouponVO">
+ 		 select c.cp_idx,cp_name, cp_cate, expire_date, cp_price, cp_const from coupon C, mycoupon M
+		 where m.m_code = #{m_code} and m.cp_idx = c.cp_idx
+ 	</select>
+ 	
+ </mapper>  
