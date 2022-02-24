@@ -217,7 +217,7 @@ public class EventController {
 	
 	@RequestMapping("/admin/eventedit.do")
 	public String edit(Model model, HttpServletRequest req) {
-		
+		 
 		BoardDTO boardDTO = new BoardDTO();
 		boardDTO.setB_idx( Integer.parseInt(req.getParameter("idx"))); 
 		

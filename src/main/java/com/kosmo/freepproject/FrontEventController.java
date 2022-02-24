@@ -34,7 +34,7 @@ public class FrontEventController {
 		System.out.println("Mybatis 사용준비끝");
 	}
 	
-	
+	 
 	@RequestMapping("/community/event.do")
 	public String list(Model model, HttpServletRequest req) {
 		

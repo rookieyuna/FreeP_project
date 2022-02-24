@@ -5,7 +5,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Principal;
 import java.util.ArrayList;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,12 +13,9 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.ibatis.session.SqlSession;
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,8 +25,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.HandlerMapping;
 
 import board.BoardDAOImpl;
-import member.MemberImpl;
-import member.MemberVO;
+import cart.CartImpl;
 import menu.MenuImpl;
 import menu.MenuVO;
 import net.sf.json.JSONArray;
@@ -373,7 +368,6 @@ public class MenuController {
 		int m_code = 
 				sqlSession.getMapper(BoardDAOImpl.class).findm_code(user_id);
 		String m_codeStr = Integer.toString(m_code);
-
 		try {
 			
 			String[] code = (String[]) req.getParameterValues("ct_code");
@@ -383,15 +377,24 @@ public class MenuController {
 				Map<String, Object> sqlData = new HashMap<String, Object>();
 				sqlData.put("m_code", m_codeStr);
 				sqlData.put("ct_code", code[i]);
-				sqlSession.getMapper(MenuImpl.class).insertCart(sqlData);
+				/*
+				기존에 테이블에 같은 제품이 있따면? 판별하고 insert가 아닌 update 수량 [여기부분만 제가했읍니다 STI]*/
+				int num = sqlSession.getMapper(CartImpl.class).confirmCart(sqlData);
+				if(num != 0) { //같은제품이 있따!는뜻
+					sqlData.put("ct_count", 1);
+					sqlSession.getMapper(CartImpl.class).updateCountCart(sqlData);
+				}
+				else {		
+					sqlSession.getMapper(MenuImpl.class).insertCart(sqlData);
+				}
 			}
 			
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 		}
-		
-		return "redirect:"+ referer;
+	
+		 return "redirect:"+ referer; 
 	}
 
 		
