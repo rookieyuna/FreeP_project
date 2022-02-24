@@ -101,11 +101,20 @@
 
 
 
-	<insert id="insertCart" parameterType="String">
+	<insert id="insertCart" parameterType="java.util.HashMap">
   		INSERT INTO cart(ct_idx, m_code, ct_code, ct_name, ct_count)
-			SELECT seq_ct_idx.nextval, #{param2}, #{param1}, P.p_name, 1 
+		<if test="ct_name == null">
+		   	SELECT 
+				seq_ct_idx.nextval, #{m_code}, #{ct_code}, P.p_name, 1 
 			FROM product P
-            WHERE P.p_code = #{param1}
+            WHERE P.p_code = #{ct_code}
+		</if>
+		<if test="ct_name != null">
+			VALUES(
+				seq_ct_idx.nextval, #{m_code}, #{ct_code}, #{ct_name}, 1
+			)
+		</if>
+			
   	</insert>
 	
 	<select id="insertCartDiyCalc" parameterType="java.util.HashMap" resultType="int">
@@ -122,11 +131,14 @@
 		            G_CODE, DIY_IDX, 
 		            DOUGH, SAUCE, TOPPING1, TOPPING2, TOPPING3, TOPPING4, TOPPING5, 
 		            D_NAME, D_PRICE
-		        )SELECT 
+		        )VALUES( 
 		            9, sq_diy_idx.nextval, 
 		            #{dough}, #{sauce}, #{topping1}, #{topping2, jdbcType=INTEGER}, #{topping3, jdbcType=INTEGER}, #{topping4, jdbcType=INTEGER}, #{topping5, jdbcType=INTEGER},
-		            P.p_name, #{d_price}
-		                FROM product P
-		                WHERE P.p_code = #{dough}
+		            #{d_name}, #{d_price}
+				)
+		<selectKey keyProperty="diy_idx" resultType="Integer" order="AFTER">
+			SELECT sq_diy_idx.CURRVAL FROM DUAL
+		</selectKey>
+
   	</insert>
   </mapper>

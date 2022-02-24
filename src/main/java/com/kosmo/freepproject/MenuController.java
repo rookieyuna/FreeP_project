@@ -29,7 +29,8 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.HandlerMapping;
 
 import board.BoardDAOImpl;
-
+import member.MemberImpl;
+import member.MemberVO;
 import menu.MenuImpl;
 import menu.MenuVO;
 import net.sf.json.JSONArray;
@@ -379,7 +380,10 @@ public class MenuController {
 			
 			for(int i=0; i<code.length; i++) {
 				System.out.println("code : "+code[i]);
-				sqlSession.getMapper(MenuImpl.class).insertCart(code[i], m_codeStr);
+				Map<String, Object> sqlData = new HashMap<String, Object>();
+				sqlData.put("m_code", m_codeStr);
+				sqlData.put("ct_code", code[i]);
+				sqlSession.getMapper(MenuImpl.class).insertCart(sqlData);
 			}
 			
 		}
@@ -393,19 +397,37 @@ public class MenuController {
 		
 	@RequestMapping(path = "/order/insertCartDiy.do")
 	@ResponseBody
-	public String insertCartDiy(Model model, HttpServletRequest req, @RequestParam String data){
+	public String insertCartDiy(Model model, HttpServletRequest req, Principal principal, @RequestParam String data){
 		String referer = req.getHeader("Referer");
-
+		//회원코드 
+		String user_id = "";
+		user_id = principal.getName();
+		int m_code = 
+				sqlSession.getMapper(BoardDAOImpl.class).findm_code(user_id);
+		String m_codeStr = Integer.toString(m_code);
+		
 		Map<String, Object> result = new HashMap<String, Object>();
 		try {
 		    List<Map<String,Object>> info = new ArrayList<Map<String,Object>>();
 		    info = JSONArray.fromObject(data);
-		     
+		    
+		    // INSERT TABLE DIY
 		    for (Map<String, Object> sendData : info) {
 		    	List<Object> targetList = new ArrayList<Object>(sendData.values());
+		    	// DIY 토탈 가격
 		    	Integer d_price = sqlSession.getMapper(MenuImpl.class).insertCartDiyCalc(targetList);
 		    	sendData.put("d_price", d_price);
+		    	String d_nameStr = user_id + "님의 DIY 피자";
+		    	sendData.put("d_name", d_nameStr);
 		        sqlSession.getMapper(MenuImpl.class).insertCartDiy(sendData);
+		        
+		        // INSERT TABLE CART
+		        	// 필요 데이터 얻어오기(시퀀스 값)
+		        Map<String, Object> sqlData = new HashMap<String, Object>();
+				sqlData.put("m_code", m_codeStr);
+				sqlData.put("ct_code", sendData.get("diy_idx"));
+				sqlData.put("ct_name", d_nameStr);
+				sqlSession.getMapper(MenuImpl.class).insertCart(sqlData);
 		    }  
 		      result.put("result", true);
 		  } catch (Exception e) {

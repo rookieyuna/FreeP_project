@@ -31,7 +31,7 @@ public interface MenuImpl {
 	
 	public ArrayList<MenuVO> selectAllmenu();
 	
-	public void insertCart(@Param("code") String code, @Param("m_codeStr") String a);
+	public void insertCart(Map<String, Object> map);
 	
 	public int insertCartDiyCalc(List<Object> map);
 	
