@@ -415,11 +415,4 @@ public class EventController {
 		//삭제 처리를 완료한 후 리스트로 이동
 		return "redirect:event.do";
 	}
-	
-
-	@RequestMapping("/community/eventView.do")
-	public String eventView() {
-		
-		return "community/eventView";
-	}
 }
