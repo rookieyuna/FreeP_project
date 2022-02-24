@@ -402,6 +402,9 @@ public class MenuController {
 		    info = JSONArray.fromObject(data);
 		     
 		    for (Map<String, Object> sendData : info) {
+		    	List<Object> targetList = new ArrayList<Object>(sendData.values());
+		    	Integer d_price = sqlSession.getMapper(MenuImpl.class).insertCartDiyCalc(targetList);
+		    	sendData.put("d_price", d_price);
 		        sqlSession.getMapper(MenuImpl.class).insertCartDiy(sendData);
 		    }  
 		      result.put("result", true);

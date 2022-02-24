@@ -107,17 +107,26 @@
 			FROM product P
             WHERE P.p_code = #{param1}
   	</insert>
+	
+	<select id="insertCartDiyCalc" parameterType="java.util.HashMap" resultType="int">
+		SELECT SUM(p_price) 
+			FROM product 
+			WHERE p_code IN
+			<foreach collection="list" item="value" index="key" open="(" separator="," close=")">
+		    	#{value}
+		    </foreach>
+	</select>
 
 	<insert id="insertCartDiy" parameterType="java.util.HashMap">
-  		INSERT INTO DIY(
-			G_CODE, DIY_IDX, 
-			DOUGH, SAUCE, TOPPING1, TOPPING2, TOPPING3, TOPPING4, TOPPING5, 
-			D_NAME, D_PRICE, D_OFILE, D_SFILE
-		)SELECT 
-			9, sq_diy_idx.nextval, 
-			#{dough}, #{sauce}, #{topping1}, #{topping2, jdbcType=INTEGER}, #{topping3, jdbcType=INTEGER}, #{topping4, jdbcType=INTEGER}, #{topping5, jdbcType=INTEGER},
-			P.p_name, P.p_price, P.p_ofile, P.p_sfile
-			    FROM product P
-			    WHERE P.p_code = #{dough}
+		INSERT INTO DIY(
+		            G_CODE, DIY_IDX, 
+		            DOUGH, SAUCE, TOPPING1, TOPPING2, TOPPING3, TOPPING4, TOPPING5, 
+		            D_NAME, D_PRICE
+		        )SELECT 
+		            9, sq_diy_idx.nextval, 
+		            #{dough}, #{sauce}, #{topping1}, #{topping2, jdbcType=INTEGER}, #{topping3, jdbcType=INTEGER}, #{topping4, jdbcType=INTEGER}, #{topping5, jdbcType=INTEGER},
+		            P.p_name, #{d_price}
+		                FROM product P
+		                WHERE P.p_code = #{dough}
   	</insert>
   </mapper>

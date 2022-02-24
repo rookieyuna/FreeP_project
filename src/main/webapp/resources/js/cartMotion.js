@@ -336,7 +336,7 @@ $(document).ready(function() {
 		var totalArr = [];
 		var jsonData = $("#insertCart").serializeArray();
 		var flag = $("#insertCart .set").length;
-		
+				
 		if(jsonData.name=="_csrf"){
 			
 		}else{

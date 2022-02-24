@@ -2,6 +2,7 @@ package menu;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
@@ -31,6 +32,8 @@ public interface MenuImpl {
 	public ArrayList<MenuVO> selectAllmenu();
 	
 	public void insertCart(@Param("code") String code, @Param("m_codeStr") String a);
+	
+	public int insertCartDiyCalc(List<Object> map);
 	
 	public void insertCartDiy(Map<String, Object> map);
 	
