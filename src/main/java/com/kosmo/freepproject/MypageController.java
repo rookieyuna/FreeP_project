@@ -2,7 +2,9 @@ package com.kosmo.freepproject;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,8 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import board.BoardDAOImpl;
+import board.BoardDTO;
 import coupon.CouponVO;
+import member.MemberImpl;
+import member.MemberVO;
 import mypage.MypageImpl;
 import orderlist.OrderlistVO;
 import point.PointVO;
@@ -231,7 +238,7 @@ public class MypageController {
 	}
 	
 	
-	
+	//좋아요 한 리뷰 리스트
 	@RequestMapping("/mypage/myFavReview.do")
 	public String myFavReview(Principal principal, Model model, HttpServletRequest req) {
 
@@ -270,18 +277,63 @@ public class MypageController {
 	
 	
 
-	//리뷰 리스트
-	@RequestMapping("/mypage/myFavorite.do")
-	public String myFavorite(Principal principal, Model model, HttpServletRequest req) {
-		
-		
-		return "mypage/myFavorite";
-	}
-	
-	
-	//1:1문의목록페이지 이동
+	//1:1문의 리스트
 	@RequestMapping("/mypage/myQuestion.do")
-	public String myQuestion() {
+	public String myQuestion(Principal principal, Model model, HttpServletRequest req) {
+		
+		ParameterDTO dto = new ParameterDTO();
+		dto.setId(principal.getName());
+		String m_code = sqlSession.getMapper(MypageImpl.class).myMcode(dto);
+		dto.setM_code(m_code);
+		
+		//좋아요 한 리뷰 카운트
+		int totalQuCount = sqlSession.getMapper(BoardDAOImpl.class).getQuCount(dto);
+		
+		int pageSize = 2; //한 페이지당 출력할 주문내역의 개수
+		int blockPage = 2; //한 블럭당 출력할 페이지 번호의 개수
+		
+		int nowPage = (req.getParameter("nowPage")==null || req.getParameter("nowPage").equals(""))
+				? 1 : Integer.parseInt(req.getParameter("nowPage"));
+		
+		int start = (nowPage-1) * pageSize +1;
+		int end = nowPage * pageSize;
+		
+		dto.setStart(start);
+		dto.setEnd(end);
+
+		ArrayList<BoardDTO> lists = sqlSession.getMapper(BoardDAOImpl.class).listQuPage(dto);
+		
+		String pagingImg = PagingUtil_front.pagingImg(totalQuCount,
+	            pageSize, blockPage, nowPage, 
+	            req.getContextPath()+"/mypage/myQuestion.do?");
+		
+		model.addAttribute("pagingImg", pagingImg);
+		model.addAttribute("lists", lists);
+		
 		return "mypage/myQuestion";
 	}
+	
+	
+	//1:1 문의 상세보기
+	@RequestMapping("/mypage/myQuView.do")
+	public String view(Principal principal, Model model, HttpServletRequest req) {
+		
+		ParameterDTO dto = new ParameterDTO();
+		dto.setId(principal.getName());
+		String m_code = sqlSession.getMapper(MypageImpl.class).myMcode(dto);
+		dto.setM_code(m_code);
+		dto.setB_idx(req.getParameter("b_idx"));
+		
+		BoardDTO boardDTO = sqlSession.getMapper(BoardDAOImpl.class).myQuView(dto);
+		
+		String temp = boardDTO.getContents().replace("\r\n","<br/>");
+		boardDTO.setContents(temp);
+		
+		model.addAttribute("dto", boardDTO);
+		
+		return "mypage/myQuView";
+	}
+	
+	
+
 }

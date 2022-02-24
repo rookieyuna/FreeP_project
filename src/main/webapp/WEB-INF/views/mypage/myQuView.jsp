@@ -47,12 +47,12 @@
                         <div class="menu-nav-wrap">
                             <div class="menu-nav">
                                 <ul>
-                                    <li><a href="./myMain.html">MY프리피</a></li>
-                                    <li><a href="./myOrder.html">주문내역</a></li>
-                                    <li><a href="./myCoupon.html">쿠폰/적립금</a></li>
-                                    <li><a href="../mypage/myReview1.do">MY리뷰</a></li>
-                                    <li class="active"><a href="./myQuestion.html">1:1문의</a></li>
-                                    <li><a href="./myUserinfo.html">정보수정</a></li>
+                                    <li class="active"><a href="../mypage/myMain.do">MY프리피</a></li>
+                                    <li><a href="../mypage/myOrder.do">주문내역</a></li>
+                                    <li><a href="../mypage/myCoupon.do">쿠폰/적립금</a></li>
+                                    <li><a href="../mypage/myReview.do">MY리뷰</a></li>
+                                    <li class="active"><a href="./myQuestion.do">1:1문의</a></li>
+                                    <li><a href="../mypage/myUserinfo.do">정보수정</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -65,34 +65,46 @@
                         </div>
 
                         <article class="view-area">
-                            <div class="menu-nav-wrap">
-                            </div>
+                            <div class="menu-nav-wrap"></div>
                             <div class="board-view">
-                            
+		                    	
+                                <%-- <dl class="board-content">                            
+                                    <dt>
+                                        <strong>
+                                        	<input type="text" value="${dto.title }" readonly/>
+                                        </strong>
+                                        <ul>
+                                            <li><input type="text" value="${dto.q_category }"readonly/></li>
+                                            <li><input type="text" value="${dto.postdate }"readonly/></li>
+                                        </ul>
+                                    </dt>
+                                    <dd>
+                                        <P><input type="text" value="${dto.contents }"readonly/></P> 
+                                    </dd>
+                                </dl> --%>
                                 <dl class="board-content">                            
                                     <input type="hidden" id="type" name="type" value="N" />
                                     <input type="hidden" id="pageNo" name="pageNo" value="1" />
                                     <input type="hidden" id="search" name="search" value="subject" />
                                     <input type="hidden" id="condition" name="condition" value="" />
                                     <dt>
-                                        <strong>[제품문의] 이거 맛있나요?</strong>
+                                        <strong>${dto.title }</strong>
                                         <ul>
-                                            <li>2022-02-08</li>
-                                            <li>답변완료</li>
+                                            <c:choose>
+						                    	<c:when test="${dto.q_category eq '1'}"><li>배달문의</li></c:when>
+						                    	<c:when test="${dto.q_category eq '2'}"><li>예약문의</li></c:when>
+						                    	<c:when test="${dto.q_category eq '3'}"><li>CS</li></c:when>
+						                    	<c:otherwise><li>기타</li></c:otherwise>
+						                    </c:choose>
+                                            <li>${dto.postdate }</li>
                                             <!-- <li>좋아요 <span>20</span></li> -->
                                         </ul>
                                     </dt>
                                     <dd>
-                                        <P>
-                                        불고기피자 맛있는지 궁금합니다<br>
-                                        피자 구성이 어떻게 되죠?<br>
-                                        알려주세요~
-                                        </P> 
+                                        <P>${dto.contents }</P> 
                                     </dd>
                                 </dl>
-                                <!-- <div class="menu-nav-wrap">
-                                </div> -->
-                                <dl class="board-content answer-title"> 
+                                <!-- <dl class="board-content answer-title"> 
                                     <dt>
                                         <strong>From. FreeP</strong>
                                         <ul>
@@ -106,11 +118,11 @@
                                         감사합니다~
                                         </P> 
                                     </dd>
-                                </dl>
+                                </dl> -->
 
                             </div>
                             <div class="btn-wrap">
-                                <a href="./myQuestion.html" class="btn-type v2">1:1문의목록</a>
+                                <a href="./myQuestion.do" class="btn-type v2">1:1문의목록</a>
                             </div>
                         </article>
                     </article>

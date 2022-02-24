@@ -51,9 +51,9 @@
                                     <li><a href="../mypage/myMain.do">MY프리피</a></li>
                                     <li><a href="../mypage/myOrder.do">주문내역</a></li>
                                     <li><a href="../mypage/myCoupon.do">쿠폰/적립금</a></li>
-                                    <li><a href="../mypage/myReview1.do">MY리뷰</a></li>
+                                    <li><a href="../mypage/myReview.do">MY리뷰</a></li>
                                     <li><a href="../mypage/myQuestion.do">1:1문의</a></li>
-                                    <li class="active"><a href="./myUserinfo.html">정보수정</a></li>
+                                    <li class="active"><a href="./myUserinfo.do">정보수정</a></li>
                                 </ul>
                             </div>
                         </div>

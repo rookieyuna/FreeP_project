@@ -16,7 +16,9 @@ import org.springframework.stereotype.Service;
 public interface BoardDAOImpl {
 	
 	public int getTotalCount(int a);
+	public int getQuCount(util.ParameterDTO parameterDTO);
 	public ArrayList<BoardDTO> listPage(int a, int s, int e);
+	public ArrayList<BoardDTO> listQuPage(util.ParameterDTO parameterDTO);
 	
 	public int getTotalCountSearch(ParameterDTO parameterDTO);
 	public ArrayList<BoardDTO> listPageSearch(ParameterDTO parameterDTO);
@@ -27,6 +29,7 @@ public interface BoardDAOImpl {
 	public int findm_code(String a);
 	
 	public BoardDTO view(BoardDTO boardDTO);
+	public BoardDTO myQuView(util.ParameterDTO parameterDTO);
 	
 	public void edit(BoardDTO boardDTO);
 	
