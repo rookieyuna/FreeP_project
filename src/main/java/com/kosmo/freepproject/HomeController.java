@@ -120,10 +120,4 @@ public class HomeController {
 		
 	}
 	 
-	 @RequestMapping(value="/mypage/myInfoUpdate", method=RequestMethod.GET) 
-	 public String base3() { 
-		 return "/mypage/myInfoUpdate"; 
-		 
-	 }
-	 
 }

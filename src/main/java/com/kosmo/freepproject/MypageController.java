@@ -395,7 +395,12 @@ public class MypageController {
 		MemberVO memberVO = new MemberVO();
 		memberVO.setM_code(Integer.parseInt(req.getParameter("m_code"))); 
 		memberVO.setName(req.getParameter("name")); 
-		memberVO.setPass(req.getParameter("pass1")); 
+		if(req.getParameter("pass1")!= "") {
+			memberVO.setPass(req.getParameter("pass1"));
+		}
+		else if(req.getParameter("pass1")== "") {
+			memberVO.setPass(req.getParameter("old_pass")); 
+		}
 		memberVO.setPhone(phone);
 		memberVO.setEmail(email);
 		memberVO.setZipcode(req.getParameter("zipcode"));
@@ -403,28 +408,14 @@ public class MypageController {
 		
 		int result =sqlSession.getMapper(MemberImpl.class).myModify(memberVO);
 		
-		
-//		String resultmsg="";
-//		if(result>0) {
-//			resultmsg="<script>alert('회원 정보가 수정되었습니다.');location.href='/index.do'</script>";
-//		}
-//		else {
-//			resultmsg="<script>alert('회원 정보 수정이 실패되었습니다.');location.href='/mypage/myInfoUpdate.do'</script>";
-//		}
-		
 		if(result>0) {
-			System.out.println("ffffffffffffffffffffffffffffffffffffffffffff");
 			model.addAttribute("msg","회원 정보가 수정되었습니다.");
-			model.addAttribute("url","/myUserinfo.do");
-			return "mypage/myInfoUpdate1";
+			return "mypage/myInfoUpdate";
 		}
 		else {
-			System.out.println("ggggggggggggggggggggggggggggggggggggggggg");
-			model.addAttribute("msg","회원 정보 수정이 실패되었습니다.");
-	        model.addAttribute("url","/mypage/myInfoUpdate.do");
-	        return "mypage/myInfoUpdate1";
+			model.addAttribute("msg","회원 정보 수정 실패하였습니다.");
+	        model.addAttribute("url","/myInfoUpdate.do");
+	        return "mypage/myInfoUpdate";
 		}
-		
-		
 	}
 }
