@@ -32,6 +32,9 @@ public interface MemberImpl {
 	//아이디 중복체크
 	public int idChk(String id) throws Exception;
 	
+	//회원가입시 자동으로 가입축하 쿠폰추가.
+	public int coupon(MemberVO memberVO);
+	
 	
 	//기존 게시물의 내용을 읽어오기 위한 메서드
 	public MemberVO view(ParameterDTO parameterDTO);

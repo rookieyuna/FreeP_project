@@ -47,7 +47,7 @@
                         <div class="join-step3">
                             <div class="step-list">
                                 <ul>
-                                    <li>01 본인인증</li>
+                                    <li>01 약관동의</li>
                                     <li>02 개인정보입력</li>
                                     <li class="active">03 가입완료</li>
                                 </ul>
@@ -65,8 +65,8 @@
                                     로그인 후 쿠폰함으로 제공된 선물을 확인하세요!
                                 </p>
                                 <div class="btn-wrap">
-                                    <a href="https://web.dominos.co.kr/main" class="btn-type v4">HOME</a>
-                                    <a href="javascript:doLogin();" class="btn-type v6">로그인</a>
+                                    <a href="/freepproject/index.do" class="btn-type v4">HOME</a>
+                                    <a href="/freepproject/member/login.do" class="btn-type v6">로그인</a>
                                 </div>
                             </div>
                             </div>

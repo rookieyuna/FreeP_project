@@ -8,6 +8,9 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- 시큐리티랑 ajax같이 쓰려면 이걸 써야 함. -->
+<meta name="_csrf" content="${_csrf.token}">
+<meta name="_csrf_header" content="${_csrf.headerName}">
 <title>나만의 맞춤 피자 Free</title>
 
 <!-- font 영역 -->
@@ -42,17 +45,48 @@
 		}
 	}
 	
-	function id_check_person() {
+	
+ 	/* function id_check_person() {
 		$.ajax({  
-			 url : './id_check_person.do?id=' + $("#id").val(),               
-			 type : 'get',       
-			 completed : function(data){
-				 if(data != 0){
+			url : '/member/id_check_person.do',               
+			type : 'post', 
+			dataType : "JSON"
+			data : {"id" : $("#id").val()},
+			success : function(data){
+				if(data == 1){
+					 alert("아이디가 이미 사용 중입니다.");
+				}else if(data == 0){
+					 $("#idChk").attr("value", "Y");
+					 alert("사용 가능한 아이디 입니다.");
+				}
+			} 
+			 
+		})
+	} */
+ 	function id_check_person() {
+		
+		var token = $("meta[name='_csrf']").attr("content");
+	    var header = $("meta[name='_csrf_header']").attr("content");
+		
+		$.ajax({  
+			 url : './id_check_person.do?id='+$("#id").val(),               
+			 type : 'get',
+			 beforeSend : function(xhr){
+	        		xhr.setRequestHeader(header, token);
+	            },
+			 dataType : "json",
+			 success : function(data){
+				 var num = data.num;
+				 if(num != 0){
 					 alert("아이디가 이미 사용 중입니다.");
 					 
 				 }
-
-			 } 
+			 },
+			 error : function(request,statue,error){
+	            	alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"
+	            			+"\n"+"error:"+error)
+	            	
+	            }
 			}); 
 	}
 	
@@ -129,7 +163,7 @@
                                     <dd>
                                         <div class="form-item name">
                                             <input type="text" name="id" id="id" maxlength="16">
-                                            <button type="button" name="idovr"  onclick="id_check_person()" style="cursor:hand;"class="btn-type v7" >중복확인</button>
+                                            <button type="button" name="idovr"  id ="idChk" onclick="id_check_person();" style="cursor:hand;"class="btn-type v7" >중복확인</button>
                                         </div>
                                         <div class="text-type4" id="id_alert" style="display:none;"></div>
                                     </dd>
@@ -191,7 +225,7 @@
                                                 <input type="text" name="email2" id="email2" readonly>
                                                 <div class="select-type2">
                                                     <select name="email3" id="email3" onchange="email_input(this.form);" class="selected" width=20px;>
-                                                    	<option selected="" value="">선택하세요</option>
+                                                    	<option selected="" value="">메일선택</option>
                                                         <option value="naver.com">네이버</option>
                                                         <option value="hanmail.net">한메일</option>
                                                         <option value="gmail.com">지메일</option>
