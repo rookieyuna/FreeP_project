@@ -22,6 +22,7 @@ import coupon.CouponVO;
 import member.MemberImpl;
 import member.MemberVO;
 import order.OrderImpl;
+import orderlist.OrderlistVO;
 import util.ParameterDTO;
 
 @Controller
@@ -120,6 +121,32 @@ public class OrderController {
 		result.put("coupon",lists);
 
 		return result;
+	}
+	
+	@RequestMapping("/order/pay.do")
+	public String pay(Model model, HttpServletRequest req, Principal principal) {
+		
+		String user_id = "";
+		user_id = principal.getName();
+		int m_code = sqlSession.getMapper(BoardDAOImpl.class).findm_code(user_id);
+		
+		OrderlistVO dto = new OrderlistVO();
+		
+		
+		ArrayList<CartDTO> lists =
+				sqlSession.getMapper(OrderImpl.class).listCt(m_code); 
+		model.addAttribute("lists", lists);
+		
+		//장바구니에 저장되어있는 것들 총 금액?
+		
+		int sum = sqlSession.getMapper(CartImpl.class).sum1(m_code);
+		int sum1 = sqlSession.getMapper(CartImpl.class).sum2(m_code);
+			
+		model.addAttribute("sum", sum+sum1);
+		
+		
+		
+		return "common/cart.do";
 	}
 	
 }

@@ -386,7 +386,6 @@ public class MypageController {
 	
 	//회원정보 수정
 	@RequestMapping("/mypage/myInfoUpdate.do")
-	@ResponseBody
 	public String myInfoUpdate(HttpServletRequest req, Model model) {
 		
 		String phone = req.getParameter("hand_tel1")+"-"+req.getParameter("hand_tel2")+"-"+req.getParameter("hand_tel3");
@@ -412,14 +411,20 @@ public class MypageController {
 //		else {
 //			resultmsg="<script>alert('회원 정보 수정이 실패되었습니다.');location.href='/mypage/myInfoUpdate.do'</script>";
 //		}
+		
 		if(result>0) {
+			System.out.println("ffffffffffffffffffffffffffffffffffffffffffff");
 			model.addAttribute("msg","회원 정보가 수정되었습니다.");
 			model.addAttribute("url","/myUserinfo.do");
+			return "mypage/myInfoUpdate1";
 		}
 		else {
+			System.out.println("ggggggggggggggggggggggggggggggggggggggggg");
 			model.addAttribute("msg","회원 정보 수정이 실패되었습니다.");
 	        model.addAttribute("url","/mypage/myInfoUpdate.do");
+	        return "mypage/myInfoUpdate1";
 		}
-		return "mypage/myInfoUpdate";
+		
+		
 	}
 }

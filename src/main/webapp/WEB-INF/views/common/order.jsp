@@ -171,7 +171,7 @@ function fn_custInfo(){
                         </div>
                     </div>
                     <!-- //1depth 메뉴명 & 네비게이션 -->
-
+					<form name="payFrm" method="post" action="./pay.do" onsubmit="" >
                     <article class="pay">
                         
 
@@ -186,6 +186,8 @@ function fn_custInfo(){
                                     </div>
 
                                     <div class="deli-info">
+                                    <!-- 매장코드 -->
+                                    	<input type="hidden" name="storeCode" value="1" />
                                         <div class="address">
                                             서울특별시 금천구 가산동 426-5 월드 메르디앙 벤처 센터 2 차 410 호</div>
                                         <div class="store">
@@ -483,13 +485,19 @@ function fn_useCoupon(data,cate,price){
                             <div class="title-wrap">
                                 <h3 class="title-type"><strong>결제수단 선택</strong></h3>
                             </div>
-                            
+                            <script>
+                               function clickPayType(data){
+                            	   document.getElementById("credit").value = data;
+                            	   
+                               }
+                            </script>
                             <div class="pay-div">
+                            <input type="hidden" id="credit" name="credit" value="0" />
                                 <ul>
                                     <li>
                                         <div class="chk-box btn-dominopay selected" id="pay_method_2"
                                             data-mid="dopaytestP" data-value="D|2|Y"
-                                            onclick="clickPayType('radio', this);">
+                                            onclick="clickPayType('1');">
                                             <input type="radio" id="sel-dominopay" name="select-payMethod">
                                             <label class="checkbox" for="sel-dominopay"></label>
                                             <label for="sel-dominopay">카드결제</label>
@@ -497,7 +505,7 @@ function fn_useCoupon(data,cate,price){
                                     </li>
                                     
                                     <li>
-                                        <div class="chk-box btn-otherMethod"
+                                        <div class="chk-box btn-otherMethod" onclick="clickPayType('0');"
                                             onmousedown="eval('try{ _trk_clickTrace( \'EVT\', \'결제하기 >다른 결제수단 선택하기\'); }catch(_e){ }');">
                                             <input type="radio" id="sel-otherMethod" name="select-payMethod">
                                             <label class="checkbox" for="sel-otherMethod"></label>
@@ -507,7 +515,7 @@ function fn_useCoupon(data,cate,price){
                                             <ul class="pay-info">
                                                 <li class="list-chk">
                                                     <div class="chk-box btn-payMethod" id="pay_method_4" data-hidedefault=""
-                                                        data-value="9|4|Y" onclick="clickPayType('radio', this);">
+                                                        data-value="9|4|Y" onclick="clickPayType('21');">
                                                         <input type="radio" id="pay1" name="pay"
                                                             onclick="event.stopPropagation()">
                                                         <label class="paynm" for="pay1">만나서 카드결제</label>
@@ -515,14 +523,14 @@ function fn_useCoupon(data,cate,price){
                                                 </li>
                                                 <li class="list-chk">
                                                     <div class="chk-box btn-payMethod" id="pay_method_4" data-hidedefault=""
-                                                        data-value="9|4|Y" onclick="clickPayType('radio', this);">
+                                                        data-value="9|4|Y" onclick="clickPayType('22');">
                                                         <input type="radio" id="pay2" name="pay"
                                                             onclick="event.stopPropagation()">
                                                         <label class="paynm" for="pay2">현금결제</label>
                                                     </div>
-                                                    <div class="chk-box v3 pay2_bill">
+                                                    <div class="chk-box v3 pay2_bill" onclick="clickPayType('221');">
                                                         <input type="checkbox" id="pay2_bill_check">
-                                                        <label class="checkbox" for="pay2_bill_check"></label>
+                                                        <label class="checkbox" for="pay2_bill_check" ></label>
                                                         <label for="pay2_bill_check">현금영수증 발급받기</label>
                                                     </div>
                                                 </li>
@@ -587,11 +595,13 @@ function fn_useCoupon(data,cate,price){
 
                         <!-- 주문하기 버튼 -->
                         <div class="btn-wrap">
-                            <a href="#" class="btn-type">결제하기</a>
+                        	<button type="submit" class="btn-type">결제하기</button>
+                        
                         </div>
                         <!-- //주문하기 버튼 -->
 
                     </article>
+                    </form>
                 </div><!-- //inner-box -->
             </div>
         </div>

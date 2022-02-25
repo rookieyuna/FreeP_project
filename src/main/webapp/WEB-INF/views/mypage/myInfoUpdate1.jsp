@@ -24,11 +24,17 @@
 </head>
 <body>
 <script type="text/javascript">
-    
-	var message = "${msg}";
-	var url = "${url}";
-	alert(message);
-	document.location.href = url;
+$(document).ready(function() {
+	mypage();
+}); 
+
+    function mypage(){
+		var message = "${msg}";
+		/* var url = "${url}"; */
+		alert(message);
+		/* document.location.href = url; */
+    	
+    }
 </script>
     <!-- header s -->
     <header id="header">
