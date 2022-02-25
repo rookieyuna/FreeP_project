@@ -8,6 +8,7 @@ public class ParameterDTO {
 	private String or_idx;//주문번호
 	private String m_code;//회원코드
 	private String id;//회원id
+	private String pass;//회원pwd
 	private String g_code;//상품구분
 	private String p_code;//상품코드
 	private String p_name;//상품이름

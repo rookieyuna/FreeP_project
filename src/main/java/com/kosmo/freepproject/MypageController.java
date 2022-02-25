@@ -13,10 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import board.BoardDAOImpl;
 import board.BoardDTO;
+import cart.CartImpl;
 import coupon.CouponVO;
 import member.MemberImpl;
 import member.MemberVO;
@@ -335,5 +337,89 @@ public class MypageController {
 	}
 	
 	
-
+	//정보수정 전 비밀번호찾기 페이지 진입
+	@RequestMapping("/mypage/myUserinfo.do")
+	public String myUserinfo(Principal principal, Model model) {
+		
+		String id = principal.getName();
+		model.addAttribute("id", id);
+		
+		return "mypage/myUserinfo";
+	}
+		
+	
+	//비밀번호 확인
+	@RequestMapping(value = "/mypage/myPwdChk.do")
+	@ResponseBody
+	public  Map<String,Object> myPwdChk(HttpServletRequest req, Principal principal){
+	    
+		ParameterDTO dto = new ParameterDTO();
+		dto.setPass(req.getParameter("password"));
+		dto.setId(principal.getName());
+		
+		//id와 pw를 넘겨줘서 결과값을 count함
+		int chkResult = sqlSession.getMapper(MypageImpl.class).myPwdChk(dto);
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("chkResult", chkResult);
+		
+	    return result;
+	}
+	
+	
+	//회원정보 수정페이지 진입
+	@RequestMapping("/mypage/myUserinfoMod.do")
+	public String myInfo(Principal principal, Model model, HttpServletRequest req) {
+		
+		ParameterDTO dto = new ParameterDTO();
+		dto.setId(principal.getName());
+		String m_code = sqlSession.getMapper(MypageImpl.class).myMcode(dto);
+		dto.setM_code(m_code);
+		
+		MemberVO vo = sqlSession.getMapper(MemberImpl.class).view(dto);
+		
+		model.addAttribute("vo", vo);
+		
+		return "mypage/myUserinfoMod";
+	}
+	
+	
+	//회원정보 수정
+	@RequestMapping("/mypage/myInfoUpdate.do")
+	@ResponseBody
+	public String myInfoUpdate(HttpServletRequest req, Model model) {
+		
+		String phone = req.getParameter("hand_tel1")+"-"+req.getParameter("hand_tel2")+"-"+req.getParameter("hand_tel3");
+		String email = req.getParameter("email1")+"@"+req.getParameter("email2");
+		String address = req.getParameter("address")+" "+req.getParameter("address2");
+		
+		MemberVO memberVO = new MemberVO();
+		memberVO.setM_code(Integer.parseInt(req.getParameter("m_code"))); 
+		memberVO.setName(req.getParameter("name")); 
+		memberVO.setPass(req.getParameter("pass1")); 
+		memberVO.setPhone(phone);
+		memberVO.setEmail(email);
+		memberVO.setZipcode(req.getParameter("zipcode"));
+		memberVO.setAddress(address); 
+		
+		int result =sqlSession.getMapper(MemberImpl.class).myModify(memberVO);
+		
+		
+//		String resultmsg="";
+//		if(result>0) {
+//			resultmsg="<script>alert('회원 정보가 수정되었습니다.');location.href='/index.do'</script>";
+//		}
+//		else {
+//			resultmsg="<script>alert('회원 정보 수정이 실패되었습니다.');location.href='/mypage/myInfoUpdate.do'</script>";
+//		}
+		if(result>0) {
+			model.addAttribute("msg","회원 정보가 수정되었습니다.");
+			model.addAttribute("url","/myUserinfo.do");
+		}
+		else {
+			model.addAttribute("msg","회원 정보 수정이 실패되었습니다.");
+	        model.addAttribute("url","/mypage/myInfoUpdate.do");
+		}
+		return "mypage/myInfoUpdate";
+	}
 }

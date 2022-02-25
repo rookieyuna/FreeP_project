@@ -122,31 +122,8 @@
 	</select>
 	
 	
-	<!-- @Param 어노테이션에서 지정한 별칭을 사용하여 인파라미터를 처리
-	<insert id="regist">
-		INSERT INTO member (m_code, id, name, pass, phone, email, grade)
-		VALUES
-		(seq_member_num.nextval, #{_id}, #{_name}, #{_pass}, #{_phone}, #{_email}, #{_grade})
-	</insert>
-	
-	
-	<select id="view" resultType="member.MemberVO" parameterType="util.ParameterDTO">
-		SELECT * FROM member WHERE m_code=#{m_code}
+	<!-- 비밀번호 일치회원 찾기 -->
+	<select id="myPwdChk" resultType="int" parameterType="util.ParameterDTO">
+	   SELECT COUNT(*) FROM member WHERE id=#{id} and pass=#{pass}
 	</select>
-	
-	
-	<update id="modify" parameterType="member.MemberVO">
-		UPDATE member 
-			SET id=#{id}, name=#{name},
-			pass=#{pass}, phone=#{phone},
-			email=#{email}, zipcode=#{zipcode},
-			regidate=#{regidate}, grade=#{grade},
-			point=#{point}, active=#{active}
-			WHERE m_code=#{m_code}
-	</update>
-	
-	
-	<delete id="delete">
-		DELETE FROM member WHERE m_code=#{m_code}
-	</delete> -->
 </mapper>

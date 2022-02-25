@@ -51,7 +51,7 @@
                                     <li><a href="../myCoupon.html">쿠폰/적립금</a></li>
                                     <li><a href="../mypage/myReview.do">MY리뷰</a></li>
                                     <li class="active"><a href="../myQuestion.do">1:1문의</a></li>
-                                    <li><a href="../myUserinfo.do">정보수정</a></li>
+                                    <li><a href="../mypage/myUserinfo.do">정보수정</a></li>
                                 </ul>
                             </div>
                         </div>

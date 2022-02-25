@@ -76,6 +76,13 @@
 			WHERE m_code=#{m_code}
 	</update>
 	
+	<update id="myModify" parameterType="member.MemberVO">
+		UPDATE member 
+			SET name=#{name}, pass=#{pass}, phone=#{phone},
+			email=#{email}, zipcode=#{zipcode}, address=#{address}
+			WHERE m_code=#{m_code}
+	</update>
+	
 	
 	<delete id="delete">
 		DELETE FROM member WHERE m_code=#{m_code}
