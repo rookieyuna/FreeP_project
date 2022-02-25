@@ -54,8 +54,62 @@
 	<!-- 매장검색 -->
 	<select id="getList" resultType="store.StoreVO" parameterType="util.ParameterDTO">
 	   SELECT * FROM store
-	   <if test="searchTxt!=null and !searchTxt.equals('')">
-	      WHERE ${searchField} LIKE '%'||#{searchTxt}||'%'
+	   <if test="searchTxt!=null and !searchTxt.equals('') or storeName!=null">
+	      WHERE
+	      	<if test="searchField == '01'">
+				address like '%서울%' and address like '%'||#{searchTxt}||'%'
+			</if>
+			<if test="searchField == '02'">
+				address like '%인천%' and address like '%'||#{searchTxt}||'%'
+			</if>
+			<if test="searchField == '03'">
+				address like '%경기%' and address like '%'||#{searchTxt}||'%'
+			</if>
+			<if test="searchField == '04'">
+				address like '%강원%' and address like '%'||#{searchTxt}||'%'
+			</if>
+			<if test="searchField == '05'">
+				address like '%충청남%' and address like '%'||#{searchTxt}||'%'
+			</if>
+			<if test="searchField == '06'">
+				address like '%충청북%' and address like '%'||#{searchTxt}||'%'
+			</if>
+			<if test="searchField == '07'">
+				address like '%대전%' and address like '%'||#{searchTxt}||'%'
+			</if>
+			<if test="searchField == '08'">
+				address like '%경상남%' and address like '%'||#{searchTxt}||'%'
+			</if>
+			<if test="searchField == '09'">
+				address like '%경상북%' and address like '%'||#{searchTxt}||'%'
+			</if>
+			<if test="searchField == '10'">
+				address like '%대구%' and address like '%'||#{searchTxt}||'%'
+			</if>
+			<if test="searchField == '11'">
+				address like '%전라남%' and address like '%'||#{searchTxt}||'%'
+			</if>
+			<if test="searchField == '12'">
+				address like '%전라북%' and address like '%'||#{searchTxt}||'%'
+			</if>
+			<if test="searchField == '13'">
+				address like '%광주%' and address like '%'||#{searchTxt}||'%'
+			</if>
+			<if test="searchField == '14'">
+				address like '%울산%' and address like '%'||#{searchTxt}||'%'
+			</if>
+			<if test="searchField == '15'">
+				address like '%부산%' and address like '%'||#{searchTxt}||'%'
+			</if>
+			<if test="searchField == '16'">
+				address like '%세종%' and address like '%'||#{searchTxt}||'%'
+			</if>
+			<if test="searchField == '17'">
+				address like '%제주%' and address like '%'||#{searchTxt}||'%'
+			</if>
+			<if test="storeName!=null">
+				b_name like '%'||#{storeName}||'%'
+			</if>
 	   </if>
 	</select>
 

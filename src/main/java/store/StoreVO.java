@@ -10,4 +10,5 @@ public class StoreVO {
 	private String latitude; //경도
 	private String longitude; //위도
 	private String phone; //연락처
+	private String storeName; //매장검색용
 }

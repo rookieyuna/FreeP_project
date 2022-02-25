@@ -19,7 +19,8 @@ public class ParameterDTO {
 	private String b_idx; //게시글번호
 	private String yearMonth; //매출현황 날짜검색
 	private String address; //매출현황 지역검색1
-	private String location; //매출현황 지역검색2
+	private String locations; //매출현황 지역검색2
+	private String storeName;//지도 매장명검색
 	
 	//회원구분을 위한 변수
 	private String grade;

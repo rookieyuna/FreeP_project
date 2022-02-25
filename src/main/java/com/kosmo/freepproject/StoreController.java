@@ -176,9 +176,12 @@ public class StoreController {
 		
 		//Mapper로 전달할 파라미터를 저장할 DTO 객체 생성
 		ParameterDTO parameterDTO = new ParameterDTO();
+		
 		//검색어가 있을 경우 저장
 		parameterDTO.setSearchField(req.getParameter("searchField"));
 		parameterDTO.setSearchTxt(req.getParameter("searchTxt"));
+		
+		parameterDTO.setStoreName(req.getParameter("storeName"));
 		
 		//게시물 카운트(DTO 객체를 인수로 전달)
 		int totalRecordCount = 
@@ -186,10 +189,10 @@ public class StoreController {
 		//System.out.println("totalRecordCount"+ totalRecordCount);
 		
 		//출력할 게시물 select(DTO객체를 인수로 전달)
-		ArrayList<StoreVO> lists = 
+		ArrayList<StoreVO> list = 
 				sqlSession.getMapper(StoreImpl.class).getList(parameterDTO);
 		
-		model.addAttribute("lists", lists);
+		model.addAttribute("list", list);
 		
 		//검색 기능이 추가된 view를 반환
 		return "company/searchStore";

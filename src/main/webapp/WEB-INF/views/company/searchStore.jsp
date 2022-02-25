@@ -20,6 +20,8 @@
     <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
     <!-- js 라이브러리 영역 -->
     <script src="../js/jquery-3.6.0.js"></script>
+    <!-- 지도관련 스크립트 -->
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=593cf326bf3de1201b2f6d9d0a803f3f&libraries=services"></script>
 </head>
 <body>
 <!-- wrap s -->
@@ -73,7 +75,6 @@
                                 <div class="store-map-wrap">
                                     <div class="store-map" id="map_canvas">
                                         <div id="map" style="position: relative; width: 100%; height: 100%; z-index: 0; overflow: hidden;">
-                                        <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=593cf326bf3de1201b2f6d9d0a803f3f"></script>
                                         <script>
 										var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
 										    mapOption = { 
@@ -352,12 +353,13 @@
                                     </ul>
                                 </div>
                                 <!-- 지역 검색 -->
+                                <form name="storeMap" action="">
                                 <div class="tab-content active" id="storeSrch1">
                                     <div class="address-set-wrap store">
                                         <div class="form-group srch-type">
                                             <div class="form-item">
                                                 <div class="select-type type2">
-                                                    <select id="region_code_1" onchange="LocationChange(this)">
+                                                    <select id="region_code_1" name="searchField" onchange="LocationChange(this)">
                                                         <option value="" selected="">시/도</option>
                                                         <option value="01">서울</option>
                                                         <option value="02">인천</option>
@@ -381,13 +383,13 @@
                                             </div>
                                             <div class="form-item">
                                                 <div class="select-type type2">
-                                                    <select id="region_code_2">
+                                                    <select id="region_code_2" name="searchTxt">
                                                         <option value="">구/군</option>
                                                         </select>
                                                 </div>
                                             </div>
                                             <div class="form-item">
-                                                <button type="submit" class="btn-search" onclick="findBranch('address'); return false;">
+                                                <button type="submit" class="btn-search" onclick="setCenter();">
                                                     <span class="material-icons-outlined">search</span>
                                                 </button>
                                             </div>
@@ -404,15 +406,17 @@
         
                                     </div>
                                 </div>
+                                </form>
                                 <!-- //지역 검색 -->
         
                                 <!-- 매장명 -->
+                                <form name="storeNameSearch" onsubmit="searchPlaces(); return false;">
                                 <div class="tab-content" id="menu_wrap">
                                     <div class="address-set-wrap store">
                                         <div class="form-group srch-type">
                                             <div class="form-item">
                                             	<form onsubmit="searchPlaces(); return false;">
-                                                <input type="text" id="keyword" placeholder="매장명을 검색하세요." value="">
+                                                <input type="text" id="keyword"  name="storeName" placeholder="매장명을 검색하세요." value="">
                                                 </form>
                                             </div>
                                             <div class="form-item">
@@ -424,16 +428,17 @@
                                         </div>
                                     </div>
                                 </div>
+                                </form>
                                 <!-- //매장명 -->
                                 <div class="store-address-list">
                                     <ul id="placesList">
                                     	<c:choose>
-											<c:when test="${empty lists }">
+											<c:when test="${empty list }">
 					                    		<dd colspan="3" align="center">등록된 매장이 없습니다.</td>
 											</c:when>
 											<c:otherwise> 
 												<!-- 게시물이 있을때 -->
-												<c:forEach items="${lists }" var="row">
+												<c:forEach items="${list }" var="row">
 													<li>
 			                                            <dl>
 			                                                <dt>${row.b_name }<span class="tel" href="">${row.phone }</span></dt>
