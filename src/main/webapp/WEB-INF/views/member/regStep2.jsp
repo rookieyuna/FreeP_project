@@ -27,6 +27,132 @@
 <!-- js 라이브러리 영역 -->
 <script src="../js/jquery-3.6.0.js"></script>
 <script>
+
+	//회원정보 입력 확인
+	var validateForm = function(frm) {
+		if(frm.name.value==''){
+	        alert('이름을 입력하세요');
+	        frm.name.focus();
+	        return false;
+	    }
+		if(frm.id.value==''){
+	        alert('아이디를 입력하세요');
+	        frm.id.focus();
+	        return false;
+	    }
+		if(frm.pass.value==''){
+	        alert('비밀번호를 입력하세요');
+	        frm.pass.focus();
+	        return false;
+	    }
+		if(frm.pass2.value==''){
+	        alert('비밀번호확인을 입력하세요');
+	        frm.pass2.focus();
+	        return false;
+	    }
+	    //비밀번호 : 입력값이 둘 다 동일한지 검증. 만약 틀리면 다시 입력요구
+	    if(frm.pass.value != frm.pass2.value){
+	        alert('입력한 패스워드가 일치하지 않습니다.');
+	        //frm.pass.value="";//기존에 입력된 패스워드를
+	        frm.pass2.value="";//지워준다.
+	        frm.pass2.focus();
+	        return false;
+	    }
+		/* if(!frm.hand_tel1.value || !frm.hand_tel2.value || !frm.hand_tel3.value){
+	        alert('전화번호를 입력하세요');
+	        return false;
+	    } */
+		//전화번호를 입력
+		if(frm.hand_tel2.value==''){
+	        alert('전화번호를 입력하세요');
+	        frm.hand_tel2.focus();
+	        return false;
+	    }
+		if(frm.hand_tel3.value==''){
+	        alert('전화번호 마지막자리를 입력하세요');
+	        frm.hand_tel3.focus();
+	        return false;
+	    }
+		//이메일 주소를 입력
+		if(frm.email1.value==''){
+	        alert('이메일주소를 입력하세요');
+	        frm.email1.focus();
+	        return false;
+	    }
+		//이메일 도메인 주소 입력
+		if(frm.email2.value==''){
+	        alert('도메인주소를 입력하세요');
+	        frm.email2.focus();
+	        return false;
+	    }
+		//우편번호를 입력
+		if(frm.zipcode.value==''){
+	        alert('우편번호를 입력하세요');
+	        frm.zipcode.focus();
+	        return false;
+	    }
+		//주소를 입력
+		if(frm.address.value==''){
+	        alert('주소를 입력하세요');
+	        frm.address.focus();
+	        return false;
+	    }
+		//상세주소를 입력
+		if(frm.address2.value==''){
+	        alert('상세주소를 입력하세요');
+	        frm.address2.focus();
+	        return false;
+	    }
+		
+		
+		
+		//아이디는 8~12자로 입력
+	    if(!(frm.id.value.length>=4 && frm.id.value.length<=12)){
+	        alert("아이디는 4~12자 사이만 가능합니다.");
+	        frm.id.value = '';//잘못된 입력값이므로 지워준다.
+	        frm.id.focus();//재입력해야 하므로 포커싱 한다.
+	        return false;//서버로 전송을 중단해야 하므로 false반환
+	    }
+		
+	    /*
+	    아이디를 구성하는 각 문자가 소문자a~z, 대문자A~Z 숫자0~9사이가 아니라면
+	    잘못된 문자가 포함된 경우이므로 전송을 중단해야 한다.
+	    */
+	    for(var i=0 ; i<frm.id.value.length; i++){//아이디의 길이만큼 반복
+	        if(!((frm.id.value[i]>='a'&& frm.id.value[i]<='z') ||
+	            (frm.id.value[i]>='A'&& frm.id.value[i]<='Z') ||
+	            (frm.id.value[i]>='0'&& frm.id.value[i]<='9'))){
+	            alert('아이디는 영문과 숫자의 조합으로만 사용할 수 있습니다.');
+	            frm.id.value='';
+	            frm.id.focus();
+	            return false;
+	        }
+		}
+		//패스워드는 4~12자로 입력
+	    if(!(frm.pass.value.length>=4 && frm.pass.value.length<=12)){
+	        alert("패스워드는 4~12자 사이만 가능합니다.");
+	        frm.pass.value = '';//잘못된 입력값이므로 지워준다.
+	        frm.pass.focus();//재입력해야 하므로 포커싱 한다.
+	        return false;//서버로 전송을 중단해야 하므로 false반환
+	    }
+		
+	    /*
+	    패스워드를 구성하는 각 문자가 소문자a~z, 대문자A~Z 숫자0~9사이가 아니라면
+	    잘못된 문자가 포함된 경우이므로 전송을 중단해야 한다.
+	    */
+	    for(var i=0 ; i<frm.pass.value.length; i++){//아이디의 길이만큼 반복
+	        if(!((frm.pass.value[i]>='a'&& frm.pass.value[i]<='z') ||
+	            (frm.pass.value[i]>='A'&& frm.pass.value[i]<='Z') ||
+	            (frm.pass.value[i]>='0'&& frm.pass.value[i]<='9'))){
+	            alert('패스워드는 영문과 숫자의 조합으로만 사용할 수 있습니다.');
+	            frm.pass.value='';
+	            frm.pass.focus();
+	            return false;
+	        }
+		}
+	}
+
+
 	//이메일 골라서 인풋박스에 집어넣는 작업과 직접 입력 누를때 외에는 작성 못하도록 disabled 속성 추가.
 	function email_input(frm){
 		var domain = email3.value;
@@ -46,23 +172,7 @@
 	}
 	
 	
- 	/* function id_check_person() {
-		$.ajax({  
-			url : '/member/id_check_person.do',               
-			type : 'post', 
-			dataType : "JSON"
-			data : {"id" : $("#id").val()},
-			success : function(data){
-				if(data == 1){
-					 alert("아이디가 이미 사용 중입니다.");
-				}else if(data == 0){
-					 $("#idChk").attr("value", "Y");
-					 alert("사용 가능한 아이디 입니다.");
-				}
-			} 
-			 
-		})
-	} */
+ 	// 아이디 중복확인.
  	function id_check_person() {
 		
 		var token = $("meta[name='_csrf']").attr("content");
@@ -78,8 +188,11 @@
 			 success : function(data){
 				 var num = data.num;
 				 if(num != 0){
-					 alert("아이디가 이미 사용 중입니다.");
-					 
+					 alert("아이디가 이미 사용 중입니다, 다시 입력해주세요.");
+					 $("#id").val("");
+				 }
+				 else{
+					 alert("사용 가능한 아이디 입니다.");
 				 }
 			 },
 			 error : function(request,statue,error){
@@ -113,9 +226,18 @@
         }).open();
     }
 </script>
-<style>
-    
-</style>
+<!-- <style>
+    .passwd{
+	  text-align: left;
+	  padding-left: 10px;
+	}
+	input::placeholder {
+	  text-align: left;
+	}
+	.form-item number input[type="password"]{
+		padding-left: 100px;
+	}
+</style> -->
 </head>
 <body>
     <!-- header s -->
@@ -149,12 +271,12 @@
                         </div>
                         <div class="myinfo-wrap">
                             <div class="form">
-                            <form:form name="regFrm" id="regFrm" action="./regAction.do" method="post">
+                            <form:form name="regFrm" id="regFrm" action="./regAction.do" method="post" onsubmit="return validateForm(this);">
                                 <dl>
                                     <dt class="center">이름</dt>
                                     <dd>
                                         <div class="form-item name">
-                                            <input type="text" placeholder="" id="name" name="name" value="" >
+                                            <input type="text" placeholder="이름입력" id="name" name="name" value="" >
                                         </div>
                                     </dd>
                                 </dl>
@@ -162,7 +284,7 @@
                                     <dt class="top">아이디</dt>
                                     <dd>
                                         <div class="form-item name">
-                                            <input type="text" name="id" id="id" maxlength="16">
+                                            <input type="text" name="id" id="id" maxlength="16" placeholder="4~12자 영문,숫자만 사용가능합니다.">
                                             <button type="button" name="idovr"  id ="idChk" onclick="id_check_person();" style="cursor:hand;"class="btn-type v7" >중복확인</button>
                                         </div>
                                         <div class="text-type4" id="id_alert" style="display:none;"></div>
@@ -173,14 +295,14 @@
                                     <dt class="top">비밀번호</dt>
                                     <dd class="mb">
                                         <div class="form-item number">
-                                            <input type="password" name="pass" id="passwd" maxlength="16" placeholder="8~16자 영문대소문자,숫자, 특수문자 사용가능">
+                                            <input type="password" name="pass" id="passwd" maxlength="16" placeholder="4~12자 영문,숫자만 사용가능합니다." class="passwd">
                                         </div>
                                         <div class="text-type4" id="passwd_alert" style="display:none;"></div>
                                     </dd>
                                     <dt class="top">비밀번호 확인</dt>
                                     <dd>
                                         <div class="form-item number">
-                                            <input type="password" name="confirmpw" id="confirmpw" maxlength="16" value="">
+                                            <input type="password" name="pass2" id="confirmpw" maxlength="16" value="" placeholder="4~12자 영문,숫자만 사용가능합니다." class="passwd">
                                         </div>
                                         <div class="text-type4" id="confirmpw_alert" style="display:none;"></div>
                                     </dd>
@@ -202,8 +324,8 @@
                                                         <option value="019">019</option>
                                                     </select>
                                                 </div>
-                                                <input type="text" name="hand_tel2" id="hand_tel2" maxlength="4" value=""  class="i_text" onkeyup="checkNum($(this), '숫자만 입력해주세요.');" title="휴대전화번호">
-                                                <input type="text" name="hand_tel3" id="hand_tel3" maxlength="4" value=""  class="i_text" onkeyup="checkNum($(this), '숫자만 입력해주세요.');" title="휴대전화번호">
+                                                <input type="text" name="hand_tel2" id="hand_tel2" maxlength="4" value=""  class="i_text" onkeyup="checkNum($(this), '숫자만 입력해주세요.');" title="휴대전화번호" placeholder="번호입력">
+                                                <input type="text" name="hand_tel3" id="hand_tel3" maxlength="4" value=""  class="i_text" onkeyup="checkNum($(this), '숫자만 입력해주세요.');" title="휴대전화번호" placeholder="번호입력">
                                                 <br>
                                                 
                                                 <a href="javascript:void(0)" class="btn-type v7">
@@ -220,9 +342,9 @@
                                     <dd>
                                         <div class="form-group v2">
                                             <div class="form-item e-mail">
-                                                <input type="text" name="email1" id="email1">
+                                                <input type="text" name="email1" id="email1" placeholder="메일주소입력">
                                                 <span>@</span>
-                                                <input type="text" name="email2" id="email2" readonly>
+                                                <input type="text" name="email2" id="email2" readonly placeholder="도메인입력">
                                                 <div class="select-type2">
                                                     <select name="email3" id="email3" onchange="email_input(this.form);" class="selected" width=20px;>
                                                     	<option selected="" value="">메일선택</option>
@@ -243,7 +365,7 @@
                                     <dt class="center">우편번호</dt>
                                     <dd>
                                         <div class="form-item name">
-                                            <input type="text" placeholder="" id="zipcode" name="zipcode" value="" >
+                                            <input type="text" placeholder="우편번호입력" id="zipcode" name="zipcode" value="" >
                                             <a href="javascript:;" title="새 창으로 열림" onclick="zipFind('zipFind', '<?=$_Common[bbs_path]?>member_zipcode_find.php', 590, 500, 0);" onkeypress="">[우편번호검색]</a>
                                         </div>
                                     </dd>
@@ -252,14 +374,14 @@
                                     <dt class="center">주소</dt>
                                     <dd>
                                         <div class="form-item name">
-                                            <input type="text" placeholder="" id="address" name="address" value="" >
-                                            <input type="text" placeholder="상세주소" id="address2" name="address2" value="" >
+                                            <input type="text" placeholder="주소입력" id="address" name="address" value="" >
+                                            <input type="text" placeholder="상세주소입력" id="address2" name="address2" value="" >
                                         </div>
                                     </dd>
                                 </dl>
                                 
                                 <div class="btn-wrap">
-                                	<button type="submit" class="btn-type v6">가입하기</button>
+                                	<button type="submit" class="btn-type v6" >가입하기</button>
                             	</div>
                             </form:form></div>
                             
