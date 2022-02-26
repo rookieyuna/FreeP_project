@@ -1,12 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="_csrf" content="${_csrf.token}">
+	<meta name="_csrf_header" content="${_csrf.headerName}">
     <title>나만의 맞춤 피자 Free</title>
 
     <!-- font 영역 -->
@@ -22,6 +25,70 @@
     <script src="../js/jquery-3.6.0.js"></script>
     <!-- 지도관련 스크립트 -->
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=593cf326bf3de1201b2f6d9d0a803f3f&libraries=services"></script>
+	
+	<!-- 모달창 부분 -->
+	<script type="text/javascript">
+	/* 매장 전체보기 
+	function openLayerPopup(){ 
+		
+	    console.log("latitude="+latitude);
+		
+		$.ajax({ 
+			url: "storelist.do",
+			type:"POST", 
+	        async:false, //true로 하면 비동기
+			data: {"latitude":latitude, "longitude":longitude},
+			dataType:'json', 
+			success:function(response) { 
+				var lat = response.vo;
+				
+				storelist(lat); 
+				
+			}, 
+			error: function(data){
+				alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"
+	        			+"\n"+"error:"+error)
+			} 
+		}); 
+	};  */
+	
+	/* 매장 상세정보 */
+	function storeDetailOpen(b_code){ 
+		
+	var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+		
+	
+	$.ajax({ 
+		url: "storedetail.do",
+		type:"POST",
+		beforeSend : function(xhr){
+    		xhr.setRequestHeader(header, token);
+        },
+        async:false,
+		data: {"b_code":b_code},
+		dataType:'json', 
+		success:function(response) { 
+			var name = response.vo;
+			var name1 = response.vo1;
+			
+			storelist(name, name1); 
+			
+		}, 
+		error: function(data){
+			alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"
+        			+"\n"+"error:"+error)
+		} 
+	}); 
+	
+	}; 
+	function storeDetail(data, data1){ 
+		
+		document.getElementById("b_name").innerText=data.b_name;
+		document.getElementById("phone").innerText=data.phone;
+		document.getElementById("address").innerText=data.address;
+	};
+	</script>
 </head>
 <body>
 <!-- wrap s -->
@@ -67,30 +134,132 @@
                         </div>
 
                         <div class="store-wrap">
+                        
+                        	<!-- 매장 전체보기 -->
                             <div class="btn-wrap">
-                                <a href="" class="btn-type v4" onclick="openLayerPopup('detail_map'); return false;">전체매장
+                                <a href="" class="btn-type v4"  onclick="openLayerPopup();">전체매장
                                     보기</a>
                             </div>
+                            
+                            <!-- 전체보기 모달부분 -->
+                            <div class="map-detail-modal pop-layer pop-menu" id="pop-map-detail">
+                            <div class="dim"></div>
+                            <div class="pop-wrap">
+                                
+                                <div class="pop-modal2">
+                                    <a href="javascript:UI.layerPopUp({selId:'#pop-allergy', st:'close'});" class="btn-close"></a>
+                                    <div class="modal2-con">
+                                        <div class="con1-top-wrap">
+                                            <!-- 지도 -->
+                                            <div id="detail_map" style="width:100%;height:350px;"></div>
+                                            <script>
+                                            var mapContainer = document.getElementById('detail_map'), // 지도를 표시할 div 
+											mapOption = { 
+										        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+										        level: 9 // 지도의 확대 레벨
+										    };
+									
+											// 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
+											var map = new kakao.maps.Map(mapContainer, mapOption);
+											
+											var positions = [
+										    	{
+										    		title : '본점',
+										    		latlng : new kakao.maps.LatLng(37.478714, 126.878665)
+										    	},
+										    	{
+										    		title : '신촌점',
+										    		latlng : new kakao.maps.LatLng(37.4942635, 127.0296699)
+										    	},
+										    	{
+										    		title : '금천구점',
+										    		latlng : new kakao.maps.LatLng(37.4762052, 126.8933986)
+										    	},
+										    	{
+										    		title : '구로점',
+										    		latlng : new kakao.maps.LatLng(37.5000384, 126.8828494)
+										    	},
+										    	{
+										    		title : '부천점',
+										    		latlng : new kakao.maps.LatLng(37.50334207, 126.7637937)
+										    	}
+										    	
+										    ]; 
+											
+											
+											// 마커 이미지의 이미지 주소입니다
+											var imageSrc = "../images/01brand/brand_logo_marker.png"; 
+											    
+											for (var i = 0; i < positions.length; i ++) {
+											    
+											    // 마커 이미지의 이미지 크기 입니다
+											    var imageSize = new kakao.maps.Size(54, 55); 
+											    
+											    // 마커 이미지를 생성합니다    
+											    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
+											    
+											    // 마커를 생성합니다
+											    var marker = new kakao.maps.Marker({
+											        map: detail_map, // 마커를 표시할 지도
+											        position: positions[i].latlng, // 마커를 표시할 위치
+											        title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+											        image : markerImage // 마커 이미지 
+											    });
+											    
+											    marker.setMap(map);
+											}
+											</script>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                            
+                            <!-- 매장검색 & 지도부분 -->
                             <div class="store-map-area">
                                 <div class="store-map-wrap">
                                     <div class="store-map" id="map_canvas">
                                         <div id="map" style="position: relative; width: 100%; height: 100%; z-index: 0; overflow: hidden;">
-                                        <script>
+										<script>
 										var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
-										    mapOption = { 
-										        center: new kakao.maps.LatLng(37.478714, 126.878665), // 지도의 중심좌표
-										        level: 3 // 지도의 확대 레벨
-										    };
-										
+									    mapOption = { 
+									        center: new kakao.maps.LatLng(37.478714, 126.878665), // 지도의 중심좌표
+									        level: 6, // 지도의 확대 레벨
+									    };
+									 
 										var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 										 
-										// 마커를 표시할 위치와 title 객체 배열입니다 
+										 
+										//주소-좌표 변환 객체를 생성합니다
+										var geocoder = new kakao.maps.services.Geocoder();
+										 
 										var positions = [
-										    {
-										        title: '본점', 
-										        latlng: new kakao.maps.LatLng(37.478714, 126.878665)
-										    }
-										];
+									    	{
+									    		title : '본점',
+									    		latlng : new kakao.maps.LatLng(37.478714, 126.878665)
+									    	},
+									    	{
+									    		title : '신촌점',
+									    		latlng : new kakao.maps.LatLng(37.4942635, 127.0296699)
+									    	},
+									    	{
+									    		title : '금천구점',
+									    		latlng : new kakao.maps.LatLng(37.4762052, 126.8933986)
+									    	},
+									    	{
+									    		title : '구로점',
+									    		latlng : new kakao.maps.LatLng(37.5000384, 126.8828494)
+									    	},
+									    	{
+									    		title : '부천점',
+									    		latlng : new kakao.maps.LatLng(37.50334207, 126.7637937)
+									    	}
+									    	
+									    ]; 
+										
+										/* var positions = new Array();
+										positions.title.push("${lists.b_name}");
+										positions.latlng.push("${lists.latitude}", "${lists.longitude}"); */
 										
 										// 마커 이미지의 이미지 주소입니다
 										var imageSrc = "../images/01brand/brand_logo_marker.png"; 
@@ -110,237 +279,24 @@
 										        title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
 										        image : markerImage // 마커 이미지 
 										    });
+										    
+										    marker.setMap(map);
 										}
+										 
+										<c:forEach items="${list }" var="row">
+									    //주소로 좌표를 검색합니다
+									    geocoder.addressSearch("${row.address}", function(result, status) {
+									        // 정상적으로 검색이 완료됐으면 
+									        if (status === kakao.maps.services.Status.OK) {
+									    
+									            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+									            
+									            // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+									            map.setCenter(coords);    
+									        } 
+									    });    
+									    </c:forEach>
 										</script>
-                                        
-                                        <!-- ////////////////////////////////////////////////////// -->
-                                        <!-- <script>
-										var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-										    mapOption = {
-										        center: new kakao.maps.LatLng(37.478714, 126.878665), // 지도의 중심좌표
-										        level: 3 // 지도의 확대 레벨
-										    };  
-										
-										// 지도를 생성합니다    
-										var map = new kakao.maps.Map(mapContainer, mapOption); 
-										
-										var imageSrc = "../images/01brand/brand_logo_marker.png"; 
-										var imageSize = new kakao.maps.Size(64, 69); 
-									    // 마커 이미지를 생성합니다    
-									    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
-									        
-										
-										// 주소-좌표 변환 객체를 생성합니다
-										var geocoder = new kakao.maps.services.Geocoder();
-										
-										// 주소로 좌표를 검색합니다
-										geocoder.addressSearch('서울시 금천구 가산동 1512', function(result, status) {
-										    // 정상적으로 검색이 완료됐으면 
-										     if (status === kakao.maps.services.Status.OK) {
-										        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-												
-											    // 결과값으로 받은 위치를 마커로 표시합니다
-										        var marker = new kakao.maps.Marker({
-										            map: map,
-										            position: coords,
-										            image : markerImage // 마커 이미지 
-										        });
-										
-										       /*  // 인포윈도우로 장소에 대한 설명을 표시합니다
-										        var infowindow = new kakao.maps.InfoWindow({
-										            content: '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>'
-										        });
-										        infowindow.open(map, marker); */
-										
-										        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-										        map.setCenter(coords);
-										    } 
-										});    
-										</script>     -->
-										
-										<!-- /////////////////////////////////////////////////////// -->
-										<!-- <script>
-										// 마커를 담을 배열입니다
-										var markers = [];
-
-										var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-										    mapOption = {
-										        center: new kakao.maps.LatLng(37.478714, 126.878665), // 지도의 중심좌표
-										        level: 3 // 지도의 확대 레벨
-										    };  
-
-										// 지도를 생성합니다    
-										var map = new kakao.maps.Map(mapContainer, mapOption); 
-
-										// 장소 검색 객체를 생성합니다
-										var ps = new kakao.maps.services.Places();  
-
-										// 검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성합니다
-										var infowindow = new kakao.maps.InfoWindow({zIndex:1});
-
-										// 키워드로 장소를 검색합니다
-										searchPlaces();
-
-										// 키워드 검색을 요청하는 함수입니다
-										function searchPlaces() {
-										    var keyword = document.getElementById('keyword').value;
-										    if (!keyword.replace(/^\s+|\s+$/g, '')) {
-										        alert('키워드를 입력해주세요.');
-										        return false;
-										    }
-
-										    // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
-										    ps.keywordSearch( keyword, placesSearchCB); 
-										}
-
-										// 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
-										function placesSearchCB(data, status) {
-										    if (status === kakao.maps.services.Status.OK) {
-
-										        // 정상적으로 검색이 완료됐으면 검색 목록과 마커를 표출합니다
-										        displayPlaces(data);
-
-										    } 
-										    else if (status === kakao.maps.services.Status.ZERO_RESULT) {
-										        alert('검색 결과가 존재하지 않습니다.');
-										        return;
-
-										    } 
-										    else if (status === kakao.maps.services.Status.ERROR) {
-										        alert('검색 결과 중 오류가 발생했습니다.');
-										        return;
-										    }
-										}
-
-										// 검색 결과 목록과 마커를 표출하는 함수입니다
-										function displayPlaces(places) {
-
-										    var listEl = document.getElementById('placesList'), 
-										    menuEl = document.getElementById('menu_wrap'),
-										    fragment = document.createDocumentFragment(), 
-										    bounds = new kakao.maps.LatLngBounds(), 
-										    listStr = '';
-										    
-										    // 검색 결과 목록에 추가된 항목들을 제거합니다
-										    removeAllChildNods(listEl);
-
-										    // 지도에 표시되고 있는 마커를 제거합니다
-										    removeMarker();
-										    
-										    for ( var i=0; i<places.length; i++ ) {
-
-										        // 마커를 생성하고 지도에 표시합니다
-										        var placePosition = new kakao.maps.LatLng(places[i].y, places[i].x),
-										            marker = addMarker(placePosition, i), 
-										            itemEl = getListItem(i, places[i]); // 검색 결과 항목 Element를 생성합니다
-
-										        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
-										        // LatLngBounds 객체에 좌표를 추가합니다
-										        bounds.extend(placePosition);
-
-										        // 마커와 검색결과 항목에 mouseover 했을때
-										        // 해당 장소에 인포윈도우에 장소명을 표시합니다
-										        // mouseout 했을 때는 인포윈도우를 닫습니다
-										        (function(marker, title) {
-										            kakao.maps.event.addListener(marker, 'mouseover', function() {
-										                displayInfowindow(marker, title);
-										            });
-
-										            kakao.maps.event.addListener(marker, 'mouseout', function() {
-										                infowindow.close();
-										            });
-
-										            itemEl.onmouseover =  function () {
-										                displayInfowindow(marker, title);
-										            };
-
-										            itemEl.onmouseout =  function () {
-										                infowindow.close();
-										            };
-										        })(marker, places[i].place_name);
-
-										        fragment.appendChild(itemEl);
-										    }
-
-										    // 검색결과 항목들을 검색결과 목록 Element에 추가합니다
-										    listEl.appendChild(fragment);
-										    menuEl.scrollTop = 0;
-
-										    // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
-										    map.setBounds(bounds);
-										}
-
-										// 검색결과 항목을 Element로 반환하는 함수입니다
-										function getListItem(index, places) {
-
-										    var el = document.createElement('li'),
-										    itemStr = '<span class="markerbg marker_' + (index+1) + '"></span>' +
-										                '<div class="info">' +
-										                '   <h5>' + places.place_name + '</h5>';
-
-										    if (places.road_address_name) {
-										        itemStr += '    <span>' + places.road_address_name + '</span>' +
-										                    '   <span class="jibun gray">' +  places.address_name  + '</span>';
-										    } 
-										    else {
-										        itemStr += '    <span>' +  places.address_name  + '</span>'; 
-										    }
-										                 
-										    itemStr += '  <span class="tel">' + places.phone  + '</span>' +
-										                '</div>';           
-
-										    el.innerHTML = itemStr;
-										    el.className = 'item';
-
-										    return el;
-										}
-
-										// 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
-										function addMarker(position, idx, title) {
-										    var imageSrc = '../images/01brand/brand_logo_marker.png', // 마커 이미지 url, 스프라이트 이미지를 씁니다
-										        imageSize = new kakao.maps.Size(36, 37),  // 마커 이미지의 크기
-										        imgOptions =  {
-										            spriteSize : new kakao.maps.Size(36, 691), // 스프라이트 이미지의 크기
-										            spriteOrigin : new kakao.maps.Point(0, (idx*46)+10), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
-										            offset: new kakao.maps.Point(13, 37) // 마커 좌표에 일치시킬 이미지 내에서의 좌표
-										        },
-										        markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions),
-										            marker = new kakao.maps.Marker({
-										            position: position, // 마커의 위치
-										            image: markerImage 
-										        });
-
-										    marker.setMap(map); // 지도 위에 마커를 표출합니다
-										    markers.push(marker);  // 배열에 생성된 마커를 추가합니다
-
-										    return marker;
-										}
-
-										// 지도 위에 표시되고 있는 마커를 모두 제거합니다
-										function removeMarker() {
-										    for ( var i = 0; i < markers.length; i++ ) {
-										        markers[i].setMap(null);
-										    }   
-										    markers = [];
-										}
-
-
-										// 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수입니다
-										// 인포윈도우에 장소명을 표시합니다
-										function displayInfowindow(marker, title) {
-										    var content = '<div style="padding:5px;z-index:1;">' + title + '</div>';
-
-										    infowindow.setContent(content);
-										    infowindow.open(map, marker);
-										}
-
-										 // 검색결과 목록의 자식 Element를 제거하는 함수입니다
-										function removeAllChildNods(el) {   
-										    while (el.hasChildNodes()) {
-										        el.removeChild (el.lastChild);
-										    }
-										}
-										</script>  -->
                                         </div>
                                     </div>
                                 </div>
@@ -389,7 +345,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-item">
-                                                <button type="submit" class="btn-search" onclick="setCenter();">
+                                                <button type="submit" class="btn-search" >
                                                     <span class="material-icons-outlined">search</span>
                                                 </button>
                                             </div>
@@ -419,7 +375,7 @@
                                                 <input type="text" id="keyword"  name="storeName" placeholder="매장명을 검색하세요." value="">
                                                 </form>
                                             </div>
-                                            <div class="form-item">
+                                            <div class="form-item" onclick="setCenter(this.form);">
                                             	<!-- onclick="findBranch('name'); return false;" -->
                                                 <button type="submit" class="btn-search">
                                                     <span class="material-icons-outlined">search</span>
@@ -454,20 +410,63 @@
 			                                                </div>	
 			                                            </div>	
 			                                            <div class="btn-wrap">		
-			                                                <a href="" onclick="">상세보기</a>		
-			                                                <a href="" class="type2">방문포장</a>	
-			                                            </div>	
+			                                                <a href=""  onclick="storeDetailOpen('${row.b_code}');">상세보기</a>		
+			                                                <a href="#" class="type2">방문포장</a>	
+			                                            </div> 
 			                                        </li>
 												</c:forEach>
 											</c:otherwise>
 										</c:choose>
                                     </ul>
                                 </div>
+                                
+                             
+                                
+                               <!--  <!-- 상세보기 모달창 -->
+							    <div class="store-detail-modal pop-layer pop-menu" id="pop-store-detail">
+							    <div class="dim"></div>
+							    <div class="pop-wrap">
+							        <div class="pop-modal2">
+							            <div class="modal2-con">
+							                <div class="con1-top-wrap">
+							                    <ul>
+													<li>
+														<h3 id="b_name">김포구래점</h3>
+														<p class="promotion">
+															<span class="type" id="detail_on_sale">온라인 방문포장 30%</span><span class="type2" id="detail_off_sale">오프라인 방문포장 30%</span>
+														</p>
+														<div class="btn-wrap">
+															<a href="" class="btn-type v3" id="detail_basket_wrapp">포장주문</a>
+														</div>
+													</li>
+													<li>
+														<dl>
+															<dt>전화번호</dt>
+															<dd id="phone">091-996-30525</dd>
+														</dl>
+														<dl>
+															<dt>주소</dt>
+															<dd id="address">경기도 김포시 김포한강9로 12번길 97-10</dd>
+														</dl>
+														<dl>
+															<dt>영업시간</dt>
+															<dd id="detail_business_hours">12:00 ~ 21:00</dd>
+														</dl>
+														<dl>
+															<dt>주차정보</dt>
+															<dd id="detail_parking_info">매장 후면 1대</dd>
+														</dl>
+													</li>
+												</ul>
+							                </div>
+							            </div>
+							       	</div>
+							    </div>
+							    </div> <!-- end of 모달 -->
+                                
                             </div>
                         </div>
-                        
                     </article>
-                    
                 </div>
             </div>
         </section>
@@ -562,4 +561,5 @@
     <script src="../js/motion.js"></script>
     <script src="../js/ui.js"></script>
 </body>
+	
 </html>

@@ -31,4 +31,6 @@ public interface StoreImpl {
 	//매장검색 부분
 	public ArrayList<StoreVO> getList(ParameterDTO parameterDTO);
 	
+	public StoreVO view(StoreVO storeVO);
+	
 }
