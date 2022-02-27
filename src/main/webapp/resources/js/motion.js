@@ -22,7 +22,7 @@ $(function () {
         }
     })
 
-    $(".store-search li").click(function(){
+    $(".store-search #tabs").click(function(){
         $(".store-search .tab-content").toggleClass("active");
     })
 

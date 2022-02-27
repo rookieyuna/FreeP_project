@@ -168,17 +168,13 @@
 												<script>
 												$(document).ready(function(){
 													
-													var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
+													var mapContainer = document.getElementById('map_viewport'), // 지도를 표시할 div  
 												    mapOption = { 
 												        center: new kakao.maps.LatLng(37.478714, 126.878665), // 지도의 중심좌표
 												        level: 11, // 지도의 확대 레벨
 												    };
 												 
-													var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
-													 
-													 
-													//주소-좌표 변환 객체를 생성합니다
-													var geocoder = new kakao.maps.services.Geocoder();
+													var maps = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 													 
 													var positions = [
 												    	{
@@ -217,7 +213,7 @@
 													    
 													    // 마커를 생성합니다
 													    var marker = new kakao.maps.Marker({
-													        map: map, // 마커를 표시할 지도
+													        map: maps, // 마커를 표시할 지도
 													        position: positions[i].latlng, // 마커를 표시할 위치
 													        title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
 													        image : markerImage // 마커 이미지 
@@ -326,8 +322,8 @@
                             <div class="store-search">
                                 <div class="tab-type5 js_tab">
                                     <ul>
-                                        <li class="active"><a href="https://web.dominos.co.kr/branch#storeSrch1" onclick="navTabs('address', this); return false;">지역 검색</a></li>
-                                        <li><a href="https://web.dominos.co.kr/branch#storeSrch2" onclick="navTabs('name', this); return false;">매장명</a></li>
+                                        <li id="tabs" class="active"><a href="https://web.dominos.co.kr/branch#storeSrch1" onclick="navTabs('address', this); return false;">지역 검색</a></li>
+                                        <li id="tabs"><a href="https://web.dominos.co.kr/branch#storeSrch2" onclick="navTabs('name', this); return false;">매장명</a></li>
                                     </ul>
                                 </div>
                                 <!-- 지역 검색 -->
