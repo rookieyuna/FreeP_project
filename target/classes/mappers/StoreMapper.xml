@@ -36,6 +36,10 @@
 		SELECT * FROM store WHERE b_code=#{b_code}
 	</select>
 	
+	<select id="views" resultType="store.StoreVO" parameterType="store.StoreVO">
+		SELECT * FROM store WHERE b_code=#{b_code}
+	</select>
+	
 	
 	<update id="edit" parameterType="store.StoreVO">
 		UPDATE store 

@@ -120,6 +120,20 @@ $(function () {
             "display":"block"
         })
     });
+     
+    // 컴패니>매장찾기>상세보기 클릭 버튼 동작
+    $(".store-search .store-info-box").click(function(){
+        $(".store-detail-modal").css({
+            "display":"block",
+        })
+    });
+    
+    // 컴패니>매장찾기>전체매장보기 클릭 버튼 동작
+    $(".detail-map").click(function(){
+        $(".map-detail-modal").css({
+            "display":"block",
+        })
+    });
 
     // 커뮤니티>후기게시판>상세보기 이미지 조작
     $(".modal2-con .con1-top-wrap button").click(function(){

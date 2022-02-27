@@ -211,7 +211,7 @@ public class StoreController {
 		int mybCode= Integer.parseInt(req.getParameter("b_code"));
 		
 		StoreVO vo  = 
-				sqlSession.getMapper(StoreImpl.class).view(storeVO);
+				sqlSession.getMapper(StoreImpl.class).views(storeVO);
 		  
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("vo", vo);
@@ -219,4 +219,5 @@ public class StoreController {
 		
 		return result;
 	}
+	
 }

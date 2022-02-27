@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,26 +22,55 @@
     <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
     <!-- js 라이브러리 영역 -->
     <script src="../js/jquery-3.6.0.js"></script>
-    <!-- 지도관련 스크립트 -->
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=593cf326bf3de1201b2f6d9d0a803f3f&libraries=services"></script>
 	
 	<!-- 모달창 부분 -->
-	<script type="text/javascript">
-	/* 매장 전체보기 
-	function openLayerPopup(){ 
-		
-	    console.log("latitude="+latitude);
+	<script>
+	/* 매장 전체보기 */
+	/* $('#responsiveModal').on('shown.bs.modal', function openLayerPopup(li) {
 		
 		$.ajax({ 
-			url: "storelist.do",
-			type:"POST", 
-	        async:false, //true로 하면 비동기
-			data: {"latitude":latitude, "longitude":longitude},
+				url: "storelist.do",
+				type:"POST",
+				beforeSend : function(xhr){
+		    		xhr.setRequestHeader(header, token);
+		        },
+		        async:false,
+				dataType:'json', 
+				success:function(response) { 
+					var name = response.vo;
+					var name1 = response.vo1;
+					
+					storeDetail(name, name1); 
+					
+				}, 
+				error: function(data){
+					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"
+		        			+"\n"+"error:"+error)
+				} 
+		});  
+		
+	}; */
+	
+	/* 매장 상세정보 */
+	function storeDetailOpen(b_code){ 
+		
+		var token = $("meta[name='_csrf']").attr("content");
+	    var header = $("meta[name='_csrf_header']").attr("content");
+		
+		$.ajax({ 
+			url: "storedetail.do",
+			type:"POST",
+			beforeSend : function(xhr){
+	    		xhr.setRequestHeader(header, token);
+	        },
+	        async:false,
+			data: {"b_code":b_code},
 			dataType:'json', 
 			success:function(response) { 
-				var lat = response.vo;
+				var name = response.vo;
+				var name1 = response.vo1;
 				
-				storelist(lat); 
+				storeDetail(name, name1); 
 				
 			}, 
 			error: function(data){
@@ -50,40 +78,8 @@
 	        			+"\n"+"error:"+error)
 			} 
 		}); 
-	};  */
-	
-	/* 매장 상세정보 */
-	function storeDetailOpen(b_code){ 
-		
-	var token = $("meta[name='_csrf']").attr("content");
-    var header = $("meta[name='_csrf_header']").attr("content");
-		
-	
-	$.ajax({ 
-		url: "storedetail.do",
-		type:"POST",
-		beforeSend : function(xhr){
-    		xhr.setRequestHeader(header, token);
-        },
-        async:false,
-		data: {"b_code":b_code},
-		dataType:'json', 
-		success:function(response) { 
-			var name = response.vo;
-			var name1 = response.vo1;
-			
-			storelist(name, name1); 
-			
-		}, 
-		error: function(data){
-			alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"
-        			+"\n"+"error:"+error)
-		} 
-	}); 
-	
 	}; 
 	function storeDetail(data, data1){ 
-		
 		document.getElementById("b_name").innerText=data.b_name;
 		document.getElementById("phone").innerText=data.phone;
 		document.getElementById("address").innerText=data.address;
@@ -134,92 +130,105 @@
                         </div>
 
                         <div class="store-wrap">
-                        
+                        	
                         	<!-- 매장 전체보기 -->
                             <div class="btn-wrap">
-                                <a href="" class="btn-type v4"  onclick="openLayerPopup();">전체매장
+                                <a href="javascript:return false;" class="btn-type v4 detail-map"  onclick="openLayerPopup('${list}');">전체매장
                                     보기</a>
                             </div>
                             
-                            <!-- 전체보기 모달부분 -->
-                            <div class="map-detail-modal pop-layer pop-menu" id="pop-map-detail">
-                            <div class="dim"></div>
-                            <div class="pop-wrap">
-                                
-                                <div class="pop-modal2">
-                                    <a href="javascript:UI.layerPopUp({selId:'#pop-allergy', st:'close'});" class="btn-close"></a>
-                                    <div class="modal2-con">
-                                        <div class="con1-top-wrap">
-                                            <!-- 지도 -->
-                                            <div id="detail_map" style="width:100%;height:350px;"></div>
-                                            <script>
-                                            var mapContainer = document.getElementById('detail_map'), // 지도를 표시할 div 
-											mapOption = { 
-										        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-										        level: 9 // 지도의 확대 레벨
-										    };
-									
-											// 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
-											var map = new kakao.maps.Map(mapContainer, mapOption);
-											
-											var positions = [
-										    	{
-										    		title : '본점',
-										    		latlng : new kakao.maps.LatLng(37.478714, 126.878665)
-										    	},
-										    	{
-										    		title : '신촌점',
-										    		latlng : new kakao.maps.LatLng(37.4942635, 127.0296699)
-										    	},
-										    	{
-										    		title : '금천구점',
-										    		latlng : new kakao.maps.LatLng(37.4762052, 126.8933986)
-										    	},
-										    	{
-										    		title : '구로점',
-										    		latlng : new kakao.maps.LatLng(37.5000384, 126.8828494)
-										    	},
-										    	{
-										    		title : '부천점',
-										    		latlng : new kakao.maps.LatLng(37.50334207, 126.7637937)
-										    	}
-										    	
-										    ]; 
-											
-											
-											// 마커 이미지의 이미지 주소입니다
-											var imageSrc = "../images/01brand/brand_logo_marker.png"; 
-											    
-											for (var i = 0; i < positions.length; i ++) {
-											    
-											    // 마커 이미지의 이미지 크기 입니다
-											    var imageSize = new kakao.maps.Size(54, 55); 
-											    
-											    // 마커 이미지를 생성합니다    
-											    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
-											    
-											    // 마커를 생성합니다
-											    var marker = new kakao.maps.Marker({
-											        map: detail_map, // 마커를 표시할 지도
-											        position: positions[i].latlng, // 마커를 표시할 위치
-											        title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-											        image : markerImage // 마커 이미지 
-											    });
-											    
-											    marker.setMap(map);
-											}
-											</script>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                            <!-- ///////////////////////////////////////// -->
+                            <!-- 매장 전체보기 모달 (motion.js 131.line) -->
+							<div class="map-detail-modal pop-layer pop-full" id="pop-store-all">
+								<div class="dim"></div>
+								<div class="pop-wrap">
+									<div class="pop-title-wrap type2">
+										<h2 class="pop-title" onclick="openLayerPopup(&#39;detail_map&#39;); return false;">전체 매장 보기</h2>
+									</div>
+									<a href="javascript:UI.layerPopUp({selId:'#pop-allergy', st:'close'});" class="btn-close"></a>
+									<div class="pop-content">
+										<div class="detail-map" id="map_large_canvas">
+											<!-- MAP 영역 -->
+											<div id="map_viewport" style="position: relative; width: 100%; height: 100%; z-index: 0; overflow: hidden;">
+												<script>
+												$(document).ready(function(){
+													
+													var mapContainer = document.getElementById('map_viewport'), // 지도를 표시할 div  
+												    mapOption = { 
+												        center: new kakao.maps.LatLng(37.478714, 126.878665), // 지도의 중심좌표
+												        level: 11, // 지도의 확대 레벨
+												    };
+												 
+													var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+													 
+													 
+													//주소-좌표 변환 객체를 생성합니다
+													var geocoder = new kakao.maps.services.Geocoder();
+													 
+													var positions = [
+												    	{
+												    		title : '본점',
+												    		latlng : new kakao.maps.LatLng(37.478714, 126.878665)
+												    	},
+												    	{
+												    		title : '신촌점',
+												    		latlng : new kakao.maps.LatLng(37.4942635, 127.0296699)
+												    	},
+												    	{
+												    		title : '금천구점',
+												    		latlng : new kakao.maps.LatLng(37.4762052, 126.8933986)
+												    	},
+												    	{
+												    		title : '구로점',
+												    		latlng : new kakao.maps.LatLng(37.5000384, 126.8828494)
+												    	},
+												    	{
+												    		title : '부천점',
+												    		latlng : new kakao.maps.LatLng(37.50334207, 126.7637937)
+												    	}
+												    	
+												    ]; 
+													
+													// 마커 이미지의 이미지 주소입니다
+													var imageSrc = "../images/01brand/brand_logo_marker.png"; 
+													    
+													for (var i = 0; i < positions.length; i ++) {
+													    
+													    // 마커 이미지의 이미지 크기 입니다
+													    var imageSize = new kakao.maps.Size(54, 55); 
+													    
+													    // 마커 이미지를 생성합니다    
+													    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
+													    
+													    // 마커를 생성합니다
+													    var marker = new kakao.maps.Marker({
+													        map: map, // 마커를 표시할 지도
+													        position: positions[i].latlng, // 마커를 표시할 위치
+													        title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+													        image : markerImage // 마커 이미지 
+													    });
+													    
+													    marker.setMap(map);
+													}
+													 
+												}
+												</script>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+                            <!-- 매장 전체보기 모달 끝 -->
+                            <!-- ///////////////////////////////////////// -->
+
                             
                             <!-- 매장검색 & 지도부분 -->
                             <div class="store-map-area">
                                 <div class="store-map-wrap">
                                     <div class="store-map" id="map_canvas">
                                         <div id="map" style="position: relative; width: 100%; height: 100%; z-index: 0; overflow: hidden;">
+    									<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=593cf326bf3de1201b2f6d9d0a803f3f&libraries=services"></script>
+										<!-- 지도관련 스크립트 -->
 										<script>
 										var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
 									    mapOption = { 
@@ -232,7 +241,8 @@
 										 
 										//주소-좌표 변환 객체를 생성합니다
 										var geocoder = new kakao.maps.services.Geocoder();
-										 
+										
+										
 										var positions = [
 									    	{
 									    		title : '본점',
@@ -257,9 +267,6 @@
 									    	
 									    ]; 
 										
-										/* var positions = new Array();
-										positions.title.push("${lists.b_name}");
-										positions.latlng.push("${lists.latitude}", "${lists.longitude}"); */
 										
 										// 마커 이미지의 이미지 주소입니다
 										var imageSrc = "../images/01brand/brand_logo_marker.png"; 
@@ -300,7 +307,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                    
+                                   
                             <div class="store-search">
                                 <div class="tab-type5 js_tab">
                                     <ul>
@@ -309,7 +316,7 @@
                                     </ul>
                                 </div>
                                 <!-- 지역 검색 -->
-                                <form name="storeMap" action="">
+                                <form name="storeMap" action="" method="get">
                                 <div class="tab-content active" id="storeSrch1">
                                     <div class="address-set-wrap store">
                                         <div class="form-group srch-type">
@@ -317,7 +324,7 @@
                                                 <div class="select-type type2">
                                                     <select id="region_code_1" name="searchField" onchange="LocationChange(this)">
                                                         <option value="" selected="">시/도</option>
-                                                        <option value="01">서울</option>
+                                                        <option value="01" >서울</option>
                                                         <option value="02">인천</option>
                                                         <option value="03">경기</option>
                                                         <option value="04">강원</option>
@@ -334,18 +341,18 @@
                                                         <option value="15">부산</option>
                                                         <option value="16">세종특별자치시</option>
                                                         <option value="17">제주</option>
-                                                        </select>
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="form-item">
                                                 <div class="select-type type2">
                                                     <select id="region_code_2" name="searchTxt">
                                                         <option value="">구/군</option>
-                                                        </select>
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="form-item">
-                                                <button type="submit" class="btn-search" >
+                                                <button class="btn-search" >
                                                     <span class="material-icons-outlined">search</span>
                                                 </button>
                                             </div>
@@ -358,15 +365,13 @@
                                         <p class="notice-text">
                                             <a href="javascript:openLayerPopup('promotion');" >이용안내</a>
                                         </p> -->
-        
-        
                                     </div>
                                 </div>
                                 </form>
                                 <!-- //지역 검색 -->
         
                                 <!-- 매장명 -->
-                                <form name="storeNameSearch" onsubmit="searchPlaces(); return false;">
+                                <form method="get" name="storeNameSearch" onsubmit="searchPlaces(); return false;">
                                 <div class="tab-content" id="menu_wrap">
                                     <div class="address-set-wrap store">
                                         <div class="form-group srch-type">
@@ -377,7 +382,7 @@
                                             </div>
                                             <div class="form-item" onclick="setCenter(this.form);">
                                             	<!-- onclick="findBranch('name'); return false;" -->
-                                                <button type="submit" class="btn-search">
+                                                <button type="button" class="btn-search">
                                                     <span class="material-icons-outlined">search</span>
                                                 </button>
                                             </div>
@@ -385,6 +390,7 @@
                                     </div>
                                 </div>
                                 </form>
+                                
                                 <!-- //매장명 -->
                                 <div class="store-address-list">
                                     <ul id="placesList">
@@ -410,7 +416,7 @@
 			                                                </div>	
 			                                            </div>	
 			                                            <div class="btn-wrap">		
-			                                                <a href=""  onclick="storeDetailOpen('${row.b_code}');">상세보기</a>		
+			                                                <a href="javascript:return false;" class="store-info-box" onclick="storeDetailOpen('${row.b_code}');">상세보기</a>		
 			                                                <a href="#" class="type2">방문포장</a>	
 			                                            </div> 
 			                                        </li>
@@ -420,50 +426,74 @@
                                     </ul>
                                 </div>
                                 
-                             
-                                
-                               <!--  <!-- 상세보기 모달창 -->
-							    <div class="store-detail-modal pop-layer pop-menu" id="pop-store-detail">
-							    <div class="dim"></div>
-							    <div class="pop-wrap">
-							        <div class="pop-modal2">
-							            <div class="modal2-con">
-							                <div class="con1-top-wrap">
-							                    <ul>
-													<li>
-														<h3 id="b_name">김포구래점</h3>
-														<p class="promotion">
-															<span class="type" id="detail_on_sale">온라인 방문포장 30%</span><span class="type2" id="detail_off_sale">오프라인 방문포장 30%</span>
-														</p>
-														<div class="btn-wrap">
-															<a href="" class="btn-type v3" id="detail_basket_wrapp">포장주문</a>
-														</div>
-													</li>
-													<li>
-														<dl>
-															<dt>전화번호</dt>
-															<dd id="phone">091-996-30525</dd>
-														</dl>
-														<dl>
-															<dt>주소</dt>
-															<dd id="address">경기도 김포시 김포한강9로 12번길 97-10</dd>
-														</dl>
-														<dl>
-															<dt>영업시간</dt>
-															<dd id="detail_business_hours">12:00 ~ 21:00</dd>
-														</dl>
-														<dl>
-															<dt>주차정보</dt>
-															<dd id="detail_parking_info">매장 후면 1대</dd>
-														</dl>
-													</li>
-												</ul>
-							                </div>
-							            </div>
-							       	</div>
-							    </div>
-							    </div> <!-- end of 모달 -->
-                                
+                             	<!-- //////////////////////////////////////////// -->
+                             	<!-- 매장상세 모달(motion.js line.124) -->
+								<div class="store-detail-modal pop-layer pop-store" id="pop-store">
+									<div class="dim"></div>
+									<div class="pop-wrap">
+									<div class="pop-modal2">
+										<div class="pop-title-wrap">
+											<h2 class="pop-title">매장 상세정보</h2>
+										</div>
+										<a href="javascript:UI.layerPopUp({selId:'#pop-allergy', st:'close'});" class="btn-close"></a>
+										<div class="modal2-con">
+										<div class="pop-content">
+											<div class="store-view">
+												<div class="store-info-box">
+													<ul>
+														<li>
+															<h3 id="b_name">ㅇㅇ점</h3>
+															<p class="promotion">
+																<span class="type" id="detail_on_sale">온라인 방문포장 30%</span><span class="type2" id="detail_off_sale">오프라인 방문포장 30%</span>
+															</p>
+															<div class="btn-wrap">
+																<a href="" class="btn-type v3" id="">포장주문</a>
+															</div>
+														</li>
+														<li>
+															<dl>
+																<dt></dt>
+																<dd></dd>
+															</dl>
+															<dl>
+																<dt>전화번호</dt>
+																<dd id="phone">091-996-30525</dd>
+															</dl>
+															<dl>
+																<dt>주소</dt>
+																<dd id="address">경기도 김포시 김포한강9로 12번길 97-10</dd>
+															</dl>
+															<dl>
+																<dt>영업시간</dt>
+																<dd>11:00 ~ 22:00</dd>
+															</dl>
+															<dl>
+																<dt>주차정보</dt>
+																<dd>매장 후면 1대</dd>
+															</dl>
+														</li>
+													</ul>
+												</div>
+												<%-- <div class="store-map-area" id="map_detail_canvas">
+													<!-- MAP 영역 -->
+													<div class="store-spot" style="right: 20%; top: 50%;"></div>
+													<div id="map_detail_canvas_GcenMaps_viewport" style="position: relative; width: 100%; height: 100%; z-index: 0; overflow: hidden;">
+														<div id="map_detail_canvas_GcenMaps_markerlayer" style="position: absolute; width: 100%; height: 100%; z-index: 700; overflow: hidden;"></div>
+														<canvas id="map_detail_canvas_GcenMaps_overlaylayer" width="0" height="0" style="position: absolute; z-index: 500; overflow: hidden;"></canvas>
+														<div id="map_detail_canvas_GcenMaps_maplayer" style="position: absolute; width: 100%; height: 100%; z-index: 100; overflow: hidden;"></div>
+														<div id="copyright" style="position: absolute; cursor: default; bottom: 0px; right: 10px; width: 100px; height: 12px; z-index: 650;"></div>
+													</div>
+												</div> --%>
+											</div>
+										</div>
+										</div>
+									</div>
+								</div>	
+								</div>
+								<!-- //매장 상세보기 팝업(e) -->
+                             	<!-- //////////////////////////////////////////// -->
+                                </div>
+                                </div>
                             </div>
                         </div>
                     </article>
@@ -550,7 +580,7 @@
     </script>
     <!-- footer s -->
     <footer id="footer">
-        <%@ include file="../common/footer.jsp" %>
+    <%@ include file="../common/footer.jsp" %>
     </footer>
     <!-- footer e -->
 
