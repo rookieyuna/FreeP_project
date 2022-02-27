@@ -97,9 +97,9 @@
 						                    	<c:otherwise>
 							                    	<!-- 가상번호 수정해야함 -->
 				                                    <tbody class="board-list fill">
-					                                    <c:forEach items="${lists }" var="row" varStatus="status">
+					                                    <c:forEach items="${lists }" var="row" varStatus="loop">
 															<tr onClick="location.href='./myQuView.do?b_idx=${row.b_idx}';">
-																<td><c:out value="${status.count }"></c:out></td>
+																<td>${totalQuCount - (((nowPage-1) * pageSize) + loop.index)}</td>
 																<td>${row.title }</td>
 																<c:choose>
 											                    	<c:when test="${row.q_category eq '1'}"><td>배달문의</td></c:when>

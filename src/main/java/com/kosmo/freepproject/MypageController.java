@@ -114,6 +114,9 @@ public class MypageController {
 	            pageSize, blockPage, nowPage, 
 	            req.getContextPath()+"/mypage/myOrder.do?");
 		
+		model.addAttribute("totalOrderCount", totalOrderCount);
+		model.addAttribute("pageSize", pageSize);
+		model.addAttribute("nowPage", nowPage);
 		model.addAttribute("pagingImg", pagingImg);
 		model.addAttribute("lists", lists);
 		
@@ -233,6 +236,9 @@ public class MypageController {
 	            pageSize, blockPage, nowPage, 
 	            req.getContextPath()+"/mypage/myReview.do?");
 		
+		model.addAttribute("totalreviewCount", totalreviewCount);
+		model.addAttribute("pageSize", pageSize);
+		model.addAttribute("nowPage", nowPage);
 		model.addAttribute("pagingImg", pagingImg);
 		model.addAttribute("lists", lists);
 		
@@ -271,6 +277,9 @@ public class MypageController {
 	            pageSize, blockPage, nowPage, 
 	            req.getContextPath()+"/mypage/myFavReview.do?");
 		
+		model.addAttribute("totalFavReviewCount", totalFavReviewCount);
+		model.addAttribute("pageSize", pageSize);
+		model.addAttribute("nowPage", nowPage);
 		model.addAttribute("pagingImg", pagingImg);
 		model.addAttribute("lists", lists);
 		
@@ -309,6 +318,9 @@ public class MypageController {
 	            pageSize, blockPage, nowPage, 
 	            req.getContextPath()+"/mypage/myQuestion.do?");
 		
+		model.addAttribute("totalQuCount", totalQuCount);
+		model.addAttribute("pageSize", pageSize);
+		model.addAttribute("nowPage", nowPage);
 		model.addAttribute("pagingImg", pagingImg);
 		model.addAttribute("lists", lists);
 		

@@ -94,9 +94,9 @@
                                     </tbody>
 
 									<tbody class="board-list fill">
-									<c:forEach items="${lists }" var="row" varStatus="status">
+									<c:forEach items="${lists }" var="row" varStatus="loop">
 										<tr>
-											<th><c:out value="${status.count }"></c:out></th>
+											<th>${totalOrderCount - (((nowPage-1) * pageSize) + loop.index)}</th>
 											<!-- 아래 주문내용 수정해야함 -->
 											<td >${row.total_name }</td>
 											<td >${row.or_date }</td>
