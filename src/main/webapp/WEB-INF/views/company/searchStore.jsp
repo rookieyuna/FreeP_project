@@ -26,30 +26,32 @@
 	<!-- 모달창 부분 -->
 	<script>
 	/* 매장 전체보기 */
-	/* $('#responsiveModal').on('shown.bs.modal', function openLayerPopup(li) {
+	function openLayerPopup(li) {
+		var token = $("meta[name='_csrf']").attr("content");
+	    var header = $("meta[name='_csrf_header']").attr("content");
 		
-		$.ajax({ 
-				url: "storelist.do",
-				type:"POST",
-				beforeSend : function(xhr){
-		    		xhr.setRequestHeader(header, token);
-		        },
-		        async:false,
-				dataType:'json', 
-				success:function(response) { 
-					var name = response.vo;
-					var name1 = response.vo1;
-					
-					storeDetail(name, name1); 
-					
-				}, 
-				error: function(data){
-					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"
-		        			+"\n"+"error:"+error)
-				} 
-		});  
-		
-	}; */
+	    $.ajax({ 
+			url: "storedetail.do",
+			type:"POST",
+			beforeSend : function(xhr){
+	    		xhr.setRequestHeader(header, token);
+	        },
+	        async:false,
+			data: {"b_code":b_code},
+			dataType:'json', 
+			success:function(response) { 
+				var name = response.vo;
+				var name1 = response.vo1;
+				
+				storeDetail(name, name1); 
+				
+			}, 
+			error: function(data){
+				alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"
+	        			+"\n"+"error:"+error)
+			} 
+		}); 
+	};
 	
 	/* 매장 상세정보 */
 	function storeDetailOpen(b_code){ 
@@ -85,6 +87,19 @@
 		document.getElementById("address").innerText=data.address;
 	};
 	</script>
+	<style>
+		/* 모달창 화면가운데 정렬 CSS */
+		.pop-wrap{
+			position: fixed;
+			top: 50%;
+			left: 50%;
+			-webkit-transform: translate(-50%, -50%);
+			-moz-transform: translate(-50%, -50%);
+			-ms-transform: translate(-50%, -50%);
+			-o-transform: translate(-50%, -50%);
+			transform: translate(-50%, -50%);
+		}
+	</style>
 </head>
 <body>
 <!-- wrap s -->
@@ -153,7 +168,7 @@
 												<script>
 												$(document).ready(function(){
 													
-													var mapContainer = document.getElementById('map_viewport'), // 지도를 표시할 div  
+													var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
 												    mapOption = { 
 												        center: new kakao.maps.LatLng(37.478714, 126.878665), // 지도의 중심좌표
 												        level: 11, // 지도의 확대 레벨
@@ -430,7 +445,7 @@
                              	<!-- 매장상세 모달(motion.js line.124) -->
 								<div class="store-detail-modal pop-layer pop-store" id="pop-store">
 									<div class="dim"></div>
-									<div class="pop-wrap">
+									<div class="pop-wrap" style="width: 900px; height: 500px">
 									<div class="pop-modal2">
 										<div class="pop-title-wrap">
 											<h2 class="pop-title">매장 상세정보</h2>
@@ -474,16 +489,6 @@
 														</li>
 													</ul>
 												</div>
-												<%-- <div class="store-map-area" id="map_detail_canvas">
-													<!-- MAP 영역 -->
-													<div class="store-spot" style="right: 20%; top: 50%;"></div>
-													<div id="map_detail_canvas_GcenMaps_viewport" style="position: relative; width: 100%; height: 100%; z-index: 0; overflow: hidden;">
-														<div id="map_detail_canvas_GcenMaps_markerlayer" style="position: absolute; width: 100%; height: 100%; z-index: 700; overflow: hidden;"></div>
-														<canvas id="map_detail_canvas_GcenMaps_overlaylayer" width="0" height="0" style="position: absolute; z-index: 500; overflow: hidden;"></canvas>
-														<div id="map_detail_canvas_GcenMaps_maplayer" style="position: absolute; width: 100%; height: 100%; z-index: 100; overflow: hidden;"></div>
-														<div id="copyright" style="position: absolute; cursor: default; bottom: 0px; right: 10px; width: 100px; height: 12px; z-index: 650;"></div>
-													</div>
-												</div> --%>
 											</div>
 										</div>
 										</div>
