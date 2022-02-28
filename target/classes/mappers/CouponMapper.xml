@@ -5,7 +5,7 @@
   
  <mapper namespace ="coupon.CouponImpl">
  	<select id="listCp" resultType="coupon.CouponVO">
- 		 select c.cp_idx,cp_name, cp_cate, expire_date, cp_price, cp_const from coupon C, mycoupon M
+ 		 select m.coupon_idx ,c.cp_idx,cp_name, cp_cate, expire_date, cp_price, cp_const from coupon C, mycoupon M
 		 where m.m_code = #{m_code} and m.cp_idx = c.cp_idx
  	</select>
  	

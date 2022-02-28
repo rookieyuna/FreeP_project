@@ -21,48 +21,48 @@ var UI = (function () {
 		},
 		event: function () {
 			var lThiz = this.element;
-			var nPos = $(window).scrollTop();
+			var nPos = jQuery(window).scrollTop();
 
 			//GNB
-			$(lThiz.gnb.btn).on('click',function(e){
-				$(this).toggleClass('active');
-				$(lThiz.gnb.snb).toggleClass('active');
+			jQuery(lThiz.gnb.btn).on('click',function(e){
+				jQuery(this).toggleClass('active');
+				jQuery(lThiz.gnb.snb).toggleClass('active');
 			});
 
-			$(lThiz.gnb.snb).on('click',function(e){
-				$(this).removeClass('active');
-				$(lThiz.gnb.btn).removeClass('active');
+			jQuery(lThiz.gnb.snb).on('click',function(e){
+				jQuery(this).removeClass('active');
+				jQuery(lThiz.gnb.btn).removeClass('active');
 			});
 			//--------GNB
 
 			// tip-box hide
-			$('.tip-box').delay(2000).fadeOut("slow");
+			jQuery('.tip-box').delay(2000).fadeOut("slow");
 
 			// tab
-			$('.js_tab').find('a').on('click', function (e) {
+			jQuery('.js_tab').find('a').on('click', function (e) {
 				e.preventDefault();
 				/*
 				if (detailTab.length > 0) {
 					detailTab.removeAttr('style');
 				}
 				*/
-				$(this).parent('li').addClass('active').siblings('li').removeClass('active');
-				$($(this).attr('href')).addClass('active').siblings('div').removeClass('active');
+				jQuery(this).parent('li').addClass('active').siblings('li').removeClass('active');
+				jQuery(jQuery(this).attr('href')).addClass('active').siblings('div').removeClass('active');
 				return false;
 			});
 
 			// toggle
-			$('.btn-toggle-close').each(function () {
-				var parent = $(this).parent();
-				var toggleBox = $(this).parents().children('.js_toggle_box');
+			jQuery('.btn-toggle-close').each(function () {
+				var parent = jQuery(this).parent();
+				var toggleBox = jQuery(this).parents().children('.js_toggle_box');
 				if (toggleBox.hasClass('close')) {
 					toggleBox.hide();
 					parent.addClass('close');
 				}
 			});
-			$('.btn-toggle-close').on('click', function (e) {
-				var parent = $(this).parent();
-				var toggleBox = $(this).parents().children('.js_toggle_box');
+			jQuery('.btn-toggle-close').on('click', function (e) {
+				var parent = jQuery(this).parent();
+				var toggleBox = jQuery(this).parents().children('.js_toggle_box');
 				e.preventDefault();
 				if (parent.hasClass('close')) {
 					parent.removeClass('close');
@@ -76,41 +76,41 @@ var UI = (function () {
 			});
 
 			// radio,checkbox
-			$("input[type='checkbox'],input[type='radio']").each(function () {
-				if ($(this).attr('checked')) {
-					$(this).parent().addClass('selected');
+			jQuery("input[type='checkbox'],input[type='radio']").each(function () {
+				if (jQuery(this).attr('checked')) {
+					jQuery(this).parent().addClass('selected');
 				} else {
-					$(this).parent().removeClass('selected');
+					jQuery(this).parent().removeClass('selected');
 				}
 			});
 
 			// checkbox
-			$("input[type='checkbox']").change(function () {
-				if ($(this).is(':checked')) {
-					$(this).parent().addClass('selected');
-					$(this).attr('checked', true);
+			jQuery("input[type='checkbox']").change(function () {
+				if (jQuery(this).is(':checked')) {
+					jQuery(this).parent().addClass('selected');
+					jQuery(this).attr('checked', true);
 				} else {
-					$(this).parent().removeClass('selected');
-					$(this).attr('checked', false);
+					jQuery(this).parent().removeClass('selected');
+					jQuery(this).attr('checked', false);
 				}
 			});
 
 			// radio
-			$("input[type='radio']").change(function () {
-				$('input:radio[name=' + $(this).attr('name') + ']').parent().removeClass('selected');
-				$(this).parent().addClass('selected');
+			jQuery("input[type='radio']").change(function () {
+				jQuery('input:radio[name=' + $(this).attr('name') + ']').parent().removeClass('selected');
+				jQuery(this).parent().addClass('selected');
 			});
 
 			//select
-			$("[class^='select-type'] select").on('change', function () {
+			jQuery("[class^='select-type'] select").on('change', function () {
 				$(this).addClass('selected');
 			});
 
 
 			var lThiz = this.element;
-			var lNtop = $(window).scrollTop();
-			var imgBox=$('.img-wrap');
-			var imgBoxWrap=$('.menu-info');
+			var lNtop = jQuery(window).scrollTop();
+			var imgBox=jQuery('.img-wrap');
+			var imgBoxWrap=jQuery('.menu-info');
 
 			if(imgBox.length>0){
 				var asideTop = imgBox.offset().top-100;
@@ -148,29 +148,29 @@ var UI = (function () {
 				}
 			}
 
-			var lNtop = $(window).scrollTop();
+			var lNtop = jQuery(window).scrollTop();
 			gnbFix(lNtop);//gnb
 
 			function gnbFix(lNtop){
 				if (lNtop > 10) {
-					var h=-($(lThiz.layout.header).outerHeight() - $(lThiz.gnb.wrap).outerHeight())+'px';
-					$(lThiz.layout.header).css({
+					var h=-(jQuery(lThiz.layout.header).outerHeight() - jQuery(lThiz.gnb.wrap).outerHeight())+'px';
+					jQuery(lThiz.layout.header).css({
 						'transform':'translateY('+h+')'
 					});
-				}else if(lNtop < $(lThiz.layout.header).find('.top-wrap').outerHeight()){
-					$(lThiz.layout.header).css({
+				}else if(lNtop < jQuery(lThiz.layout.header).find('.top-wrap').outerHeight()){
+					jQuery(lThiz.layout.header).css({
 						'transform':'translateY(0)'
 					});
 				}
 			}
 
-			$(window).scroll(function (e) {
-				var lNtop = $(this).scrollTop();
+			jQuery(window).scroll(function (e) {
+				var lNtop = jQuery(this).scrollTop();
 
 				e.preventDefault();
 
 				if(imgBox.length>0) {
-					var scroll = $(window).scrollTop();
+					var scroll = jQuery(window).scrollTop();
 					chkFixed(scroll);
 				}
 				gnbFix(lNtop);
@@ -226,7 +226,7 @@ var UI = (function () {
 						lLayerBox.css('top', '0');
 					}
 					if(pOption.st !== 'noDim'){
-						$('body').addClass('fixed');
+						jQuery('body').addClass('fixed');
 					}
 				} else {
 					playAre.html('');
@@ -242,8 +242,8 @@ var UI = (function () {
 			lLayer.find(lThiz.element.layer.btn).click(function (e) {
 				e.preventDefault();
 				playAre.html('');
-				$('body').removeClass('fixed');
-				$(this).closest(lThiz.element.layer.name).fadeOut();
+				jQuery('body').removeClass('fixed');
+				jQuery(this).closest(lThiz.element.layer.name).fadeOut();
 				lLayerBox.find('.pop-content').scrollTop(0);
 				playAre.html(iframe);
 			});
@@ -251,6 +251,6 @@ var UI = (function () {
 	}
 })();
 
-$(document).ready(function () {
+jQuery(document).ready(function () {
 	UI.init();
 });

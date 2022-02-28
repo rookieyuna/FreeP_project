@@ -5,6 +5,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,6 +24,8 @@
         rel="stylesheet">
     <!-- js 라이브러리 영역 -->
     <script src="../js/jquery-3.6.0.js"></script>
+    <script src="https://kenwheeler.github.io/slick/slick/slick.js"></script>
+   
     <script>
         function goTab(idx){
             $(".login_area").hide();
@@ -31,6 +34,8 @@
             $(".login_area").eq(idx).show();
         }
     </script>
+    <script type="text/javascript"> jQuery.noConflict(); </script>
+
 </head>
 <body>
     <!-- header s -->

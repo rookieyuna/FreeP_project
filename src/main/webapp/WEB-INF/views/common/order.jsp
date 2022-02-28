@@ -27,6 +27,7 @@
     <!-- js 라이브러리 영역 -->
     <script src="../js/jquery-3.6.0.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+     <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
     
 </head>
 <style>
@@ -70,6 +71,46 @@
 	
 </style>
 <script>
+function iamport_prev(){
+	document.getElementById("phone").value = document.getElementById("tel1").value + document.getElementById("tel2").value + document.getElementById("tel3").value; 
+	alert(document.getElementById("phone").value);
+	iamport();
+	/* https://admin.iamport.kr/payments */
+
+}
+function iamport(){
+	
+		//가맹점 식별코드
+		IMP.init('imp26597711');
+		IMP.request_pay({
+		    pg : 'kakaopay',
+		    pay_method : 'card',
+		    merchant_uid : 'merchant_' + new Date().getTime(),
+		    name : 'FreeP' , //결제창에서 보여질 이름
+		    amount : document.getElementById("total").value, //실제 결제되는 가격
+		    buyer_email : document.getElementById("email").value,
+		    buyer_name : document.getElementById("customerName").value,
+		    buyer_tel : document.getElementById("phone").value,
+		    buyer_addr : document.getElementById("address").value,
+		    buyer_postcode : document.getElementById("zipcode").value
+		}, function(rsp) {
+			console.log(rsp);
+		    if ( rsp.success ) {
+		    	var msg = '결제가 완료되었습니다.';
+		        msg += '고유ID : ' + rsp.imp_uid;
+		        msg += '상점 거래ID : ' + rsp.merchant_uid;
+		        msg += '결제 금액 : ' + rsp.paid_amount;
+		        msg += '카드 승인번호 : ' + rsp.apply_num;
+		        document.payFrm.submit();
+		    } else {
+		    	 var msg = '결제에 실패하였습니다.';
+		         msg += '에러내용 : ' + rsp.error_msg;
+		    }
+		    alert(msg);
+		});
+	}
+</script>
+<script>
 $(document).ready(function(){
 	$('#recipient').change(function(){
 		if($('#recipient').is(":checked")){
@@ -83,7 +124,8 @@ $(document).ready(function(){
 			document.getElementById("tel3").value = "";
 			$("#tel3").removeAttr("disabled");
 			$("#tel1").removeAttr("disabled");
-			 $("#tel1").val("010").prop("selected", true);
+			$("#tel1").val("010").prop("selected", true);
+			document.getElementById("phone").value = "";
 		}
 	});
 	
@@ -134,7 +176,7 @@ function fn_custInfo(){
                 tableData += '<option value="017">017</option> <option value="018">018</option> <option value="019">019</option>'; 
                 tableData += ' </select></div><input type="text" id="tel2" name="tel2" maxlength="4" class="i_text" title="휴대전화번호" value="'+tel2+'" disabled>';
                 tableData += '<input type="text" id="tel3" name="tel3" maxlength="4" class="i_text" title="휴대전화번호" value="'+data.tel3+'" disabled>';
-                tableData += ' </div></div></div></dd>';
+                tableData += '<input type="hidden" id="phone" name="phone" value="'+cus.phone+'" /> </div></div></div></dd>';
             	
                 $('#cusPhone').html(tableData);   
                 
@@ -171,7 +213,7 @@ function fn_custInfo(){
                         </div>
                     </div>
                     <!-- //1depth 메뉴명 & 네비게이션 -->
-					<form name="payFrm" method="post" action="./pay.do" onsubmit="" >
+					<form:form name="payFrm" method="post" action="./pay.do" onsubmit="" >
                     <article class="pay">
                         
 
@@ -217,7 +259,9 @@ function fn_custInfo(){
                                                  </div>
                                             </dd>
                                         </dl>
-                                     
+                                     	<input type="hidden" id="email" name="email" value="${vo.email }" />
+                                     	<input type="hidden" id="address" name="address" value="${vo.address }" />
+                                     	<input type="hidden" id="zipcode" name="zipcode" value="${vo.zipcode }" />
                                         <dl id="cusName">
                                              <dl>
                                                 <dt>이름</dt>
@@ -247,6 +291,7 @@ function fn_custInfo(){
                                                             </div>
                                                             <input type="text" id="tel2" name="tel2" maxlength="4" class="i_text" title="휴대전화번호">
                                                             <input type="text" id="tel3" name="tel3" maxlength="4" class="i_text" title="휴대전화번호">
+                                                            <input type="text" id="phone" name="phone" value="" />
                                                         </div>
                                                     </div>
                                                     
@@ -290,7 +335,10 @@ function fn_custInfo(){
                             <div class="order-step">
                                 <ul>
                                     <li>
-                                    	<c:forEach items="${lists }" var="row">   
+                                    	<c:forEach items="${lists }" var="row" varStatus="status">   
+                                    	<input type="hidden" name="cartIdx" value="${row.ct_idx }" />
+                                    	<!-- 일반제품인지, diy인지 판별할 수 있는 무언가  -->
+                                    	<input type="hidden" name="ctCode" value="${row.ct_code} " />
                                         <div class="menu">
                                             <!-- 피자 명  -->
                                             <strong class="goods_name">${row.ct_name }</strong>                                            
@@ -313,6 +361,8 @@ function fn_custInfo(){
                                 <h3 class="title-type"><strong>할인 적용</strong></h3>
                             </div>
                             <div class="discount-step">
+                                	<input type="hidden" id="coupon" name="coupon" value="0" />
+                                	<input type="hidden" id="couponidx" name="couponidx" value="0"/>
                                 <ul>
                                     <li id="myCoupon">
                                     	<label class="btn-type-brd5" onclick="fn_coupon(0);">프리피 온라인 쿠폰 선택</label>                                    
@@ -330,6 +380,8 @@ function fn_coupon(discount){
     	if(( parseInt(example) - parseInt(discount)) < 0 ){
     		document.getElementById("sum1").value = 0;
     		}
+    	document.getElementById("couponidx").value=0;
+    	document.getElementById("coupon").value = 0;
     	document.getElementById("sum1").value = parseInt(example) - parseInt(discount);
     	var example = document.getElementById("total").value ;
     	document.getElementById("total").value = parseInt(example) + parseInt(discount);
@@ -357,7 +409,9 @@ function fn_coupon(discount){
 					
 					if(value.cp_const < pre_sum){
 					
-						tableData += '<tr class="coupontr" onclick="fn_useCoupon('+value.cp_idx+',\''+ value.cp_name+'\','+value.cp_price+');"><td>'+ value.cp_name+'</td><td>'+ value.cp_cate +'</td><td>~ '+ value.expire_date+'</td></tr>';
+						tableData += '<tr class="coupontr" onclick="fn_useCoupon('+value.cp_idx+',\''+ value.cp_name+'\','+value.cp_price+','+value.coupon_idx+');">';
+						tableData +=  '<td>'+ value.cp_name+'</td><td>'+ value.cp_cate +'</td><td>~ '+ value.expire_date+'</td></tr>';
+						
 					} 
 					else{
 						tableData += '<tr class="coupontr" style="color:lightgray;"><td>'+ value.cp_name+'</td><td>'+ value.cp_cate +'</td><td>~ '+ value.expire_date+'</td></tr>';
@@ -375,14 +429,16 @@ function fn_coupon(discount){
             });      
 };
 
-function fn_useCoupon(data,cate,price){
+function fn_useCoupon(data,cate,price,idx){
 	
  	var tableData = '<input type="hidden" id="cusCoupon" value="'+data+'"/>';
 	tableData += '<div class="store"><label class="btn-type-brd5"> 사용할 쿠폰 : '+ cate +'</label>';
 	tableData += '<button type="button" class="point1" onclick="fn_coupon('+price+');">수정</button></div>';
 	$('#myCoupon').html(tableData); 
 
-	var sum1 = document.getElementById("sum1_1").innerText;
+	document.getElementById("couponidx").value=idx;
+	document.getElementById("coupon").value = price;
+	var sum1 = document.getElementById("sum1").value;
 	var sum2 = parseInt(sum1) + parseInt(price);
 	document.getElementById("sum1").value = sum2;
 	var example = document.getElementById("total").value ;
@@ -391,7 +447,9 @@ function fn_useCoupon(data,cate,price){
 	total(); 
 };
 </script>
+								<input type="hidden" id="point" name="point" value="0" />
                                 <ul > 
+                                
                                     <li id="voucher">
                                     	<label class="btn-type-brd5" onclick="fn_voucher(0);">포인트 사용하기</label>
                                         <div class="store">
@@ -415,6 +473,7 @@ function fn_useCoupon(data,cate,price){
                             	if(( parseInt(example) - parseInt(discount)) < 0 ){
                             		document.getElementById("sum1").value = 0;
                             		}
+                            	document.getElementById("point").value = 0;
                             	document.getElementById("sum1").value = parseInt(example) - parseInt(discount);
                             	var example = document.getElementById("total").value ;
                             	document.getElementById("total").value = parseInt(example) + parseInt(discount);
@@ -466,7 +525,8 @@ function fn_useCoupon(data,cate,price){
                         	tableData += '<button type="button" class="point1" onclick="fn_voucher('+point+');">수정</button></div>';
                         	$('#voucher').html(tableData); 
                         	
-                        	var sum1 = document.getElementById("sum1_1").innerText; 
+                        	document.getElementById("point").value = point;
+                        	var sum1 = document.getElementById("sum1").value; 
                         	var sum2 = parseInt(sum1) + parseInt(point);
                         	document.getElementById("sum1").value = sum2;
                         	var example = document.getElementById("total").value ;
@@ -571,17 +631,18 @@ function fn_useCoupon(data,cate,price){
                                     <ul>
                                         <li>
                                             <p class="tit">총 상품 금액</p>
-                                            <input type="hidden" id="sum" value="${sum }"/>
+                                            <input type="hidden" id="sum" name="sum" value="${sum }"/>
                                             <p class="price"><em id="sum_1">${sum }</em>원</p>
                                         </li>
                                         <li class="discount">
                                             <p class="tit">총 할인 금액</p>
                                             <input type="hidden" id="sum1" value="0"/>
+                                            
                                             <p class="price"><em id="sum1_1">0</em>원</p>
                                         </li>
                                         <li class="total">
                                             <p class="tit">총 결제 금액</p>
-                                            <input type="hidden" id="total" value="${sum }" />
+                                            <input type="hidden" id="total" name="total"  value="${sum }" />
                                             <p class="price"><em id="total_1">${sum }</em>원</p>
                                         </li>
                                     </ul>
@@ -595,13 +656,13 @@ function fn_useCoupon(data,cate,price){
 
                         <!-- 주문하기 버튼 -->
                         <div class="btn-wrap">
-                        	<button type="submit" class="btn-type">결제하기</button>
+                        	<button type="button" class="btn-type" onclick="iamport_prev();">결제하기</button>
                         
                         </div>
                         <!-- //주문하기 버튼 -->
 
                     </article>
-                    </form>
+                    </form:form>
                 </div><!-- //inner-box -->
             </div>
         </div>

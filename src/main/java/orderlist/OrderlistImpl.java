@@ -26,6 +26,11 @@ public interface OrderlistImpl {
 	//삭제처리
 	public int delete(String or_idx);
 	
+	//이후부터 신태임 작성
+	//인서트
+	public void insertOrder(OrderlistVO a);
+	//orderproduct용 idx확인
+	public int checkidx();
 	
 //	//삭제처리
 //	public int delete(String idx, String id);

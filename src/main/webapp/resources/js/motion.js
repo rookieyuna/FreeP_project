@@ -1,14 +1,14 @@
-$(function () {
+jQuery(function () {
 
-    $(".btn-detail").click(function(e){
+    jQuery(".btn-detail").click(function(e){
 		e.stopPropagation();
         $(".pop-layer").show();
     });
-    $(".btn-close").click(function(){
+   jQuery(".btn-close").click(function(){
         $(".pop-layer").hide();
     });
     
-    $(".btnC1").click(function(){
+    jQuery(".btnC1").click(function(){
         if($(this).parent().hasClass("active")){
 
         }else{
@@ -22,12 +22,12 @@ $(function () {
         }
     })
 
-    $(".store-search li").click(function(){
+    jQuery(".store-search li").click(function(){
         $(".store-search .tab-content").toggleClass("active");
     })
 
     
-    $(".DIY-detail-modal .tab-type li button").click(function(){
+    jQuery(".DIY-detail-modal .tab-type li button").click(function(){
         if($(this).parent().hasClass("active")){
 
         }else{
@@ -42,8 +42,8 @@ $(function () {
     })
 
     
-    $(".otherMethod-wrap").hide();
-    $(".pay-div>ul>li>.chk-box").click(function(){
+    jQuery(".otherMethod-wrap").hide();
+    jQuery(".pay-div>ul>li>.chk-box").click(function(){
         if($(".btn-otherMethod").hasClass("selected")){
             $(".otherMethod-wrap").hide();
         }else if($(this).hasClass("btn-dominopay")){
@@ -54,7 +54,7 @@ $(function () {
     });
 
     // 주문목록 선택 표시
-    $(".now-product>li").click(function(){
+    jQuery(".now-product>li").click(function(){
         if($(this).parents(".menu-depth").hasClass("dough") || $(this).parents(".menu-depth").hasClass("sauce")){
             $(this).siblings().removeClass("active");
             $(this).toggleClass("active");
@@ -76,8 +76,8 @@ $(function () {
     });
 
     // 주문목록 순차적 선택
-    $(".DIYmenu>.menu-depth:not(:eq(0))").hide();
-    $(".DIYmenu_section_list>li").click(function(){
+    jQuery(".DIYmenu>.menu-depth:not(:eq(0))").hide();
+    jQuery(".DIYmenu_section_list>li").click(function(){
         var i = $(this).parents(".menu-depth").index();
 
         if($(this).hasClass("active")){
@@ -88,7 +88,7 @@ $(function () {
     });
 
     // 선택품목 보기
-    $(".menu-cart-btn").click(function(){
+    jQuery(".menu-cart-btn").click(function(){
         $(".DIYmenu").toggleClass("active");
         $('.menu-cart-modal').toggleClass("active");
 
@@ -108,27 +108,27 @@ $(function () {
 
 
     // 커뮤니티>후기게시판>후기이미지 클릭 버튼 동작
-    $(".review .img_wrap").click(function(){
+    jQuery(".review .img_wrap").click(function(){
         $(".review-detail-modal").css({
             "display":"block"
         })
     });
 
     // 마이페이지>MY리뷰>마이리뷰리스트 클릭 버튼 동작
-    $(".mypage .myReview-wrap .board-list tr").click(function(){
+    jQuery(".mypage .myReview-wrap .board-list tr").click(function(){
         $(".review-detail-modal").css({
             "display":"block"
         })
     });
 
     // 커뮤니티>후기게시판>상세보기 이미지 조작
-    $(".modal2-con .con1-top-wrap button").click(function(){
+    jQuery(".modal2-con .con1-top-wrap button").click(function(){
         $(".modal2-con .con1-top-wrap li").removeClass("active");
         $(this).closest("li").toggleClass("active");
     })
 
     // 후기페이지 > 상세보기 > 아코디언 패널
-    $(".aco_top").on('click',function(e){
+    jQuery(".aco_top").on('click',function(e){
         $(this).children(".detail-more-btn").toggleClass('active');
         if($(this).next().css("display")=="none"){
             $(".aco_bottom").slideUp();
@@ -138,7 +138,7 @@ $(function () {
         }
     });
     
-    $(".review_to_order").click(function(e){
+    jQuery(".review_to_order").click(function(e){
         e.stopPropagation();
         // 바로주문 버튼 클릭시 주문페이지 이동 구현 예정
         
@@ -146,20 +146,20 @@ $(function () {
 
 
     // etc > FAQ 테이블 아코디언 기능
-    $(".faq .faq-area .lst_faq_wrap dt").click(function (e) {
+    jQuery(".faq .faq-area .lst_faq_wrap dt").click(function (e) {
         e.stopPropagation();
         $(this).next().slideToggle(300);
         $(".faq .faq-area .lst_faq_wrap dt").not(this).next().slideUp(300);
         return false;
     });
-    $(".faq .faq-area .lst_faq_wrap dt").eq(0).trigger("click");
+    jQuery(".faq .faq-area .lst_faq_wrap dt").eq(0).trigger("click");
 
 
 
     
 
    
-    $(".slider").not('.slick-initialized').slick();
+    jQuery(".slider").not('.slick-initialized').slick();
 });
 
 //favorite heart like/unlike
@@ -175,23 +175,23 @@ document.querySelectorAll(".material-icons")
 
 // etc > FAQ 상단 질문유형 클릭시 기능
 function callFunction(e, num){
-    $(".btn_tab_faq li").removeClass("active");
-    $(e).parent().addClass("active");
-    $(".lst_faq_wrap").children("ul").hide();
-    $(".lst_faq_wrap").children("ul").eq(num-1).show();
-    $(".lst_faq_wrap").children("ul").eq(num-1).children("li").eq(0).find("dd").show();
+    jQuery(".btn_tab_faq li").removeClass("active");
+    jQuery(e).parent().addClass("active");
+    jQuery(".lst_faq_wrap").children("ul").hide();
+    jQuery(".lst_faq_wrap").children("ul").eq(num-1).show();
+    jQuery(".lst_faq_wrap").children("ul").eq(num-1).children("li").eq(0).find("dd").show();
 }
 
 
 var slideCount = document.getElementById("slide-count");
-$(function(){
-    $('.visual-slider').on('init reInit afterChange', function (event, slick, currentSlide, nextSlide) {
+jQuery(function(){
+    jQuery('.visual-slider').on('init reInit afterChange', function (event, slick, currentSlide, nextSlide) {
         var i = (currentSlide ? currentSlide : 0) + 1;
         $(this).find('.slide-count').html('<span class="current">' + i + '</span> ' + '/' + ' <span class="total">' + slick.slideCount + '</span>');
     });
 
     // play button
-	$('.visual-area .btn-play').click(function() {
+	jQuery('.visual-area .btn-play').click(function() {
         $(this).toggleClass("on");
         if($(this).hasClass("on")){
             $('.slick-track').slick('slickPause');
@@ -200,8 +200,8 @@ $(function(){
         }
     });
 })
-$(document).ready(function(){
-    $('.slick-track').slick({
+jQuery(document).ready(function(){
+    jQuery('.slick-track').slick({
 
         dots: true, //페이지 네비게이션 
         arrows:true, // next, prev 이동 버튼 
@@ -216,7 +216,7 @@ $(document).ready(function(){
     });
 });
 
-$(document).on('change', '#test', function () {
+jQuery(document).on('change', '#test', function () {
     $('#test').removeClass('selected');
 });
 
