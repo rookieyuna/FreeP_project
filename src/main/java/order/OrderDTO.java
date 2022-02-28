@@ -12,4 +12,5 @@ public class OrderDTO {
 	private int code;
 	private String p_price;
 	private int p_count;
+	
 }

@@ -1,10 +1,14 @@
 package review;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
+import menu.MenuVO;
+import order.OrderDTO;
 import util.ParameterDTO;
 
 /*
@@ -49,5 +53,12 @@ public interface ReviewBoardDAOImpl {
 	//좋아요 리뷰 테이블 추가 및 삭제 메서드 JYA
 	public void likeReview(LikedReviewDTO likedReviewDTO); 
 	public void dislikeReview(int rv_idx, int m_code);
+	
+	
+	// 리뷰게시판 주문상품 KDB
+	public List<String> a(int a);
+	public Map<String, Object> b(String a);
+	public Map<String, Object> c(String a);
+	public List<String> d(List<Object> a);
 	
 }

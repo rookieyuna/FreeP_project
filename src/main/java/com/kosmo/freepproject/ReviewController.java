@@ -7,6 +7,7 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -24,7 +25,9 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import board.BoardDAOImpl;
 import board.BoardDTO;
+import menu.MenuVO;
 import mypage.MypageImpl;
+import order.OrderDTO;
 import util.ParameterDTO;
 import review.ReviewBoardDAOImpl;
 import review.ReviewBoardDTO;
@@ -548,7 +551,7 @@ public class ReviewController {
 	//리뷰 상세보기
 	@RequestMapping("/community/reviewdetail.do")
 	@ResponseBody
-	public Map<String, Object> reviewdetail(Model model, HttpServletRequest req) {
+	public List<Map<String,Object>> reviewdetail(Model model, HttpServletRequest req) {
 
 		ReviewBoardDTO boardDTO = new ReviewBoardDTO();
 		boardDTO.setRv_idx(Integer.parseInt(req.getParameter("idx"))); 
@@ -557,13 +560,74 @@ public class ReviewController {
 		
 		ReviewBoardDTO dto = 
 				sqlSession.getMapper(ReviewBoardDAOImpl.class).view(boardDTO);
-		  
+		System.out.println("날짜체크"+ dto);
+		System.out.println(dto.getOr_idx());
+		int orIdx = dto.getOr_idx();
+		// orIdx를 order_product테이블에 넣어서 code를 가져온다.
+		// 일반상품일 경우 그냥 해당 데이터를 product테이블에서 가져온다.
+		// diy상품일 경우 diy테이블에서 정보를 가져온다.
+		List<String> a = sqlSession.getMapper(ReviewBoardDAOImpl.class).a(orIdx);
+		System.out.println(a);
+		List<Map<String, Object>> listSender = new ArrayList<Map<String, Object>>();
+		
+
+		for(String key : a) {
+			System.out.println(key);
+			if(key.contains("9999")) {
+				System.out.println("여기는 DIY제품입니다.");
+				System.out.println(sqlSession.getMapper(ReviewBoardDAOImpl.class).c(key)); 
+				Map<String,Object> c = sqlSession.getMapper(ReviewBoardDAOImpl.class).c(key);
+				
+				// DIY피자 이름만들기
+				System.out.println("c의 이름 : " + c.get("D_NAME"));
+				Map<String, Object> cResult = new HashMap<String, Object>();
+				cResult.put("D_NAME", c.get("D_NAME")); // 이름 저장
+				// DIY피자 이름완전체 cResult
+				
+				// DIY피자 재료만들기
+				List<Object> secretRecipe = new ArrayList<Object>();
+				secretRecipe.add(c.get("DOUGH"));
+				secretRecipe.add(c.get("SAUCE"));
+				secretRecipe.add(c.get("TOPPING1"));
+				if(c.get("TOPPING2") != null) {
+					secretRecipe.add(c.get("TOPPING2"));					
+				}else if(c.get("TOPPING3") != null) {
+					secretRecipe.add(c.get("TOPPING3"));	
+				}else if(c.get("TOPPING4") != null) {
+					secretRecipe.add(c.get("TOPPING4"));	
+				}else if(c.get("TOPPING5") != null) {
+					secretRecipe.add(c.get("TOPPING5"));	
+				}else {};
+				
+				// 레시피 map에 담기 (key = recipe0,1,2,3..)
+				List<String> recipeResult = sqlSession.getMapper(ReviewBoardDAOImpl.class).d(secretRecipe);
+				for(int z=0; z<recipeResult.size(); z++) {
+					cResult.put("recipe"+z, recipeResult.get(z));
+				}
+				// DIY피자 재료완전체 cResult
+				System.out.println(cResult);
+				
+				model.addAttribute("cResult", cResult);
+				listSender.add(cResult);
+			}else {
+				System.out.println("여기는 일반제품입니다.");
+				System.out.println(sqlSession.getMapper(ReviewBoardDAOImpl.class).b(key));
+				Map<String,Object> b = sqlSession.getMapper(ReviewBoardDAOImpl.class).b(key);
+				listSender.add(b);
+			}
+		}
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("dto", dto);
-		result.put("dto1", dto);
+		listSender.add(result);
 		
-		return result;
+		for(Map<String, Object> alpha : listSender) {
+			System.out.println("alpha : " + alpha);
+		}
+		
+		
+		
+		return listSender;
 	}
 	
 	

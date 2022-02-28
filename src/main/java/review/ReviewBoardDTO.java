@@ -1,5 +1,7 @@
 package review;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Data;
 
 @Data
@@ -8,6 +10,8 @@ public class ReviewBoardDTO {
 	private int m_code;
 	private String title;
 	private String contents;
+	
+	@JsonFormat(pattern="yyyy--MM-dd")
 	private java.sql.Date postdate;
 	private int hits;
 	private String writer;
