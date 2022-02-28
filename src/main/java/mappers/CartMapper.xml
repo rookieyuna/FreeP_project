@@ -44,7 +44,7 @@
 			where 
     			C.ct_code = d.diy_idx
    				and C.m_code = #{param1}
-	</select>
+	</select> 
 	
 	<delete id="deleteCart">
 		delete from cart where ct_idx=#{param1}
@@ -54,9 +54,19 @@
 	<delete id="deleteCartall">
 		delete from cart where m_code=#{param1}
 	</delete>
-	
+ 
 	<update id="updateCart">
-		update cart set ct_count=#{param1} where ct_idx=#{param2}
+		update cart set ct_count=ct_count + #{param1} where ct_idx=#{param2}
+		
 	</update>
+ 
 
+	<select id="confirmCart" parameterType="java.util.HashMap" resultType="int">
+		select count(*) from cart where m_code=#{m_code} and ct_code=#{ct_code}
+	</select>
+	<update id="updateCountCart"  parameterType="java.util.HashMap" >
+		update cart set ct_count=ct_count + #{ct_count} where ct_code=#{ct_code} and  m_code=#{m_code}
+		
+	</update>
+	
   </mapper>

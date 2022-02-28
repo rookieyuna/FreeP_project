@@ -45,22 +45,17 @@
 	                   <div class="col-12">
 	                       <div class="card">
 	                       <script>
-	                       function monthChk(f){
-	                    	   console.log("선택??"+ document.getElementById("yearMonth").value);
-	                    	   f.submit();
-	                       }
-	                       
 	                       function locChk(loc) {
-	                    	   console.log("선택??"+ document.getElementById("location").value);
+	                    	   //console.log("선택??"+ document.getElementById("location").value);
 	                    	   loc.submit();
 							}
 	                       </script>
-	                       <form name="ffff">
+	                       <form name="storechartForm"  onsubmit="return validateForm(this);">
 		                    	<div class="card-header">
-						            <input type="month" id="yearMonth" name="yearMonth" onchange="monthChk(this);">
+						            <input type="month" id="yearMonth" name="yearMonth">
 						            &nbsp;
 						            <div>
-									<select id="location" onchange="locChk(this.form);">
+									<select id="location" name="locations" onchange="locChk(this.form);">
 										<option value="" selected="">시/도</option>
                                         <option value="01">서울특별시</option>
                                         <option value="02">인천광역시</option>
@@ -128,64 +123,6 @@
 		                   </div>
 		                   
 		                   	<script>
-		                   	/*
-		                   	var ctx = document.getElementById('myChart')
-		                   		
-		                   	$(document).ready(function() {
-		                   		init();
-		                   		$("#or_date").change(function(){
-		                   			getGraph($(this).val())
-								})
-							});
-		                   	
-		                   	function init() {
-		                   		getGraph();
-							}
-		                   	
-		                   	function getGraph() {
-								let timeList = [];
-								let posList =[];
-								
-								var now = new Date();
-								nowYearMonth = moment().format('YYYY-MM');
-								var yearData = {or_date:or_date || nowYearMonth};
-								
-								$.ajax({
-									url:"/admin/getDayPay.do",
-									type : "get",
-									data: yearData,
-									dataType : "json",
-									success : function(data) {
-										
-										for(let i=0 ; i<data.length; i++){
-											timeList.push(data[i].b_name);
-											posList.push(data[i].total_price);
-										}
-										
-										new Chart(doucment.getElementById("myChart"), {
-											type:'line',
-											data:{
-												labels:timeList,
-												datasets: [{
-													data:posList,
-													label:"매출현황",
-													borderColor:"#3e95cd",
-													fill:false
-												}]
-											},
-											options:{
-												title:{
-													display : true,
-													text: '주간 매출현황'
-												}
-											}
-										});
-									}
-								})
-							} */
-		                   	
-							
-							
 		                   	var ctx = document.getElementById('myChart').getContext('2d');
 							
 							var labels = [];

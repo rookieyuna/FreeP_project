@@ -49,11 +49,15 @@
   		INSERT into member(m_code, id, name, pass, phone, email, zipcode, address )
 				VALUES (seq_member_num.nextval, #{id}, #{name}, #{pass}, #{phone}, #{email}, #{zipcode}, #{address})
   	</insert>
+  	<!-- 회원가입시 가입축하쿠폰 자동적립. -->
+  	<insert id="coupon" parameterType="member.MemberVO">
+  		INSERT INTO mycoupon (coupon_idx, m_code, cp_idx)
+		    VALUES(seq_coupon_idx.nextval, (SELECT m_code FROM member WHERE id = #{id}), '1')
+  	</insert>
   	
   	<!-- 아이디 중복체크 -->
-  	<select id="idChk" resultType="int">
-  		SELECT COUNT(*) FROM member WHERE id = #{id}
-  	
+  	<select id="idChk"  resultType="int">
+  		SELECT COUNT(*) FROM member WHERE id = #{param1}
   	</select>
 	
 	
@@ -69,6 +73,13 @@
 			email=#{email}, zipcode=#{zipcode},
 			regidate=#{regidate}, grade=#{grade},
 			point=#{point}, active=#{active}
+			WHERE m_code=#{m_code}
+	</update>
+	
+	<update id="myModify" parameterType="member.MemberVO">
+		UPDATE member 
+			SET name=#{name}, pass=#{pass}, phone=#{phone},
+			email=#{email}, zipcode=#{zipcode}, address=#{address}
 			WHERE m_code=#{m_code}
 	</update>
 	

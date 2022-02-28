@@ -1,6 +1,8 @@
 package com.kosmo.freepproject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,7 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import store.StoreImpl;
 import store.StoreVO;
@@ -176,9 +178,12 @@ public class StoreController {
 		
 		//Mapper로 전달할 파라미터를 저장할 DTO 객체 생성
 		ParameterDTO parameterDTO = new ParameterDTO();
+		
 		//검색어가 있을 경우 저장
 		parameterDTO.setSearchField(req.getParameter("searchField"));
 		parameterDTO.setSearchTxt(req.getParameter("searchTxt"));
+		
+		parameterDTO.setStoreName(req.getParameter("storeName"));
 		
 		//게시물 카운트(DTO 객체를 인수로 전달)
 		int totalRecordCount = 
@@ -186,12 +191,33 @@ public class StoreController {
 		//System.out.println("totalRecordCount"+ totalRecordCount);
 		
 		//출력할 게시물 select(DTO객체를 인수로 전달)
-		ArrayList<StoreVO> lists = 
+		ArrayList<StoreVO> list = 
 				sqlSession.getMapper(StoreImpl.class).getList(parameterDTO);
 		
-		model.addAttribute("lists", lists);
+		model.addAttribute("list", list);
 		
 		//검색 기능이 추가된 view를 반환
 		return "company/searchStore";
 	}
+	
+	//리뷰 상세보기
+	@RequestMapping("/company/storedetail.do")
+	@ResponseBody
+	public  Map<String, Object> detail(Model model, HttpServletRequest req) {
+
+		StoreVO storeVO = new StoreVO();
+		storeVO.setB_code(Integer.parseInt(req.getParameter("b_code"))); 
+		
+		int mybCode= Integer.parseInt(req.getParameter("b_code"));
+		
+		StoreVO vo  = 
+				sqlSession.getMapper(StoreImpl.class).views(storeVO);
+		  
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("vo", vo);
+		result.put("vo1", vo);
+		
+		return result;
+	}
+	
 }

@@ -14,7 +14,7 @@
     <!-- style 영역 -->
     <link rel="stylesheet" href="../style/common.css">
     <link rel="stylesheet" href="../style/sub.css">
-    <link rel="stylesheet" href="../style/community.css">
+    <link rel="stylesheet" href="../style/mypage.css">
     <link rel="stylesheet" href="../style/layout.css">
     <!-- icon영역 -->
     <link
@@ -46,12 +46,12 @@
                         <div class="menu-nav-wrap">
                             <div class="menu-nav">
                                 <ul>
-                                    <li><a href="./myMain.html">MY프리피</a></li>
-                                    <li><a href="./myOrder.html">주문내역</a></li>
-                                    <li><a href="./myCoupon.html">쿠폰/적립금</a></li>
-                                    <li><a href="../mypage/myReview1.do">MY리뷰</a></li>
-                                    <li class="active"><a href="./myQuestion.html">1:1문의</a></li>
-                                    <li><a href="./myUserinfo.html">정보수정</a></li>
+                                    <li><a href="../myMain.html">MY프리피</a></li>
+                                    <li><a href="../myOrder.html">주문내역</a></li>
+                                    <li><a href="../myCoupon.html">쿠폰/적립금</a></li>
+                                    <li><a href="../mypage/myReview.do">MY리뷰</a></li>
+                                    <li class="active"><a href="../myQuestion.do">1:1문의</a></li>
+                                    <li><a href="../mypage/myUserinfo.do">정보수정</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -70,7 +70,7 @@
                                 <div class="counsil-wrap">
                                     <div class="table-type4">
                                         <table>
-                                            <caption>피자 영양성분</caption>
+                                            <caption>나의 1:1 문의 내역</caption>
                                             <colgroup>
                                                 <col style="width:140px">
                                                 <col>
@@ -81,52 +81,47 @@
                                                 <tr>
                                                     <th>번호</th>
                                                     <th>제목</th>
+                                                    <th>문의유형</th>
                                                     <th>등록일</th>
-                                                    <th>처리상태</th>
                                                 </tr>
                                             </thead>
-                                            <!-- 문의 내역 없음 -->
-                                            <tbody class="board-list empty hide">
-                                                <tr>
-                                                    <td colspan="4">문의하신 내용이 없습니다.</td>
-                                                </tr>
-                                            </tbody> 
                                             
-
-                                            <!-- 문의 내역 있음 -->
-                                            <tbody class="board-list fill">
-                                                <tr onClick="location.href='./myQuestionView.html';">
-                                                    <td>2</td>
-                                                    <td>이거 맛있나요?</td>
-                                                    <td>2022.02.08</td>
-                                                    <td>미답변</td>
-                                                </tr>
-                                                <tr onClick="location.href='./myQuestionView.html';">
-                                                    <td>1</td>
-                                                    <td>햄최몇?</td>
-                                                    <td>2022.01.08</td>
-                                                    <td>답변완료</td>
-                                                </tr>
-                                            </tbody>
+                                            <c:choose>
+			                                    <c:when test="${empty lists}">
+		                                            <tbody class="board-list empty hide">
+		                                                <tr>
+		                                                    <td colspan="4">문의하신 내용이 없습니다.</td>
+		                                                </tr>
+		                                            </tbody> 
+						                    	</c:when>
+						                    	<c:otherwise>
+							                    	<!-- 가상번호 수정해야함 -->
+				                                    <tbody class="board-list fill">
+					                                    <c:forEach items="${lists }" var="row" varStatus="loop">
+															<tr onClick="location.href='./myQuView.do?b_idx=${row.b_idx}';">
+																<td>${totalQuCount - (((nowPage-1) * pageSize) + loop.index)}</td>
+																<td>${row.title }</td>
+																<c:choose>
+											                    	<c:when test="${row.q_category eq '1'}"><td>배달문의</td></c:when>
+											                    	<c:when test="${row.q_category eq '2'}"><td>예약문의</td></c:when>
+											                    	<c:when test="${row.q_category eq '3'}"><td>CS</td></c:when>
+											                    	<c:otherwise><td>기타</td></c:otherwise>
+											                    </c:choose>
+																<td>${row.postdate }</td>
+															</tr>
+														</c:forEach>
+							                    	</tbody>
+						                    	</c:otherwise>
+			                                </c:choose>
                                         </table>
                                     </div>
 
-                                    <div class="pagingArea">
-                                        <div class="common-pagingType-1">
-                                            <a href="#" class="btn-prev" title="이전 페이지로 이동"><span class="hidden">이전 페이지로 이동</span></a>
-                                            <a href="#none" title="현재 페이지" class="sel"><span>1</span></a>
-                                            <a href="#"><span>2</span></a>
-                                            <a href="#"><span>3</span></a>
-                                            <a href="#"><span>4</span></a>
-                                            <a href="#"><span>5</span></a>
-                                            <a href="#"><span>6</span></a>
-                                            <a href="#"><span>7</span></a>
-                                            <a href="#"><span>8</span></a>
-                                            <a href="#"><span>9</span></a>
-                                            <a href="#"><span>10</span></a>
-                                            <a href="#" class="btn-next" title="다음 페이지로 이동"><span class="hidden">다음 페이지로 이동</span></a>
-                                        </div>
-                                    </div>
+                                    <!-- 페이지 번호 -->
+									<div class="pagingArea">
+										<div class="common-pagingType-1">
+											${pagingImg }
+										</div>
+									</div>
                                 </div>
                             </div>
                         </div>

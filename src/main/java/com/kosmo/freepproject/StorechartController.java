@@ -45,8 +45,9 @@ public class StorechartController {
 		parameterDTO.setYearMonth(req.getParameter("yearMonth"));
 		
 		//매출현황 지역 검색 부분
-		System.out.println(req.getParameter("location"));
-		parameterDTO.setLocation(req.getParameter("location"));
+		System.out.println(req.getParameter("locations"));
+		parameterDTO.setLocations(req.getParameter("locations"));
+		parameterDTO.setAddress(req.getParameter("address"));
 		
 		//출력할 게시물 select(DTO객체를 인수로 전달)
 		ArrayList<StorechartVO> lists = 

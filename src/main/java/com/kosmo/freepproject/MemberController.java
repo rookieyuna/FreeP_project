@@ -1,6 +1,8 @@
 package com.kosmo.freepproject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -184,15 +186,21 @@ public class MemberController {
 			memberVO.setAddress(address); 
 			System.out.println(memberVO);
 			sqlSession.getMapper(MemberImpl.class).regAction(memberVO);
+			sqlSession.getMapper(MemberImpl.class).coupon(memberVO);
+			
 			
 			return "member/regStep3";}
 		
 		//아이디 중복 체크
 		@ResponseBody
 		@RequestMapping(value="/member/id_check_person.do", method = RequestMethod.GET)
-		public int id_check_person(Model model, HttpServletRequest req) throws Exception{
+		public Map<String,Object> id_check_person(Model model, HttpServletRequest req) throws Exception{
 			String id = (String) req.getParameter("id");
-			return sqlSession.getMapper(MemberImpl.class).idChk(id);
+			int num = sqlSession.getMapper(MemberImpl.class).idChk(id);
+			System.out.println(id);
+			Map<String, Object> result = new HashMap<String, Object>();
+	        result.put("num", num);
+			return result;
 			
 		}
 }

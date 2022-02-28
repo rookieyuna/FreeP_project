@@ -22,7 +22,7 @@ $(function () {
         }
     })
 
-    $(".store-search li").click(function(){
+    $(".store-search #tabs").click(function(){
         $(".store-search .tab-content").toggleClass("active");
     })
 
@@ -118,6 +118,20 @@ $(function () {
     $(".mypage .myReview-wrap .board-list tr").click(function(){
         $(".review-detail-modal").css({
             "display":"block"
+        })
+    });
+     
+    // 컴패니>매장찾기>상세보기 클릭 버튼 동작
+    $(".store-search .store-info-box").click(function(){
+        $(".store-detail-modal").css({
+            "display":"block",
+        })
+    });
+    
+    // 컴패니>매장찾기>전체매장보기 클릭 버튼 동작
+    $(".detail-map").click(function(){
+        $(".map-detail-modal").css({
+            "display":"block",
         })
     });
 

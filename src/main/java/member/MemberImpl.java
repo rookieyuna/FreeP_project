@@ -32,22 +32,18 @@ public interface MemberImpl {
 	//아이디 중복체크
 	public int idChk(String id) throws Exception;
 	
+	//회원가입시 자동으로 가입축하 쿠폰추가.
+	public int coupon(MemberVO memberVO);
 	
-	//기존 게시물의 내용을 읽어오기 위한 메서드
+	
+	//회원정보 상세보기
 	public MemberVO view(ParameterDTO parameterDTO);
 	
 	//수정처리
 	public int modify(MemberVO memberVO);
+	public int myModify(MemberVO memberVO);
 	
 	//삭제처리
 	public int delete(String m_code);
 	
-	
-//	//삭제처리
-//	public int delete(String idx, String id);
-//	
-//	//Map 컬렉션 사용을 위한 추상메서드
-//	public ArrayList<MyBoardDTO> hashMapUse(Map<String, String> hMap);
-//	//List 컬렉션 사용을 위한 추상메서드
-//	public ArrayList<MyBoardDTO> arrayListUse(List<String> aList);
 }

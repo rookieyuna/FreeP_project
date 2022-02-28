@@ -49,4 +49,6 @@ public interface MypageImpl {
 	//회원가입일
 	public String myRegidate(String m_code);
 	
+	/*******************비밀번호확인**********************/
+	public int myPwdChk(ParameterDTO dto);
 }

@@ -1,6 +1,7 @@
 package cart;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,10 @@ public interface CartImpl {
 	public void updateCart(int a, int b);
 	
 	public void deleteCartall(int a);
+	//장바구니에 같은 품목이 있는지 판별하기
+	public int confirmCart(Map<String, Object> map);
+	//개수 +1
+	public int updateCountCart(Map<String, Object> map);
 
 }
  

@@ -2,7 +2,9 @@ package com.kosmo.freepproject;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,8 +13,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import board.BoardDAOImpl;
+import board.BoardDTO;
+import cart.CartImpl;
 import coupon.CouponVO;
+import member.MemberImpl;
+import member.MemberVO;
 import mypage.MypageImpl;
 import orderlist.OrderlistVO;
 import point.PointVO;
@@ -105,6 +114,9 @@ public class MypageController {
 	            pageSize, blockPage, nowPage, 
 	            req.getContextPath()+"/mypage/myOrder.do?");
 		
+		model.addAttribute("totalOrderCount", totalOrderCount);
+		model.addAttribute("pageSize", pageSize);
+		model.addAttribute("nowPage", nowPage);
 		model.addAttribute("pagingImg", pagingImg);
 		model.addAttribute("lists", lists);
 		
@@ -224,6 +236,9 @@ public class MypageController {
 	            pageSize, blockPage, nowPage, 
 	            req.getContextPath()+"/mypage/myReview.do?");
 		
+		model.addAttribute("totalreviewCount", totalreviewCount);
+		model.addAttribute("pageSize", pageSize);
+		model.addAttribute("nowPage", nowPage);
 		model.addAttribute("pagingImg", pagingImg);
 		model.addAttribute("lists", lists);
 		
@@ -231,7 +246,7 @@ public class MypageController {
 	}
 	
 	
-	
+	//좋아요 한 리뷰 리스트
 	@RequestMapping("/mypage/myFavReview.do")
 	public String myFavReview(Principal principal, Model model, HttpServletRequest req) {
 
@@ -262,6 +277,9 @@ public class MypageController {
 	            pageSize, blockPage, nowPage, 
 	            req.getContextPath()+"/mypage/myFavReview.do?");
 		
+		model.addAttribute("totalFavReviewCount", totalFavReviewCount);
+		model.addAttribute("pageSize", pageSize);
+		model.addAttribute("nowPage", nowPage);
 		model.addAttribute("pagingImg", pagingImg);
 		model.addAttribute("lists", lists);
 		
@@ -270,18 +288,146 @@ public class MypageController {
 	
 	
 
-	//리뷰 리스트
-	@RequestMapping("/mypage/myFavorite.do")
-	public String myFavorite(Principal principal, Model model, HttpServletRequest req) {
+	//1:1문의 리스트
+	@RequestMapping("/mypage/myQuestion.do")
+	public String myQuestion(Principal principal, Model model, HttpServletRequest req) {
 		
+		ParameterDTO dto = new ParameterDTO();
+		dto.setId(principal.getName());
+		String m_code = sqlSession.getMapper(MypageImpl.class).myMcode(dto);
+		dto.setM_code(m_code);
 		
-		return "mypage/myFavorite";
+		//좋아요 한 리뷰 카운트
+		int totalQuCount = sqlSession.getMapper(BoardDAOImpl.class).getQuCount(dto);
+		
+		int pageSize = 2; //한 페이지당 출력할 주문내역의 개수
+		int blockPage = 2; //한 블럭당 출력할 페이지 번호의 개수
+		
+		int nowPage = (req.getParameter("nowPage")==null || req.getParameter("nowPage").equals(""))
+				? 1 : Integer.parseInt(req.getParameter("nowPage"));
+		
+		int start = (nowPage-1) * pageSize +1;
+		int end = nowPage * pageSize;
+		
+		dto.setStart(start);
+		dto.setEnd(end);
+
+		ArrayList<BoardDTO> lists = sqlSession.getMapper(BoardDAOImpl.class).listQuPage(dto);
+		
+		String pagingImg = PagingUtil_front.pagingImg(totalQuCount,
+	            pageSize, blockPage, nowPage, 
+	            req.getContextPath()+"/mypage/myQuestion.do?");
+		
+		model.addAttribute("totalQuCount", totalQuCount);
+		model.addAttribute("pageSize", pageSize);
+		model.addAttribute("nowPage", nowPage);
+		model.addAttribute("pagingImg", pagingImg);
+		model.addAttribute("lists", lists);
+		
+		return "mypage/myQuestion";
 	}
 	
 	
-	//1:1문의목록페이지 이동
-	@RequestMapping("/mypage/myQuestion.do")
-	public String myQuestion() {
-		return "mypage/myQuestion";
+	//1:1 문의 상세보기
+	@RequestMapping("/mypage/myQuView.do")
+	public String view(Principal principal, Model model, HttpServletRequest req) {
+		
+		ParameterDTO dto = new ParameterDTO();
+		dto.setId(principal.getName());
+		String m_code = sqlSession.getMapper(MypageImpl.class).myMcode(dto);
+		dto.setM_code(m_code);
+		dto.setB_idx(req.getParameter("b_idx"));
+		
+		BoardDTO boardDTO = sqlSession.getMapper(BoardDAOImpl.class).myQuView(dto);
+		
+		String temp = boardDTO.getContents().replace("\r\n","<br/>");
+		boardDTO.setContents(temp);
+		
+		model.addAttribute("dto", boardDTO);
+		
+		return "mypage/myQuView";
+	}
+	
+	
+	//정보수정 전 비밀번호찾기 페이지 진입
+	@RequestMapping("/mypage/myUserinfo.do")
+	public String myUserinfo(Principal principal, Model model) {
+		
+		String id = principal.getName();
+		model.addAttribute("id", id);
+		
+		return "mypage/myUserinfo";
+	}
+		
+	
+	//비밀번호 확인
+	@RequestMapping(value = "/mypage/myPwdChk.do")
+	@ResponseBody
+	public  Map<String,Object> myPwdChk(HttpServletRequest req, Principal principal){
+	    
+		ParameterDTO dto = new ParameterDTO();
+		dto.setPass(req.getParameter("password"));
+		dto.setId(principal.getName());
+		
+		//id와 pw를 넘겨줘서 결과값을 count함
+		int chkResult = sqlSession.getMapper(MypageImpl.class).myPwdChk(dto);
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("chkResult", chkResult);
+		
+	    return result;
+	}
+	
+	
+	//회원정보 수정페이지 진입
+	@RequestMapping("/mypage/myUserinfoMod.do")
+	public String myInfo(Principal principal, Model model, HttpServletRequest req) {
+		
+		ParameterDTO dto = new ParameterDTO();
+		dto.setId(principal.getName());
+		String m_code = sqlSession.getMapper(MypageImpl.class).myMcode(dto);
+		dto.setM_code(m_code);
+		
+		MemberVO vo = sqlSession.getMapper(MemberImpl.class).view(dto);
+		
+		model.addAttribute("vo", vo);
+		
+		return "mypage/myUserinfoMod";
+	}
+	
+	
+	//회원정보 수정
+	@RequestMapping("/mypage/myInfoUpdate.do")
+	public String myInfoUpdate(HttpServletRequest req, Model model) {
+		
+		String phone = req.getParameter("hand_tel1")+"-"+req.getParameter("hand_tel2")+"-"+req.getParameter("hand_tel3");
+		String email = req.getParameter("email1")+"@"+req.getParameter("email2");
+		String address = req.getParameter("address")+" "+req.getParameter("address2");
+		
+		MemberVO memberVO = new MemberVO();
+		memberVO.setM_code(Integer.parseInt(req.getParameter("m_code"))); 
+		memberVO.setName(req.getParameter("name")); 
+		if(req.getParameter("pass1")!= "") {
+			memberVO.setPass(req.getParameter("pass1"));
+		}
+		else if(req.getParameter("pass1")== "") {
+			memberVO.setPass(req.getParameter("old_pass")); 
+		}
+		memberVO.setPhone(phone);
+		memberVO.setEmail(email);
+		memberVO.setZipcode(req.getParameter("zipcode"));
+		memberVO.setAddress(address); 
+		
+		int result =sqlSession.getMapper(MemberImpl.class).myModify(memberVO);
+		
+		if(result>0) {
+			model.addAttribute("msg","회원 정보가 수정되었습니다.");
+			return "mypage/myInfoUpdate";
+		}
+		else {
+			model.addAttribute("msg","회원 정보 수정 실패하였습니다.");
+	        model.addAttribute("url","/myInfoUpdate.do");
+	        return "mypage/myInfoUpdate";
+		}
 	}
 }

@@ -8,6 +8,7 @@ public class ParameterDTO {
 	private String or_idx;//주문번호
 	private String m_code;//회원코드
 	private String id;//회원id
+	private String pass;//회원pwd
 	private String g_code;//상품구분
 	private String p_code;//상품코드
 	private String p_name;//상품이름
@@ -16,9 +17,11 @@ public class ParameterDTO {
 	private String f_code; //가맹문의 코드
 	private String f_name; //가맹문의 작성자 
 	private String or_date; //주문일자
+	private String b_idx; //게시글번호
 	private String yearMonth; //매출현황 날짜검색
 	private String address; //매출현황 지역검색1
-	private String location; //매출현황 지역검색2
+	private String locations; //매출현황 지역검색2
+	private String storeName;//지도 매장명검색
 	
 	//회원구분을 위한 변수
 	private String grade;

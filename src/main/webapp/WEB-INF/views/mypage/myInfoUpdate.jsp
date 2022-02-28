@@ -23,6 +23,22 @@
     <script src="../js/jquery-3.6.0.js"></script>
 </head>
 <body>
+<script type="text/javascript">
+$(document).ready(function() {
+	mypage();
+}); 
+
+function mypage(){
+	var message = "${msg}";
+	if("${url}"!=""){
+		alert(message);
+		location.href = "/freepproject/mypage"+"${url}";
+	}
+	else{
+		alert(message);
+	}
+}
+</script>
     <!-- header s -->
     <header id="header">
         <%@ include file="../common/header.jsp" %>
@@ -31,49 +47,47 @@
 
     <!-- content s -->
     <div id="container">
-        <section id="content">
-            <div class="sub-type member">
+        <div class="cont-wrap">
+            <div class="sub-type mypage">
                 <div class="inner-box">
-                    <div class="page-title-wrap v2">
-                        <h2 class="page-title">회원가입</h2>
+                    <div class="page-title-wrap">
+                        <h2 class="page-title">마이페이지</h2>
                         <div class="depth-area">
                             <ol>
                                 <li><a href="/FreeP/index.html">홈</a></li>
-                                <li><strong>회원가입</strong></li>
+                                <li><strong>마이페이지</strong></li>
                             </ol>
                         </div>
                     </div>
-                    <article class="join-area">
-                        <div class="join-step3">
-                            <div class="step-list">
+                    <article class="mypage-wrap mypage-grade">
+                        <div class="menu-nav-wrap">
+                            <div class="menu-nav">
                                 <ul>
-                                    <li>01 약관동의</li>
-                                    <li>02 개인정보입력</li>
-                                    <li class="active">03 가입완료</li>
+                                    <li><a href="../mypage/myMain.do">MY프리피</a></li>
+                                    <li><a href="../mypage/myOrder.do">주문내역</a></li>
+                                    <li><a href="../mypage/myCoupon.do">쿠폰/적립금</a></li>
+                                    <li><a href="../mypage/myReview.do">MY리뷰</a></li>
+                                    <li><a href="../mypage/myQuestion.do">1:1문의</a></li>
+                                    <li class="active"><a href="./myUserinfo.do">정보수정</a></li>
                                 </ul>
                             </div>
-                            <div class="info-text-wrap">
-                                <strong class="title">WELCOME TO<br>
-                                    FREEP’S PIZZA!
-                                </strong>
-                                <p>
-                                    <span>
-                                         고객님, FreeP 회원이 되신 것을 환영합니다.
-                                    </span>
-                                </p>
-                                <p class="sub-txt">
-                                    로그인 후 쿠폰함으로 제공된 선물을 확인하세요!
-                                </p>
-                                <div class="btn-wrap">
-                                    <a href="/freepproject/index.do" class="btn-type v4">HOME</a>
-                                    <a href="/freepproject/member/login.do" class="btn-type v6">로그인</a>
-                                </div>
+                        </div>
+
+                        <div class="info-text-wrap">
+                            <strong class="title">회원 정보 수정 완료</strong>
+                            <p>
+                                <span>
+                                	고객님, 회원 정보 수정이 완료되었습니다.
+                                </span>
+                            </p>
+                            <div class="btn-wrap">
+                                <a href="/freepproject/index.do" class="btn-type v4">HOME</a>
                             </div>
-                            </div>
+                        </div>
                     </article>
                 </div>
             </div>
-        </section>
+        </div>
     </div>
     <!-- content e -->
 

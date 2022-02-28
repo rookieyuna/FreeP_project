@@ -56,7 +56,7 @@
                                     <li><a href="../mypage/myCoupon.do">쿠폰/적립금</a></li>
                                     <li class="active"><a href="../mypage/myReview.do">MY리뷰</a></li>
                                     <li><a href="../mypage/myQuestion.do">1:1문의</a></li>
-                                    <li><a href="./myUserinfo.html">정보수정</a></li>
+                                    <li><a href="../mypage/myUserinfo.do">정보수정</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -103,9 +103,9 @@
 				                    	<c:otherwise>
 					                    	<!-- 리뷰 있음/ 가상번호 수정해야함 -->
 		                                    <tbody class="board-list fill">
-			                                    <c:forEach items="${lists }" var="row" varStatus="status">
+			                                    <c:forEach items="${lists }" var="row" varStatus="loop">
 													<tr>
-														<td><c:out value="${status.count }"></c:out></td>
+														<td>${totalreviewCount - (((nowPage-1) * pageSize) + loop.index)}</td>
 														<c:choose>
 									                    	<c:when test="${empty row.rv_sfile1 }">
 									                    		<td>등록된 사진 없음</td>

@@ -13,9 +13,7 @@ import util.ParameterDTO;
 public interface StorechartImpl {
 	
 	public ArrayList<StorechartVO> listPage(ParameterDTO parameterDTO);
+	
 	public int getTotalCount(ParameterDTO parameterDTO);
 	
-	//public List<StorechartVO> getDayPay(StorechartVO vo);
-	
-	public List<Map<String, Object>> getDayPay(@Param("or_date") String or_date);
 }

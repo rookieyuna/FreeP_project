@@ -59,8 +59,8 @@
                                     <li><a href="../mypage/myOrder.do">주문내역</a></li>
                                     <li><a href="../mypage/myCoupon.do">쿠폰/적립금</a></li>
                                     <li><a href="../mypage/myReview.do">MY리뷰</a></li>
-                                    <li><a href="#">1:1문의</a></li>
-                                    <li><a href="#">정보수정</a></li>
+                                    <li><a href="../mypage/myQuestion.do">1:1문의</a></li>
+                                    <li><a href="../mypage/myUserinfo.do">정보수정</a></li>
                                 </ul>
                             </div>
                         </div>
