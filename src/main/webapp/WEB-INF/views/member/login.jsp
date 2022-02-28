@@ -22,6 +22,7 @@
         href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
         rel="stylesheet">
     <!-- js 라이브러리 영역 -->
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
     <script src="../js/jquery-3.6.0.js"></script>
     <script>
         function goTab(idx){
@@ -30,7 +31,31 @@
             $(".btn_tab li").eq(idx).addClass("active");
             $(".login_area").eq(idx).show();
         }
-    </script>
+        
+        Kakao.init('30aa936b37aaca1c82a705936e71d6bf'); //발급받은 키 중 javascript키를 사용해준다.
+        console.log(Kakao.isInitialized()); // sdk초기화여부판단
+        //카카오로그인
+        function kakaoLogin() {
+            Kakao.Auth.login({
+              success: function (response) {
+                Kakao.API.request({
+                  url: '/v2/user/me',
+                  success: function (response) {
+                	  console.log(response)
+                  },
+                  fail: function (error) {
+                    console.log(error)
+                  },
+                })
+              },
+              fail: function (error) {
+                console.log(error)
+              },
+            })
+          }
+        
+      
+        </script>
 </head>
 <body>
     <!-- header s -->
@@ -97,17 +122,23 @@
                                     <div class="title-type">소셜 간편 로그인</div>
                                 </div>
                                 <ul class="btn-sns-list">
-                                    <li class="btn-sns-item btn-kakao">
-                                        <a href="javascript:goLoginId('9');">
-                                            <img src="../images/03visual/btn-kakao.png" alt="카카오" style="width: 50px;">
+                                    <div>
+                                        <a id="custom-login-btn" onclick="kakaoLogin();">
+                                            <img src="../images/03visual/btn-kakao.png" alt="카카오" style="width: 222px;">
                                         </a>
-                                    </li>
-                                    
-                                    <li class="btn-sns-item btn-naver">
+                                    </div>
+                                   <!--  
+                                    <li onclick="kakaoLogin();">
+								      <a href="javascript:void(0)">
+								          <span>카카오 로그인</span>
+								      </a>
+									</li>
+                                     -->
+                                    <!-- <li class="btn-sns-item btn-naver">
                                         <a href="javascript:goLoginId('2');">
                                             <img src="../images/03visual/btn-naver.png" alt="네이버" style="width: 50px;">
                                         </a>
-                                    </li>
+                                    </li> -->
 
                                     <div id="appleid-signin" style="display:none;"></div>
                                 </ul>
