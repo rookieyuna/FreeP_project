@@ -10,6 +10,15 @@
 
 <head>
 <script>
+//비밀번호 변경 여부
+function openPasswordChange(){
+    if($('.pw').css('display') == 'none'){
+    	$('.pw').show();
+	}
+    else{
+    	$('.pw').hide();
+	}
+}
 //도메인 선택시 태그값 변경
 function email_input(frm){
 	var domain = email3.value;
@@ -32,11 +41,10 @@ function email_input(frm){
 function zipFind(){
     new daum.Postcode({
         oncomplete: function(data) {
-        	var frm = document.regFrm;
+        	var frm = document.frm;
             frm.zipcode.value = data.zonecode;//12345(우편번호)
             frm.address.value = data.address;//"서울시 금천구 가산동"(기본주소)
             frm.address2.focus();
-
         }
     }).open();
 }
@@ -61,45 +69,49 @@ function checkAll(){
 
 //폼 값 검증
 function formValidate(frm){
-
-    //패스워드 입력여부 확인
-    if(!frm.pass1.value || !frm.pass2.value){
-        alert('비밀번호를 입력하세요');
-        frm.pass1.focus();
-        return false;
-    }
-  	//패스워드 검증작업1-패스워드 길이 확인
-    if(frm.pass1.value.length<8 ||frm.pass1.value.length>16){
-        alert('비밀번호는 8~16자로 입력하세요');
-        frm.pass1.value='';
-        frm.pass2.value='';
-        frm.pass1.focus();
-        return false;
-    }
-    //패스워드 검증작업2-영문자/숫자만사용
-    var pwCheck= true;
-    for(var i=0; i<frm.pass1.value.length; i++){
-        if(!((frm.pass1.value[i]>='a' && frm.pass1.value[i]<='z')||
-            (frm.pass1.value[i]>='A' && frm.pass1.value[i]<='Z') ||
-            (frm.pass1.value[i]>='1' && frm.pass1.value[i]<='9')))
-        	pwCheck = false;
-    }
-    if(pwCheck==false){
-        alert('비밀번호는 숫자와 영문자만 가능합니다');
-        frm.pass1.value=''; //지워준다
-        frm.pass2.value=''; //지워준다
-        frm.pass1.focus();
-        return false;
-    }
-    
-    //패스워드 일치여부 확인
-    if(frm.pass1.value != frm.pass2.value){
-        alert('패스워드가 일치하지 않습니다.');
-        frm.pass1.value="";
-        frm.pass2.value="";
-        frm.pass1.focus();
-        return false;
-    }
+	
+	if($('.pw').css('display') == 'none'){
+	}
+	else if($('.pw').css('display') != 'none'){
+	    //패스워드 입력여부 확인
+	    if(!frm.pass1.value || !frm.pass2.value){
+	        alert('비밀번호를 입력하세요');
+	        frm.pass1.focus();
+	        return false;
+	    }
+	  	//패스워드 검증작업1-패스워드 길이 확인
+	    if(frm.pass1.value.length<8 ||frm.pass1.value.length>16){
+	        alert('비밀번호는 8~16자로 입력하세요');
+	        frm.pass1.value='';
+	        frm.pass2.value='';
+	        frm.pass1.focus();
+	        return false;
+	    }
+	    //패스워드 검증작업2-영문자/숫자만사용
+	    var pwCheck= true;
+	    for(var i=0; i<frm.pass1.value.length; i++){
+	        if(!((frm.pass1.value[i]>='a' && frm.pass1.value[i]<='z')||
+	            (frm.pass1.value[i]>='A' && frm.pass1.value[i]<='Z') ||
+	            (frm.pass1.value[i]>='1' && frm.pass1.value[i]<='9')))
+	        	pwCheck = false;
+	    }
+	    if(pwCheck==false){
+	        alert('비밀번호는 숫자와 영문자만 가능합니다');
+	        frm.pass1.value=''; //지워준다
+	        frm.pass2.value=''; //지워준다
+	        frm.pass1.focus();
+	        return false;
+	    }
+	    
+	    //패스워드 일치여부 확인
+	    if(frm.pass1.value != frm.pass2.value){
+	        alert('패스워드가 일치하지 않습니다.');
+	        frm.pass1.value="";
+	        frm.pass2.value="";
+	        frm.pass1.focus();
+	        return false;
+	    }
+	}
 
     //휴대전화 입력 확인
     if(frm.hand_tel1.value=='' || frm.hand_tel2.value=='' || frm.hand_tel3.value==''){
@@ -186,6 +198,7 @@ function formValidate(frm){
                         <form:form name="frm" id="frm" action="./myInfoUpdate.do" method="post" onsubmit="return formValidate(this);">
                         	<input type="hidden" name="name" value="${vo.name }">
                         	<input type="hidden" name="m_code" value="${vo.m_code }">
+                        	<input type="hidden" name="old_pass" value="${vo.pass }">
                             <div class="myinfo-wrap">
                                 <div class="form">
                                     <dl>
@@ -199,143 +212,29 @@ function formValidate(frm){
                                         </dd>
 
                                     </dl>
-<%--                                     <dl class="pw" style="display: none;">
-                                        <dt>현재 비밀번호</dt>
-                                        <dd>
-                                            <div class="form-item number">
-                                                <input type="password" name="old_passwd" id="old_passwd" maxlength="16" value="${vo.pass }">
-                                            </div>
-                                            <div class="text-type4" id="old_passwd_alert" style="display:none;"></div>
-                                        </dd>
-                                        <dt>새 비밀번호</dt>
-                                        <dd>
-                                            <div class="form-item number">
-                                                <input type="password" name="passwd" id="passwd" maxlength="16" value=""
-                                                    placeholder="8~16자 영문대소문자,숫자,특수문자 사용가능">
-                                            </div>
-                                            <div class="text-type4" id="passwd_alert" style="display:none;"></div>
-                                        </dd>
-                                        <dt>새 비밀번호 확인</dt>
-                                        <dd>
-                                            <div class="form-item number">
-                                                <input type="password" name="confirmpw" id="confirmpw" maxlength="16"
-                                                    value="" placeholder="8~16자 영문대소문자,숫자,특수문자 사용가능">
-                                                <a href="javascript:updateChangePasswd();" class="btn-type v4">수정하기</a>
-                                            </div>
-                                            <div class="text-type4" id="confirmpw_alert" style="display:none;"></div>
-                                        </dd>
-                                    </dl> --%>
-                                    <!-- <dl class="non-pw">
+                                    <dl class="non-pw">
                                         <dt class="center">비밀번호</dt>
                                         <dd>
                                             <a href="javascript:openPasswordChange();" class="btn-type4 v2">비밀번호 변경</a>
                                         </dd>
-                                    </dl> -->
-                                    <dl class="pw" >
-                                        <%-- <dt>현재 비밀번호</dt>
-                                        <dd>
-                                            <div class="form-item number">
-                                                <input type="hidden" name="old_passwd" id="old_passwd" maxlength="16" value="${vo.pass }">
-                                            </div>
-                                        </dd> --%>
+                                    </dl>
+                                    <dl class="pw" style="display:none;" >
                                         <dt>새 비밀번호</dt>
                                         <dd>
                                             <div class="form-item number">
-                                                <input type="password" name="pass1" id="new_passwd" maxlength="16" value=""
+                                                <input type="password" name="pass1" maxlength="16" value="" id="new_passwd1" 
                                                 	placeholder="8~16자 영문, 숫자 사용가능">
                                             </div>
                                         </dd>
-                                        <dt>비밀번호 확인</dt>
+                                        <dt id="new_passwd3">비밀번호 확인</dt>
                                         <dd>
                                             <div class="form-item number">
-                                                <input type="password" name="pass2" id="new_passwd2" maxlength="16" value=""
+                                                <input type="password" name="pass2" maxlength="16" value="" id="new_passwd2" 
                                                 	placeholder="8~16자 영문, 숫자 사용가능">
                                             </div>
                                         </dd>
-                                        
-                                        
-                                        
-                                        
-                                        <!-- <dt>새 비밀번호</dt>
-                                        <dd>
-                                            <div class="form-item number">
-                                                <input type="password" name="passwd" id="passwd" maxlength="16" value=""
-                                                    placeholder="8~16자 영문대소문자,숫자,특수문자 사용가능">
-                                            </div>
-                                            <div class="text-type4" id="passwd_alert" style="display:none;"></div>
-                                        </dd>
-                                        <dt>새 비밀번호 확인</dt>
-                                        <dd>
-                                            <div class="form-item number">
-                                                <input type="password" name="confirmpw" id="confirmpw" maxlength="16"
-                                                    value="" placeholder="8~16자 영문대소문자,숫자,특수문자 사용가능">
-                                                <a href="javascript:updateChangePasswd();" class="btn-type v4">수정하기</a>
-                                            </div>
-                                            <div class="text-type4" id="confirmpw_alert" style="display:none;"></div>
-                                        </dd> -->
                                     </dl>
                                     
-                                    <%-- <dl>
-                                        <dt class="center">생년월일</dt>
-                                        <dd>
-                                            <div class="form-group v2">
-                                                <div class="form-item birth">
-                                                    <div class="chk-wrap">
-                                                        <div class="chk-box selected">
-                                                            <input type="radio" name="birth_fl" id="birth_s" value="S"
-                                                                checked="" disabled="">
-                                                            <label class="checkbox" for="birth_s"></label>
-                                                            <label for="birth_s">양력</label>
-                                                        </div>
-                                                        <div class="chk-box disabled">
-                                                            <input type="radio" name="birth_fl" id="birth_m" value="M"
-                                                                disabled="">
-                                                            <label class="checkbox" for="birth_m"></label>
-                                                            <label for="birth_m">음력</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="select-type2">
-                                                        <select name="byear" id="byear" class="selected">
-                                                        	<option value="">년</option>
-															<c:forEach var="i" begin="1900" end="2022">
-														    	<option value="${i}">${i}</option>
-														  	</c:forEach>
-                                                        </select>
-                                                    </div>
-                                                    <div class="select-type2">
-                                                        <select name="bmonth" id="bmonth" class="selected">
-                                                        	<option>월</option>
-	                                                        <c:forEach var="i" begin="1" end="12">
-															    <c:choose>
-															      <c:when test="${i lt 10 }">
-															            <option value="${i}">0${i}</option>
-															        </c:when>
-															        <c:otherwise>
-															            <option value="${i}">${i}</option>
-															        </c:otherwise>
-															    </c:choose>
-															</c:forEach>
-                                                        </select>
-                                                    </div>
-                                                    <div class="select-type2">
-                                                        <select name="bday" id="bday" class="selected">
-                                                        <option value="">일</option>
-														  	<c:forEach var="i" begin="1" end="31">
-															  	<c:choose>
-															     	 <c:when test="${i lt 10 }">
-															         	 <option value="${i}">0${i}</option>
-															     	 </c:when>
-															     	<c:otherwise>
-															        	  <option value="${i}">${i}</option>
-															      	</c:otherwise>
-															  	</c:choose>
-														  	</c:forEach>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </dd>
-                                    </dl> --%>
                                     <dl>
                                         <dt class="center">휴대전화</dt>
                                         <dd>
@@ -412,7 +311,7 @@ function formValidate(frm){
 	                                        <div class="form-item e-mail">
 	                                            <input type="text" placeholder="" id="zipcode" name="zipcode" value="${vo.zipcode }" readonly>
 	                                            <button title="새 창으로 열림" onclick="zipFind('zipFind', '<?=$_Common[bbs_path]?>member_zipcode_find.php', 590, 500, 0);" 
-	                                            	onkeypress="" class="btn-type v7">[우편번호검색]
+	                                            	onkeypress="" type="button" class="btn-type v7">[우편번호검색]
 	                                            </button>
 	                                        </div>
 	                                    </div>

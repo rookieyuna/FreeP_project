@@ -20,6 +20,10 @@
     <link rel="stylesheet" href="../style/sub.css">
     <link rel="stylesheet" href="../style/community.css">
     <link rel="stylesheet" href="../style/layout.css">
+    <!-- slick style -->
+	<link rel="stylesheet" type="text/css" href="../style/slick/slick-theme.css" />
+	<link rel="stylesheet" type="text/css" href="../style/slick/slick.css" />
+    
     <!-- icon영역 -->
     <link
         href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
@@ -42,12 +46,47 @@ function reviewDetailOpen(idx){
         async:false,
 		data: {"idx":idx},
 		dataType:'json', 
-		success:function(response) { 
-			var name = response.dto;
-			var name1 = response.dto1;
+		success:function(res) {
+			console.log(res);
+			var recipe = {};
+			var data = {};
+			var flag = res.length;
+			var i=0;
+			console.log(flag);
 			
-			reviewDetail(name, name1); 
 			
+			
+			
+
+			for(var goldKey in res){
+				if(Object.keys(res[goldKey]).length>0){
+					if(res[goldKey]["P_NAME"]) var p_name = res[goldKey]["P_NAME"];
+					console.log(p_name);
+					if(res[goldKey]["D_NAME"]) var d_name = res[goldKey]["D_NAME"];
+
+					if(res[goldKey]["recipe0"]) recipe.recipe0 = res[goldKey]["recipe0"];
+					if(res[goldKey]["recipe1"]) recipe.recipe1 = res[goldKey]["recipe1"];
+					if(res[goldKey]["recipe2"]) recipe.recipe2 = res[goldKey]["recipe2"];
+					if(res[goldKey]["recipe3"]) recipe.recipe3 = res[goldKey]["recipe3"];
+					if(res[goldKey]["recipe4"]) recipe.recipe4 = res[goldKey]["recipe4"];
+					if(res[goldKey]["recipe5"]) recipe.recipe5 = res[goldKey]["recipe5"];
+
+					if(res[goldKey].hasOwnProperty('dto')){
+						data.writer = res[goldKey].dto["writer"];
+						data.title = res[goldKey].dto["title"];
+						data.postdate = res[goldKey].dto["postdate"];
+						data.contents = res[goldKey].dto["contents"];
+						data.rv_ofile1 = res[goldKey].dto["rv_ofile1"];
+						data.rv_ofile2 = res[goldKey].dto["rv_ofile2"];
+						data.rv_ofile3 = res[goldKey].dto["rv_ofile3"];
+					}
+				}
+			}
+			
+			
+			
+			reviewDetail(data, d_name, p_name ,recipe);
+				
 		}, 
 		error: function(data){
 			alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"
@@ -55,15 +94,37 @@ function reviewDetailOpen(idx){
 		} 
 	}); 
 }; 
-function reviewDetail(data, data1){ 
-	
-	document.getElementById("writer").innerText=data.writer;
+
+function reviewDetail(data, d_name, p_name ,recipe){ 
+ 	document.getElementById("writer").innerText=data.writer;
 	document.getElementById("title").innerText=data.title;
 	document.getElementById("postdate").innerText=data.postdate;
 	document.getElementById("contents").innerText=data.contents;
-	document.getElementById("reviewImg").src="/freepproject/uploads/"+data.rv_ofile1;
+	document.getElementById("reviewImg1").src="/freepproject/uploads/"+data.rv_ofile1;
+	document.getElementById("reviewImg2").src="/freepproject/uploads/"+data.rv_ofile2;
+	document.getElementById("reviewImg3").src="/freepproject/uploads/"+data.rv_ofile3; 
+	for(var i in recipe){
+		if(recipe.length<0){
+			$(".review-detail-modal .detail_list").append(
+					'<li>재료가 없습니다.</li>'
+			);
+		}else{
+			$(".review-detail-modal .order_list li").eq(0).find(".detail_title").text(d_name);
+			$(".review-detail-modal .detail_list").append(
+					'<li>'+recipe[i]+'</li>'
+			);	
+		}
+	}
+	if(d_name != null){
+		console.log(p_name);
+		$(".review-detail-modal .order_list>li").eq(1).find(".detail_title").text(p_name);
+	}else{
+		console.log("null");
+		
+	}
 	
 	
+	reviewSlick();
 };
 
 </script>
@@ -118,7 +179,7 @@ function reviewDetail(data, data1){
                                         
                                         
                                         <!-- 리뷰클릭시 나오는 상세모달창 (motion.js line.110) -->
-                                        <div class="review-detail-modal pop-layer pop-menu" id="pop-menu-detail">
+                                        <div class="review-detail-modal pop-layer pop-menu" id="pop-menu-detail" style="display: none !important;">
                                             <div class="dim"></div>
                                             <div class="pop-wrap">
                                                 
@@ -128,16 +189,17 @@ function reviewDetail(data, data1){
                                                         <div class="con1-top-wrap">
                                                             <!-- 이미지 -->
                                                             <div class="img-wrap">
-                                                                <img id="reviewImg" src="../images/05community/1b6078b5bd51521860a43103b0a6cae5.jpg" alt="">
-                                                                <ul class="review-modal-slickBtn">
-                                                                    <li><button type="button" data-role="none" class="slick-prev slick-arrow" aria-label="Previous" role="button">Previous</button></li>
-                                                                    <li><button type="button" data-role="none" class="slick-next slick-arrow" aria-label="Next" role="button">Next</button></li>
-                                                                </ul>
-                                                                <ul class="review-modal-cicleBtn">
-                                                                    <li class="active"><button></button></li>
-                                                                    <li><button></button></li>
-                                                                    <li><button></button></li>
-                                                                </ul>
+                                                            	<div class="review-image-wrap">
+	                                                                <div><img id="reviewImg1" src="" alt=""></div>                                                            	
+	                                                                <div><img id="reviewImg2" src="" alt=""></div>                                                            	
+	                                                                <div><img id="reviewImg3" src="" alt=""></div>                                                            	
+                                                            	</div>
+                                                               
+                                                                <!-- <ul class="review-modal-cicleBtn">
+                                                                    <li class="review-img-cicle active"><button></button></li>
+                                                                    <li class="review-img-cicle"><button></button></li>
+                                                                    <li class="review-img-cicle"><button></button></li>
+                                                                </ul> -->
                                                             </div>
                                                         </div>
 
@@ -180,13 +242,7 @@ function reviewDetail(data, data1){
 
                                                                                 <div class="aco_bottom">
                                                                                     <ul class="detail_list">
-                                                                                        <li>나폴리도우</li>
-                                                                                        <li>갈릭소스</li>
-                                                                                        <li>양파</li>
-                                                                                        <li>새우</li>
-                                                                                        <li>파인애플</li>
-                                                                                        <li>페퍼로니</li>
-                                                                                        <li>콘</li>
+
                                                                                     </ul>
                                                                                 </div>
                                                                             </div>
@@ -401,6 +457,18 @@ function reviewDetail(data, data1){
     
     <script src="../js/motion.js"></script>
     <script src="../js/ui.js"></script>
+    
+	<!-- slick area -->
+	<script src="../js/slick/slick.js"></script>
+	<script src="../js/slick/slick.min.js"></script>
+	
+	
+<script type="text/javascript">
+	
+</script>
+
+
+   
 </body>
 
 </html>

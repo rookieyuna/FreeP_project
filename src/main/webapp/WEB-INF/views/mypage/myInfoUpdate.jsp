@@ -28,13 +28,16 @@ $(document).ready(function() {
 	mypage();
 }); 
 
-    function mypage(){
-		var message = "${msg}";
-		/* var url = "${url}"; */
+function mypage(){
+	var message = "${msg}";
+	if("${url}"!=""){
 		alert(message);
-		/* document.location.href = url; */
-    	
-    }
+		location.href = "/freepproject/mypage"+"${url}";
+	}
+	else{
+		alert(message);
+	}
+}
 </script>
     <!-- header s -->
     <header id="header">

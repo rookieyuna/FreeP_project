@@ -22,7 +22,11 @@ jQuery(function () {
         }
     })
 
+<<<<<<< HEAD
     jQuery(".store-search li").click(function(){
+=======
+    $(".store-search #tabs").click(function(){
+>>>>>>> 189c96e6999f4f0799ee99fb0b8b1fc11e240d8b
         $(".store-search .tab-content").toggleClass("active");
     })
 
@@ -118,6 +122,20 @@ jQuery(function () {
     jQuery(".mypage .myReview-wrap .board-list tr").click(function(){
         $(".review-detail-modal").css({
             "display":"block"
+        })
+    });
+     
+    // 컴패니>매장찾기>상세보기 클릭 버튼 동작
+    $(".store-search .store-info-box").click(function(){
+        $(".store-detail-modal").css({
+            "display":"block",
+        })
+    });
+    
+    // 컴패니>매장찾기>전체매장보기 클릭 버튼 동작
+    $(".detail-map").click(function(){
+        $(".map-detail-modal").css({
+            "display":"block",
         })
     });
 
@@ -220,4 +238,35 @@ jQuery(document).on('change', '#test', function () {
     $('#test').removeClass('selected');
 });
 
+
+// 리뷰페이지 modal 이미지 조작
+function reviewSlick(){
+	$('.review-detail-modal .review-image-wrap').slick({
+
+        dots: true, //페이지 네비게이션 
+        //arrows:true, // next, prev 이동 버튼 
+		infinite: true,
+        //autoplay: true, // 자동 넘김 여부 
+        speed: 300, //슬라이드 속도 
+        //autoplaySpeed : 3000, // 자동 넘김시 슬라이드 시간 
+        //pauseOnHover : true,// 마우스 hover시 슬라이드 멈춤 
+        vertical : false, // 세로 방향 슬라이드 옵션
+        prevArrow : "<button type='button' class='slick-prev'>Previous</button>", nextArrow : "<button type='button' class='slick-next'>Next</button>", //화살표 커스텀 
+        slidesToShow: 1, //보여질 슬라이드 수 
+        slidesToScroll: 1, //넘겨질 슬라이드 수
+		variableWidth:true,
+		adaptiveHeigh: true,
+		//centerMode: true,
+		lazyLoad: 'progressive',
+    });	
+}
+    
+
+
+$(function(){
+	$(".review-img-pre").click(function(){
+		
+	});
+	
+});
 

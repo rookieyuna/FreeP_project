@@ -154,4 +154,36 @@
 		)
 		WHERE rNum BETWEEN #{start} AND #{end}
   	</select>
+
+
+
+	<!-- KSB 리뷰페이지 작업 220225 ADD-->
+	<!--order_product테이블에서 code가져오기-->
+	<select id="a" parameterType="int" resultType="String">
+		SELECT code, p_price FROM order_product WHERE OR_IDX = #{orIdx}
+	</select>
+	<!-- 
+		위에서 가져온 코드가 9999로 가져오는 코드인지 일반 제품인지 구별 필요하다
+			xxxx > 일반제품 > product 테이블
+			9999 > diy > DIY테이블
+	 -->
+		<!-- 일반 상품의 경우 > 이름만 가져온다 -->
+		<!-- 받는 Code를 통해 일반 상품의 이름 얻어오기-->
+		<select id="b" parameterType="String" resultType="java.util.HashMap">
+			SELECT p_name FROM PRODUCT WHERE P_CODE = #{가져온 code}
+		</select>
+		
+		<!-- DIY상품의 경우 -->
+		<!-- 받는 Code를 통해 DIY테이블의 DIY_IDX와 매칭 시켜 제품의 모든 정보 얻어오기(도우/소스/토핑/정보)-->
+		<select id="c" parameterType="String" resultType="java.util.HashMap">
+			SELECT * FROM DIY WHERE DIY_IDX = #{가져온 code}
+		</select>
+			<!--DIY상품 품목들 이름가져오기-->
+			<select id="d" parameterType="java.util.HashMap" resultType="String">
+				SELECT p_name FROM PRODUCT
+				WHERE p_code IN
+				<foreach collection="list" item="value" index="key" open="(" separator="," close=")">
+			    	#{value}
+			    </foreach>
+			</select>
   </mapper>
