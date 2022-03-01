@@ -22,11 +22,7 @@ jQuery(function () {
         }
     })
 
-<<<<<<< HEAD
-    jQuery(".store-search li").click(function(){
-=======
-    $(".store-search #tabs").click(function(){
->>>>>>> 189c96e6999f4f0799ee99fb0b8b1fc11e240d8b
+    jQuery(".store-search #tabs").click(function(){
         $(".store-search .tab-content").toggleClass("active");
     })
 
@@ -126,14 +122,14 @@ jQuery(function () {
     });
      
     // 컴패니>매장찾기>상세보기 클릭 버튼 동작
-    $(".store-search .store-info-box").click(function(){
+    jQuery(".store-search .store-info-box").click(function(){
         $(".store-detail-modal").css({
             "display":"block",
         })
     });
     
     // 컴패니>매장찾기>전체매장보기 클릭 버튼 동작
-    $(".detail-map").click(function(){
+    jQuery(".detail-map").click(function(){
         $(".map-detail-modal").css({
             "display":"block",
         })
