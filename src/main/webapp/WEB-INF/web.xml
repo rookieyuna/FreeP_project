@@ -73,7 +73,7 @@
 	<!-- CORS 필터 설정이 외부 서버의 모든 요청을 허용한다. -->
 	<filter>
 		<filter-name>logFilter</filter-name>
-		<filter-class>com.kosmo.jsonrestapi.SimpleCORSFilter</filter-class>
+		<filter-class>com.kosmo.freepproject.SimpleCORSFilter</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>logFilter</filter-name>
