@@ -96,11 +96,11 @@ function iamport(){
 		}, function(rsp) {
 			console.log(rsp);
 		    if ( rsp.success ) {
-		    	var msg = '결제가 완료되었습니다.';
+		    	/* var msg = '결제가 완료되었습니다.';
 		        msg += '고유ID : ' + rsp.imp_uid;
 		        msg += '상점 거래ID : ' + rsp.merchant_uid;
 		        msg += '결제 금액 : ' + rsp.paid_amount;
-		        msg += '카드 승인번호 : ' + rsp.apply_num;
+		        msg += '카드 승인번호 : ' + rsp.apply_num; */
 		        document.payFrm.submit();
 		    } else {
 		    	 var msg = '결제에 실패하였습니다.';
@@ -267,7 +267,7 @@ function fn_custInfo(){
                                                 <dt>이름</dt>
                                                 <dd>
                                                     <div class="form-item">
-                                                        <input type="text" id="customerName" name="customerName" value="" maxlength="30">
+                                                        <input type="text" id="customerName" name="customerName" value=" " maxlength="30">
                                                     </div>
                                                 </dd>
                                             </dl>
@@ -291,7 +291,7 @@ function fn_custInfo(){
                                                             </div>
                                                             <input type="text" id="tel2" name="tel2" maxlength="4" class="i_text" title="휴대전화번호">
                                                             <input type="text" id="tel3" name="tel3" maxlength="4" class="i_text" title="휴대전화번호">
-                                                            <input type="text" id="phone" name="phone" value="" />
+                                                            <input type="text" id="phone" name="phone" value=" " />
                                                         </div>
                                                     </div>
                                                     
@@ -315,7 +315,7 @@ function fn_custInfo(){
                                                     </div>
                                                     <!-- 직접 입력 -->
                                                     <div class="form-item form-text">
-                                                        <input style="display:none;" name="more_req" id="more_req" type="text" onkeyup="checkByte(this, 50)" placeholder="주문시 요청사항을 입력하세요. (최대 25자까지 입력가능)">
+                                                        <input style="display:none;" name="more_req" id="more_req" type="text" value=" " onkeyup="checkByte(this, 50)" placeholder="주문시 요청사항을 입력하세요. (최대 25자까지 입력가능)">
                                                     </div>
                                                 </div>
                                             </dd>

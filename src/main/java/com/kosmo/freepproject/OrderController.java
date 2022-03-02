@@ -145,6 +145,15 @@ public class OrderController {
 		dto.setPo_price(Integer.parseInt(req.getParameter("point")));
 		dto.setTotal_price(Integer.parseInt(req.getParameter("total")));
 		dto.setCredit(req.getParameter("credit"));
+		dto.setName(req.getParameter("customerName"));
+		dto.setPhone(req.getParameter("phone"));
+		if(req.getParameter("more_req_box").equals("direct")) {
+			dto.setRequest(req.getParameter("more_req"));
+		}
+		else{
+			dto.setRequest(req.getParameter("more_req_box"));			
+		}
+		
 		//ordered테이블에 삽입
 		sqlSession.getMapper(OrderlistImpl.class).insertOrder(dto);
 		//member테이블에서 적립금 사용한거만큼 감소

@@ -16,4 +16,9 @@ public class OrderlistVO {
 	private String state;//주문상태
 	private String total_name;//주문한 상품목록(주문내역용)
 	private int reviewChk;//리뷰작성여부(주문내역용)
+	
+	//주문자랑 수령인이랑 정보 다를때
+	private String name;
+	private String phone;
+	private String request;
 }

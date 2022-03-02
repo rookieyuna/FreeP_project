@@ -22,11 +22,11 @@ jQuery(function () {
         }
     })
 
-<<<<<<< HEAD
+
     jQuery(".store-search li").click(function(){
-=======
+
     $(".store-search #tabs").click(function(){
->>>>>>> 189c96e6999f4f0799ee99fb0b8b1fc11e240d8b
+
         $(".store-search .tab-content").toggleClass("active");
     })
 

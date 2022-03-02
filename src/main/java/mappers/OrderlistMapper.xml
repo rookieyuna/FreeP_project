@@ -29,9 +29,9 @@
 	
 	
 	 <insert id="insertOrder" parameterType="orderlist.OrderlistVO">
-		INSERT INTO ordered (or_idx, m_code, b_code, origin_price, cp_price, po_price, total_price, credit)
+		INSERT INTO ordered (or_idx, m_code, b_code, origin_price, cp_price, po_price, total_price, credit,name,phone,request)
 		VALUES
-		(seq_or_idx.nextval, #{m_code}, #{b_code}, #{origin_price}, #{cp_price}, #{po_price}, #{total_price}, #{credit})
+		(seq_or_idx.nextval, #{m_code}, #{b_code}, #{origin_price}, #{cp_price}, #{po_price}, #{total_price}, #{credit},#{name},#{phone},#{request})
 	</insert>
 	
 	
