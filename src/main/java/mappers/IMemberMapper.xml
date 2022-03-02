@@ -16,6 +16,10 @@
 		SELECT * FROM member WHERE id=#{id} and pass=#{pass}
 	</select> 
 	
+	<select id="orderList" resultType="orderlist.OrderlistVO" parameterType="java.lang.String">
+		SELECT * FROM ordered WHERE m_code=#{m_code}
+	</select>
+	
 	<select id="orderStatus" resultType="orderlist.OrderlistVO">
 		SELECT or_idx, O.b_code, or_date, M.address, latitude, longitude 
 			FROM ordered O

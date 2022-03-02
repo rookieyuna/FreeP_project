@@ -2,6 +2,7 @@ package com.kosmo.freepproject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import android.IAndroidDAO;
 import member.MemberVO;
+import mypage.MypageImpl;
 import orderlist.OrderlistVO;
 
 @Controller
@@ -76,6 +78,33 @@ public class AndroidController {
 	}
 	
 
+	//주문내역. 주문번호 주문일자 최종결제금액 주문상품내역
+	@RequestMapping("/android/orderList.do")
+	@ResponseBody
+	public ArrayList<OrderlistVO> orderList(HttpServletRequest req) {
+		String m_code = req.getParameter("m_code");
+		ArrayList<OrderlistVO> lists = sqlSession.getMapper(IAndroidDAO.class).orderList(m_code);
+		
+		//주문한 상품의 상품명 전체를 저장할 변수
+		List<String> total_name;
+		
+		for (int i = 0; i < lists.size(); i++) {
+			//주문번호를 가져옴
+			int or_idx = lists.get(i).getOr_idx();
+			//주문번호를 통해 주문한 상품명을 가져옴
+			total_name = sqlSession.getMapper(MypageImpl.class).totalname(or_idx);
+			//System.out.println("total_name:"+total_name);
+			
+			//해당 주문번호의 모든 상품명을 가져와서 이어붙임
+			String names = String.join(" + ", total_name);
+			//주문내역 리스트에 set
+			lists.get(i).setTotal_name(names);
+        }
+		
+		return lists;
+	}
+		
+	
 	//배달현황
 	@RequestMapping("/android/orderStatus.do")
 	@ResponseBody
