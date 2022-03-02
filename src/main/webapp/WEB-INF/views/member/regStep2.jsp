@@ -188,7 +188,7 @@
 			 success : function(data){
 				 var num = data.num;
 				 if(num != 0){
-					 alert("아이디가 이미 사용 중입니다, 다시 입력해주세요.");
+					 alert("아이디가 이미 사용 중입니다. 다시 입력해주세요.");
 					 $("#id").val("");
 				 }
 				 else{
@@ -202,12 +202,40 @@
 	            }
 			}); 
 	}
-	
-	
-	
-	
-	
 </script>
+
+<!-- 휴대폰 번호 인증 -->
+<script>
+//휴대폰 번호 인증 
+var code2 = ""; 
+$("#phoneChk").click(function(){
+	alert("인증번호 발송이 완료되었습니다.\n휴대폰에서 인증번호 확인을 해주십시오.");
+	var phone = $("#phone").val(); 
+	$.ajax({ 
+	type:"GET", 
+	url:"phoneCheck?phone=" + phone,
+	cache : false, 
+	success:function(data){ 
+			if(data == "error"){ 
+				alert("휴대폰 번호가 올바르지 않습니다.") 
+						$(".successPhoneChk").text("유효한 번호를 입력해주세요."); 
+						$(".successPhoneChk").css("color","red"); 
+						$("#phone").attr("autofocus",true); 
+			}else{ $("#phone2").attr("disabled",false); 
+				$("#phoneChk2").css("display","inline-block"); 
+				$(".successPhoneChk").text("인증번호를 입력한 뒤 본인인증을 눌러주십시오."); 
+				$(".successPhoneChk").css("color","green"); 
+				$("#phone").attr("readonly",true); 
+				code2 = data; 
+			} 
+		} 
+	}); 
+});
+
+
+
+</script>
+
 <!-- zipcode 띄우기 -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
@@ -226,18 +254,20 @@
         }).open();
     }
 </script>
-<!-- <style>
-    .passwd{
-	  text-align: left;
-	  padding-left: 10px;
+<style>
+     #phone2, #phoneChk2{
+	  margin-top: 30px;
+	} 
+	#phone3{
+		vertical-align: middle;
+		padding-top: 17px
 	}
-	input::placeholder {
-	  text-align: left;
+    
+	#passwd, #confirmpw {
+	  padding-left: 20px;
 	}
-	.form-item number input[type="password"]{
-		padding-left: 100px;
-	}
-</style> -->
+	
+</style>
 </head>
 <body>
     <!-- header s -->
@@ -311,30 +341,25 @@
                                 <dl>
                                     <dt class="top">휴대전화</dt>
                                     <dd>
-                                        <div class="form-group v2">
-                                            <div class="form-item">
-                                                <div class="select-type2">
-                                                <input type="hidden" name="sel_hand_tel_agency" id="sel_hand_tel_agency" value="SKT">
-                                                    <select name="hand_tel1" id="hand_tel1" class="selected" title="휴대전화번호">
-                                                        <option value="010">010</option>
-                                                        <option value="011">011</option>
-                                                        <option value="016">016</option>
-                                                        <option value="017">017</option>
-                                                        <option value="018">018</option>
-                                                        <option value="019">019</option>
-                                                    </select>
-                                                </div>
-                                                <input type="text" name="hand_tel2" id="hand_tel2" maxlength="4" value=""  class="i_text" onkeyup="checkNum($(this), '숫자만 입력해주세요.');" title="휴대전화번호" placeholder="번호입력">
-                                                <input type="text" name="hand_tel3" id="hand_tel3" maxlength="4" value=""  class="i_text" onkeyup="checkNum($(this), '숫자만 입력해주세요.');" title="휴대전화번호" placeholder="번호입력">
-                                                <br>
-                                                
-                                                <a href="javascript:void(0)" class="btn-type v7">
-                                                            인증완료
-                                                        </a>	
-                                                    </div> <!-- //form-item -->
-                                            <div class="text-type4" id="tel_alert" style="display:none;"></div>
+                                        <div class="form-item name">
+                                            
+                                            <input type="text" name="phone" id="phone" maxlength="16" value="" placeholder="-을 제외한 휴대폰 번호 입력"  required/>
+                                            <button type="button" name="phovr"  id ="phoneChk" style="cursor:hand;"class="btn-type v7" >번호전송</button>
+                                            <br>
+                                            
                                         </div>
-                                    </dd> 
+                                        <div class="text-type4" id="tel_alert" style="display:none;"></div>
+                                    </dd>
+                                   
+                                    <dt class="top" id="phone3">휴대전화 인증</dt>
+                                    <dd>
+                                        <div class="form-item name">
+                                            <input type="text" name="phone2" id="phone2" maxlength="16" value="" placeholder="인증번호 입력" disabled required/>
+                                            <button type="button" name="phovr"  id ="phoneChk2" onclick="" style="cursor:hand;"class="btn-type v7" >본인인증</button>
+                                            <input type="hidden" id="phoneDoubleChk"/>
+                                        </div>
+                                        <div class="text-type4" id="tel_alert" style="display:none;"></div>
+                                    </dd>
                                 </dl>
                                 
                                 <dl>
