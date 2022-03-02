@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import android.IAndroidDAO;
 import member.MemberVO;
+import orderlist.OrderlistVO;
 
 @Controller
 public class AndroidController {
@@ -72,5 +73,14 @@ public class AndroidController {
 		
 		System.out.println("요청들어옴:"+returnMap);
 		return returnMap;
+	}
+	
+
+	//배달현황
+	@RequestMapping("/android/orderStatus.do")
+	@ResponseBody
+	public ArrayList<OrderlistVO> orderStatus(HttpServletRequest req) {
+		ArrayList<OrderlistVO> lists = sqlSession.getMapper(IAndroidDAO.class).orderStatus();
+		return lists;
 	}
 }
