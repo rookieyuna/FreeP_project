@@ -210,12 +210,12 @@ public class MemberController {
 		
 		//휴대폰 본인인증
 		
-		 @RequestMapping(value = "/phoneCheck", method = RequestMethod.GET)
-		  
 		 @ResponseBody 
+		 @RequestMapping(value = "/member/phoneCheck.do", method = RequestMethod.GET)
 		 public String sendSMS(@RequestParam("phone") String
 		 userPhoneNumber) { // 휴대폰 문자보내기 
 			 int randomNumber = (int)((Math.random()*(9999 - 1000 + 1)) + 1000);//난수 생성
+			 System.out.println(userPhoneNumber);
 			 certifiedPhoneNumber(userPhoneNumber,randomNumber); 
 			 return Integer.toString(randomNumber); 
 		 } 
@@ -238,12 +238,18 @@ public class MemberController {
 		 try { 
 			 JSONObject obj = (JSONObject) coolsms.send(params);
 			 System.out.println(obj.toString()); 
+			 System.out.println("try영역");
 			 } 
 			 catch (CoolsmsException e) {
+			 System.out.println("catch영역");
 			 System.out.println(e.getMessage()); 
 			 System.out.println(e.getCode()); 
+			 
 			 }
 		  }
 		
+		//아이디 패스워드 찾기 페이지 매핑
+		@RequestMapping("/member/find.do")
+		public String find() {return "member/findidpw";}
 		
 }
