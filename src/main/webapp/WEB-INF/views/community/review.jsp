@@ -47,31 +47,99 @@ function reviewDetailOpen(idx){
 		data: {"idx":idx},
 		dataType:'json', 
 		success:function(res) {
+		
 			console.log(res);
 			var recipe = {};
 			var data = {};
-			var flag = res.length;
+			var p_name = {};
+			var flag = 1;
 			var i=0;
 			console.log(flag);
-			
-			
-			
-			
 
+			$(".review-detail-modal .order_list").html("");
+			
 			for(var goldKey in res){
 				if(Object.keys(res[goldKey]).length>0){
-					if(res[goldKey]["P_NAME"]) var p_name = res[goldKey]["P_NAME"];
-					console.log(p_name);
+					if(res[goldKey]["D_NAME"]){
+						recipe = {};
+					// DIY피자일떄
+						console.log("DIY피자입니다.");
+					
+						$(".review-detail-modal .order_list").prepend(
+							'<li class="set'+flag+'">'
+							+'<div class="order_list_wrap">'
+							+'<div class="aco_top">'
+							+'<h6 class="detail_title">'+res[goldKey]["D_NAME"]+'</h6>'
+							+'<button class="detail-more-btn"></button>'
+							+'<button class="review_to_order" onclick="reviewToCart('+res[goldKey]["DIY_IDX"]+')">카트담기</button>'
+							+'</div>'
+							+'<div class="aco_bottom">'
+							+'<ul class="detail_list">'
+
+							+'</ul>'
+							+'</div>'
+							+'</div>'
+							+'</li>'
+						);	
+						
+						if(res[goldKey]["recipe0"]) recipe.recipe0 = res[goldKey]["recipe0"];
+						if(res[goldKey]["recipe1"]) recipe.recipe1 = res[goldKey]["recipe1"];
+						if(res[goldKey]["recipe2"]) recipe.recipe2 = res[goldKey]["recipe2"];
+						if(res[goldKey]["recipe3"]) recipe.recipe3 = res[goldKey]["recipe3"];
+						if(res[goldKey]["recipe4"]) recipe.recipe4 = res[goldKey]["recipe4"];
+						if(res[goldKey]["recipe5"]) recipe.recipe5 = res[goldKey]["recipe5"];
+						if(res[goldKey]["recipe6"]) recipe.recipe6 = res[goldKey]["recipe6"];
+						
+						for(var i in recipe){
+							if(recipe.length<0){
+								$(".review-detail-modal .detail_list").append(
+										'<li>재료가 없습니다.</li>'
+								);
+							}else{
+								$(".review-detail-modal .order_list>.set"+flag+" .detail_list").append(
+										'<li>'+recipe[i]+'</li>'
+								);	
+							}
+						}
+						flag++;
+					}else if(res[goldKey]["P_CODE"]){
+					// 일반피자, 사이드, 음료일떄
+						var t = res[goldKey]["P_CODE"].toString();
+						if(t.includes("1111")){
+							$(".review-detail-modal .order_list").append(
+									'<li>'
+									+'<div class="order_list_wrap">'
+									+'<div class="aco_top">'
+									+'<h6 class="detail_title">'+res[goldKey]["P_NAME"].toString()+'</h6>'
+									+'<button class="review_to_order" onclick="reviewToCart('+res[goldKey]["P_CODE"]+')">카트담기</button>'
+									+'</div>'
+									+'</div>'
+									+'</li>'
+								);	
+						}else if(t.includes("5555") || t.includes("6666")){
+							$(".review-detail-modal .order_list").append(
+									'<li>'
+									+'<div class="order_list_wrap">'
+									+'<div class="aco_top">'
+									+'<h6 class="detail_title">'+res[goldKey]["P_NAME"].toString()+'</h6>'
+									+'<button class="review_to_order" onclick="reviewToCart('+res[goldKey]["P_CODE"]+')">카트담기</button>'
+									+'</div>'
+									+'</div>'
+									+'</li>'
+								);	
+						}
+					}else{
+						
+					}
+					
+					
+					if(res[goldKey]["P_NAME"]) p_name = res[goldKey]["P_NAME"];
+
 					if(res[goldKey]["D_NAME"]) var d_name = res[goldKey]["D_NAME"];
 
-					if(res[goldKey]["recipe0"]) recipe.recipe0 = res[goldKey]["recipe0"];
-					if(res[goldKey]["recipe1"]) recipe.recipe1 = res[goldKey]["recipe1"];
-					if(res[goldKey]["recipe2"]) recipe.recipe2 = res[goldKey]["recipe2"];
-					if(res[goldKey]["recipe3"]) recipe.recipe3 = res[goldKey]["recipe3"];
-					if(res[goldKey]["recipe4"]) recipe.recipe4 = res[goldKey]["recipe4"];
-					if(res[goldKey]["recipe5"]) recipe.recipe5 = res[goldKey]["recipe5"];
-
+					
 					if(res[goldKey].hasOwnProperty('dto')){
+						data.rv_idx = res[goldKey].dto["rv_idx"];
 						data.writer = res[goldKey].dto["writer"];
 						data.title = res[goldKey].dto["title"];
 						data.postdate = res[goldKey].dto["postdate"];
@@ -79,6 +147,7 @@ function reviewDetailOpen(idx){
 						data.rv_ofile1 = res[goldKey].dto["rv_ofile1"];
 						data.rv_ofile2 = res[goldKey].dto["rv_ofile2"];
 						data.rv_ofile3 = res[goldKey].dto["rv_ofile3"];
+						data.like = res[goldKey].dto["like"];
 					}
 				}
 			}
@@ -103,29 +172,71 @@ function reviewDetail(data, d_name, p_name ,recipe){
 	document.getElementById("reviewImg1").src="/freepproject/uploads/"+data.rv_ofile1;
 	document.getElementById("reviewImg2").src="/freepproject/uploads/"+data.rv_ofile2;
 	document.getElementById("reviewImg3").src="/freepproject/uploads/"+data.rv_ofile3; 
-	for(var i in recipe){
-		if(recipe.length<0){
-			$(".review-detail-modal .detail_list").append(
-					'<li>재료가 없습니다.</li>'
-			);
-		}else{
-			$(".review-detail-modal .order_list li").eq(0).find(".detail_title").text(d_name);
-			$(".review-detail-modal .detail_list").append(
-					'<li>'+recipe[i]+'</li>'
-			);	
-		}
-	}
-	if(d_name != null){
-		console.log(p_name);
-		$(".review-detail-modal .order_list>li").eq(1).find(".detail_title").text(p_name);
+	if(data.like == true){
+		$(".review-detail-modal .favorite-heart i").addClass("like").attr("onclick","reviewLike('"+data.rv_idx+"')");	
 	}else{
-		console.log("null");
-		
+		$(".review-detail-modal .favorite-heart i").removeClass("like").attr("onclick","reviewLike('"+data.rv_idx+"')");	
 	}
-	
 	
 	reviewSlick();
 };
+
+
+function reviewLike(idx){ 
+	var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+    var currentIdx = idx;
+    $.ajax({ 
+		url: "reviewLike.do",
+		type:"POST", 
+		beforeSend : function(xhr){
+    		xhr.setRequestHeader(header, token);
+        },
+		data: {"idx":idx},
+		success:function(data) {
+			var Len = $(".material-icons.unlike").length;
+			var chkLike = $(".material-icons.unlike");
+			$(".material-icons.unlike").eq(0).toggleClass("like");
+			
+			for(var i=1; i<Len; i++){
+				var temp = chkLike.eq(i)
+				var value = temp.attr("onclick").substring(temp.attr("onclick").indexOf("'")+1, temp.attr("onclick").lastIndexOf("'"));
+				if(value == idx){
+					if(temp.hasClass("like")){
+						temp.removeClass("like");
+					}else{
+						temp.addClass("like");						
+					}
+				}
+			}
+		},
+		error: function(data){
+			alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"
+        			+"\n"+"error:"+error)
+		} 
+    }); 
+};
+
+function reviewToCart(code){
+	var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+    $.ajax({ 
+		url: "reviewToCart.do",
+		type:"POST", 
+		beforeSend : function(xhr){
+    		xhr.setRequestHeader(header, token);
+        },
+		data: {"code":code},
+		success:function() {
+			alert("상품이 장바구니에 담겼습니다");
+			
+		},
+		error: function(data){
+			alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"
+        			+"\n"+"error:"+error)
+		} 
+    }); 
+}
 
 </script>
 </head>
@@ -179,7 +290,7 @@ function reviewDetail(data, d_name, p_name ,recipe){
                                         
                                         
                                         <!-- 리뷰클릭시 나오는 상세모달창 (motion.js line.110) -->
-                                        <div class="review-detail-modal pop-layer pop-menu" id="pop-menu-detail" style="display: none !important;">
+                                        <div class="review-detail-modal pop-layer pop-menu" id="pop-menu-detail" style="display: none;">
                                             <div class="dim"></div>
                                             <div class="pop-wrap">
                                                 
@@ -215,7 +326,7 @@ function reviewDetail(data, d_name, p_name ,recipe){
                                                                 <p class="review_title" id="title">입에서 새우랑 치즈가 춤춰요!</p>
                                                                 <div class="favorite-heart">
                                                                     <div class="favorite-heart">
-                                                                        <i class="material-icons unlike">favorite</i>
+                                                                        <i class="material-icons unlike" onclick="reviewLike('9999')">favorite</i>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -229,84 +340,12 @@ function reviewDetail(data, d_name, p_name ,recipe){
                                                                 <div class="review_order">
                                                                     <ul class="order_list">
                                                                         <!-- 리뷰 > 주문 목록 -->
-                                                                        <li>
-                                                                            <div class="order_list_wrap">
-
-                                                                                <div class="aco_top">
-                                                                                    <h6 class="detail_title">세상에 이런 피자</h6>
-                                                                                    <button class="review_to_order">
-                                                                                        바로주문
-                                                                                    </button>
-                                                                                    <button class="detail-more-btn"></button>
-                                                                                </div>
-
-                                                                                <div class="aco_bottom">
-                                                                                    <ul class="detail_list">
-
-                                                                                    </ul>
-                                                                                </div>
-                                                                            </div>
-                                                                        </li>
                                                                         
-                                                                        <li>
-                                                                            <div class="order_list_wrap">
+                                                                        
 
-                                                                                <div class="aco_top">
-                                                                                    <h6 class="detail_title">오리지날 프리피 기본 피자</h6>
-                                                                                    <button class="review_to_order">
-                                                                                        바로주문
-                                                                                    </button>
-                                                                                    <button class="detail-more-btn"></button>
-                                                                                </div>
-
-                                                                                <div class="aco_bottom">
-                                                                                    <ul class="detail_list">
-                                                                                        <li>오리지날</li>
-                                                                                        <li>케챱소스</li>
-                                                                                        <li>페어로니</li>
-                                                                                        <li>양파</li>
-                                                                                        <li>브로콜리</li>
-                                                                                        <li>피망</li>
-                                                                                    </ul>
-                                                                                </div>
-                                                                            </div>
-                                                                        </li>
-
-                                                                        <li>
-                                                                            <div class="order_list_wrap">
-
-                                                                                <div class="aco_top">
-                                                                                    <h6 class="detail_title">사이드 메뉴</h6>
-                                                                                    <button class="review_to_order">
-                                                                                        바로주문
-                                                                                    </button>
-                                                                                    <button class="detail-more-btn"></button>
-                                                                                </div>
-
-                                                                                <div class="aco_bottom">
-                                                                                    <ul class="detail_list">
-                                                                                        <li>SIDE NAME</li>
-                                                                                        <li>SIDE NAME</li>
-                                                                                        <li>SIDE NAME</li>
-                                                                                    </ul>
-                                                                                </div>
-                                                                            </div>
-                                                                        </li>
+                                                                       
                                                                     </ul>
                                                                 </div>
-                                                            </div>
-                                                            
-                                                            <div class="con-bot">
-                                                                <!-- 댓글 -->
-                                                            </div>
-                                                            <div class="review-title">
-                                                                
-                                                            </div>
-                                                            <div class="review-id">
-
-                                                            </div>
-                                                            <div class="review-pdate">
-
                                                             </div>
                                                         </div>
                                                     </div>
@@ -329,7 +368,19 @@ function reviewDetail(data, d_name, p_name ,recipe){
                                                         <div class="review_name">${row.writer}</div>
                                                         <div class="review_like">
                                                             <div class="favorite-heart">
-                                                                <i class="material-icons unlike">favorite</i>
+                                                               <sec:authorize access="isAnonymous()">
+                                                                	<i class="login-request material-icons unlike">favorite</i>
+                                                                </sec:authorize>
+																<sec:authorize access="isAuthenticated()">
+																	<c:choose>
+																	   <c:when test="${row.like eq true}">
+																	  	<i class="material-icons unlike like" onclick="reviewLike('${row.rv_idx}')">favorite</i>
+																	  </c:when>
+																	  <c:otherwise>
+																	    <i class="material-icons unlike" onclick="reviewLike('${row.rv_idx}')">favorite</i>
+																	  </c:otherwise>
+																	</c:choose>
+																</sec:authorize>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -384,6 +435,7 @@ function reviewDetail(data, d_name, p_name ,recipe){
                                                         <div class="review_icon normal"></div>
                                                         <div class="review_name">${row.writer}</div>
                                                         <div class="review_like">
+                                                        
                                                             <div class="favorite-heart">
                                                             	<!-- 미로그인 상태에서 클릭시 로그인하도록 하기 위해 나눠놓음 -->
                                                             	<sec:authorize access="isAnonymous()">
@@ -391,11 +443,11 @@ function reviewDetail(data, d_name, p_name ,recipe){
                                                                 </sec:authorize>
 																<sec:authorize access="isAuthenticated()">
 																	<c:choose>
-																	  <c:when test="${like_idx eq null}">
-																	  	<i class="like-update material-icons unlike">favorite</i>
+																	   <c:when test="${row.like eq true}">
+																	  	<i class="material-icons unlike like" onclick="reviewLike('${row.rv_idx}')">favorite</i>
 																	  </c:when>
 																	  <c:otherwise>
-																	    <i class="like-update material-icons like">favorite</i>
+																	    <i class="material-icons unlike" onclick="reviewLike('${row.rv_idx}')">favorite</i>
 																	  </c:otherwise>
 																	</c:choose>
 																</sec:authorize>
@@ -464,7 +516,9 @@ function reviewDetail(data, d_name, p_name ,recipe){
 	
 	
 <script type="text/javascript">
-	
+$(function(){
+
+})
 </script>
 
 

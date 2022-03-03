@@ -52,7 +52,7 @@ public interface ReviewBoardDAOImpl {
 	
 	//좋아요 리뷰 테이블 추가 및 삭제 메서드 JYA
 	public void likeReview(LikedReviewDTO likedReviewDTO); 
-	public void dislikeReview(int rv_idx, int m_code);
+	public void dislikeReview(LikedReviewDTO likedReviewDTO);
 	
 	
 	// 리뷰게시판 주문상품 KDB
@@ -61,4 +61,11 @@ public interface ReviewBoardDAOImpl {
 	public Map<String, Object> c(String a);
 	public List<String> d(List<Object> a);
 	
+	
+	//좋아요 검사
+	public int likeChk(LikedReviewDTO likedReviewDTO);
+	public List<String> viewMyLike(LikedReviewDTO likedReviewDTO);
+	
+	// 리뷰게시판 > 장바구니 추가
+	public Map<String, Object> reviewA(String a);
 }

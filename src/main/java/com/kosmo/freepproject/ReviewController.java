@@ -9,11 +9,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.ibatis.session.SqlSession;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,10 +27,14 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import board.BoardDAOImpl;
 import board.BoardDTO;
+import cart.CartImpl;
+import menu.MenuImpl;
 import menu.MenuVO;
 import mypage.MypageImpl;
+import net.sf.json.JSONArray;
 import order.OrderDTO;
 import util.ParameterDTO;
+import review.LikedReviewDTO;
 import review.ReviewBoardDAOImpl;
 import review.ReviewBoardDTO;
 import util.PagingUtil;
@@ -503,7 +509,7 @@ public class ReviewController {
 	
 	/* front 리뷰게시판 일반 리뷰 리스트 보여주기 2/17 JYA */
 	@RequestMapping("/community/review.do")
-	public String reviewList(Model model, HttpServletRequest req) {
+	public String reviewList(Principal principal, Model model, HttpServletRequest req) {
 		
 		//게시물 전체갯수 
 		int totalRecordCount =
@@ -536,14 +542,52 @@ public class ReviewController {
 			String temp = dto.getContents().replace("\r\n","<br/>");
 			dto.setContents(temp);
 		}
-		model.addAttribute("lists", lists);
-		
 		
 		//베스트 리뷰 읽어오기
 		ArrayList<ReviewBoardDTO> listsBest =
 				sqlSession.getMapper(ReviewBoardDAOImpl.class).listBest(1, 4);
-		model.addAttribute("listsBest", listsBest);
 		
+		
+		
+		if(principal != null) {
+			LikedReviewDTO likeDto = new LikedReviewDTO();
+			likeDto.setM_code(sqlSession.getMapper(ReviewBoardDAOImpl.class).findm_code(principal.getName()));
+			List<String> ttt = sqlSession.getMapper(ReviewBoardDAOImpl.class).viewMyLike(likeDto);
+						
+			for(ReviewBoardDTO dto :lists) {
+				String temp = Integer.toString(dto.getRv_idx());
+				for(String i : ttt) {
+					if(temp.equals(i)) {
+						dto.setLike(true);
+						break;
+						
+					}else {
+						dto.setLike(false);
+					}
+					
+				}
+			}
+			
+			for(ReviewBoardDTO dto :listsBest) {
+				String temp = Integer.toString(dto.getRv_idx());
+				for(String i : ttt) {
+					if(temp.equals(i)) {
+						dto.setLike(true);
+						break;
+						
+					}else {
+						dto.setLike(false);
+					}
+					
+				}
+			}
+		}else {
+			
+		}
+
+		model.addAttribute("lists", lists);
+		model.addAttribute("listsBest", listsBest);
+		System.out.println(listsBest);
 		return "community/review";
 	}	
 	
@@ -551,7 +595,7 @@ public class ReviewController {
 	//리뷰 상세보기
 	@RequestMapping("/community/reviewdetail.do")
 	@ResponseBody
-	public List<Map<String,Object>> reviewdetail(Model model, HttpServletRequest req) {
+	public List<Map<String,Object>> reviewdetail(Principal principal, Model model, HttpServletRequest req) {
 
 		ReviewBoardDTO boardDTO = new ReviewBoardDTO();
 		boardDTO.setRv_idx(Integer.parseInt(req.getParameter("idx"))); 
@@ -560,73 +604,88 @@ public class ReviewController {
 		
 		ReviewBoardDTO dto = 
 				sqlSession.getMapper(ReviewBoardDAOImpl.class).view(boardDTO);
-		System.out.println("날짜체크"+ dto);
-		System.out.println(dto.getOr_idx());
 		int orIdx = dto.getOr_idx();
 		// orIdx를 order_product테이블에 넣어서 code를 가져온다.
 		// 일반상품일 경우 그냥 해당 데이터를 product테이블에서 가져온다.
 		// diy상품일 경우 diy테이블에서 정보를 가져온다.
+		
+		// 1. orIDX를 통해 주문상품 code가져오기
 		List<String> a = sqlSession.getMapper(ReviewBoardDAOImpl.class).a(orIdx);
-		System.out.println(a);
 		List<Map<String, Object>> listSender = new ArrayList<Map<String, Object>>();
 		
-
+		
+		// ★ 묶어서 보내야한다.
+		// 	주문상품별로 객체로 묶어서 보내라!
+		
+		// 2. 주문상품 code를 통해
+			// 2-1. 일제품반 || DIY제품인지 구별하여 수행한다.
 		for(String key : a) {
-			System.out.println(key);
+			// a. DIY상품일 경우
+				// a-1. code를 가지고 DIY테이블에서 DIYcode,DIYname/ 토핑code 가져오기
+					// a-2. 토핑code를 가지고 product테이블에서 p_name 가져오기
+						// a-3. 보내주기 위해서 하나로 묶어라
 			if(key.contains("9999")) {
-				System.out.println("여기는 DIY제품입니다.");
-				System.out.println(sqlSession.getMapper(ReviewBoardDAOImpl.class).c(key)); 
 				Map<String,Object> c = sqlSession.getMapper(ReviewBoardDAOImpl.class).c(key);
 				
-				// DIY피자 이름만들기
+				// DIY피자 이름 가져오기
 				System.out.println("c의 이름 : " + c.get("D_NAME"));
 				Map<String, Object> cResult = new HashMap<String, Object>();
-				cResult.put("D_NAME", c.get("D_NAME")); // 이름 저장
-				// DIY피자 이름완전체 cResult
 				
+				cResult.put("DIY_IDX", c.get("DIY_IDX")); // 코드 저장
+				cResult.put("D_NAME", c.get("D_NAME")); // 이름 저장
 				// DIY피자 재료만들기
 				List<Object> secretRecipe = new ArrayList<Object>();
 				secretRecipe.add(c.get("DOUGH"));
 				secretRecipe.add(c.get("SAUCE"));
 				secretRecipe.add(c.get("TOPPING1"));
-				if(c.get("TOPPING2") != null) {
-					secretRecipe.add(c.get("TOPPING2"));					
-				}else if(c.get("TOPPING3") != null) {
-					secretRecipe.add(c.get("TOPPING3"));	
-				}else if(c.get("TOPPING4") != null) {
-					secretRecipe.add(c.get("TOPPING4"));	
-				}else if(c.get("TOPPING5") != null) {
-					secretRecipe.add(c.get("TOPPING5"));	
-				}else {};
+				if(c.get("TOPPING2") != null) secretRecipe.add(c.get("TOPPING2"));					
+				if(c.get("TOPPING3") != null) secretRecipe.add(c.get("TOPPING3"));	
+				if(c.get("TOPPING4") != null) secretRecipe.add(c.get("TOPPING4"));	
+				if(c.get("TOPPING5") != null) secretRecipe.add(c.get("TOPPING5"));	
 				
 				// 레시피 map에 담기 (key = recipe0,1,2,3..)
 				List<String> recipeResult = sqlSession.getMapper(ReviewBoardDAOImpl.class).d(secretRecipe);
 				for(int z=0; z<recipeResult.size(); z++) {
 					cResult.put("recipe"+z, recipeResult.get(z));
 				}
-				// DIY피자 재료완전체 cResult
-				System.out.println(cResult);
 				
 				model.addAttribute("cResult", cResult);
 				listSender.add(cResult);
+				
+			// b. 일반/사이드/음료 제품일 경우
+				// b-1. code를 product테이블의 code와 일치시켜 p_name 가져오기
 			}else {
-				System.out.println("여기는 일반제품입니다.");
-				System.out.println(sqlSession.getMapper(ReviewBoardDAOImpl.class).b(key));
 				Map<String,Object> b = sqlSession.getMapper(ReviewBoardDAOImpl.class).b(key);
 				listSender.add(b);
 			}
 		}
 		
+		
+		String a111 = Integer.toString(dto.getRv_idx());
+		if(principal != null) {
+			LikedReviewDTO likeDto = new LikedReviewDTO();
+			likeDto.setM_code(sqlSession.getMapper(ReviewBoardDAOImpl.class).findm_code(principal.getName()));
+			List<String> ttt = sqlSession.getMapper(ReviewBoardDAOImpl.class).viewMyLike(likeDto);
+			
+			
+			
+			
+			for(String i : ttt) {
+				if(a111.equals(i)) {
+					dto.setLike(true);
+					break;
+				}else {
+					dto.setLike(false);
+				}
+			}
+		}else {
+			
+		}
+		
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("dto", dto);
 		listSender.add(result);
-		
-		for(Map<String, Object> alpha : listSender) {
-			System.out.println("alpha : " + alpha);
-		}
-		
-		
-		
+
 		return listSender;
 	}
 	
@@ -750,6 +809,94 @@ public class ReviewController {
 
 	}
 
+	// 리뷰페이지 좋아요
+	@RequestMapping("/community/reviewLike.do")
+	@ResponseBody
+	public LikedReviewDTO reviewLike(Principal principal, Model model, HttpServletRequest req) {
+
+		LikedReviewDTO dto = new LikedReviewDTO();
+		dto.setRv_idx(Integer.parseInt(req.getParameter("idx")));
+		dto.setM_code(sqlSession.getMapper(ReviewBoardDAOImpl.class).findm_code(principal.getName()));
+		int bbb = sqlSession.getMapper(ReviewBoardDAOImpl.class).likeChk(dto);
+		System.out.println(bbb);
+		if(bbb>0) {
+			System.out.println("기존 좋아요 있음");
+			sqlSession.getMapper(ReviewBoardDAOImpl.class).dislikeReview(dto);
+			System.out.println("삭제완료되었습니다.");
+		}else {
+			System.out.println("처음 좋아요하는거");
+			sqlSession.getMapper(ReviewBoardDAOImpl.class).likeReview(dto);			
+			System.out.println("추가 완료되었습니다");
+		}
+		
+		return dto;
+	}
 	
+	// 리뷰페이지 카드담기
+	@RequestMapping("/community/reviewToCart.do")
+	@ResponseBody
+	public void reviewToCart(Principal principal, Model model, HttpServletRequest req) {
+
+		//회원코드 
+		String user_id = "";
+		user_id = principal.getName();
+		int m_code = 
+				sqlSession.getMapper(BoardDAOImpl.class).findm_code(user_id);
+		String m_codeStr = Integer.toString(m_code);
+		
+		
+		try {
+			// map 객체로 만들어서 보내줘라
+			Map<String, Object> sqlData = new HashMap<String, Object>();
+				// 1. 회원번호
+				sqlData.put("m_code", m_codeStr);
+				if(!req.getParameter("code").contains("9999")) {
+					// 2. 제품번호
+						// 1. 일반인경우
+					sqlData.put("ct_code", req.getParameter("code"));	
+				}else {
+						// 2. DIY인경우
+					Map<String, Object> temp = new HashMap<String, Object>();
+					temp = sqlSession.getMapper(ReviewBoardDAOImpl.class).reviewA(req.getParameter("code"));
+						// DIY테이블에 담기
+					
+					System.out.println("temp : "+temp);
+					// key 소문자 변경
+					Map<String, Object> newTemp = new HashMap<String, Object>();
+					Set<String> set = temp.keySet();
+				    Iterator<String> e = set.iterator();
+
+				    while(e.hasNext()){
+				    	String key = e.next();
+				    	Object value = (Object) temp.get(key);
+				    	newTemp.put(key.toLowerCase(), value);
+				    }
+				    
+				    String d_nameStr = user_id + "님의 DIY 피자";
+				    newTemp.put("d_name", d_nameStr);
+				    newTemp.remove("diy_idx");
+				    newTemp.remove("g_code");
+				    
+					sqlSession.getMapper(MenuImpl.class).insertCartDiy(newTemp);	
+					// DIY테이블에 담기 완료(시퀀스 반환)
+					// DIY테이블에 등록된 diy_idx값 가져오기
+					sqlData.put("ct_code", newTemp.get("diy_idx"));
+					sqlData.put("ct_name", d_nameStr);
+				}
+				
+				// 둘다 CART 테이블에 담기
+				int num = sqlSession.getMapper(CartImpl.class).confirmCart(sqlData);
+				if(num != 0) { //같은제품이 있따!는뜻
+					sqlData.put("ct_count", 1);
+					sqlSession.getMapper(CartImpl.class).updateCountCart(sqlData);
+				}
+				else {		
+					sqlSession.getMapper(MenuImpl.class).insertCart(sqlData);
+				}
+				
+		} catch (Exception e) {
+			
+		}
+	}
 	
 }

@@ -101,9 +101,6 @@ jQuery(function () {
             $(".menu-list-area").toggleClass("active");
         }
     });
-
-    
-
     
 
 
@@ -113,6 +110,7 @@ jQuery(function () {
             "display":"block"
         })
     });
+
 
     // 마이페이지>MY리뷰>마이리뷰리스트 클릭 버튼 동작
     jQuery(".mypage .myReview-wrap .board-list tr").click(function(){
@@ -141,9 +139,12 @@ jQuery(function () {
         $(this).closest("li").toggleClass("active");
     })
 
+
     // 후기페이지 > 상세보기 > 아코디언 패널
     jQuery(".aco_top").on('click',function(e){
-        $(this).children(".detail-more-btn").toggleClass('active');
+		e.stopPropagation();
+        
+		$(this).children(".detail-more-btn").toggleClass('active');
         if($(this).next().css("display")=="none"){
             $(".aco_bottom").slideUp();
             $(this).next().slideDown();
@@ -153,6 +154,43 @@ jQuery(function () {
     });
     
     jQuery(".review_to_order").click(function(e){
+	e.stopPropagation();
+	
+	});
+
+
+	// 커뮤니티>후기게시판>후기이미지 클릭 버튼 동작
+    $(".review .img_wrap").click(function(){
+		$(".detail-more-btn:eq(0)").addClass("active");
+        $(".review-detail-modal").css({
+            "display":"block"
+        })
+    });
+    // 커뮤니티>후기게시판 > 상세보기 > 아코디언 패널
+	$(document).on('click','.aco_top', function (e) {
+		e.stopPropagation();
+		if($(this).next().hasClass("aco_bottom")){
+			if($(this).next().css("display")=="none"){
+				$(".aco_bottom").slideUp();
+				$(".detail-more-btn").removeClass("active");
+				$(this).next().slideDown();
+				$(this).find(".detail-more-btn").addClass("active");	
+			}else{
+				$(".aco_bottom").slideUp();
+				$(".detail-more-btn").removeClass("active");
+			}
+			
+		}else{
+			
+			
+		}	
+		
+        
+    });    
+
+
+
+    $(".review_to_order").click(function(e){
         e.stopPropagation();
         // 바로주문 버튼 클릭시 주문페이지 이동 구현 예정
         
@@ -177,7 +215,7 @@ jQuery(function () {
 });
 
 //favorite heart like/unlike
-document.querySelectorAll(".material-icons")
+/*document.querySelectorAll(".material-icons")
 .forEach(function(el) {  
    el.addEventListener("click",
     function() {
@@ -185,7 +223,7 @@ document.querySelectorAll(".material-icons")
         this.classList.toggle("like");
       else this.classList.toggle("unlike");
     });
-});
+});*/
 
 // etc > FAQ 상단 질문유형 클릭시 기능
 function callFunction(e, num){
@@ -255,13 +293,5 @@ function reviewSlick(){
       //centerMode: true,
       lazyLoad: 'progressive',
     });   
-}
+};
     
-
-
-$(function(){
-   $(".review-img-pre").click(function(){
-      
-   });
-   
-});

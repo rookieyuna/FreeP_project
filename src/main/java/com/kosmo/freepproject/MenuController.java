@@ -422,7 +422,7 @@ public class MenuController {
 		    	sendData.put("d_price", d_price);
 		    	String d_nameStr = user_id + "님의 DIY 피자";
 		    	sendData.put("d_name", d_nameStr);
-		        sqlSession.getMapper(MenuImpl.class).insertCartDiy(sendData);
+		    	sqlSession.getMapper(MenuImpl.class).insertCartDiy(sendData);
 		        
 		        // INSERT TABLE CART
 		        	// 필요 데이터 얻어오기(시퀀스 값)

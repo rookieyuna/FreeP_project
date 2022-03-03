@@ -130,12 +130,13 @@
 
 
 	<!--좋아요 리뷰 테이블 추가 및 삭제 메서드 JYA-->
+	
 	<insert id="likeReview" parameterType="review.LikedReviewDTO">
   		INSERT INTO likedreview values (seq_likedreview_idx.nextval, #{rv_idx}, #{m_code})
   	</insert>
   	
-  	<delete id="dislikeReview">
-  	 	DELETE FROM likedreview WHERE rv_idx=#{param1} and m_code=#{param2}
+  	<delete id="dislikeReview" parameterType="review.LikedReviewDTO">
+  	 	DELETE FROM likedreview WHERE rv_idx=#{rv_idx} and m_code=#{m_code}
   	</delete>
 
 	  	
@@ -155,6 +156,13 @@
 		WHERE rNum BETWEEN #{start} AND #{end}
   	</select>
 
+	<select id="likeChk" resultType="int" parameterType="review.LikedReviewDTO">
+		SELECT COUNT(*) FROM likedreview WHERE RV_IDX=#{rv_idx} AND M_CODE=#{m_code}
+	</select>
+	
+	<select id="viewMyLike" resultType="String" parameterType="review.LikedReviewDTO">
+		SELECT RV_IDX FROM likedreview WHERE M_CODE=#{m_code}
+	</select>
 
 
 	<!-- KSB 리뷰페이지 작업 220225 ADD-->
@@ -170,7 +178,7 @@
 		<!-- 일반 상품의 경우 > 이름만 가져온다 -->
 		<!-- 받는 Code를 통해 일반 상품의 이름 얻어오기-->
 		<select id="b" parameterType="String" resultType="java.util.HashMap">
-			SELECT p_name FROM PRODUCT WHERE P_CODE = #{가져온 code}
+			SELECT p_name, p_code FROM PRODUCT WHERE P_CODE = #{가져온 code}
 		</select>
 		
 		<!-- DIY상품의 경우 -->
@@ -178,6 +186,7 @@
 		<select id="c" parameterType="String" resultType="java.util.HashMap">
 			SELECT * FROM DIY WHERE DIY_IDX = #{가져온 code}
 		</select>
+		
 			<!--DIY상품 품목들 이름가져오기-->
 			<select id="d" parameterType="java.util.HashMap" resultType="String">
 				SELECT p_name FROM PRODUCT
@@ -186,4 +195,8 @@
 			    	#{value}
 			    </foreach>
 			</select>
+			
+	<select id="reviewA" parameterType="String" resultType="java.util.HashMap">
+		SELECT * FROM DIY WHERE DIY_IDX=#{param1}
+	</select>
   </mapper>

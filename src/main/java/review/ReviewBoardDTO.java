@@ -24,5 +24,5 @@ public class ReviewBoardDTO {
 	private int or_idx;
 	private int rv_best;
 	
-	
+	private boolean like;
 }
