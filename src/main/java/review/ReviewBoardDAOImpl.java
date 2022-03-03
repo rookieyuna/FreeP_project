@@ -56,10 +56,10 @@ public interface ReviewBoardDAOImpl {
 	
 	
 	// 리뷰게시판 주문상품 KDB
-	public List<String> a(int a);
-	public Map<String, Object> b(String a);
-	public Map<String, Object> c(String a);
-	public List<String> d(List<Object> a);
+	public List<String> geReviewtInfo(int a);
+	public Map<String, Object> getNormalName(String a);
+	public Map<String, Object> getDiyData(String a);
+	public List<String> getDiyName(List<Object> a);
 	
 	
 	//좋아요 검사
@@ -67,5 +67,5 @@ public interface ReviewBoardDAOImpl {
 	public List<String> viewMyLike(LikedReviewDTO likedReviewDTO);
 	
 	// 리뷰게시판 > 장바구니 추가
-	public Map<String, Object> reviewA(String a);
+	public Map<String, Object> getDiyChk(String a);
 }

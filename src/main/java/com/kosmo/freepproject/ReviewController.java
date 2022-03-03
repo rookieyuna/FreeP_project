@@ -552,11 +552,11 @@ public class ReviewController {
 		if(principal != null) {
 			LikedReviewDTO likeDto = new LikedReviewDTO();
 			likeDto.setM_code(sqlSession.getMapper(ReviewBoardDAOImpl.class).findm_code(principal.getName()));
-			List<String> ttt = sqlSession.getMapper(ReviewBoardDAOImpl.class).viewMyLike(likeDto);
+			List<String> viewMyLike = sqlSession.getMapper(ReviewBoardDAOImpl.class).viewMyLike(likeDto);
 						
 			for(ReviewBoardDTO dto :lists) {
 				String temp = Integer.toString(dto.getRv_idx());
-				for(String i : ttt) {
+				for(String i : viewMyLike) {
 					if(temp.equals(i)) {
 						dto.setLike(true);
 						break;
@@ -570,7 +570,7 @@ public class ReviewController {
 			
 			for(ReviewBoardDTO dto :listsBest) {
 				String temp = Integer.toString(dto.getRv_idx());
-				for(String i : ttt) {
+				for(String i : viewMyLike) {
 					if(temp.equals(i)) {
 						dto.setLike(true);
 						break;
@@ -587,7 +587,6 @@ public class ReviewController {
 
 		model.addAttribute("lists", lists);
 		model.addAttribute("listsBest", listsBest);
-		System.out.println(listsBest);
 		return "community/review";
 	}	
 	
@@ -610,7 +609,7 @@ public class ReviewController {
 		// diy상품일 경우 diy테이블에서 정보를 가져온다.
 		
 		// 1. orIDX를 통해 주문상품 code가져오기
-		List<String> a = sqlSession.getMapper(ReviewBoardDAOImpl.class).a(orIdx);
+		List<String> temp = sqlSession.getMapper(ReviewBoardDAOImpl.class).geReviewtInfo(orIdx);
 		List<Map<String, Object>> listSender = new ArrayList<Map<String, Object>>();
 		
 		
@@ -619,32 +618,32 @@ public class ReviewController {
 		
 		// 2. 주문상품 code를 통해
 			// 2-1. 일제품반 || DIY제품인지 구별하여 수행한다.
-		for(String key : a) {
+		for(String key : temp) {
 			// a. DIY상품일 경우
 				// a-1. code를 가지고 DIY테이블에서 DIYcode,DIYname/ 토핑code 가져오기
 					// a-2. 토핑code를 가지고 product테이블에서 p_name 가져오기
 						// a-3. 보내주기 위해서 하나로 묶어라
 			if(key.contains("9999")) {
-				Map<String,Object> c = sqlSession.getMapper(ReviewBoardDAOImpl.class).c(key);
+				Map<String,Object> getDiyData = sqlSession.getMapper(ReviewBoardDAOImpl.class).getDiyData(key);
 				
 				// DIY피자 이름 가져오기
-				System.out.println("c의 이름 : " + c.get("D_NAME"));
+				System.out.println("c의 이름 : " + getDiyData.get("D_NAME"));
 				Map<String, Object> cResult = new HashMap<String, Object>();
 				
-				cResult.put("DIY_IDX", c.get("DIY_IDX")); // 코드 저장
-				cResult.put("D_NAME", c.get("D_NAME")); // 이름 저장
+				cResult.put("DIY_IDX", getDiyData.get("DIY_IDX")); // 코드 저장
+				cResult.put("D_NAME", getDiyData.get("D_NAME")); // 이름 저장
 				// DIY피자 재료만들기
 				List<Object> secretRecipe = new ArrayList<Object>();
-				secretRecipe.add(c.get("DOUGH"));
-				secretRecipe.add(c.get("SAUCE"));
-				secretRecipe.add(c.get("TOPPING1"));
-				if(c.get("TOPPING2") != null) secretRecipe.add(c.get("TOPPING2"));					
-				if(c.get("TOPPING3") != null) secretRecipe.add(c.get("TOPPING3"));	
-				if(c.get("TOPPING4") != null) secretRecipe.add(c.get("TOPPING4"));	
-				if(c.get("TOPPING5") != null) secretRecipe.add(c.get("TOPPING5"));	
+				secretRecipe.add(getDiyData.get("DOUGH"));
+				secretRecipe.add(getDiyData.get("SAUCE"));
+				secretRecipe.add(getDiyData.get("TOPPING1"));
+				if(getDiyData.get("TOPPING2") != null) secretRecipe.add(getDiyData.get("TOPPING2"));					
+				if(getDiyData.get("TOPPING3") != null) secretRecipe.add(getDiyData.get("TOPPING3"));	
+				if(getDiyData.get("TOPPING4") != null) secretRecipe.add(getDiyData.get("TOPPING4"));	
+				if(getDiyData.get("TOPPING5") != null) secretRecipe.add(getDiyData.get("TOPPING5"));	
 				
 				// 레시피 map에 담기 (key = recipe0,1,2,3..)
-				List<String> recipeResult = sqlSession.getMapper(ReviewBoardDAOImpl.class).d(secretRecipe);
+				List<String> recipeResult = sqlSession.getMapper(ReviewBoardDAOImpl.class).getDiyName(secretRecipe);
 				for(int z=0; z<recipeResult.size(); z++) {
 					cResult.put("recipe"+z, recipeResult.get(z));
 				}
@@ -655,23 +654,23 @@ public class ReviewController {
 			// b. 일반/사이드/음료 제품일 경우
 				// b-1. code를 product테이블의 code와 일치시켜 p_name 가져오기
 			}else {
-				Map<String,Object> b = sqlSession.getMapper(ReviewBoardDAOImpl.class).b(key);
-				listSender.add(b);
+				Map<String,Object> getNormalName = sqlSession.getMapper(ReviewBoardDAOImpl.class).getNormalName(key);
+				listSender.add(getNormalName);
 			}
 		}
 		
 		
-		String a111 = Integer.toString(dto.getRv_idx());
+		String rvIdx = Integer.toString(dto.getRv_idx());
 		if(principal != null) {
 			LikedReviewDTO likeDto = new LikedReviewDTO();
 			likeDto.setM_code(sqlSession.getMapper(ReviewBoardDAOImpl.class).findm_code(principal.getName()));
-			List<String> ttt = sqlSession.getMapper(ReviewBoardDAOImpl.class).viewMyLike(likeDto);
+			List<String> viewMyLike = sqlSession.getMapper(ReviewBoardDAOImpl.class).viewMyLike(likeDto);
 			
 			
 			
 			
-			for(String i : ttt) {
-				if(a111.equals(i)) {
+			for(String i : viewMyLike) {
+				if(rvIdx.equals(i)) {
 					dto.setLike(true);
 					break;
 				}else {
@@ -857,7 +856,7 @@ public class ReviewController {
 				}else {
 						// 2. DIY인경우
 					Map<String, Object> temp = new HashMap<String, Object>();
-					temp = sqlSession.getMapper(ReviewBoardDAOImpl.class).reviewA(req.getParameter("code"));
+					temp = sqlSession.getMapper(ReviewBoardDAOImpl.class).getDiyChk(req.getParameter("code"));
 						// DIY테이블에 담기
 					
 					System.out.println("temp : "+temp);
@@ -865,7 +864,6 @@ public class ReviewController {
 					Map<String, Object> newTemp = new HashMap<String, Object>();
 					Set<String> set = temp.keySet();
 				    Iterator<String> e = set.iterator();
-
 				    while(e.hasNext()){
 				    	String key = e.next();
 				    	Object value = (Object) temp.get(key);
