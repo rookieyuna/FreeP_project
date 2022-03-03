@@ -11,11 +11,24 @@
 		SELECT * FROM member ORDER BY regidate DESC
 	</select>
 	
-	
 	<select id="memberLogin" resultType="member.MemberVO" 
 		parameterType="member.MemberVO">
 		SELECT * FROM member WHERE id=#{id} and pass=#{pass}
 	</select> 
+	
+	<select id="orderList" resultType="orderlist.OrderlistVO" parameterType="java.lang.String">
+		SELECT * FROM ordered WHERE m_code=#{m_code}
+	</select>
+	
+	<select id="orderStatus" resultType="orderlist.OrderlistVO">
+		SELECT or_idx, O.b_code, or_date, M.address, latitude, longitude 
+			FROM ordered O
+				INNER JOIN member M 
+					ON M.m_code=O.m_code
+				INNER JOIN store S 	
+					ON O.b_code=S.b_code
+				WHERE O.m_code=#{m_code} and state=4
+	</select>
  	 
 </mapper>
 

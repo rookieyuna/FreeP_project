@@ -5,6 +5,9 @@
    xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd
       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+
+	<http pattern="/android/**" security="none" />
+	
  <!--  
     시큐리티3단계 : 로그인을 JDBC연동으로 커스터마이징 하기
     
@@ -31,6 +34,8 @@
       <access-denied-handler 
          error-page="/admin/accessDenied.do" />
    </http>
+   
+   
    
    <http pattern="/**" auto-config="true" disable-url-rewriting="true" use-expressions="true">
 

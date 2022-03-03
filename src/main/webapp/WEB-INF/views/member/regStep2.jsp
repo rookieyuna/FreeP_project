@@ -40,11 +40,57 @@
 	        frm.id.focus();
 	        return false;
 	    }
+		//아이디는 8~12자로 입력
+	    if(!(frm.id.value.length>=4 && frm.id.value.length<=12)){
+	        alert("아이디는 4~12자 사이만 가능합니다.");
+	        frm.id.value = '';//잘못된 입력값이므로 지워준다.
+	        frm.id.focus();//재입력해야 하므로 포커싱 한다.
+	        return false;//서버로 전송을 중단해야 하므로 false반환
+	    }
+		
+	    /*
+	    아이디를 구성하는 각 문자가 소문자a~z, 대문자A~Z 숫자0~9사이가 아니라면
+	    잘못된 문자가 포함된 경우이므로 전송을 중단해야 한다.
+	    */
+	    for(var i=0 ; i<frm.id.value.length; i++){//아이디의 길이만큼 반복
+	        if(!((frm.id.value[i]>='a'&& frm.id.value[i]<='z') ||
+	            (frm.id.value[i]>='A'&& frm.id.value[i]<='Z') ||
+	            (frm.id.value[i]>='0'&& frm.id.value[i]<='9'))){
+	            alert('아이디는 영문과 숫자의 조합으로만 사용할 수 있습니다.');
+	            frm.id.value='';
+	            frm.id.focus();
+	            return false;
+	        }
+		}
 		if(frm.pass.value==''){
 	        alert('비밀번호를 입력하세요');
 	        frm.pass.focus();
 	        return false;
 	    }
+		
+		//패스워드는 4~12자로 입력
+	    if(!(frm.pass.value.length>=4 && frm.pass.value.length<=12)){
+	        alert("패스워드는 4~12자 사이만 가능합니다.");
+	        frm.pass.value = '';//잘못된 입력값이므로 지워준다.
+	        frm.pass.focus();//재입력해야 하므로 포커싱 한다.
+	        return false;//서버로 전송을 중단해야 하므로 false반환
+	    }
+		
+	    /*
+	    패스워드를 구성하는 각 문자가 소문자a~z, 대문자A~Z 숫자0~9사이가 아니라면
+	    잘못된 문자가 포함된 경우이므로 전송을 중단해야 한다.
+	    */
+	    for(var i=0 ; i<frm.pass.value.length; i++){//아이디의 길이만큼 반복
+	        if(!((frm.pass.value[i]>='a'&& frm.pass.value[i]<='z') ||
+	            (frm.pass.value[i]>='A'&& frm.pass.value[i]<='Z') ||
+	            (frm.pass.value[i]>='0'&& frm.pass.value[i]<='9'))){
+	            alert('패스워드는 영문과 숫자의 조합으로만 사용할 수 있습니다.');
+	            frm.pass.value='';
+	            frm.pass.focus();
+	            return false;
+	        }
+		}
+		
 		if(frm.pass2.value==''){
 	        alert('비밀번호확인을 입력하세요');
 	        frm.pass2.focus();
@@ -63,16 +109,18 @@
 	        return false;
 	    } */
 		//전화번호를 입력
-		if(frm.hand_tel2.value==''){
+		if(frm.phone.value==''){
 	        alert('전화번호를 입력하세요');
-	        frm.hand_tel2.focus();
+	        frm.phone.focus();
 	        return false;
 	    }
-		if(frm.hand_tel3.value==''){
-	        alert('전화번호 마지막자리를 입력하세요');
-	        frm.hand_tel3.focus();
+	    //인증번호를 입력
+		if(frm.phone2.value==''){
+	        alert('인증번호를 입력하세요');
+	        frm.phone2.focus();
 	        return false;
 	    }
+		
 		//이메일 주소를 입력
 		if(frm.email1.value==''){
 	        alert('이메일주소를 입력하세요');
@@ -106,50 +154,9 @@
 		
 		
 		
-		//아이디는 8~12자로 입력
-	    if(!(frm.id.value.length>=4 && frm.id.value.length<=12)){
-	        alert("아이디는 4~12자 사이만 가능합니다.");
-	        frm.id.value = '';//잘못된 입력값이므로 지워준다.
-	        frm.id.focus();//재입력해야 하므로 포커싱 한다.
-	        return false;//서버로 전송을 중단해야 하므로 false반환
-	    }
 		
-	    /*
-	    아이디를 구성하는 각 문자가 소문자a~z, 대문자A~Z 숫자0~9사이가 아니라면
-	    잘못된 문자가 포함된 경우이므로 전송을 중단해야 한다.
-	    */
-	    for(var i=0 ; i<frm.id.value.length; i++){//아이디의 길이만큼 반복
-	        if(!((frm.id.value[i]>='a'&& frm.id.value[i]<='z') ||
-	            (frm.id.value[i]>='A'&& frm.id.value[i]<='Z') ||
-	            (frm.id.value[i]>='0'&& frm.id.value[i]<='9'))){
-	            alert('아이디는 영문과 숫자의 조합으로만 사용할 수 있습니다.');
-	            frm.id.value='';
-	            frm.id.focus();
-	            return false;
-	        }
-		}
-		//패스워드는 4~12자로 입력
-	    if(!(frm.pass.value.length>=4 && frm.pass.value.length<=12)){
-	        alert("패스워드는 4~12자 사이만 가능합니다.");
-	        frm.pass.value = '';//잘못된 입력값이므로 지워준다.
-	        frm.pass.focus();//재입력해야 하므로 포커싱 한다.
-	        return false;//서버로 전송을 중단해야 하므로 false반환
-	    }
 		
-	    /*
-	    패스워드를 구성하는 각 문자가 소문자a~z, 대문자A~Z 숫자0~9사이가 아니라면
-	    잘못된 문자가 포함된 경우이므로 전송을 중단해야 한다.
-	    */
-	    for(var i=0 ; i<frm.pass.value.length; i++){//아이디의 길이만큼 반복
-	        if(!((frm.pass.value[i]>='a'&& frm.pass.value[i]<='z') ||
-	            (frm.pass.value[i]>='A'&& frm.pass.value[i]<='Z') ||
-	            (frm.pass.value[i]>='0'&& frm.pass.value[i]<='9'))){
-	            alert('패스워드는 영문과 숫자의 조합으로만 사용할 수 있습니다.');
-	            frm.pass.value='';
-	            frm.pass.focus();
-	            return false;
-	        }
-		}
+	    
 	}
 
 
@@ -178,36 +185,111 @@
 		var token = $("meta[name='_csrf']").attr("content");
 	    var header = $("meta[name='_csrf_header']").attr("content");
 		
-		$.ajax({  
-			 url : './id_check_person.do?id='+$("#id").val(),               
-			 type : 'get',
-			 beforeSend : function(xhr){
-	        		xhr.setRequestHeader(header, token);
-	            },
-			 dataType : "json",
-			 success : function(data){
-				 var num = data.num;
-				 if(num != 0){
-					 alert("아이디가 이미 사용 중입니다, 다시 입력해주세요.");
-					 $("#id").val("");
-				 }
-				 else{
-					 alert("사용 가능한 아이디 입니다.");
-				 }
-			 },
-			 error : function(request,statue,error){
-	            	alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"
-	            			+"\n"+"error:"+error)
-	            	
-	            }
+	    
+	    if($("#id").val() == ""){
+	    	alert("아이디를 입력해주세요.");
+	    }
+	    else{
+	    	
+			$.ajax({  
+				 url : './id_check_person.do?id='+$("#id").val(),               
+				 type : 'get',
+				 beforeSend : function(xhr){
+		        		xhr.setRequestHeader(header, token);
+		            },
+				 dataType : "json",
+				 success : function(data){
+					 var num = data.num;
+					 if(num != 0){
+						 alert("아이디가 이미 사용 중입니다. 다시 입력해주세요.");
+						 $("#id").val("");
+					 }
+					 else{
+						 alert("사용 가능한 아이디 입니다.");
+					 }
+				 },
+				 error : function(request,statue,error){
+		            	alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"
+		            			+"\n"+"error:"+error)
+		            	
+		         }
 			}); 
+	    }
+	}
+</script>
+
+<!-- 휴대폰 번호 인증 -->
+<script>
+//휴대폰 번호 인증 
+
+
+var code2 = ""; 
+function phoneCheck() {
+	
+	var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+    
+    if($("#phone").val() == ""){
+    	alert("휴대폰 번호를 입력해주세요.");
+    	$('#phone').focus();
+    }
+    else{
+    	
+		alert("인증번호 발송이 완료되었습니다.\n휴대폰에서 인증번호 확인을 해주십시오.");
+		
+		var phone = $("#phone").val(); 
+		$.ajax({ 
+		type:"GET",
+		dataType : "text",
+		beforeSend : function(xhr){
+			xhr.setRequestHeader(header, token);
+	    },
+		url:"./phoneCheck.do?phone=" + phone,
+		cache : false, 
+		success:function(data){ 
+				if(data == "error"){ 
+					alert("휴대폰 번호가 올바르지 않습니다."); 
+							$("#phone").attr("autofocus",true); 
+				}else{ 
+					alert("전송된 인증번호를 입력해주세요."+data);
+					//$("#phone2").attr("disabled",false); 
+					//$("#phoneChk2").css("display","inline-block"); 
+					$("#phone").attr("readonly",true); 
+					$("#phone2").attr("disabled",false); 
+					$("#phoneChk").attr("disabled",true); 
+					code2 = data; 
+				} 
+			} 
+		}); 
+    }
+};
+
+function phoneCheck2() {
+	
+	if($("#phone2").val()==""){
+		alert("인증번호를 입력해주세요.");
+	}
+	else{
+		
+		if($("#phone2").val() == code2){ 
+			alert("인증에 성공했습니다.");
+			//비밀번호 찾기할 때 window.onload(비밀번호입력할새로만든jsp경로); location.href 둘중 하나 검색해서 해보기.
+			$("#phoneDoubleChk").val("true"); 
+			$("#phone2").attr("disabled",true); 
+		}else{ 
+			alert("인증에 실패했습니다.");
+			$("#phoneDoubleChk").val("false"); 
+			$(this).attr("autofocus",true); 
+		}
 	}
 	
-	
-	
-	
-	
+}
+
+
+
+
 </script>
+
 <!-- zipcode 띄우기 -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
@@ -226,18 +308,23 @@
         }).open();
     }
 </script>
-<!-- <style>
-    .passwd{
-	  text-align: left;
+<style>
+     #phone2, #phoneChk2{
+	  margin-top: 30px;
+	} 
+	#phone3{
+		vertical-align: middle;
+		padding-top: 17px
+	}
+    
+	#passwd, #confirmpw {
+	  padding-left: 20px;
+	}
+	#zipcode2{
 	  padding-left: 10px;
 	}
-	input::placeholder {
-	  text-align: left;
-	}
-	.form-item number input[type="password"]{
-		padding-left: 100px;
-	}
-</style> -->
+	
+</style>
 </head>
 <body>
     <!-- header s -->
@@ -311,30 +398,25 @@
                                 <dl>
                                     <dt class="top">휴대전화</dt>
                                     <dd>
-                                        <div class="form-group v2">
-                                            <div class="form-item">
-                                                <div class="select-type2">
-                                                <input type="hidden" name="sel_hand_tel_agency" id="sel_hand_tel_agency" value="SKT">
-                                                    <select name="hand_tel1" id="hand_tel1" class="selected" title="휴대전화번호">
-                                                        <option value="010">010</option>
-                                                        <option value="011">011</option>
-                                                        <option value="016">016</option>
-                                                        <option value="017">017</option>
-                                                        <option value="018">018</option>
-                                                        <option value="019">019</option>
-                                                    </select>
-                                                </div>
-                                                <input type="text" name="hand_tel2" id="hand_tel2" maxlength="4" value=""  class="i_text" onkeyup="checkNum($(this), '숫자만 입력해주세요.');" title="휴대전화번호" placeholder="번호입력">
-                                                <input type="text" name="hand_tel3" id="hand_tel3" maxlength="4" value=""  class="i_text" onkeyup="checkNum($(this), '숫자만 입력해주세요.');" title="휴대전화번호" placeholder="번호입력">
-                                                <br>
-                                                
-                                                <a href="javascript:void(0)" class="btn-type v7">
-                                                            인증완료
-                                                        </a>	
-                                                    </div> <!-- //form-item -->
-                                            <div class="text-type4" id="tel_alert" style="display:none;"></div>
+                                        <div class="form-item name">
+                                            
+                                            <input type="text" name="phone" id="phone" maxlength="16" value="" placeholder="-을 제외한 휴대폰 번호 입력" />
+                                            <button type="button" name="phovr"  id ="phoneChk"  onclick="phoneCheck();" style="cursor:hand;"class="btn-type v7" >번호전송</button>
+                                            <br>
+                                            
                                         </div>
-                                    </dd> 
+                                        <div class="text-type4" id="tel_alert" style="display:none;"></div>
+                                    </dd>
+                                   
+                                    <dt class="top" id="phone3">휴대전화 인증</dt>
+                                    <dd>
+                                        <div class="form-item name">
+                                            <input type="text" name="phone2" id="phone2" maxlength="16" value="" placeholder="인증번호 입력" disabled />
+                                            <button type="button" name="phovr"  id ="phoneChk2" onclick="phoneCheck2();" style="cursor:hand;"class="btn-type v7" >본인인증</button>
+                                            <input type="hidden" id="phoneDoubleChk"/>
+                                        </div>
+                                        <div class="text-type4" id="tel_alert" style="display:none;"></div>
+                                    </dd>
                                 </dl>
                                 
                                 <dl>
@@ -366,7 +448,7 @@
                                     <dd>
                                         <div class="form-item name">
                                             <input type="text" placeholder="우편번호입력" id="zipcode" name="zipcode" value="" >
-                                            <a href="javascript:;" title="새 창으로 열림" onclick="zipFind('zipFind', '<?=$_Common[bbs_path]?>member_zipcode_find.php', 590, 500, 0);" onkeypress="">[우편번호검색]</a>
+                                            <a href="javascript:;" title="새 창으로 열림" onclick="zipFind('zipFind', '<?=$_Common[bbs_path]?>member_zipcode_find.php', 590, 500, 0);" onkeypress="" id="zipcode2">[우편번호검색]</a>
                                         </div>
                                     </dd>
                                 </dl>
