@@ -34,12 +34,10 @@
             $(".btn_tab li").eq(idx).addClass("active");
             $(".login_area").eq(idx).show();
         }
-<<<<<<< HEAD
+
     </script>
     <script type="text/javascript"> jQuery.noConflict(); </script>
-
-=======
-        
+     <script>
         Kakao.init('30aa936b37aaca1c82a705936e71d6bf'); //발급받은 키 중 javascript키를 사용해준다.
         console.log(Kakao.isInitialized()); // sdk초기화여부판단
         //카카오로그인
@@ -63,8 +61,7 @@
           }
         
       
-        </script>
->>>>>>> 189c96e6999f4f0799ee99fb0b8b1fc11e240d8b
+</script>
 </head>
 <body>
     <!-- header s -->

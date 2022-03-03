@@ -25,6 +25,7 @@ import order.OrderDTO;
 import order.OrderImpl;
 import orderlist.OrderlistImpl;
 import orderlist.OrderlistVO;
+import store.StoreVO;
 import util.ParameterDTO;
 
 @Controller
@@ -36,6 +37,18 @@ public class OrderController {
 	
 	@RequestMapping("/order/order.do")
 	public String order(Model model, HttpServletRequest req, Principal principal) {
+	
+		/*
+		 매장명, 매장주소, 매장전화번호, 포장이라면 픽업시간
+		 */
+		StoreVO storeinfo =
+		sqlSession.getMapper(OrderImpl.class).selectStore(req.getParameter("store"));
+		
+		if(req.getParameter("order_how").equals("P")) {
+			storeinfo.setTime(req.getParameter("more_req_box"));
+		}
+		model.addAttribute("store",storeinfo);
+		model.addAttribute("orderhow", req.getParameter("order_how"));
 		
 		String user_id = "";
 		user_id = principal.getName();
@@ -151,8 +164,13 @@ public class OrderController {
 			dto.setRequest(req.getParameter("more_req"));
 		}
 		else{
-			dto.setRequest(req.getParameter("more_req_box"));			
+			dto.setRequest(req.getParameter("more_req_box"));}
+		dto.setOrderhow(req.getParameter("orderhow"));
+		if(req.getParameter("orderhow").equals("P")) {
+			dto.setPickup_time(req.getParameter("pickup_time"));
 		}
+		else { dto.setPickup_time("");}
+		
 		
 		//ordered테이블에 삽입
 		sqlSession.getMapper(OrderlistImpl.class).insertOrder(dto);
@@ -180,7 +198,6 @@ public class OrderController {
 			}
 			else//일반제품인 경우
 			{
-				
 				OrderDTO a = sqlSession.getMapper(OrderImpl.class).productInfo(cartIdx[i], cartIdx[i]); 
 				a.setOr_idx(flag);
 				//이제 order_product테이블에 인서트해야댐				

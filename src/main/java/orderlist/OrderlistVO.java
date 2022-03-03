@@ -21,4 +21,7 @@ public class OrderlistVO {
 	private String name;
 	private String phone;
 	private String request;
+	//포장일때 사용되는 컬럼
+	private String orderhow;
+	private String pickup_time;
 }

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.springframework.stereotype.Service;
 
 import cart.CartDTO;
-import orderlist.OrderlistVO;
+import store.StoreVO;
 
 @Service
 public interface OrderImpl {
@@ -24,4 +24,5 @@ public interface OrderImpl {
 	//장바구니에서 삭제
 	public void deleteProduct(String a);
 
+	public StoreVO selectStore(String a);
 }

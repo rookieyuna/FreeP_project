@@ -27,6 +27,16 @@
     <script src="../js/jquery-3.6.0.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
+<style>
+.storelist .storeTable{
+    border: 1px solid lightgray;
+    border-spacing: 5px;
+    width: 800px;
+    margin-top: 10px;
+    font-size : 16px;
+    margin-bottom : 10px;
+}
+</style>
 
 <body id="body">
 <script>
@@ -156,7 +166,8 @@ function fn_update(idx, num, org){
                         </div>
                     </div>
                     <article class="cart-area pay">
-                        
+                        <form:form name="cart" action="../order/order.do">
+                    
                         <!-- 주문 내역 -->
                         <div class="step-wrap">
 
@@ -166,21 +177,123 @@ function fn_update(idx, num, org){
                                     <h3 class="title-type"><strong>주문방식</strong></h3>
                                 </div>
                                 <div class="deli-info">
-                                    <div class="chk-wrap">
-                                        <div class="chk-box selected">
-                                            <input type="radio" id="order_delivery" name="order_how" value="D"
-                                                checked="checked">
-                                            <label class="checkbox" for="order_delivery"></label>
-                                            <label for="order_delivery">배달주문</label>
-                                        </div>
-                                        <div class="chk-box">
-                                            <input type="radio" id="order_packaging" name="order_how" value="P">
-                                            <label class="checkbox" for="order_packaging"></label>
-                                            <label for="order_packaging">포장주문</label>
-                                        </div>
-                                    </div>
-                                </div>
+									<div class="chk-wrap" id="chk-wrap">
+										<div class="chk-box selected">
+											<input type="radio" id="order_delivery" name="order_how"
+												value="D" checked="checked"> <label class="checkbox"
+												for="order_delivery"></label> <label for="order_delivery">배달주문</label>
+										</div>
+										<div class="chk-box">
+											<input type="radio" id="order_packaging" name="order_how"
+												value="P"> <label class="checkbox"
+												for="order_packaging"></label> <label for="order_packaging">포장주문</label>
+										</div>
+										<div id="chk-store"></div>
+									</div>
+								</div>
                             </div>
+                            
+
+<script>
+	$(document).ready(function() {
+		var latitude;
+		var longitude;
+		if (navigator.geolocation) {
+			//위치 정보를 얻기
+			navigator.geolocation.getCurrentPosition(function(pos) {
+				latitude = pos.coords.latitude; // 위도
+				longitude = pos.coords.longitude;
+
+			});
+		} else {
+			alert("이 브라우저에서는 Geolocation이 지원되지 않습니다.")
+		}
+		$('#order_delivery').change(function() {
+			if ($('#order_delivery').is(":checked")) {
+				fn_storeInfo(latitude, longitude);
+			} else {
+				//체크박스해제이벤트
+
+			}
+		});
+		$('#order_packaging').change(function() {
+			if ($('#order_packaging').is(":checked")) {
+
+				fn_storeInfo(latitude, longitude);
+			} else {
+				//체크박스해제이벤트
+
+			}
+		});
+
+	});
+
+	function fn_storeInfo(latitude, longitude,flag) {
+
+		var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content");
+
+		$.ajax({
+					url : "../order/storeList.do",
+					type : "POST",
+					beforeSend : function(xhr) {
+						xhr.setRequestHeader(header, token);
+					},
+					async : false,
+					data : {
+						"latitude" : latitude,
+						"longitude" : longitude
+					},
+					dataType : "json",
+					success : function(data) {
+						var store = data.listsstore;
+						var tableData = "";
+
+						/* 버튼 비활성화 */
+						
+						tableData += '<div class="storelist"><table class="storeTable"><thead><tr><td style="width:30%"></td><td style="width:60%"></td><td style="width:10%"></td></tr>';
+						tableData += '</thead><tbody style="display:table-row-group;">';
+
+						$.each(store,function(key, value) {
+							tableData += '<tr class="storetr" onclick="fn_selectStore('+value.b_code +',\''+value.b_name+'\');">';
+							tableData += '<td>' + value.b_name+ '</td><td>'+ value.address+ '</td><td>'+ value.distance+ 'Km</td></tr>';
+						});
+						tableData += '</tbody></table></div>';
+						fn_packInfo(tableData);
+						/* $('#chk-store').html(tableData); */
+
+					},
+					error : function(request, statue, error) {
+						alert("code:" + request.status + "\n" + "message:"
+								+ request.responseText + "\n" + "\n" + "error:"
+								+ error)
+
+					}
+				});
+	};
+	
+	function fn_selectStore(code, name){
+		var tableData = '';
+		tableData = '<label class="btn-type-brd5" id="cusStore">선택한 점포 : '+name+'</label>';
+		tableData += '<input type="hidden" id="store" name="store" value="'+code+'" />';
+		if ($('#order_packaging').is(":checked")) {		
+			tableData += '<select name="more_req_box" onchange="directMessage();" style="width:400px;">';
+			tableData += '<option value="11시~13시">11시~13시</option><option value="13시~15시">13시~15시</option>';
+			tableData +='<option value="15시~17시">15시~17시</option><option value="17시~19시">17시~19시</option>';
+			tableData +='<option value="19시~21시">19시~21시</option></select>';
+	
+		}
+		
+		$('#chk-store').html(tableData);
+	}
+
+	function fn_packInfo(data) {
+		var tableData = data;
+		
+		$('#chk-store').html(tableData);
+		/* $('#chk-date').html(tableData); */
+	}
+</script>
                             <!-- //주소 -->
                             
                             <div class="title-wrap">
@@ -200,8 +313,10 @@ function fn_update(idx, num, org){
                         <!-- 주문하기 버튼 -->
 
                         <div class="btn-wrap cart-order">
-                            <a href="../order/order.do" class="btn-type v3">주문하기</a>
+                        	<button type="submit" class="btn-type v3">주문하기</button>
+                            <!-- <a href="../order/order.do" class="btn-type v3">주문하기</a> -->
                         </div>
+                        </form:form>
                         <!-- //주문하기 버튼 -->
                         <div class="info-wrap">
                             <div class="title-wrap">

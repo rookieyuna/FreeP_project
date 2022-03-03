@@ -33,4 +33,9 @@
   	<delete id="deleteProduct">
   		delete from cart where ct_idx = #{param1}
   	</delete>
+  	
+  	<select id="selectStore" resultType="store.StoreVO">
+  		select b_name, address, phone, b_code from store where b_code = #{param1}
+  	
+  	</select>
   </mapper>

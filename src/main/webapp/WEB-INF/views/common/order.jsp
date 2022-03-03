@@ -28,6 +28,7 @@
     <script src="../js/jquery-3.6.0.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
      <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+    <script src="https://kenwheeler.github.io/slick/slick/slick.js"></script>
     
 </head>
 <style>
@@ -70,14 +71,22 @@
 	}
 	
 </style>
+
 <script>
 function iamport_prev(){
 	document.getElementById("phone").value = document.getElementById("tel1").value + document.getElementById("tel2").value + document.getElementById("tel3").value; 
-	alert(document.getElementById("phone").value);
-	iamport();
-	/* https://admin.iamport.kr/payments */
+	
+	var credit =  document.getElementById("credit").value;
+	if( credit == '1'){
+	
+	 iamport();		
+	}
+	else{
 
+	 document.payFrm.submit(); 	}
+		
 }
+	/* https://admin.iamport.kr/payments */
 function iamport(){
 	
 		//가맹점 식별코드
@@ -118,7 +127,7 @@ $(document).ready(function(){
 		}else{
 			//체크박스해제이벤트
 			document.getElementById("customerName").value = "";
-			$("#customerName").removeAttr("disabled");
+			$("#customerName").removeAttr("readonly");
 			document.getElementById("tel2").value = "";
 			$("#tel2").removeAttr("disabled");
 			document.getElementById("tel3").value = "";
@@ -164,7 +173,7 @@ function fn_custInfo(){
             	var tel1 = data.tel1;
             	var tel2 = data.tel2;
             	
-            	tableData += ' <dl><dt>이름</dt><dd><div class="form-item"><input type="text" id="customerName" name="customerName" value="'+cus.name+'" maxlength="30" disabled>';
+            	tableData += ' <dl><dt>이름</dt><dd><div class="form-item"><input type="text" id="customerName" name="customerName" value="'+cus.name+'" maxlength="30" readonly>';
             	tableData += '</div></dd></dl>';
             	
             	$('#cusName').html(tableData);           
@@ -229,11 +238,18 @@ function fn_custInfo(){
 
                                     <div class="deli-info">
                                     <!-- 매장코드 -->
-                                    	<input type="hidden" name="storeCode" value="1" />
+                                    	<input type="hidden" name="storeCode" value="${store.b_code }" />
+                                    	<input type="hidden" name="orderhow" value="${orderhow }" />
+                                    	
                                         <div class="address">
-                                            서울특별시 금천구 가산동 426-5 월드 메르디앙 벤처 센터 2 차 410 호</div>
+                                            ${store.address }</div>
                                         <div class="store">
-                                            <span>금천가산점</span> 02-000-0000</div>
+                                            <span>${store.b_name }</span> ${store.phone }
+                                       <c:if test="${orderhow eq 'P' }">
+                                       		픽업시간 : ${store.time }
+                                       		<input type="hidden" name="pickup_time" value="${store.time }" />
+                                       </c:if>
+                                       </div>
                                     </div>
                                 </div>
 
@@ -267,7 +283,7 @@ function fn_custInfo(){
                                                 <dt>이름</dt>
                                                 <dd>
                                                     <div class="form-item">
-                                                        <input type="text" id="customerName" name="customerName" value=" " maxlength="30">
+                                                        <input type="text" id="customerName" name="customerName" value="" maxlength="30">
                                                     </div>
                                                 </dd>
                                             </dl>
