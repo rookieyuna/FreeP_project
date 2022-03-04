@@ -332,6 +332,10 @@ function totalCart(){
 $(document).ready(function() {
 	
 	$("#insertCartDIYbtn").click(function(e){
+	
+	
+		
+		
 		e.stopPropagation();
 		var totalArr = [];
 		var jsonData = $("#insertCart").serializeArray();
