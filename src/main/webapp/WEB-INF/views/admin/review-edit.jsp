@@ -4,7 +4,33 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>     
 <%@ include file="./commons/header.jsp" %>
 <body>
-
+<script>
+//폼값 입력 여부 체크
+function validateForm(form) {
+	
+	if(form.order.value==""){
+		alert("주문번호를 입력하세요.");
+		form.order.focus();
+		return false;
+	}
+	if(form.title.value==""){
+		alert("제목을 입력하세요.");
+		form.title.focus();
+		return false;
+	}
+	if(form.writer.value==""){
+		alert("작성자를 입력하세요.");
+		form.writer.focus();
+		return false;
+	}
+	if(!form.text.value){
+		alert("내용 입력하세요.");
+		form.text.focus();
+		return false;
+	}
+	
+}
+</script>
 <script>
 
 $(function(){
@@ -67,7 +93,7 @@ $(function(){
 							<h5 class="card-title">후기 수정</h5>
 							<form:form name="writeFrm" method="post"
 								action="./revieweditAction.do" 
-								enctype="multipart/form-data">
+								enctype="multipart/form-data" onsubmit="return validateForm(this);">
 							<input type="hidden" name="pre_idx" value="${dto.rv_idx }" />
 							<input type="hidden" name="pre_sfile1" value="${dto.rv_sfile1 }" />
 							<input type="hidden" name="pre_sfile2" value="${dto.rv_sfile2 }" />

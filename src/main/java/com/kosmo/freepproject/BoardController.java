@@ -293,7 +293,7 @@ public class BoardController {
 			
 			
 			
-			sqlSession.getMapper(BoardDAOImpl.class).edit(boardDTO);
+			sqlSession.getMapper(BoardDAOImpl.class).editNotice(boardDTO);
 			  
 			 
 		}

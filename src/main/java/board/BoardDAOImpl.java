@@ -32,6 +32,7 @@ public interface BoardDAOImpl {
 	public BoardDTO myQuView(util.ParameterDTO parameterDTO);
 	
 	public void edit(BoardDTO boardDTO);
+	public void editNotice(BoardDTO boardDTO);
 	
 	public void delete(int a);
 	

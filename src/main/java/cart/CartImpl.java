@@ -19,6 +19,7 @@ public interface CartImpl {
 	//diy피자에서 가져오기
 	public ArrayList<CartDTO> listPagediy(int a);
 	public CartDTO objectdiy(int a);
+	public CartDTO takeTopping(int a);
 	
 	public int sum1(int a);
 	public int sum2(int a);

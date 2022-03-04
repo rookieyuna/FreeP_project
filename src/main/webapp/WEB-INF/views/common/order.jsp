@@ -421,6 +421,10 @@ function fn_coupon(discount){
       			tableData += '<div class="couponlist"><table class="couponTable"><thead><tr><td style="width:30%"></td><td style="width:60%"></td><td style="width:10%"></td></tr>';
 				tableData += '</thead><tbody style="display:table-row-group;">';
 				
+				console.log("adf");
+				if(lists.length == 0){
+					console.log("ggcccg");
+				}
 				$.each(lists,function(key,value){
 					
 					if(value.cp_const < pre_sum){

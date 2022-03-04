@@ -3,6 +3,7 @@ package com.kosmo.freepproject;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -203,50 +204,44 @@ public class CartController {
 			diy.setSauce_price(sauce.getP_price());
 			diy.setSauce_size(sauce.getP_size());	
 
-			a = diy.getTopping1();
-			CartDTO topping1 = sqlSession.getMapper(CartImpl.class).objectdiy(a);
-			diy.setTopping1_name(topping1.getP_name());		
-			diy.setTopping1_price(topping1.getP_price());
-			diy.setTopping1_size(topping1.getP_size());	
+			a = diy.getCt_code();
+			List<Integer> b = new ArrayList<Integer>();
+			CartDTO toppings = sqlSession.getMapper(CartImpl.class).takeTopping(a);
+			b.add(toppings.getTopping1());
+			b.add(toppings.getTopping2());
+			b.add(toppings.getTopping3());
+			b.add(toppings.getTopping4());
+			b.add(toppings.getTopping5());
+			diy.setToppinglist(b);			
 			
-			a = diy.getTopping2();
-			if(a != 0) {
-				CartDTO topping2 = sqlSession.getMapper(CartImpl.class).objectdiy(a);
-				diy.setTopping2_name(topping2.getP_name());		
-				diy.setTopping2_price(topping2.getP_price());
-				diy.setTopping2_size(topping2.getP_size());	
+			List<CartDTO> topping = new ArrayList<CartDTO>();
+			List<String> topping_name = new ArrayList<String>();
+			List<String> topping_price = new ArrayList<String>();
+			List<String> topping_size = new ArrayList<String>();
+			
+			for(int i=0; i<5;i++) {
+				
+				a = diy.getToppinglist().get(i);
+				System.out.println("a :"+ a);
+				if(a != 0)
+				{
+					topping.add(sqlSession.getMapper(CartImpl.class).objectdiy(a));					
+					topping_name.add(topping.get(i).getP_name());
+					topping_price.add(topping.get(i).getP_price());
+					topping_size.add(topping.get(i).getP_size());
+				}
+		
 			}
-			a = diy.getTopping3();
-			if(a != 0) {
-				CartDTO topping3 = sqlSession.getMapper(CartImpl.class).objectdiy(a);
-				diy.setTopping3_name(topping3.getP_name());		
-				diy.setTopping3_price(topping3.getP_price());
-				diy.setTopping3_size(topping3.getP_size());	
-			}
-			a = diy.getTopping4();
-			if(a != 0) {
-				CartDTO topping4 = sqlSession.getMapper(CartImpl.class).objectdiy(a);
-				diy.setTopping4_name(topping4.getP_name());		
-				diy.setTopping4_price(topping4.getP_price());
-				diy.setTopping4_size(topping4.getP_size());	
-			}
-			a = diy.getTopping5();
-			if(a != 0) {
-				CartDTO topping5 = sqlSession.getMapper(CartImpl.class).objectdiy(a);
-				diy.setTopping5_name(topping5.getP_name());		
-				diy.setTopping5_price(topping5.getP_price());
-				diy.setTopping5_size(topping5.getP_size());	
-			}
+			diy.setTopping_name(topping_name);
+			diy.setTopping_price(topping_price);
+			diy.setTopping_size(topping_size);
+			
 			 
 		}
-		//model.addAttribute("listsdiy", listsdiy);	
-		  
-		 
 		
 		//cart테이블 전체 리스트 불러오기 (일반제품)
 		ArrayList<CartDTO> lists =
 			sqlSession.getMapper(CartImpl.class).listPage(m_code);
-		//model.addAttribute("lists", lists);
 		
 		//장바구니에 저장되어있는 것들 총 금액?
 		

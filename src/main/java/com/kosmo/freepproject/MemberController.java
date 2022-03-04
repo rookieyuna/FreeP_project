@@ -219,7 +219,7 @@ public class MemberController {
 			 certifiedPhoneNumber(userPhoneNumber,randomNumber); 
 			 return Integer.toString(randomNumber); 
 		 } 
-		 
+		  
 		//휴대폰 본인인증
 			
 		 public void certifiedPhoneNumber(String userPhoneNumber, int randomNumber) {

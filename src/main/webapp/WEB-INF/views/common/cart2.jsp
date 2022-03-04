@@ -396,6 +396,8 @@ function fn_update(idx, num, org){
             	});
             	
             	$.each(listsdiy,function(key, value){
+            		
+            		
             	
             		tableData += '<input type="hidden" id="Oprice_'+value.ct_idx+'" value="'+value.d_price +'" />  ';		            
                     tableData += '<li class="row" id="sold-out0"><div class="sold-out-btn" id="sold-out-btn0" style="display:none"><p>Sold Out</p><a href=""class="btn-type4-brd3">삭제</a>';     
@@ -407,11 +409,13 @@ function fn_update(idx, num, org){
                     tableData += value.d_price +'</div> </div></div> <div class="prd-option">'
                     tableData += '<div class="subject">+ '+value.dough_name +', '+value.dough_price +', '+value.dough_size +'</div> ';
                     tableData += '	<div class="subject">+ '+value.sauce_name  +', '+ value.sauce_price +', '+value.sauce_size +'</div>';
-                    tableData += '	<div class="subject">+ '+value.topping1_name +' ,'+ value.topping1_price +', '+value.topping1_size +'</div>';
-                    tableData += '	<c:set var="topping" value="'+value.topping2 +'"/> ';
-                    tableData += '	<c:if test="'+'${topping}'+'">+ '+value.topping2_name +', '+value.topping2_price +' , '+value.topping2_size +'</c:if> </div>';
-                    
-                    tableData +='    <div class="prd-quantity"><div class="quantity-box v2"> <a href="javascript:void(0);"onclick="fn_update('+value.ct_idx+',-1,'+value.ct_count+')"class="minus"><button class="btn-minus"></button></a>';
+                 
+                    for(var i=0 ; i<value.topping_name.length ; i++){     	                   	
+                    	 tableData += '	<c:set var="topping" value="'+value.topping_name[i] +'"/> ';
+                         tableData += '	<c:if test="${topping ne ''}"> <div class="subject">+ '+value.topping_name[i]+', '+value.topping_price[i] +' , '+value.topping_size[i] +'</div></c:if>';
+                    }
+             
+                    tableData +=' </div>    <div class="prd-quantity"><div class="quantity-box v2"> <a href="javascript:void(0);"onclick="fn_update('+value.ct_idx+',-1,'+value.ct_count+')"class="minus"><button class="btn-minus"></button></a>';
                     tableData +='            <input type="number" class="qty0" id="qty0" value="'+value.ct_count+'" readonly=""><a href="javascript:void(0);"';
                     tableData +='onclick="fn_update('+value.ct_idx+',1,'+value.ct_count+')"class="plus"><button class="btn-plus"></button></a></div></div>';
                     
