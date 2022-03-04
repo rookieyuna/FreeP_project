@@ -54,9 +54,9 @@
                             <div class="menu-nav-wrap">
                                 <div class="menu-nav">
                                     <ul>
-                                        <li class="active"><a href="/FreeP/company/about/intro.html">회사소개</a></li>
-                                        <li><a href="/FreeP/company/notice.html">공지사항</a></li>
-                                        <li><a href="/FreeP/company/searchStore.html">매장찾기</a></li>
+                                        <li class="active"><a href="../company/intro.do">회사소개</a></li>
+                                        <li><a href="../company/notice.do">공지사항</a></li>
+                                        <li><a href="../company/searchStore.do">매장찾기</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -64,9 +64,9 @@
                             
                             <div class="tab-type4">
                                 <ul class="btn_tab">
-                                    <li><a href="./intro.html">Overview</a></li>
-                                    <li><a href="./introCeo.html">CEO</a></li>
-                                    <li class="active"><a href="./introLocation.html">Location</a></li>
+                                    <li><a href="../company/intro.do">Overview</a></li>
+                                    <li><a href="../company/introCeo.do">CEO</a></li>
+                                    <li class="active"><a href="../company/introLocation.do">Location</a></li>
                                 </ul>
                             </div>
                             <div class="tab_content_wrap">

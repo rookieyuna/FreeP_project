@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import board.BoardDAOImpl;
 import cart.CartDTO;
 import cart.CartImpl;
+import store.StoreVO;
 
 @Controller
 public class CartController {
@@ -149,6 +150,27 @@ public class CartController {
 	    return "";
 	}
 	
+	@RequestMapping(value = "/order/storeList.do")
+	@ResponseBody
+	public Map<String,Object> storeList(Model model, HttpServletRequest req, Principal principal){
+		Map<String, Object> result = new HashMap<String, Object>();
+	    try{			
+	       double longitude = Double.parseDouble(req.getParameter("longitude"));	    
+	       double latitude = Double.parseDouble(req.getParameter("latitude"));	
+	
+	       System.out.println("longitude"+longitude +"latitude"+latitude+"zzzzzzzzzzzzzzzzz");
+	       ArrayList<StoreVO> lists =
+	   			sqlSession.getMapper(CartImpl.class).storeList(latitude,longitude);
+	      
+	       result.put("listsstore", lists);
+
+	        
+	    }catch(Exception e){
+	    	e.printStackTrace();
+	    }
+	    
+	    return result;
+	}
 	
 	
 	@RequestMapping("/order/cart1.do")

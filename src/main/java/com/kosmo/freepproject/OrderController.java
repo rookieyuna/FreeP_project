@@ -21,8 +21,11 @@ import coupon.CouponImpl;
 import coupon.CouponVO;
 import member.MemberImpl;
 import member.MemberVO;
+import order.OrderDTO;
 import order.OrderImpl;
+import orderlist.OrderlistImpl;
 import orderlist.OrderlistVO;
+import store.StoreVO;
 import util.ParameterDTO;
 
 @Controller
@@ -34,6 +37,18 @@ public class OrderController {
 	
 	@RequestMapping("/order/order.do")
 	public String order(Model model, HttpServletRequest req, Principal principal) {
+	
+		/*
+		 매장명, 매장주소, 매장전화번호, 포장이라면 픽업시간
+		 */
+		StoreVO storeinfo =
+		sqlSession.getMapper(OrderImpl.class).selectStore(req.getParameter("store"));
+		
+		if(req.getParameter("order_how").equals("P")) {
+			storeinfo.setTime(req.getParameter("more_req_box"));
+		}
+		model.addAttribute("store",storeinfo);
+		model.addAttribute("orderhow", req.getParameter("order_how"));
 		
 		String user_id = "";
 		user_id = principal.getName();
@@ -50,7 +65,12 @@ public class OrderController {
 			
 		model.addAttribute("sum", sum+sum1);
 		
+		ParameterDTO parameterDTO = new ParameterDTO();
+		//회원코드 저장
+		parameterDTO.setM_code(Integer.toString(m_code));
+		MemberVO vo = sqlSession.getMapper(MemberImpl.class).view(parameterDTO);
 		
+		model.addAttribute("vo", vo);
 		
 		return "common/order";
 	}
@@ -131,22 +151,63 @@ public class OrderController {
 		int m_code = sqlSession.getMapper(BoardDAOImpl.class).findm_code(user_id);
 		
 		OrderlistVO dto = new OrderlistVO();
+		dto.setM_code(m_code);
+		dto.setB_code(Integer.parseInt(req.getParameter("storeCode")));
+		dto.setOrigin_price(Integer.parseInt(req.getParameter("sum")));
+		dto.setCp_price(Integer.parseInt(req.getParameter("coupon")));
+		dto.setPo_price(Integer.parseInt(req.getParameter("point")));
+		dto.setTotal_price(Integer.parseInt(req.getParameter("total")));
+		dto.setCredit(req.getParameter("credit"));
+		dto.setName(req.getParameter("customerName"));
+		dto.setPhone(req.getParameter("phone"));
+		if(req.getParameter("more_req_box").equals("direct")) {
+			dto.setRequest(req.getParameter("more_req"));
+		}
+		else{
+			dto.setRequest(req.getParameter("more_req_box"));}
+		dto.setOrderhow(req.getParameter("orderhow"));
+		if(req.getParameter("orderhow").equals("P")) {
+			dto.setPickup_time(req.getParameter("pickup_time"));
+		}
+		else { dto.setPickup_time("");}
 		
 		
-		ArrayList<CartDTO> lists =
-				sqlSession.getMapper(OrderImpl.class).listCt(m_code); 
-		model.addAttribute("lists", lists);
+		//ordered테이블에 삽입
+		sqlSession.getMapper(OrderlistImpl.class).insertOrder(dto);
+		//member테이블에서 적립금 사용한거만큼 감소
+		sqlSession.getMapper(OrderImpl.class).updatePoint(Integer.parseInt(req.getParameter("point")), m_code);
 		
-		//장바구니에 저장되어있는 것들 총 금액?
+		//mycoupon테이블에서 사용한 쿠폰 삭제
+		if(Integer.parseInt(req.getParameter("couponidx")) != 0) {	
+			sqlSession.getMapper(OrderImpl.class).deleteMyCoupon(Integer.parseInt(req.getParameter("couponidx")));
+		}
 		
-		int sum = sqlSession.getMapper(CartImpl.class).sum1(m_code);
-		int sum1 = sqlSession.getMapper(CartImpl.class).sum2(m_code);
-			
-		model.addAttribute("sum", sum+sum1);
+		int flag = sqlSession.getMapper(OrderlistImpl.class).checkidx(); 
+		flag -= 1;
 		
+		//order_product테이블에 삽입
+		String[] code = (String[]) req.getParameterValues("ctCode");
+		String[] cartIdx = (String[]) req.getParameterValues("cartIdx");
+		for(int i = 0; i<code.length;i++) {//제품 갯수만큼 포문
+			if(code[i].startsWith("9"))//diy피자인 경우
+			{
+				OrderDTO a = sqlSession.getMapper(OrderImpl.class).productDIYInfo(cartIdx[i], cartIdx[i]); 
+				a.setOr_idx(flag);
+				//이제 order_product테이블에 인서트해야댐				
+				sqlSession.getMapper(OrderImpl.class).productInsert(a); 
+			}
+			else//일반제품인 경우
+			{
+				OrderDTO a = sqlSession.getMapper(OrderImpl.class).productInfo(cartIdx[i], cartIdx[i]); 
+				a.setOr_idx(flag);
+				//이제 order_product테이블에 인서트해야댐				
+				sqlSession.getMapper(OrderImpl.class).productInsert(a); 
+			}
+			//cart테이블에서 idx값 사용해서 delete
+			sqlSession.getMapper(OrderImpl.class).deleteProduct(cartIdx[i]); 
+		}
 		
-		
-		return "common/cart.do";
+		return "/common/orderFinish";
 	}
 	
 }

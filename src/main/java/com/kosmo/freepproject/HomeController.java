@@ -80,6 +80,12 @@ public class HomeController {
 	
 	@RequestMapping("/company/intro.do")
 	public String intro() {return "company/about/intro";}
+	@RequestMapping("/company/introCeo.do")
+	public String introCeo() {return "company/about/introCeo";}
+	@RequestMapping("/company/introLocation.do")
+	public String introLocation() {return "company/about/introLocation";}
+	
+	
 	//@RequestMapping("/company/notice.do")
 	//public String notice() {return "company/notice";}
 	//@RequestMapping("/company/searchStore.do")

@@ -69,4 +69,11 @@
 		
 	</update>
 	
+	<select id="storeList" resultType="store.StoreVO">
+		select * from (select St.*, rownum rNum from 
+		(select round(DISTANCE_WGS84(#{param1},#{param2},s.latitude,s.longitude),2 )distance, 
+		s.b_name, b_code, address, phone
+from store s order by distance asc) St )where rNum between 1 and 5
+	</select>
+	
   </mapper>

@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import store.StoreVO;
+
 
 
 @Service
@@ -30,6 +32,8 @@ public interface CartImpl {
 	public int confirmCart(Map<String, Object> map);
 	//개수 +1
 	public int updateCountCart(Map<String, Object> map);
+	//장바구니에서 매장별 거리
+	public ArrayList<StoreVO> storeList(double a, double b); 
 
 }
  

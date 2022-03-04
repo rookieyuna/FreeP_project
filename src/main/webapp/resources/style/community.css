@@ -163,9 +163,11 @@
 }
 
 .sp_play .freep_community .review_list .review.best .img_wrap img {
-  height: 100%;
-  min-width: 100%;
-  min-height: 100%;
+      min-width: 500px;
+    min-height: 400px;
+    position: absolute;
+    left: 50%;
+    margin-left: calc(-500px/2);
 }
 
 .sp_play .freep_community .review_list .review.best .text_wrap {
@@ -347,6 +349,7 @@
   width: 60%;
   height: 100%;
   background: #fff;
+      overflow: auto;
 }
 
 .sp_play .freep_community .review_list .review.best #pop-menu-detail.review-detail-modal .pop-wrap .pop-modal2 .modal2-con .con1-con-wrap .con-top .review_user {
@@ -421,7 +424,7 @@
 
 .sp_play .freep_community .review_list .review.best #pop-menu-detail.review-detail-modal .pop-wrap .pop-modal2 .modal2-con .con1-con-wrap .con-mid .review_order .order_list > li .order_list_wrap .aco_top {
   overflow: hidden;
-  padding: 25px 0;
+  padding: 16px 0;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -431,7 +434,7 @@
   z-index: -1;
 }
 
-.sp_play .freep_community .review_list .review.best #pop-menu-detail.review-detail-modal .pop-wrap .pop-modal2 .modal2-con .con1-con-wrap .con-mid .review_order .order_list > li .order_list_wrap .aco_top:hover {
+.sp_play .freep_community .review_list .review.best #pop-menu-detail.review-detail-modal .pop-wrap .pop-modal2 .modal2-con .con1-con-wrap .con-mid .review_order .order_list > li[class^=set] .order_list_wrap .aco_top:hover {
   cursor: pointer;
 }
 
@@ -445,7 +448,7 @@
   background: none;
   float: left;
   padding: 4px 8px;
-  margin-left: 10px;
+  margin-left: auto;
   border-radius: 4px;
   background: #fff;
   border: 2px solid #d9d9d9;
@@ -464,7 +467,6 @@
 
 .sp_play .freep_community .review_list .review.best #pop-menu-detail.review-detail-modal .pop-wrap .pop-modal2 .modal2-con .con1-con-wrap .con-mid .review_order .order_list > li .order_list_wrap .aco_top .detail-more-btn {
   background: none;
-  margin-left: auto;
 }
 
 .sp_play .freep_community .review_list .review.best #pop-menu-detail.review-detail-modal .pop-wrap .pop-modal2 .modal2-con .con1-con-wrap .con-mid .review_order .order_list > li .order_list_wrap .aco_top .detail-more-btn::after {
@@ -508,14 +510,17 @@
   -ms-flex-pack: start;
   justify-content: flex-start;
   flex-direction: row;
+      grid-template-columns: unset;
+    column-gap: unset;
+    flex-wrap: wrap;
 }
 
 .sp_play .freep_community .review_list .review.best #pop-menu-detail.review-detail-modal .pop-wrap .pop-modal2 .modal2-con .con1-con-wrap .con-mid .review_order .order_list > li .order_list_wrap .aco_bottom .detail_list li {
   width: auto;
   color: #555;
   border: 1px solid #d9d9d9;
-  padding: 10px;
-  width: 116px;
+	padding: 6px 6px 4px 6px;
+    width: 129px;
   margin-bottom: 10px;
 }
 
@@ -541,22 +546,13 @@
 }
 
 .sp_play .freep_community .review_list ul {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+      display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    column-gap: 24px;
 }
 
 .sp_play .freep_community .review_list ul li {
-  width: 23%;
+  width: 100%;
   text-align: center;
   position: relative;
 }
@@ -620,7 +616,7 @@
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  width: 50px;
+  width: 70px;
   height: 28px;
   border-radius: 4px;
   font-weight: 600;
@@ -632,13 +628,20 @@
 }
 
 .sp_play .freep_community .review_list ul li .text_wrap .review_text .review_icon.diy::after {
-  content: 'DIY';
+  content: 'BEST';
   background: #FF6510;
+  display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .sp_play .freep_community .review_list ul li .text_wrap .review_text .review_icon.normal::after {
-  content: '기본';
-  background: #8710FF;
+  content: '일반리뷰';
+      border: 1px solid #999;
+    color: #999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .sp_play .freep_community .review_list ul li .text_wrap .review_text .review_name {

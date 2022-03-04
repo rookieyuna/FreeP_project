@@ -5,6 +5,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,6 +25,8 @@
     <!-- js 라이브러리 영역 -->
     <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
     <script src="../js/jquery-3.6.0.js"></script>
+    <script src="https://kenwheeler.github.io/slick/slick/slick.js"></script>
+   
     <script>
         function goTab(idx){
             $(".login_area").hide();
@@ -31,7 +34,10 @@
             $(".btn_tab li").eq(idx).addClass("active");
             $(".login_area").eq(idx).show();
         }
-        
+
+    </script>
+    <script type="text/javascript"> jQuery.noConflict(); </script>
+     <script>
         Kakao.init('30aa936b37aaca1c82a705936e71d6bf'); //발급받은 키 중 javascript키를 사용해준다.
         console.log(Kakao.isInitialized()); // sdk초기화여부판단
         //카카오로그인
@@ -55,7 +61,7 @@
           }
         
       
-        </script>
+</script>
 </head>
 <body>
     <!-- header s -->
@@ -105,8 +111,8 @@
                                     <label for="idcheck">아이디저장</label>
                                 </div>
                                 <div class="btn-member-wrap" style="margin-bottom:20px">
-                                    <span><a href="#">아이디 찾기</a></span>
-                                    <span id="pw"><a href="#">비밀번호 찾기</a></span>
+                                    <span><a href="./find.do">아이디 찾기</a></span>
+                                    <span id="pw"><a href="./find.do">비밀번호 찾기</a></span>
                                 </div>
                             </div>
                             

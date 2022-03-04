@@ -61,9 +61,9 @@
 
                             <div class="tab-type4">
                                 <ul class="btn_tab">
-                                    <li class="active"><a href="./intro.html">Overview</a></li>
-                                    <li><a href="#">CEO</a></li>
-                                    <li><a href="#">Location</a></li>
+                                    <li class="active"><a href="../company/intro.do">Overview</a></li>
+                                    <li><a href="../company/introCeo.do">CEO</a></li>
+                                    <li><a href="../company/introLocation.do">Location</a></li>
                                 </ul>
                             </div>
                             <div class="tab_content_wrap">

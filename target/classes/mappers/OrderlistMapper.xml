@@ -28,11 +28,13 @@
 	</select>
 	
 	
-	<!-- <insert id="regist" parameterType="orderlist.OrderlistVO">
-		INSERT INTO ordered (or_idx, m_code, b_code, or_date, origin_price, cp_price, po_price, total_price, credit, state)
+	 <insert id="insertOrder" parameterType="orderlist.OrderlistVO">
+		INSERT INTO ordered (or_idx, m_code, b_code, origin_price, cp_price,
+		 po_price, total_price, credit,name,phone,request, orderhow, pickup_time)
 		VALUES
-		(seq_or_idx.nextval, #{m_code}, #{b_code}, #{or_date}, #{origin_price}, #{cp_price}, #{po_price}, #{total_price}, #{credit}, #{state})
-	</insert> -->
+		(seq_or_idx.nextval, #{m_code}, #{b_code}, #{origin_price}, #{cp_price}, 
+		#{po_price}, #{total_price}, #{credit},#{name},#{phone},#{request} ,#{orderhow}, #{pickup_time})
+	</insert>
 	
 	
 	<select id="view" resultType="orderlist.OrderlistVO" parameterType="util.ParameterDTO">
@@ -54,4 +56,12 @@
 	<delete id="delete">
 		DELETE FROM ordered WHERE or_idx=#{or_idx}
 	</delete>
+	
+	<select id="checkidx" resultType="int">
+		 SELECT LAST_NUMBER FROM USER_SEQUENCES  WHERE SEQUENCE_NAME = 'SEQ_OR_IDX'
+	</select>
+	
+	
+	
+	
 </mapper>

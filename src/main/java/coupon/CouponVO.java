@@ -5,6 +5,7 @@ import lombok.Data;
 @Data 
 public class CouponVO {
 	private int cp_idx;
+	private int coupon_idx;
 	private String cp_name;
 	private String cp_cate;
 	private String cp_ofile;
