@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -77,7 +78,24 @@ public class AndroidController {
 		return returnMap;
 	}
 	
-
+	
+	
+	//웹뷰 로그인 연동을 위한 로그인 작업
+	@RequestMapping("/and/login.do")
+	public String autoLogin(Model model, HttpServletRequest req) {
+		
+		String id = req.getParameter("id").toString();
+		String pass = req.getParameter("pass").toString();
+		
+		model.addAttribute("id", id);
+		model.addAttribute("pass", pass);	
+		
+		return "android/login";
+	}
+	
+	
+	
+	
 	//주문내역. 주문번호 주문일자 최종결제금액 주문상품내역
 	@RequestMapping("/android/orderList.do")
 	@ResponseBody
