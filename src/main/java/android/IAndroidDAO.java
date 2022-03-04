@@ -14,6 +14,6 @@ public interface IAndroidDAO {
 	
 	public ArrayList<OrderlistVO> orderList(String m_code);
 	
-	public ArrayList<OrderlistVO> orderStatus();
+	public OrderlistVO orderStatus(String m_code);
 }
 

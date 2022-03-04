@@ -24,4 +24,9 @@ public class OrderlistVO {
 	//포장일때 사용되는 컬럼
 	private String orderhow;
 	private String pickup_time;
+	
+	//안드로이드 배달조회용
+	private String address;
+	private String latitude;
+	private String longitude;
 }

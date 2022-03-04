@@ -103,13 +103,14 @@ public class AndroidController {
 		
 		return lists;
 	}
-		
+	
 	
 	//배달현황
 	@RequestMapping("/android/orderStatus.do")
 	@ResponseBody
-	public ArrayList<OrderlistVO> orderStatus(HttpServletRequest req) {
-		ArrayList<OrderlistVO> lists = sqlSession.getMapper(IAndroidDAO.class).orderStatus();
-		return lists;
+	public OrderlistVO orderStatus(HttpServletRequest req) {
+		String m_code = req.getParameter("m_code");
+		OrderlistVO list = sqlSession.getMapper(IAndroidDAO.class).orderStatus(m_code);
+		return list;
 	}
 }
