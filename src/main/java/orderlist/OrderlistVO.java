@@ -26,6 +26,7 @@ public class OrderlistVO {
 	private String pickup_time;
 	
 	//안드로이드 배달조회용
+	private String b_name;
 	private String address;
 	private String latitude;
 	private String longitude;
