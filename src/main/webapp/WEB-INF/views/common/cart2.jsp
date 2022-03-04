@@ -148,6 +148,22 @@ function fn_update(idx, num, org){
             
 }
 </script>
+<script>
+// 입력 여부 체크
+function validateForm(form) {
+	if(form.store.value==""){
+		alert("매장을 선택하세요");
+		form.store.focus();
+		return false;
+	}
+	
+	if( $('#cart-list1').html() == '' ){
+		alert("장바구니가 비어있습니다.");
+		return false;
+	}
+	
+}
+</script>
     <header id="header">
         <%@ include file="./header.jsp" %>
     </header>
@@ -166,7 +182,7 @@ function fn_update(idx, num, org){
                         </div>
                     </div>
                     <article class="cart-area pay">
-                        <form:form name="cart" action="../order/order.do">
+                        <form:form name="cart" action="../order/order.do" onsubmit="return validateForm(this);">
                     
                         <!-- 주문 내역 -->
                         <div class="step-wrap">
@@ -179,8 +195,9 @@ function fn_update(idx, num, org){
                                 <div class="deli-info">
 									<div class="chk-wrap" id="chk-wrap">
 										<div class="chk-box selected">
+											<input type="hidden" id="store" name="store" value="" />
 											<input type="radio" id="order_delivery" name="order_how"
-												value="D" checked="checked"> <label class="checkbox"
+												value="D"> <label class="checkbox"
 												for="order_delivery"></label> <label for="order_delivery">배달주문</label>
 										</div>
 										<div class="chk-box">
@@ -206,10 +223,11 @@ function fn_update(idx, num, org){
 
 			});
 		} else {
-			alert("이 브라우저에서는 Geolocation이 지원되지 않습니다.")
+			alert("이 브라우저에서는 현재위치가 지원되지 않습니다.")
 		}
 		$('#order_delivery').change(function() {
 			if ($('#order_delivery').is(":checked")) {
+				document.getElementById("store").value="";
 				fn_storeInfo(latitude, longitude);
 			} else {
 				//체크박스해제이벤트
@@ -218,7 +236,7 @@ function fn_update(idx, num, org){
 		});
 		$('#order_packaging').change(function() {
 			if ($('#order_packaging').is(":checked")) {
-
+				document.getElementById("store").value="";
 				fn_storeInfo(latitude, longitude);
 			} else {
 				//체크박스해제이벤트
@@ -260,7 +278,6 @@ function fn_update(idx, num, org){
 						});
 						tableData += '</tbody></table></div>';
 						fn_packInfo(tableData);
-						/* $('#chk-store').html(tableData); */
 
 					},
 					error : function(request, statue, error) {
@@ -275,7 +292,7 @@ function fn_update(idx, num, org){
 	function fn_selectStore(code, name){
 		var tableData = '';
 		tableData = '<label class="btn-type-brd5" id="cusStore">선택한 점포 : '+name+'</label>';
-		tableData += '<input type="hidden" id="store" name="store" value="'+code+'" />';
+		document.getElementById("store").value=code;
 		if ($('#order_packaging').is(":checked")) {		
 			tableData += '<select name="more_req_box" onchange="directMessage();" style="width:400px;">';
 			tableData += '<option value="11시~13시">11시~13시</option><option value="13시~15시">13시~15시</option>';
@@ -373,7 +390,7 @@ function fn_update(idx, num, org){
             	var lists = data.lists;
             	var sum = data.sum;
             	var tableData="";
-            	tableData += ' <ul><li class="category"><div>상품정보</div><div>추가토핑</div><div>수량</div><div>금액</div><div></div></li>';
+            	tableData += ' <ul><li class="category"><div>상품정보</div><div>추가토핑</div><div>수량</div><div>금액</div><div></div></li><div id="cart-list1">';
             	$.each(lists,function(key, value){
             		
             		tableData += '<input type="hidden" id="Oprice_'+value.ct_idx+'" value="'+value.p_price +'" />  ';		            
@@ -396,6 +413,8 @@ function fn_update(idx, num, org){
             	});
             	
             	$.each(listsdiy,function(key, value){
+            		
+            		
             	
             		tableData += '<input type="hidden" id="Oprice_'+value.ct_idx+'" value="'+value.d_price +'" />  ';		            
                     tableData += '<li class="row" id="sold-out0"><div class="sold-out-btn" id="sold-out-btn0" style="display:none"><p>Sold Out</p><a href=""class="btn-type4-brd3">삭제</a>';     
@@ -407,11 +426,13 @@ function fn_update(idx, num, org){
                     tableData += value.d_price +'</div> </div></div> <div class="prd-option">'
                     tableData += '<div class="subject">+ '+value.dough_name +', '+value.dough_price +', '+value.dough_size +'</div> ';
                     tableData += '	<div class="subject">+ '+value.sauce_name  +', '+ value.sauce_price +', '+value.sauce_size +'</div>';
-                    tableData += '	<div class="subject">+ '+value.topping1_name +' ,'+ value.topping1_price +', '+value.topping1_size +'</div>';
-                    tableData += '	<c:set var="topping" value="'+value.topping2 +'"/> ';
-                    tableData += '	<c:if test="'+'${topping}'+'">+ '+value.topping2_name +', '+value.topping2_price +' , '+value.topping2_size +'</c:if> </div>';
-                    
-                    tableData +='    <div class="prd-quantity"><div class="quantity-box v2"> <a href="javascript:void(0);"onclick="fn_update('+value.ct_idx+',-1,'+value.ct_count+')"class="minus"><button class="btn-minus"></button></a>';
+                 
+                    for(var i=0 ; i<value.topping_name.length ; i++){     	                   	
+                    	 tableData += '	<c:set var="topping" value="'+value.topping_name[i] +'"/> ';
+                         tableData += '	<c:if test="${topping ne ''}"> <div class="subject">+ '+value.topping_name[i]+', '+value.topping_price[i] +' , '+value.topping_size[i] +'</div></c:if>';
+                    }
+             
+                    tableData +=' </div>    <div class="prd-quantity"><div class="quantity-box v2"> <a href="javascript:void(0);"onclick="fn_update('+value.ct_idx+',-1,'+value.ct_count+')"class="minus"><button class="btn-minus"></button></a>';
                     tableData +='            <input type="number" class="qty0" id="qty0" value="'+value.ct_count+'" readonly=""><a href="javascript:void(0);"';
                     tableData +='onclick="fn_update('+value.ct_idx+',1,'+value.ct_count+')"class="plus"><button class="btn-plus"></button></a></div></div>';
                     
@@ -422,7 +443,7 @@ function fn_update(idx, num, org){
             		
             	});
             	
-            	tableData += '<li class="total-price2 side" > <p>총 금액 <em id="sum">'+sum +'</em>원</p> </li> </ul> ';
+            	tableData += '</div><li class="total-price2 side" > <p>총 금액 <em id="sum">'+sum +'</em>원</p> </li> </ul> ';
             	tableData += "<script>sum();"+'</'+'script>';
             	  $('#cart-list').html(tableData);  
             },

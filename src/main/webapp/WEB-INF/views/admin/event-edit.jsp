@@ -4,7 +4,27 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>       
 <%@ include file="./commons/header.jsp" %>
 <body>
-
+<script>
+//폼값 입력 여부 체크
+function validateForm(form) {
+	if(form.title.value==""){
+		alert("제목을 입력하세요.");
+		form.title.focus();
+		return false;
+	}
+	if(form.writer.value==""){
+		alert("작성자를 입력하세요.");
+		form.writer.focus();
+		return false;
+	}
+	if(!form.text.value){
+		alert("내용 입력하세요.");
+		form.text.focus();
+		return false;
+	}
+	
+}
+</script>
 <script>
 
 $(function(){
@@ -59,7 +79,7 @@ $(function(){
 							<h5 class="card-title">이벤트 수정</h5>
 							<form:form name="writeFrm" method="post"
 								action="./eventeditAction.do" 
-								enctype="multipart/form-data">
+								enctype="multipart/form-data" onsubmit="return validateForm(this);">
 							<input type="hidden" name="pre_idx" value="${dto.b_idx }" />
 							<input type="hidden" name="pre_sfile" value="${dto.sfile }" />
 

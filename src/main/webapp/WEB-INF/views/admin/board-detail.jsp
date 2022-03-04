@@ -4,6 +4,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>     
 <%@ include file="./commons/header.jsp" %>
 <body>
+
 <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
          <%@ include file="./commons/top.jsp" %>               
       
@@ -97,6 +98,6 @@
 			</div>
         </div>
     </div>
-<script type="text/javascript" src="./assets/scripts/main.js"></script>
+<script type="text/javascript" src="../assets/scripts/main.js"></script>
 </body>
 </html>

@@ -37,6 +37,14 @@
       <intercept-url pattern="/admin/index.do" access="hasAnyRole(3,4)"/>
       <intercept-url pattern="/admin/member.do" access="hasRole(3)"/>
       <intercept-url pattern="/admin/menu.do" access="hasRole(3)"/>
+      
+      <intercept-url pattern="/admin/event.do" access="hasRole(3)"/>
+      <intercept-url pattern="/admin/review.do" access="hasRole(3)"/>
+      <intercept-url pattern="/admin/orderlist.do" access="hasAnyRole(3,4)"/>
+      <intercept-url pattern="/admin/storelist.do" access="hasAnyRole(3,4)"/>
+      <intercept-url pattern="/admin/storechart.do" access="hasAnyRole(3,4)"/>
+      <intercept-url pattern="/admin/franlist.do" access="hasRole(3)"/>
+      <intercept-url pattern="/admin/question.do" access="hasRole(3)"/>
              
       <form-login 
          login-page="/admin/login.do" 

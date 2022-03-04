@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -326,7 +327,7 @@ public class MenuController {
 	
 	
 	@RequestMapping(value={"/order/orderDIY.do", "/order/orderDrink.do", "/order/orderSide.do", "/order/orderNormal.do"})
-	public String menuList(Model model, HttpServletRequest req) {
+	public String menuList(Model model, HttpServletRequest req, Principal principal) {
 		String requestUrl = (String)req.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
 
 		ArrayList<MenuVO> lists =
@@ -342,10 +343,20 @@ public class MenuController {
 
 		model.addAttribute("lists", lists);
 		
+		
+		Object principal2 = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		//회원코드 
+		if(principal2.equals("anonymousUser")) {
+			model.addAttribute("id","");
+		}
+		else {			
+			model.addAttribute("id",principal2);
+		}
+
 		if(requestUrl.equals("/order/orderDIY.do")) {
 			return "/order/orderDIY";
-	    }else if(requestUrl.equals("/order/orderDrink.do")){
-	    	return "/order/orderDrink";
+		}else if(requestUrl.equals("/order/orderDrink.do")){
+			return "/order/orderDrink";
 	    }else if(requestUrl.equals("/order/orderSide.do")){
 	    	return "/order/orderSide";
 	    }else if(requestUrl.equals("/order/orderNormal.do")){
