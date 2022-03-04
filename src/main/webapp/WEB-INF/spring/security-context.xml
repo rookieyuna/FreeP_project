@@ -5,8 +5,27 @@
    xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd
       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-
 	<http pattern="/android/**" security="none" />
+	
+	
+	<http pattern="/and/**" auto-config="true" disable-url-rewriting="true" use-expressions="true">
+
+        <intercept-url pattern="/and/login.do" access="permitAll" />
+     
+         
+      <form-login 
+         login-page="/and/login.do"
+         default-target-url="/index.do"
+         authentication-failure-url="/and/login.do?error"
+         login-processing-url="/and/mainLoginAction"    
+         username-parameter="id"  
+         password-parameter="pass" />         
+      <logout 
+         logout-url="/and/logout"
+         logout-success-url="/index.do"/>
+   </http>
+   
+	
 	
  <!--  
     시큐리티3단계 : 로그인을 JDBC연동으로 커스터마이징 하기
@@ -53,6 +72,10 @@
          logout-url="/member/logout"
          logout-success-url="/index.do"/>
    </http>
+   
+   
+   
+   
    
    <!--  
       각 권한을 획득하기 위한 설정 부분
