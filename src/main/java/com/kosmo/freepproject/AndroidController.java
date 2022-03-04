@@ -111,6 +111,18 @@ public class AndroidController {
 	public OrderlistVO orderStatus(HttpServletRequest req) {
 		String m_code = req.getParameter("m_code");
 		OrderlistVO list = sqlSession.getMapper(IAndroidDAO.class).orderStatus(m_code);
+		
+		//주문한 상품의 상품명 전체를 저장할 변수
+		List<String> total_name;
+		
+		int or_idx = list.getOr_idx();
+		//주문번호를 통해 주문한 상품명을 가져옴
+		total_name = sqlSession.getMapper(MypageImpl.class).totalname(or_idx);
+		//해당 주문번호의 모든 상품명을 가져와서 이어붙임
+		String names = String.join(" + ", total_name);
+		//주문내역 리스트에 set
+		list.setTotal_name(names);
+        
 		return list;
 	}
 }
