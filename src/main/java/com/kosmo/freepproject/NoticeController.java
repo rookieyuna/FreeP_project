@@ -19,9 +19,9 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import board.BoardDAOImpl;
 import board.BoardDTO;
-import board.ParameterDTO;
 import util.PagingUtil;
 import util.PagingUtil_front;
+import util.ParameterDTO;
 
 @Controller
 public class NoticeController {
@@ -100,7 +100,7 @@ public class NoticeController {
 		int start = (nowPage-1) * pageSize + 1;
 		int end = pageSize * nowPage;
 
-		parameterDTO.setStart(start);
+		parameterDTO.setStart(start); 
 		parameterDTO.setEnd(end);
 		
 		ArrayList<BoardDTO> lists =

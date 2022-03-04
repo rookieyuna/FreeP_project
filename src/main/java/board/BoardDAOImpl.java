@@ -20,8 +20,8 @@ public interface BoardDAOImpl {
 	public ArrayList<BoardDTO> listPage(int a, int s, int e);
 	public ArrayList<BoardDTO> listQuPage(util.ParameterDTO parameterDTO);
 	
-	public int getTotalCountSearch(ParameterDTO parameterDTO);
-	public ArrayList<BoardDTO> listPageSearch(ParameterDTO parameterDTO);
+	public int getTotalCountSearch(util.ParameterDTO parameterDTO);
+	public ArrayList<BoardDTO> listPageSearch(util.ParameterDTO parameterDTO);
 
 
 	public void write(BoardDTO boardDTO);
