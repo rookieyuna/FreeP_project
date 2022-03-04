@@ -46,11 +46,11 @@
                         <div class="menu-nav-wrap">
                             <div class="menu-nav">
                                 <ul>
-                                    <li><a href="../myMain.html">MY프리피</a></li>
-                                    <li><a href="../myOrder.html">주문내역</a></li>
-                                    <li><a href="../myCoupon.html">쿠폰/적립금</a></li>
+                                    <li><a href="../mypage/myMain.do">MY프리피</a></li>
+                                    <li><a href="../mypage/myOrder.do">주문내역</a></li>
+                                    <li><a href="../mypage/myCoupon.do">쿠폰/적립금</a></li>
                                     <li><a href="../mypage/myReview.do">MY리뷰</a></li>
-                                    <li class="active"><a href="../myQuestion.do">1:1문의</a></li>
+                                    <li class="active"><a href="../mypage/myQuestion.do">1:1문의</a></li>
                                     <li><a href="../mypage/myUserinfo.do">정보수정</a></li>
                                 </ul>
                             </div>
