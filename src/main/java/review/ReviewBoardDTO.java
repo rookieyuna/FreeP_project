@@ -25,4 +25,5 @@ public class ReviewBoardDTO {
 	private int rv_best;
 	
 	private boolean like;
+	private int likeCount;
 }

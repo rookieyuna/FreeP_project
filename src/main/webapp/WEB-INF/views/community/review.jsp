@@ -71,7 +71,7 @@ function reviewDetailOpen(idx){
 							+'<div class="aco_top">'
 							+'<h6 class="detail_title">'+res[goldKey]["D_NAME"]+'</h6>'
 							+'<button class="detail-more-btn"></button>'
-							+'<button class="review_to_order" onclick="reviewToCart('+res[goldKey]["DIY_IDX"]+')">카트담기</button>'
+							+'<button class="review_to_order" onclick="reviewToCart('+res[goldKey]["DIY_IDX"]+'); event.stopPropagation();">카트담기</button>'
 							+'</div>'
 							+'<div class="aco_bottom">'
 							+'<ul class="detail_list">'
@@ -218,6 +218,7 @@ function reviewLike(idx){
 };
 
 function reviewToCart(code){
+	
 	var token = $("meta[name='_csrf']").attr("content");
     var header = $("meta[name='_csrf_header']").attr("content");
     $.ajax({ 

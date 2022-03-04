@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -665,10 +666,7 @@ public class ReviewController {
 			LikedReviewDTO likeDto = new LikedReviewDTO();
 			likeDto.setM_code(sqlSession.getMapper(ReviewBoardDAOImpl.class).findm_code(principal.getName()));
 			List<String> viewMyLike = sqlSession.getMapper(ReviewBoardDAOImpl.class).viewMyLike(likeDto);
-			
-			
-			
-			
+
 			for(String i : viewMyLike) {
 				if(rvIdx.equals(i)) {
 					dto.setLike(true);
@@ -680,6 +678,16 @@ public class ReviewController {
 		}else {
 			
 		}
+		
+		//회원코드 가져오기 
+		int m_code = 
+				sqlSession.getMapper(ReviewBoardDAOImpl.class).findm_code(principal.getName());
+		String m_codeTemp = Integer.toString(m_code);
+		ParameterDTO paramDto = new ParameterDTO();
+		paramDto.setM_code(m_codeTemp);
+		int likeCount = sqlSession.getMapper(ReviewBoardDAOImpl.class).getMyFavCount(paramDto);
+		dto.setLikeCount(likeCount);
+		
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("dto", dto);
