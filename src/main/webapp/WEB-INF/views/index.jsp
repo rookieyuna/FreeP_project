@@ -97,7 +97,7 @@
 									<h3>DIY피자 주문</h3>
 									<p>나만의 피자를 만들어서<br>
 										지금 바로 주문하세요</p>
-									<a href="#">link</a>
+									<a href="/freepproject/order/orderDIY.do">link</a>
 								</div>
 								<div class="swiper-slide main-favorite-slide-event swiper-slide-next">
 									<img src="./images/03visual/pizzabasic.png" alt=""
@@ -105,7 +105,7 @@
 									<h3>일반피자 주문</h3>
 									<p>FreeP만의 프리미엄 피자<br>
 										지금 바로 주문하세요</p>
-									<a href="#" class="">link</a>
+									<a href="/freepproject/order/orderNormal.do" class="">link</a>
 								</div>
 								<div class="swiper-slide main-favorite-slide-station">
 									<img src="./images/03visual/restaurant.png" alt=""
@@ -113,7 +113,7 @@
 									<h3>매장찾기</h3>
 									<p>우리집 가까이 있는 FreeP를<br>
 										검색해 보세요</p>
-									<a href="#" class="">link</a>
+									<a href="/freepproject/company/searchStore.do" class="">link</a>
 								</div>
 							</div>
 							<span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
@@ -132,58 +132,23 @@
 						<div id="main-product-contents-link" class="main-product-contents">
 							<div class="swiper-container swiper-container-initialized swiper-container-horizontal">
 								<div class="swiper-wrapper" style="transform: translate3d(0px, 0px, 0px);">
+									
+									
+								<c:forEach items="${reviewLists }" var="row"> 
 									<div class="swiper-slide swiper-slide-active" style="margin-right: 30px;">
 										<a target="_blank" style="cursor: pointer;">
-											<div class="main-product-badge main-product-badge-point">BEST 1</div>
-											<figure><img src="./images/03visual/pizzaReviewex.png">
+											<div class="main-product-badge main-product-badge-point">BEST</div>
+											<figure><img src="./uploads/${row.rv_sfile1 }">
 											</figure>
-											<h3>피자는 역시 프리피</h3>
-											<p>고기가 많이 올라가 있어서 맛있어요~</p>
+											<h3>${row.title}</h3>
+											<p>${row.contents}</p>
 											<div class="main-product-point-wrap">
-												<div title="정상가" class="main-product-point-original">루키 님</div>
-												<div title="10% 할인가" class="main-product-point"><em>31,800</em>원</div>
+												<div class="main-product-point-original">${row.writer} 님</div>
+												
 											</div>
 										</a>
 									</div>
-									<div class="swiper-slide swiper-slide-active" style="margin-right: 30px;">
-										<a target="_blank" style="cursor: pointer;">
-											<div class="main-product-badge main-product-badge-point">BEST 2</div>
-											<figure><img src="./images/03visual/pizzaReviewex.png">
-											</figure>
-											<h3>내피자 만들기 꿀잼</h3>
-											<p>올리브+양파+리코타치즈로 피자만드세요 초대박</p>
-											<div class="main-product-point-wrap">
-												<div title="정상가" class="main-product-point-original">루키 님</div>
-												<div title="10% 할인가" class="main-product-point"><em>31,800</em>원</div>
-											</div>
-										</a>
-									</div>
-									<div class="swiper-slide swiper-slide-active" style="margin-right: 30px;">
-										<a target="_blank" style="cursor: pointer;">
-											<div class="main-product-badge main-product-badge-point">BEST 3</div>
-											<figure><img src="./images/03visual/pizzaReviewex.png">
-											</figure>
-											<h3>피자는 역시 프리피</h3>
-											<p>고기가 많이 올라가 있어서 맛있어요~</p>
-											<div class="main-product-point-wrap">
-												<div title="정상가" class="main-product-point-original">루키 님</div>
-												<div title="10% 할인가" class="main-product-point"><em>31,800</em>원</div>
-											</div>
-										</a>
-									</div>
-									<div class="swiper-slide swiper-slide-active" style="margin-right: 30px;">
-										<a target="_blank" style="cursor: pointer;">
-											<div class="main-product-badge main-product-badge-point">BEST 4</div>
-											<figure><img src="./images/03visual/pizzaReviewex.png">
-											</figure>
-											<h3>내피자 만들기 꿀잼</h3>
-											<p>올리브+양파+리코타치즈로 피자만드세요 초대박</p>
-											<div class="main-product-point-wrap">
-												<div title="정상가" class="main-product-point-original">루키 님</div>
-												<div title="10% 할인가" class="main-product-point"><em>31,800</em>원</div>
-											</div>
-										</a>
-									</div>
+								</c:forEach>
 								</div>
 							</div>
 						</div>
@@ -200,18 +165,26 @@
 							<div data-v-65bbb0ce="" class="main-board-item main-board-item-notice">
 								<div class="main-board-item-header">
 									<h3>공지사항</h3>
-									<a href="/notice" class="main-board-open-btn">open</a>
+									<a href="/freepproject/company/notice.do" class="main-board-open-btn">open</a>
 								</div>
 								<div
 									class="main-board-item-contents swiper-container swiper-container-initialized swiper-container-vertical">
 									<div class="swiper-wrapper"
 										style="transition-duration: 0ms; transform: translate3d(0px, 0px, 0px);">
-										<a href="#" class="">
-											<h4>포인트몰, GS&amp;쿠폰 개인정보 처리방침 </h4> <time>2022.01.21</time>
-										</a>
-										<a href="#" class="">
-											<h4>포인트몰, GS&amp;쿠폰 개인정보 처리방침 </h4> <time>2022.01.21</time>
-										</a>
+									<c:choose>
+										<c:when test="${empty noticeLists }">
+											<a href="#" class="">
+												<h4>등록된 공지사항이 없습니다.</h4>
+											</a>
+										</c:when>
+										<c:otherwise>
+										<c:forEach items="${noticeLists }" var="row" ><!-- 리스트반복시작 -->
+											<a href="./company/noticeView.do?idx=${row.b_idx}&nowPage=1" class="">
+												<h4>${row.title}</h4> <time>${row.postdate}</time>
+											</a>
+										</c:forEach>
+										</c:otherwise>
+									</c:choose>
 									</div>
 									<span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
 								</div>
@@ -219,18 +192,26 @@
 							<div data-v-65bbb0ce="" class="main-board-item main-board-item-event">
 								<div class="main-board-item-header">
 									<h3>이벤트</h3>
-									<a href="#" class="main-board-open-btn">open</a>
+									<a href="/freepproject/community/event.do"" class="main-board-open-btn">open</a>
 								</div>
 								<div
 									class="main-board-item-contents swiper-container swiper-container-initialized swiper-container-vertical">
 									<div class="swiper-wrapper"
 										style="transition-duration: 0ms; transform: translate3d(0px, 0px, 0px);">
-										<a href="#">
-											<h4>wavve 이용권 제공 이벤트</h4> <time>2022.01.05</time>
-										</a>
-										<a href="#">
-											<h4>wavve 이용권 제공 이벤트</h4> <time>2022.01.05</time>
-										</a>
+										<c:choose>
+										<c:when test="${empty eventLists }">
+											<a href="#" class="">
+												<h4>등록된 이벤트가 없습니다.</h4>
+											</a>
+										</c:when>
+										<c:otherwise>
+										<c:forEach items="${eventLists }" var="row2" ><!-- 리스트반복시작 -->
+											<a href="./community/eventView.do?idx=${row2.b_idx}&nowPage=1" class="">
+												<h4>${row2.title}</h4> <time>${row2.postdate}</time>
+											</a>
+										</c:forEach>
+										</c:otherwise>
+									</c:choose>
 									</div>
 									<span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
 								</div>

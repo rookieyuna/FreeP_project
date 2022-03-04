@@ -94,7 +94,7 @@
 	                                            <a href="../community/eventView.do?idx=${row.b_idx} " target="_self">
 	                                                <div class="img_wrap">
 	                                                    <img
-	                                                        src="../images/05community/${row.sfile}">
+	                                                        src="../uploads/${row.sfile}">
 	                                                </div>
 	                                                <div class="text_wrap">
 	                                                    <div class="event_info now">${row.title}</div>

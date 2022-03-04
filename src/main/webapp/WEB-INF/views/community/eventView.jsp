@@ -81,7 +81,7 @@
                                             
                                             
                                             <dd>
-                                                <img src="../images/03visual/${dto.sfile2}" alt="">
+                                                <img src="../uploads/${dto.sfile2}" alt="">
 
                                                 <div class="event_res">
                                                     <h6>주의사항</h6>
