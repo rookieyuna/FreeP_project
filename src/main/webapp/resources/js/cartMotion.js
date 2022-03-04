@@ -332,9 +332,10 @@ function totalCart(){
 $(document).ready(function() {
 	
 	$("#insertCartDIYbtn").click(function(e){
-	
-	
-		
+		if(document.getElementById("cusid").value==""){
+			alert("로그인하세요.");
+			return false;
+		}
 		
 		e.stopPropagation();
 		var totalArr = [];

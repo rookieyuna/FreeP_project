@@ -83,6 +83,7 @@
                                 </button>
                                 <div class="menu-cart-modal">
                                     <h4>선택품목</h4>
+                                    <input type="hidden" id="cusid" name="cusid" value="${id }"/> 
                                     <form action="./insertCart.do" id="insertCart" name="insertCart" method="post" onsubmit="" >                            
                                     <table class="cart-modal-wrap">
                                         <tbody>
