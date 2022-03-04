@@ -48,6 +48,11 @@ function checkValidate(f){
 		f.contents.focus();
 		return false;
 	}
+	if(f.writer.value==""){
+		alert("닉네임을 입력하세요");
+		f.contents.focus();
+		return false;
+	}
 }
 </script>
 <body id="body">
