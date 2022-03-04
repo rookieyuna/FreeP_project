@@ -24,8 +24,6 @@
          logout-url="/and/logout"
          logout-success-url="/index.do"/>
    </http>
-   
-	
 	
  <!--  
     시큐리티3단계 : 로그인을 JDBC연동으로 커스터마이징 하기
