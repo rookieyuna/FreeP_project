@@ -174,11 +174,11 @@ function phoneCheck2() {
                                
                                
                                 <dl>
-                                    <dt class="top">휴대전화</dt>
+                                    <dt class="top">가입 시 입력한 휴대전화</dt>
                                     <dd>
                                         <div class="form-item name">
                                             
-                                            <input type="text" name="phone" id="phone" maxlength="16" value="" placeholder="-을 제외한 휴대폰 번호 입력" />
+                                            <input type="text" name="phone" id="phone" maxlength="16" value="" placeholder="- 을 제외한 휴대폰 번호 입력" />
                                             <button type="button" name="phovr"  id ="phoneChk"  onclick="phoneCheck();" style="cursor:hand;"class="btn-type v7" >번호전송</button>
                                             <br>
                                             

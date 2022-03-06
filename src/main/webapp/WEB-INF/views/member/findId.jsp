@@ -122,11 +122,11 @@
                         <div class="myinfo-wrap">
                             <div class="form">
                                 <dl>
-                                    <dt class="top">휴대전화</dt>
+                                    <dt class="top">가입 시 입력한 휴대전화</dt>
                                     <dd>
                                         <div class="form-item name">
                                             
-                                            <input type="text" name="phone" id="phone" maxlength="16" value="" placeholder="-을 제외한 휴대폰 번호 입력"  onKeyPress="if( event.keyCode==13 ){id_find();}"/>
+                                            <input type="text" name="phone" id="phone" maxlength="16" value="" placeholder="- 을 제외한 휴대폰 번호 입력"  onKeyPress="if( event.keyCode==13 ){id_find();}"/>
                                             <br>
                                         </div>
                                     </dd>
