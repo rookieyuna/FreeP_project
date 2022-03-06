@@ -35,6 +35,11 @@ public interface MemberImpl {
 	//회원가입시 자동으로 가입축하 쿠폰추가.
 	public int coupon(MemberVO memberVO);
 	
+	//아이디 찾기
+	public String find_id(String phone) throws Exception;
+		
+	//패스워드 수정
+	public int pwAction(MemberVO memberVO);
 	
 	//회원정보 상세보기
 	public MemberVO view(ParameterDTO parameterDTO);

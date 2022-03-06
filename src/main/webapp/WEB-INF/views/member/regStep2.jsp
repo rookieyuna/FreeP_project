@@ -27,8 +27,71 @@
 <!-- js 라이브러리 영역 -->
 <script src="../js/jquery-3.6.0.js"></script>
 <script>
+	var flag1 = 0;
+	var flag2 = 0;
+	
+	
 
-	//회원정보 입력 확인
+
+	//이메일 골라서 인풋박스에 집어넣는 작업과 직접 입력 누를때 외에는 작성 못하도록 disabled 속성 추가.
+	function email_input(frm){
+		var domain = email3.value;
+		if(domain==''){//--선택-- 부분을 선택했을때 
+		    frm.email1.value='';//모든 입력값을 지운다.
+		    frm.email2.value='';
+		}
+		else if(domain=='직접입력'){//직접입력을 선택했을때
+		    frm.email2.readOnly = false;//사용자가 입력해야 하므로 readonly속성을 해제한다.
+		    frm.email2.value='';
+		    frm.email2.focus();
+		}
+		else{//도메인을 선택했을때
+		    frm.email2.value=domain;//선택한 도메인을 입력한다.
+		    frm.email2.readOnly=true;//입력된 값을 수정할 수 없도록 readonly속성을 활성화한다.
+		}
+	}
+	
+	
+ 	// 아이디 중복확인.
+ 	function id_check_person() {
+		
+		var token = $("meta[name='_csrf']").attr("content");
+	    var header = $("meta[name='_csrf_header']").attr("content");
+		
+	    
+	    if($("#id").val() == ""){
+	    	alert("아이디를 입력해주세요.");
+	    }
+	    else{
+	    	
+			$.ajax({  
+				 url : './id_check_person.do?id='+$("#id").val(),               
+				 type : 'get',
+				 beforeSend : function(xhr){
+		        		xhr.setRequestHeader(header, token);
+		            },
+				 dataType : "json",
+				 success : function(data){
+					 var num = data.num;
+					 if(num != 0){
+						 alert("아이디가 이미 사용 중입니다. 다시 입력해주세요.");
+						 $("#id").val("");
+					 }
+					 else{
+						 alert("사용 가능한 아이디 입니다.");
+						 flag1 = 1;
+					 }
+				 },
+				 error : function(request,statue,error){
+		            	alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"
+		            			+"\n"+"error:"+error)
+		            	
+		         }
+			}); 
+	    }
+	}
+ 	
+ 	//회원정보 입력 확인
 	var validateForm = function(frm) {
 		if(frm.name.value==''){
 	        alert('이름을 입력하세요');
@@ -151,71 +214,18 @@
 	        frm.address2.focus();
 	        return false;
 	    }
-		
-		
-		
-		
-		
+		if(flag1 == 0){
+	        alert('아이디 중복확인을 해주세요.');
+	        return false;
+	    }
+		if(flag2 == 0){
+	        alert('휴대폰 본인인증을 진행해주세요.');
+	        return false;
+	    }
 	    
 	}
-
-
-	//이메일 골라서 인풋박스에 집어넣는 작업과 직접 입력 누를때 외에는 작성 못하도록 disabled 속성 추가.
-	function email_input(frm){
-		var domain = email3.value;
-		if(domain==''){//--선택-- 부분을 선택했을때 
-		    frm.email1.value='';//모든 입력값을 지운다.
-		    frm.email2.value='';
-		}
-		else if(domain=='직접입력'){//직접입력을 선택했을때
-		    frm.email2.readOnly = false;//사용자가 입력해야 하므로 readonly속성을 해제한다.
-		    frm.email2.value='';
-		    frm.email2.focus();
-		}
-		else{//도메인을 선택했을때
-		    frm.email2.value=domain;//선택한 도메인을 입력한다.
-		    frm.email2.readOnly=true;//입력된 값을 수정할 수 없도록 readonly속성을 활성화한다.
-		}
-	}
-	
-	
- 	// 아이디 중복확인.
- 	function id_check_person() {
-		
-		var token = $("meta[name='_csrf']").attr("content");
-	    var header = $("meta[name='_csrf_header']").attr("content");
-		
-	    
-	    if($("#id").val() == ""){
-	    	alert("아이디를 입력해주세요.");
-	    }
-	    else{
-	    	
-			$.ajax({  
-				 url : './id_check_person.do?id='+$("#id").val(),               
-				 type : 'get',
-				 beforeSend : function(xhr){
-		        		xhr.setRequestHeader(header, token);
-		            },
-				 dataType : "json",
-				 success : function(data){
-					 var num = data.num;
-					 if(num != 0){
-						 alert("아이디가 이미 사용 중입니다. 다시 입력해주세요.");
-						 $("#id").val("");
-					 }
-					 else{
-						 alert("사용 가능한 아이디 입니다.");
-					 }
-				 },
-				 error : function(request,statue,error){
-		            	alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"
-		            			+"\n"+"error:"+error)
-		            	
-		         }
-			}); 
-	    }
-	}
+ 	
+ 	
 </script>
 
 <!-- 휴대폰 번호 인증 -->
@@ -273,6 +283,7 @@ function phoneCheck2() {
 		
 		if($("#phone2").val() == code2){ 
 			alert("인증에 성공했습니다.");
+			flag2 = 1;
 			//비밀번호 찾기할 때 window.onload(비밀번호입력할새로만든jsp경로); location.href 둘중 하나 검색해서 해보기.
 			$("#phoneDoubleChk").val("true"); 
 			$("#phone2").attr("disabled",true); 
@@ -284,6 +295,8 @@ function phoneCheck2() {
 	}
 	
 }
+
+
 
 
 

@@ -247,9 +247,64 @@ public class MemberController {
 			 
 			 }
 		  }
+		 
+		//아이디 찾기 페이지 매핑
+			@RequestMapping("/member/findId.do")
+			public String findId() {return "member/findId";}
+			
+			//아이디 찾기 처리
+			@ResponseBody
+			@RequestMapping(value="/member/search_id.do", method = RequestMethod.GET)
+			public Map<String,Object> search_id(Model model, HttpServletRequest req) throws Exception{
+				String phone = (String) req.getParameter("phone");
+				String id = sqlSession.getMapper(MemberImpl.class).find_id(phone);
+				System.out.println(phone);
+				Map<String, Object> result = new HashMap<String, Object>();
+		        result.put("id", id);
+				return result;
+				
+			}
+			 
+			//패스워드 찾기 페이지 매핑
+			@RequestMapping("/member/findPw.do")
+			public String findPw() {return "member/findPw";}
+			
+			
+			//패스워드 변경하기 페이지 매핑
+			@RequestMapping("/member/pwChange.do")
+			public String pwChange(HttpServletRequest req, Model model) {
+				
+				String phone = req.getParameter("phone");
+				model.addAttribute("phone", phone);
+				
+				return "member/pwChange";
+			}
+			
+			
+			//패스워드 변경처리 
+			@RequestMapping("/member/pwAction.do")
+			public String pwAction(HttpServletRequest req, Model model) {
+				
+				
+				MemberVO memberVO = new MemberVO();
+				memberVO.setPass(req.getParameter("pass")); 
+				memberVO.setPhone(req.getParameter("phone")); 
+				
+				int result = sqlSession.getMapper(MemberImpl.class).pwAction(memberVO);
+				
+				if(result>0) {
+					model.addAttribute("msg","패스워드가 수정되었습니다.");
+					//return "member/myPwUpdate";
+					return "member/myPwUpdate";
+				}
+				else {
+					model.addAttribute("msg","패스워드 수정에 실패하였습니다.\\n가입 시 입력한 휴대폰 번호를 다시 확인해 주세요");
+			        
+			        return "member/myPwFail";
+				}
+				
+			}
+		 
 		
-		//아이디 패스워드 찾기 페이지 매핑
-		@RequestMapping("/member/find.do")
-		public String find() {return "member/findidpw";}
 		
 }

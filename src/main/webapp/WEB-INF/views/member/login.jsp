@@ -111,8 +111,8 @@
                                     <label for="idcheck">아이디저장</label>
                                 </div>
                                 <div class="btn-member-wrap" style="margin-bottom:20px">
-                                    <span><a href="./find.do">아이디 찾기</a></span>
-                                    <span id="pw"><a href="./find.do">비밀번호 찾기</a></span>
+                                    <span><a href="./findId.do">아이디 찾기</a></span>
+                                    <span id="pw"><a href="./findPw.do">패스워드 찾기</a></span>
                                 </div>
                             </div>
                             
@@ -156,7 +156,7 @@
                         <input type="hidden" name="hp" id="hp" value="" />
                         <input type="hidden" name="returnUrl" id="returnUrl" value="/main" />
                             <div class="sub-text">
-                                        아직 도미노피자 회원이 아니세요?
+                                        아직 FreeP 회원이 아니세요?
                                 <a href="">회원가입</a>
                             </div>
                             <div class="form">
@@ -215,7 +215,7 @@
                             <div class="banner-wrap">
                                 <ul>
                                     <li>
-                                        도미노피자의 특별한 매니아 혜택을 누려보세요! <a href="../event/mania.html">매니아 혜택</a>
+                                        FreeP의 특별한 매니아 혜택을 누려보세요! <a href="../event/mania.html">매니아 혜택</a>
                                     </li>
                                     <li>
                                         10대 고객에게만 드리는 특별한 혜택을 마음껏 누려보세요!<a href="../event/mania4ab4.html?tab=5">틴 매니아</a>
