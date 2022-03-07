@@ -49,6 +49,23 @@
   		INSERT into member(m_code, id, name, pass, phone, email, zipcode, address )
 				VALUES (seq_member_num.nextval, #{id}, #{name}, #{pass}, #{phone}, #{email}, #{zipcode}, #{address})
   	</insert>
+	<insert id="regkakaoAction" parameterType="member.MemberVO">
+  		INSERT into member(m_code, id, name, pass, phone, email, zipcode, address,grade )
+				VALUES (seq_member_num.nextval, #{id}, #{name}, #{pass}, #{phone}, #{email}, #{zipcode}, #{address},5)
+  	</insert>
+  	
+  	<!-- 카카오 정보 찾기 -->
+	<!-- <select id="findKakao" parameterType="java.util.HashMap" resultType="member.KakaoDTO">
+		select * from kakao_member where kakaoname=#{nickname} and kakaoemail=#{email}
+	</select> -->
+
+	
+	<!-- 카카오 로그인 기존 멤버인지 신규 멤버인지 판별 -->
+	<select id="kakaoselect" resultType="int">
+		SELECT COUNT(*) FROM member WHERE id=#{param1} 
+	</select>
+  	
+  	
   	<!-- 회원가입시 가입축하쿠폰 자동적립. -->
   	<insert id="coupon" parameterType="member.MemberVO">
   		INSERT INTO mycoupon (coupon_idx, m_code, cp_idx)

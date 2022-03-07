@@ -120,4 +120,8 @@ public class HomeController {
 		 System.out.println("homecontroller");
 		 return "/admin/"+ var; 
 	}
+	 
+	 
+	 
+	 
 }

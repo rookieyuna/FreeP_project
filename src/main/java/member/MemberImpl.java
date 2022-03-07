@@ -29,11 +29,20 @@ public interface MemberImpl {
 	//메인 회원가입
 	public int regAction(MemberVO memberVO);
 	
+	//카카오 회원가입
+	public int regkakaoAction(MemberVO memberVO);
+	
+	//카카오 로그인 기존 멤버인지 신규 멤버인지 판별
+	public int kakaoselect(String id);
+	
 	//아이디 중복체크
 	public int idChk(String id) throws Exception;
 	
 	//회원가입시 자동으로 가입축하 쿠폰추가.
 	public int coupon(MemberVO memberVO);
+	
+	//카카오회원가입시 자동으로 가입축하 쿠폰추가.
+	public int coupon(KakaoDTO kakaoDTO);
 	
 	
 	//회원정보 상세보기

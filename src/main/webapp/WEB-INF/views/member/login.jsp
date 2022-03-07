@@ -9,6 +9,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="_csrf" content="${_csrf.token}">
+	<meta name="_csrf_header" content="${_csrf.headerName}">
     <title>나만의 맞춤 피자 Free</title>
 
     <!-- font 영역 -->
@@ -23,11 +25,13 @@
         href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
         rel="stylesheet">
     <!-- js 라이브러리 영역 -->
-    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
     <script src="../js/jquery-3.6.0.js"></script>
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
     <script src="https://kenwheeler.github.io/slick/slick/slick.js"></script>
    
     <script>
+
+    
         function goTab(idx){
             $(".login_area").hide();
             $(".btn_tab li").removeClass("active");
@@ -37,29 +41,71 @@
 
     </script>
     <script type="text/javascript"> jQuery.noConflict(); </script>
+    
+    
+    
      <script>
         Kakao.init('30aa936b37aaca1c82a705936e71d6bf'); //발급받은 키 중 javascript키를 사용해준다.
         console.log(Kakao.isInitialized()); // sdk초기화여부판단
-        //카카오로그인
-        function kakaoLogin() {
-            Kakao.Auth.login({
-              success: function (response) {
-                Kakao.API.request({
-                  url: '/v2/user/me',
-                  success: function (response) {
-                	  console.log(response)
-                  },
-                  fail: function (error) {
-                    console.log(error)
-                  },
-                })
-              },
-              fail: function (error) {
-                console.log(error)
-              },
-            })
-          }
         
+          function kakaoLogin() {
+        	  var token = jQuery("meta[name='_csrf']").attr("content");
+        	  var header = jQuery("meta[name='_csrf_header']").attr("content");
+        	    
+        	    Kakao.Auth.login({
+        	        success: function(response) {
+        	            Kakao.API.request({ // 사용자 정보 가져오기 
+        	                url: '/v2/user/me',
+        	                success: (response) => {
+        	                	console.log("여긴 넘어옴1")
+        	                	var kakaoid = response.id;
+        	                	var kakaoname = response.properties.nickname;
+        	                	var kakaoemail = response.account_email;
+							
+        	                	console.log(response);
+        	                	
+        	                	
+        	                	
+        	                    jQuery.ajax({
+        	    					type : "post",
+        	    					url : "kakaoLogin.do", // ID중복체크를 통해 회원가입 유무를 결정한다.
+        	    					beforeSend : function(xhr){
+                	            		xhr.setRequestHeader(header, token);
+                	                },
+        	    					data : {
+        	    						"kakaoid":kakaoid,
+        	    						"kakaoname":kakaoname
+        	    						/* "kakaoemail":kakaoemail */
+        	    					},
+        	    					success : function(data){   
+										/* console.log("넘어옴2"); */
+										console.log(data);	
+										
+        	    						if(data.kakaoNum==1){
+        	    							document.getElementById("id").value=data.kakaoid;
+        	    							document.getElementById("passwd").value='0000';
+        	    							document.loginFrm.submit();
+        	    							
+        	    						}else{
+        	    							 location.href="regStepKakao.do?kakaoid="+data.kakaoid;
+        	    						}
+        	    					},
+        	    					error: function(request, status, error){
+        	    							/* console.log("여기서 에러"); */
+        	    		                   alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+        	    		                   location.href="regStep1.do";
+        	    		            }
+        	    				});
+        	                }
+        	            });
+        	            // window.location.href='/ex/kakao_login.html' //리다이렉트 되는 코드
+        	        },
+        	        fail: function(error) {
+        	            alert(error);
+        	        }
+        	    });
+        	}
+
       
 </script>
 </head>
@@ -69,7 +115,8 @@
         <%@ include file="../common/header.jsp" %>
     </header>
     <!-- header e -->
-
+	
+	<!-- <a style="border:2px solid red; padding: 200px;" href="regStepKakao.do">프리피 이동</a> -->
     <!-- content s -->
     <div id="container">
         <section id="content">
@@ -127,24 +174,19 @@
                                 <div class="title-wrap">
                                     <div class="title-type">소셜 간편 로그인</div>
                                 </div>
-                                <ul class="btn-sns-list">
-                                    <div>
-                                        <a id="custom-login-btn" onclick="kakaoLogin();">
+                               
+                               <form:form action="/member/regStepKakao.do">
+                                    <div class="btn-sns-list" id="kakaologin">
+                                    	<div class="kakaobtn">
+                                    		<input type="hidden" name="kakaoemail" id="kakaoemail" />
+                                    		<input type="hidden" name="kakaoname" id="kakaoname" />
+                                    		<input type="hidden" name="kakaoid" id="kakaoid" />
+                                    		<button type="button" id="custom-login-btn" onclick="kakaoLogin();">
                                             <img src="../images/03visual/btn-kakao.png" alt="카카오" style="width: 222px;">
-                                        </a>
+                                        </button>
+                                    	</div>
                                     </div>
-                                   <!--  
-                                    <li onclick="kakaoLogin();">
-								      <a href="javascript:void(0)">
-								          <span>카카오 로그인</span>
-								      </a>
-									</li>
-                                     -->
-                                    <!-- <li class="btn-sns-item btn-naver">
-                                        <a href="javascript:goLoginId('2');">
-                                            <img src="../images/03visual/btn-naver.png" alt="네이버" style="width: 50px;">
-                                        </a>
-                                    </li> -->
+                               </form:form>
 
                                     <div id="appleid-signin" style="display:none;"></div>
                                 </ul>
@@ -223,6 +265,14 @@
                                 </ul>
                             </div>
                             </form>
+                            
+                            <!-- kakaoemail을 넘기기 위한 숨겨진 form  -->
+                            <!--  
+                            <form action="./kakaologin.do" method="post" name="ifrm" hidden>
+                            	<input type="text" name="kakaoemail" id="kakaoemail" value="" />
+                            </form>
+                            -->
+                            
                         </div>
                     </article>
                 </div>
@@ -243,5 +293,8 @@
     
     <script src="../js/motion.js"></script>
     <script src="../js/ui.js"></script>
+    
+    
+
 </body>
 </html>
