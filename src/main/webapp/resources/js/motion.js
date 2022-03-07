@@ -101,6 +101,14 @@ jQuery(function () {
             $(".menu-list-area").toggleClass("active");
         }
     });
+
+	jQuery(".mobile_btn_v1").click(function(){
+		$(".DIYmenu").toggleClass("active");
+        $('.menu-cart-modal').toggleClass("active");
+
+        $(".otherMenu").toggleClass("active");
+		
+	});
     
      
     // 컴패니>매장찾기>상세보기 클릭 버튼 동작

@@ -1,12 +1,18 @@
 @charset "UTF-8";
 
 @media screen and (max-width: 767px) {
+  html{
+  	width: 100vw;
+  }
   #body {
     width: 100vw;
     font-size: 14px;
   }
   #body #header, #body #footer {
     visibility: hidden;
+  }
+  #body #footer{
+  	display: none;
   }
   #body #container {
     padding: 0;
@@ -21,6 +27,9 @@
   }
   #body [class^='sub-type'] {
     padding-bottom: 0;
+  }
+  #body [class^='sub-type'] .page-title-wrap{
+  	display: none;
   }
   #body [class^='sub-type'] .page-title-wrap .depth-area {
     top: 0px;
@@ -145,17 +154,34 @@
   }
   #body .menu .menu-list-area .menu-list .menu-cart .menu-cart-modal.active {
     width: 100%;
-    height: 340px;
-    min-height: 500px;
+    height: 100vh;
+    top: 0;
     left: 20px;
-    top: 110px;
-    padding: 20px 40px 20px 20px;
+    padding: 20px 20px 20px 20px;
+    z-index: 101;
+  }
+  #body .menu .menu-list-area .menu-list .menu-cart .menu-cart-modal.active h4{
+  	position: relative;
+  }
+  #body .menu .menu-list-area .menu-list .menu-cart .menu-cart-modal.active h4 .mobile_btn_v1{
+  	display: inline-block !important;
+  	width: 20px;
+  	height: 20px;
+  	position: absolute;
+  	    right: 10px;
+  	        top: 50%;
+    margin-top: -10px;
+    background: url(../images/02icon/navigate_next_black_24dp.svg) no-repeat center center;
   }
   #body .menu .menu-list-area .menu-list .menu-cart .menu-cart-modal.active .select_main_menu {
     font-size: 1em;
   }
   #body .menu .menu-list-area .menu-list .menu-cart .menu-cart-modal.active .select_main_menu .main_menu_size {
     margin-right: 4px;
+    flex-direction: column;
+  }
+  #body .menu .menu-list .menu-cart .menu-cart-modal.active .select_main_sub > li p span:nth-of-type(1)::before, .menu .menu-list .menu-cart .menu-cart-modal.active .select_main_sub > li > ul > li:nth-of-type(1) span:nth-of-type(1)::before{
+  	margin-right: 5px;
   }
   #body .menu .menu-list-area .menu-list .menu-cart .menu-cart-modal.active .select_main_menu .main_menu_size li {
     display: -webkit-box;
@@ -334,12 +360,7 @@
     padding: 40px 20px;
   }
   #body .cart .pay .step-wrap .deli-info .chk-wrap {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center;
+
   }
   #body .cart .pay .cart-list > ul > li.category {
     display: none;
@@ -479,14 +500,15 @@
     padding: 40px 20px;
   }
   #body form[name=payFrm] .pay .step-wrap .deli-info.form .chk-box.v3 {
-    margin-left: -73px;
+    margin-left:-58px;
   }
   #body form[name=payFrm] .pay .step-wrap .deli-info.form dl dt {
     width: 21%;
     font-size: 0.875rem;
   }
   #body form[name=payFrm] .pay .step-wrap .deli-info.form dl dd .form-item input {
-    width: 54%;
+    width: 100%;
+    padding: 0 10px;
   }
   #body form[name=payFrm] .pay .step-wrap .deli-info.form dl dd .form-group2 .select-type2 {
     width: 70px;
@@ -495,21 +517,117 @@
     width: 100%;
   }
   #body form[name=payFrm] .pay .step-wrap .deli-info.form dl dd .form-group2 #tel2 {
-    width: 90px;
+    width: 30%;
   }
   #body form[name=payFrm] .pay .step-wrap .deli-info.form dl dd .form-group2 #tel3 {
-    width: 90px;
+    width: 30%;
+  }
+  .pay .step-wrap .deli-info.form dl dd .form-item{
+  	width: 100%;
+  }
+  .pay .step-wrap .deli-info.form dl dd{
+  	width: 79%;
   }
   #body form[name=payFrm] .pay .step-wrap .deli-info.form dl dd select {
     font-size: 0.875rem;
     padding-left: 10px;
     padding-right: 10px;
   }
+  #body form[name=payFrm] .pay .step-wrap .discount-step li .btn-type-brd5{
+  	padding: 0px;
+    text-align: center;
+  }
   #body form[name=payFrm] .pay .step-wrap .deli-info.form dl dd select[name=more_req_box] {
-    width: 54%;
+    width: 100%;
+  }
+  #body form[name=payFrm] .pay .step-wrap .discount-step ul{
+  	padding: 0 10px;
   }
   #body form[name=payFrm] .pay .step-wrap .discount-step li {
-    width: 90%;
+        width: 100%;
+    margin: 0 auto;
+  }
+  #body form[name=payFrm] .store .point1{
+  	width: 100%;
+  	margin-left: auto;
+  }
+  #body .store{
+  	display: block;
+  }
+  #body .store{
+  	display: block;
+  }
+  #body .store .point{
+  	width: 75%;
+  }
+  #body form[name=payFrm] .pay .step-wrap .discount-step #voucher{
+  	display: block;
+  }
+  #body form[name=payFrm] .pay .step-wrap .discount-step #voucher .point1{
+      width: 21%;
+  	position: relative;
+    top: 5px;
+    right: -12px;
+  }
+  #body form[name=payFrm] .pay .step-wrap .discount-step #voucher>span{
+  	float: left;
+  	margin-top: 10px;
+  }
+  #body form[name=payFrm] .pay .step-wrap .discount-step #voucher .point2{
+  	float: left;
+  	margin-top:20px;
+  }
+  #body form[name=payFrm] .pay .step-wrap .couponlist{
+  	width: 100%;
+  	overflow: unset;
+  }
+  #body form[name=payFrm] .pay .step-wrap .couponlist .couponTable{
+  	width: 100%;
+  }
+  #body .pay .step-wrap.pay-step .otherMethod-wrap{
+      margin-left: auto;
+    margin-top: auto;
+    padding: 10px;
+  }
+  #body .pay .step-wrap.pay-step .otherMethod-wrap .pay-info .list-chk{
+  	width: 100%;
+  	margin:0;
+  }
+  #body .pay .step-wrap.pay-step .otherMethod-wrap .pay-info .list-chk *{
+  	width: 100%;
+  }
+  #body .pay .step-wrap.pay-step .otherMethod-wrap .pay-info .list-chk .btn-payMethod .paynm{
+  	margin:4px 0;
+  }
+  #body .pay .step-wrap.pay-step .otherMethod-wrap .pay-info  .chk-box.v3.pay2_bill{
+   margin-left:0;
+   margin-top: 10px;
+  }
+  #body .pay .step-wrap.pay-step .otherMethod-wrap .pay-info .list-chk .checkbox{
+  	    width: 23px;
+  	    margin-left: 0;
+  }
+  #body form[name=payFrm] .pay .step-wrap .couponlist .couponTable thead tr{
+  	    display: flex;
+    flex-direction: column;
+  }
+  #body form[name=payFrm] .pay .step-wrap .couponlist .couponTable thead td{
+  	width: unset !important ;
+  }
+  #body form[name=payFrm] .pay .step-wrap .couponlist .coupontr{
+  	width: 100%;
+  }
+  #body form[name=payFrm] .pay .step-wrap .couponlist .coupontr td{
+  	display: block;
+  	float:left;
+  	width: 100%;
+  	padding: 5px 0;
+  }
+  #body form[name=payFrm] .pay .step-wrap .couponlist .coupontr td:nth-of-type(1){
+  	font-weight: 600;
+  }
+  #body form[name=payFrm] .pay .step-wrap .couponlist .coupontr td:nth-of-type(3){
+  	color: #999;
   }
   #body form[name=payFrm] .pay .step-wrap.pay-step .pay-info3 {
     padding: 20px;
@@ -526,11 +644,14 @@
             justify-content: space-evenly;
   }
   #body form[name=payFrm] .pay .step-wrap .total-step > ul > li {
-    padding: 0 12px;
+    padding: 0;
     margin: 0;
   }
   #body form[name=payFrm] .pay .step-wrap .total-step > ul > li .tit {
     font-size: 0.875rem;
+  }
+  #body form[name=payFrm] .pay .step-wrap .total-step > ul > li .price{
+  font-size: 0.75rem;
   }
   #body form[name=payFrm] .pay .step-wrap .total-step > ul > li .price em {
     font-size: 1.5rem;
@@ -572,4 +693,48 @@
         -ms-flex-align: center;
             align-items: center;
   }
+  .menu .menu-list .menu-cart .menu-cart-modal .cart-total p span{
+  	font-size: 1rem;
+  }
+  .menu .menu-list .menu-cart .menu-cart-modal .cart-total p span:nth-of-type(3){
+  	font-size: 1rem;
+  }
+  .menu .menu-list .menu-cart .menu-cart-modal .cart-total{
+  	padding: 20px 20px 20px 0;
+  }
+  .menu .menu-list .menu-cart .menu-cart-modal .cart-btn{
+  	width: 94%;
+    margin: 0 auto 0 1px;
+  }
+  .chk-box label{
+  	font-size : 1rem;
+  }
+	  .pay .storelist .storeTable{
+	 	font-size: 0.8rem;
+	 	width: 100%;
+	 	border:0;
+	 	border-spacing: 0;
+	 	margin-top: 20px;
+	 }
+	 .pay .storelist .storeTable thead tr td:nth-of-type(1){
+	 	width: 22% !important;
+	 }
+	 .pay .storelist .storeTable thead tr td:nth-of-type(2){
+	 	width: 58% !important;
+	 }
+	 .pay .storelist .storeTable thead tr td:nth-of-type(3){
+	 	width: 20% !important;
+	 }
+	 .pay .storelist .storeTable tbody td{
+	 	padding: 14px 0;
+	 }
+	 .pay .storelist .storeTable tbody tr{
+	 	border-bottom: 1px solid #d9d9d9;
+	 }
+	 .pay .storelist .storeTable tbody tr:first-child{
+	 	border-top: 1px solid #d9d9d9;
+	 }
+	 .btn-type-brd5#cusStore{
+	 	margin-top: 20px;
+	 }
 }
