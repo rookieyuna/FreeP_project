@@ -160,6 +160,7 @@ height: 550px;
 margin-top: -240px;
 margin-left: -550px;
 z-index: 4000;
+overflow: initial;
 }
 
 .mypage-wrap .CP-wrap #pop-menu-detail.review-detail-modal .pop-wrap .pop-modal2 {
@@ -910,7 +911,35 @@ display: none;
     width: -webkit-fill-available;
     height: auto;
 }
+#pop-menu-detail.review-detail-modal .pop-wrap .pop-modal2 .modal2-layer-btn{
+    position:relative;
+}
+#pop-menu-detail.review-detail-modal .pop-wrap .pop-modal2 .modal2-layer-btn li{
+    position: absolute;
+    z-index: 4000;
+    right:0;
+    top: 10px;
+}
+#pop-menu-detail.review-detail-modal .pop-wrap .pop-modal2 .modal2-layer-btn li:nth-of-type(1){
+    right:110px;
+}
 
+#pop-menu-detail.review-detail-modal .modal2-layer-btn li button,
+#pop-menu-detail.review-detail-modal .modal2-layer-btn li a
+{
+    background: #111;
+    color:#fff;
+    line-height: normal;
+    padding: 10px 20px;
+    display: inline-block;
+    
+}
+#pop-menu-detail.review-detail-modal .modal2-layer-btn li button:hover,
+#pop-menu-detail.review-detail-modal .modal2-layer-btn li a:hover{
+    background: #FF6510;
+    color:#fff;
+    transition: all 0.3s ease;
+}
 
 
 
