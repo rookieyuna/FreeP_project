@@ -39,6 +39,8 @@
 			
 		    console.log("idx="+idx);
 			
+		    $(".modal2-layer-btn li a").attr("href", "./myReviewWrite.do?rv_idx="+idx);
+		    
 			$.ajax({ 
 				url: "/freepproject/community/reviewdetail.do",
 				type:"POST", 
@@ -375,7 +377,7 @@
                                     <!-- 상세모달창 btn -->
 									<div class="modal2-layer-btn">
 			                            <ul>
-			                                <li><a href="./myReviewWrite.html">수정하기</a></li>
+			                                <li><a href="./myReviewWrite.do">수정하기</a></li>
 			                                <li><button onclick="">삭제하기</button></li>
 			                            </ul>
 			                        </div>

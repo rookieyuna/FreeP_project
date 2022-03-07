@@ -1992,7 +1992,11 @@
   -webkit-transition: all 0.3s ease;
   transition: all 0.3s ease;
 }
-
+.menu .menu-list-area.active .menu-cart .menu-cart-btn{
+	right: 220px;
+    top: 187px;
+    transition: all 0.3s ease;
+}
 .menu .menu-list-area.active .DIYmenu > li .DIYmenu_section_list {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;

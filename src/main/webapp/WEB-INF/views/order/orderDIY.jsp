@@ -146,7 +146,7 @@
                                             <div class="prd-cont">
                                                 <div class="subject">
                                                     <div class="label-box">
-                                                        <span class="label limit">기간한정</span>
+                                                        <!-- <span class="label limit">기간한정</span> -->
                                                     </div>
                                                     <input type="text" value="${row.p_code }" class="order-code">
                                                     <div class="order-name">${row.p_name }</div>
@@ -188,7 +188,7 @@
                                             <div class="prd-cont">
                                                 <div class="subject">
                                                     <div class="label-box">
-                                                        <span class="label limit">기간한정</span>
+                                                        <!-- <span class="label limit">기간한정</span> -->
                                                     </div>
                                                     <input type="text" value="${row.p_code }" class="order-code">
                                                     <div class="order-name">${row.p_name }</div>
@@ -230,7 +230,7 @@
                                             <div class="prd-cont">
                                                 <div class="subject">
                                                     <div class="label-box">
-                                                        <span class="label limit">기간한정</span>
+                                                        <!-- <span class="label limit">기간한정</span> -->
                                                     </div>
                                                     <input type="text" value="${row.p_code }" class="order-code">
                                                     <div class="order-name">${row.p_name }</div>

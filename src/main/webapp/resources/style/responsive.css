@@ -38,6 +38,10 @@
   #body .inner-box, #body #gnb .gnb-inner {
     width: 100%;
   }
+  #body [class^='sub-type'] .menu-nav-wrap{
+  	margin: 0;
+      padding-top: 15px;
+  }
   #body [class^='sub-type'] .menu-nav-wrap .menu-nav ul {
     padding: 0 10px;
     display: -webkit-box;
@@ -496,6 +500,9 @@
         -ms-flex-align: end;
             align-items: flex-end;
   }
+  #body .pay{
+  	padding: 0;
+  }
   #body form[name=payFrm] .pay .step-wrap .deli-info {
     padding: 40px 20px;
   }
@@ -736,5 +743,11 @@
 	 }
 	 .btn-type-brd5#cusStore{
 	 	margin-top: 20px;
+	 }
+	 #chk-store select[name=more_req_box]{
+	 	width: 100% !important;
+	 	padding: 0;
+	 	text-align: center;
+	 	margin-top: 10px;
 	 }
 }
