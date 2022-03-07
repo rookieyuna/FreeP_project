@@ -274,4 +274,33 @@ function reviewSlick(){
       lazyLoad: 'progressive',
     });   
 };
+   
+
+// mobile responsive motion add KSB 220307
+$(function(){
     
+
+    $(window).resize(function(){ 
+        var windowWidth = window.matchMedia("screen and (max-width: 768px)"); 
+        if (windowWidth.matches) { 
+            //screen and (max-width: 768px)에 해당한다. 
+            $(window).scroll(function() {
+                // top button controll
+                if ($(this).scrollTop() > 500) {
+                    $('.orderMoveTop').fadeIn();
+                } else {
+                    $('.orderMoveTop').fadeOut();
+                }
+            });
+            
+        } else { 
+            //screen and (max-width: 768px)에 해당하지 않는다. 
+            
+        }
+    });
+    
+	$(document).on('click','.orderMoveTopBtn', function (e) {
+        e.stopPropagation();
+        $('html, body').animate({scrollTop:0}, '300');
+    });
+});

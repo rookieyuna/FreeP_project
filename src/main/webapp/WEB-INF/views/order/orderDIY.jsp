@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="../style/sub.css">
     <link rel="stylesheet" href="../style/order.css">
     <link rel="stylesheet" href="../style/layout.css">
+    <link rel="stylesheet" href="../style/responsive.css">
     <!-- icon영역 -->
     <link
         href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
@@ -28,6 +29,8 @@
     <script src="../js/jquery-3.6.0.js"></script>
     
     <meta name="csrf-token" content="${_csrf.token}"/>
+    
+
 </head>
 
 <body id="body">
@@ -408,7 +411,15 @@
             </div>
         </div>
     </div>
-	<textarea name="" id="txtarea_json" cols="30" rows="10"></textarea>
+
+	<div class="orderMoveTop">
+        <button class="orderMoveTopBtn">
+            <span class="material-icons">
+                vertical_align_top
+            </span>
+        </button>
+    </div>
+
     <footer id="footer">
         <%@ include file="../common/footer.jsp" %>
     </footer>

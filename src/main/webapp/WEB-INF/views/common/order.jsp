@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="../style/sub.css">
     <link rel="stylesheet" href="../style/order.css">
     <link rel="stylesheet" href="../style/layout.css">
+    <link rel="stylesheet" href="../style/responsive.css">
     <!-- icon영역 -->
     <link
         href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"

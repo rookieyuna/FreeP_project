@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="../style/sub.css">
     <link rel="stylesheet" href="../style/order.css">
     <link rel="stylesheet" href="../style/layout.css">
+    <link rel="stylesheet" href="../style/responsive.css">
     <!-- icon영역 -->
     <link
         href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
@@ -335,15 +336,21 @@ function validateForm(form) {
                         </div>
                         </form:form>
                         <!-- //주문하기 버튼 -->
-                        <div class="info-wrap">
-                            <div class="title-wrap">
-                                <div class="title-type2">유의사항</div>
-                            </div>
-                            <div class="cont-wrap">
-                                <ul class="list-text-v3">
-                                    <li>* 돼지가 되어갑니다 고객님.</li>
-                                    <li>* 피클&amp;소스 기본 제공은 하는데 소스 찍으면 칼로리 아시죠?</li>
-                                </ul>
+                        <div class="bottom-guide-area">
+                            <div class="box">
+                                <div class="list-text">
+                                    <dt>※ 유의사항</dt>
+                                    <dd>
+                                        <ul>
+                                            <li>단종으로 인한 상품권 사용 안내 : 동일 가격 또는 더 높은 가격의 제품으로 대체 주문 가능<br>
+                                                (상품권에 명시된 제품보다 더 높은 가격대의 제품 주문 시, 금액 추가 발생)<br>
+                                                (단, 상품권에 명시된 제품보다 저렴한 제품 주문 시 발생하는 차액에 대해서는 환불 처리 불가)</li>
+                                            <li>
+                                                일부 리조트 및 특수매장은 상기 가격과 차이가 있음</li>
+                                            <li>모든 사진은 이미지 컷이므로 실제 제품과 다를 수 있습니다.</li>
+                                        </ul>
+                                    </dd>
+                                </div>
                             </div>
                         </div>
 

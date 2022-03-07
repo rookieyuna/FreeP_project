@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="../style/sub.css">
     <link rel="stylesheet" href="../style/order.css">
     <link rel="stylesheet" href="../style/layout.css">
+    <link rel="stylesheet" href="../style/responsive.css">
     <!-- icon영역 -->
     <link
         href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
@@ -73,14 +74,14 @@ function validateForm(form) {
                         </div>
 
 
-						  <!-- 사이드 메뉴 영역 -->
-                        <div class="title-wrap-center">
-                            <h3 class="title-type">
-                                사이드디쉬
-                            </h3>
-                        </div>
-
                         <div class="otherMenu menu-list">
+	                         <!-- 사이드 메뉴 영역 -->
+	                        <div class="title-wrap-center">
+	                            <h3 class="title-type">
+	                                사이드디쉬
+	                            </h3>
+	                        </div>
+	                        
                             <div class="menu-cart">
                                 <button class="menu-cart-btn">
                                     <span class="material-icons-outlined">
@@ -195,6 +196,14 @@ function validateForm(form) {
                 </div>
             </div>
         </div>
+    </div>
+	
+	<div class="orderMoveTop">
+        <button class="orderMoveTopBtn">
+            <span class="material-icons">
+                vertical_align_top
+            </span>
+        </button>
     </div>
 
     <footer id="footer">
