@@ -90,9 +90,11 @@ public class CartController {
 	@ResponseBody
 	public Map<String,Object> storeList(Model model, HttpServletRequest req, Principal principal){
 		Map<String, Object> result = new HashMap<String, Object>();
-	    try{			
+	    try{
+	    	
 	       double longitude = Double.parseDouble(req.getParameter("longitude"));	    
 	       double latitude = Double.parseDouble(req.getParameter("latitude"));	
+
 	
 	      
 	       ArrayList<StoreVO> lists =

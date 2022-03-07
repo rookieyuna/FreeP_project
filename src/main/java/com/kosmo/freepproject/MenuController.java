@@ -441,6 +441,7 @@ public class MenuController {
 				sqlData.put("m_code", m_codeStr);
 				sqlData.put("ct_code", sendData.get("diy_idx"));
 				sqlData.put("ct_name", d_nameStr);
+
 				sqlSession.getMapper(MenuImpl.class).insertCart(sqlData);
 		    }  
 		      result.put("result", referer);
