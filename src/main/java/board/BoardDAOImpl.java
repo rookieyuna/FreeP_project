@@ -43,7 +43,10 @@ public interface BoardDAOImpl {
 	
 	public void updatehit(int a);
 	
-	public BoardDTO titlepre(int a); 
+	public BoardDTO titlepre(int a, int b); 
 	
-	public BoardDTO titlenext(int a);
+	public BoardDTO titlenext(int a, int b);
+	
+	
+	
 }

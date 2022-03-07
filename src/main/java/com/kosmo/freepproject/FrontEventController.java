@@ -137,8 +137,8 @@ public class FrontEventController {
 		sqlSession.getMapper(BoardDAOImpl.class).updatehit(Integer.parseInt(req.getParameter("idx")));
 		
 		
-		BoardDTO pre = sqlSession.getMapper(BoardDAOImpl.class).titlepre(Integer.parseInt(req.getParameter("idx")));
-		BoardDTO next = sqlSession.getMapper(BoardDAOImpl.class).titlenext(Integer.parseInt(req.getParameter("idx")));
+		BoardDTO pre = sqlSession.getMapper(BoardDAOImpl.class).titlepre(Integer.parseInt(req.getParameter("idx")),2);
+		BoardDTO next = sqlSession.getMapper(BoardDAOImpl.class).titlenext(Integer.parseInt(req.getParameter("idx")), 2);
 		
 		//내용에 대한 줄바꿈 처리
 		String temp = dto.getContents().replace("\r\n","<br/>");
