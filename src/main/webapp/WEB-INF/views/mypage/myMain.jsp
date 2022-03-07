@@ -119,6 +119,7 @@
                                                                             <dd>
                                                                             	<strong class="font-secondary">${myCouponCount }</strong><span>개</span>
                                                                             </dd>
+                                                                            <dd></dd>
                                                                         </dl>
                                                                     </li>
                                                                 </ul>

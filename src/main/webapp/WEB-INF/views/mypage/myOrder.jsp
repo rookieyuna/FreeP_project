@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -99,7 +100,8 @@
 											<th>${totalOrderCount - (((nowPage-1) * pageSize) + loop.index)}</th>
 											<!-- 아래 주문내용 수정해야함 -->
 											<td >${row.total_name }</td>
-											<td >${row.or_date }</td>
+											<c:set var="date" value="${row.or_date }" />
+											<td >${fn:split(date, ' ')[0] }</td>
 											<c:choose>
 						                    	<c:when test="${row.state eq '1'}"><td>주문완료</td></c:when>
 						                    	<c:when test="${row.state eq '2'}"><td>주문접수</td></c:when>
@@ -109,15 +111,16 @@
 						                    </c:choose>
 						                    <!-- 배달완료전/ 배달완료 후 작성한 리뷰가 있는경우/ 작성된 리뷰가 없는 경우 -->
 											<c:choose>
-						                    	<c:when test="${row.reviewChk eq '0' and row.state le '4'}">
+						                    	<c:when test="${row.state le '4' and row.reviewChk eq '0'}">
 						                    		<td></td>
 						                    	</c:when>
-						                    	<c:when test="${row.reviewChk eq '0' and row.state eq '5'}">
+						                    	<c:when test="${row.state eq '5' and row.reviewChk eq '0'}">
 						                    		<td class="review_false"><button onClick="location.href='./myReviewWrite.do?or_idx=${row.or_idx }'"></button></td>
 						                    	</c:when>
-						                    	<c:when test="${row.reviewChk ne '0'}">
+						                    	<c:when test="${row.state eq '5' and row.reviewChk ne '0'}">
 						                    		<td class="review_true"></td>
 						                    	</c:when>
+						                    	<c:otherwise><td></td></c:otherwise>
 						                    </c:choose>
 										</tr>
 									</c:forEach>

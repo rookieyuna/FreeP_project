@@ -400,7 +400,7 @@ public class MypageController {
 	@RequestMapping("/mypage/myInfoUpdate.do")
 	public String myInfoUpdate(HttpServletRequest req, Model model) {
 		
-		String phone = req.getParameter("hand_tel1")+"-"+req.getParameter("hand_tel2")+"-"+req.getParameter("hand_tel3");
+		String phone = req.getParameter("hand_tel1")+req.getParameter("hand_tel2")+req.getParameter("hand_tel3");
 		String email = req.getParameter("email1")+"@"+req.getParameter("email2");
 		String address = req.getParameter("address")+" "+req.getParameter("address2");
 		
