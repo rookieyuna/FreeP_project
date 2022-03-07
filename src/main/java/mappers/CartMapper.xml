@@ -16,13 +16,16 @@
   	
   	<select id="listPagediy" resultType="cart.CartDTO">
   	
-  		select ct_idx, ct_name, ct_count, d_price, dough, sauce, topping1, topping2, topping3, topping4, topping5
+  		select ct_idx, ct_name, ct_count,ct_code, d_price, dough, sauce, topping1, topping2, topping3, topping4, topping5
 			from cart C, diy d
 			where 
     			C.ct_code = d.diy_idx
    				and C.m_code = #{param1}
   	</select>
-  	
+  	<!-- 토핑들 idx값만 가져오기 -->
+  	<select id="takeTopping" resultType="cart.CartDTO">
+  		select topping1,topping2, topping3, topping4, topping5 from diy where diy_idx = #{param1}
+  	</select>
  
   	<select id="objectdiy" resultType="cart.CartDTO">
   	

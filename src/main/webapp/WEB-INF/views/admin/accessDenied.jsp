@@ -2,9 +2,20 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" 
-	uri="http://www.springframework.org/tags/form" %>    
+	uri="http://www.springframework.org/tags/form" %>  
+<%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
+<%@ page import="org.springframework.security.core.Authentication" %>  
 <%@ include file="./commons/header.jsp" %>
 <body>
+<%
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    Object principal = auth.getPrincipal();
+ 
+    String name = "";
+    if(principal != null) {
+        name = auth.getName();
+    }
+%>
 	<div
 		class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
 		<div class="app-main">
@@ -28,7 +39,7 @@
 					<div class="card-body">
 						<h5 class="card-title">권한있는 계정으로 로그인</h5>
 						
-						${id }님
+						<%= name %>님
 						<form:form method="post"
 							action="${pageContext.request.contextPath }/admin/logout">
 

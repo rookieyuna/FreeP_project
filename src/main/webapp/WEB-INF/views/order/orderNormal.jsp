@@ -28,6 +28,15 @@
 </head>
 
 <body id="body">
+<script>
+function validateForm(form) {
+	if(form.cusid.value==""){
+		alert("로그인하세요.");
+		return false;
+	}
+	
+}
+</script>
     <header id="header">
         <%@ include file="../common/header.jsp" %>
     </header>
@@ -71,7 +80,8 @@
                                 </button>
                                 <div class="menu-cart-modal">
                                     <h4>선택품목</h4>
-                                    <form action="./insertCart.do" id="insertCart" name="insertCart" method="post" onsubmit="" >
+                                    <form action="./insertCart.do" id="insertCart" name="insertCart" method="post" onsubmit="return validateForm(this);" >
+                                     <input type="hidden" id="cusid" name="cusid" value="${id }"/>
                                     <input type="hidden"
 										name="${_csrf.parameterName}"
 										value="${_csrf.token}"/>

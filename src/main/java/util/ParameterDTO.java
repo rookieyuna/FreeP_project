@@ -22,6 +22,7 @@ public class ParameterDTO {
 	private String address; //매출현황 지역검색1
 	private String locations; //매출현황 지역검색2
 	private String storeName;//지도 매장명검색
+	private int cate;//게시판
 	
 	//회원구분을 위한 변수
 	private String grade;

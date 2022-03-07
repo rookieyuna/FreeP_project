@@ -218,7 +218,6 @@ public class MemberController {
 		String api_secret = "JM35WZMCTAE0A5ZSAERCB9VACDIGKRAN";
 		Message coolsms = new Message(api_key, api_secret);
 
-		// 4 params(to, from, type, text) are mandatory. must be filled
 		HashMap<String, String> params = new HashMap<String, String>();
 		params.put("to", userPhoneNumber); // 수신전화번호
 		params.put("from", "자신의 번호"); // 발신전화번호. 테스트시에는 발신,수신 둘다 본인 번호로 하면 됨
@@ -274,9 +273,8 @@ public class MemberController {
 	
 	// 카카오 회원가입 처리 입력값 DB로 넘기
 	
-	 @RequestMapping(value = "/member/kakaoAction.do", method =
-	 RequestMethod.POST) public String kakaoAction(Model model, HttpServletRequest
-	 req) {
+	 @RequestMapping(value = "/member/kakaoAction.do", method = RequestMethod.POST)
+	 public String kakaoAction(Model model, HttpServletRequest req) {
 	 
 		 
 			String email = req.getParameter("email1") + "@" + req.getParameter("email2");
@@ -294,8 +292,73 @@ public class MemberController {
 			sqlSession.getMapper(MemberImpl.class).regkakaoAction(memberVO);
 			sqlSession.getMapper(MemberImpl.class).coupon(memberVO);
 
+
 			return "member/regStep3";
 	 }
-	 
+
+		
+		
+		
+		
+		 
+		//아이디 찾기 페이지 매핑
+			@RequestMapping("/member/findId.do")
+			public String findId() {return "member/findId";}
+			
+			//아이디 찾기 처리
+			@ResponseBody
+			@RequestMapping(value="/member/search_id.do", method = RequestMethod.GET)
+			public Map<String,Object> search_id(Model model, HttpServletRequest req) throws Exception{
+				String phone = (String) req.getParameter("phone");
+				String id = sqlSession.getMapper(MemberImpl.class).find_id(phone);
+				System.out.println(phone);
+				Map<String, Object> result = new HashMap<String, Object>();
+		        result.put("id", id);
+				return result;
+				
+			}
+			 
+			//패스워드 찾기 페이지 매핑
+			@RequestMapping("/member/findPw.do")
+			public String findPw() {return "member/findPw";}
+			
+			
+			//패스워드 변경하기 페이지 매핑
+			@RequestMapping("/member/pwChange.do")
+			public String pwChange(HttpServletRequest req, Model model) {
+				
+				String phone = req.getParameter("phone");
+				model.addAttribute("phone", phone);
+				
+				return "member/pwChange";
+			}
+			
+			
+			//패스워드 변경처리 
+			@RequestMapping("/member/pwAction.do")
+			public String pwAction(HttpServletRequest req, Model model) {
+				
+				
+				MemberVO memberVO = new MemberVO();
+				memberVO.setPass(req.getParameter("pass")); 
+				memberVO.setPhone(req.getParameter("phone")); 
+				
+				int result = sqlSession.getMapper(MemberImpl.class).pwAction(memberVO);
+				
+				if(result>0) {
+					model.addAttribute("msg","패스워드가 수정되었습니다.");
+					//return "member/myPwUpdate";
+					return "member/myPwUpdate";
+				}
+				else {
+					model.addAttribute("msg","패스워드 수정에 실패하였습니다.\\n가입 시 입력한 휴대폰 번호를 다시 확인해 주세요");
+			        
+			        return "member/myPwFail";
+				}
+				
+			}
+		 
+		
+		
 
 }

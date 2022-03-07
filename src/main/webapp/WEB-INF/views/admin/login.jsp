@@ -123,11 +123,11 @@
 								<label for="checkbox2" class="col-sm-2 col-form-label"></label>
 								<div class="col-sm-10">
 									<div class="position-relative form-check">
-										<label class="form-check-label"><input id="checkbox2"
+										<!-- <label class="form-check-label"><input id="checkbox2"
 											type="checkbox" class="form-check-input"> 아이디 저장</label>
 										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <label
 											class="form-check-label"><input id="checkbox2"
-											type="checkbox" class="form-check-input"> 로그인 정보 저장</label>
+											type="checkbox" class="form-check-input"> 로그인 정보 저장</label> -->
 									</div>
 
 								</div>

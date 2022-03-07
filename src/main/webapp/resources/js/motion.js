@@ -102,22 +102,6 @@ jQuery(function () {
         }
     });
     
-
-
-    // 커뮤니티>후기게시판>후기이미지 클릭 버튼 동작
-    jQuery(".review .img_wrap").click(function(){
-        $(".review-detail-modal").css({
-            "display":"block"
-        })
-    });
-
-
-    // 마이페이지>MY리뷰>마이리뷰리스트 클릭 버튼 동작
-    jQuery(".mypage .myReview-wrap .board-list tr").click(function(){
-        $(".review-detail-modal").css({
-            "display":"block"
-        })
-    });
      
     // 컴패니>매장찾기>상세보기 클릭 버튼 동작
     jQuery(".store-search .store-info-box").click(function(){
@@ -166,6 +150,7 @@ jQuery(function () {
             "display":"block"
         })
     });
+
     // 커뮤니티>후기게시판 > 상세보기 > 아코디언 패널
 	$(document).on('click','.aco_top', function (e) {
 		e.stopPropagation();
@@ -179,24 +164,11 @@ jQuery(function () {
 				$(".aco_bottom").slideUp();
 				$(".detail-more-btn").removeClass("active");
 			}
-			
-		}else{
-			
-			
+		}else{			
 		}	
-		
-        
     });    
 
-
-
-    $(".review_to_order").click(function(e){
-        e.stopPropagation();
-        // 바로주문 버튼 클릭시 주문페이지 이동 구현 예정
-        
-    });
-
-
+ 
     // etc > FAQ 테이블 아코디언 기능
     jQuery(".faq .faq-area .lst_faq_wrap dt").click(function (e) {
         e.stopPropagation();
@@ -208,7 +180,15 @@ jQuery(function () {
 
 
 
-    
+    // 마이페이지>MY리뷰>마이리뷰리스트 클릭 버튼 동작
+    jQuery(".mypage .myReview-wrap .board-list tr").click(function(e){
+		e.stopPropagation();
+		$(".detail-more-btn:eq(0)").addClass("active");
+        $(".review-detail-modal").css({
+            "display":"block"
+        })
+    });
+   
 
    
     jQuery(".slider").not('.slick-initialized').slick();

@@ -19,7 +19,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import board.BoardDAOImpl;
 import board.BoardDTO;
-import board.ParameterDTO;
 import util.PagingUtil;
 import util.PagingUtil_front;
 
@@ -67,7 +66,7 @@ public class FrontEventController {
 		//내용에 대한 줄바꿈 처리
 		for(BoardDTO dto : lists){
 			String temp = dto.getContents().replace("\r\n","<br/>");
-			dto.setContents(temp);
+			dto.setContents(temp); 
 		}
 		model.addAttribute("lists", lists);		
 		return "community/event";

@@ -243,22 +243,28 @@ function formValidate(frm){
                                                     <div class="select-type2">
                                                     <c:set var="phone" value="${vo.phone }" />
                                                         <select name="hand_tel1" id="hand_tel1" class="selected">
-                                                            <option value="010"<c:if test="${fn:split(phone, '-')[0] == 010}">selected</c:if>>010</option>
+                                                            <option value="010"<c:if test="${fn:substring(phone, 0, 3) == 010}">selected</c:if>>010</option>
+                                                            <option value="011"<c:if test="${fn:substring(phone, 0, 3) == 011}">selected</c:if>>011</option>
+                                                            <option value="016"<c:if test="${fn:substring(phone, 0, 3) == 016}">selected</c:if>>016</option>
+                                                            <option value="017"<c:if test="${fn:substring(phone, 0, 3) == 017}">selected</c:if>>017</option>
+                                                            <option value="018"<c:if test="${fn:substring(phone, 0, 3) == 018}">selected</c:if>>018</option>
+                                                            <option value="019"<c:if test="${fn:substring(phone, 0, 3) == 019}">selected</c:if>>019</option>
+                                                            <%-- <option value="010"<c:if test="${fn:split(phone, '-')[0] == 010}">selected</c:if>>010</option>
                                                             <option value="011"<c:if test="${fn:split(phone, '-')[0] == 011}">selected</c:if>>011</option>
                                                             <option value="016"<c:if test="${fn:split(phone, '-')[0] == 016}">selected</c:if>>016</option>
                                                             <option value="017"<c:if test="${fn:split(phone, '-')[0] == 017}">selected</c:if>>017</option>
                                                             <option value="018"<c:if test="${fn:split(phone, '-')[0] == 018}">selected</c:if>>018</option>
-                                                            <option value="019"<c:if test="${fn:split(phone, '-')[0] == 019}">selected</c:if>>019</option>
+                                                            <option value="019"<c:if test="${fn:split(phone, '-')[0] == 019}">selected</c:if>>019</option> --%>
                                                         </select>
                                                     </div>
-                                                    <input type="text" name="hand_tel2" id="hand_tel2" maxlength="4" value="${fn:split(phone, '-')[1] }">
-                                                    <input type="text" name="hand_tel3" id="hand_tel3" maxlength="4" value="${fn:split(phone, '-')[2] }">
-                                                    <a href="javascript:doUpdatePhone();" id="updatePhoneBtn"
+                                                    <input type="text" name="hand_tel2" id="hand_tel2" maxlength="4" value="${fn:substring(phone, 3, 7) }">
+                                                    <input type="text" name="hand_tel3" id="hand_tel3" maxlength="4" value="${fn:substring(phone, 7, 11) }">
+                                                    <!-- <a href="javascript:doUpdatePhone();" id="updatePhoneBtn"
                                                         class="btn-type v7">변경/확인</a>
                                                     <a href="javascript:doSendAuthKey();" id="sendAuthBtn"
                                                         class="btn-type v7" style="display:none;">인증요청</a>
                                                     <a href="javascript:void(0);" id="successAuthBtn"
-                                                        class="btn-type v7" style="display:none;">인증완료</a>
+                                                        class="btn-type v7" style="display:none;">인증완료</a> -->
                                                 </div>
                                                 <div class="text-type4" id="tel_alert" style="display:none;"></div>
                                             </div>

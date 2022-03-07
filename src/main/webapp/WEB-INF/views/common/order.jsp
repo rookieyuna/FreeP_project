@@ -53,7 +53,7 @@
     /* border: 1px; */
     overflow: auto;
     width: 820px;
-    height: 110px;
+    height: auto;
 	}
 	.couponlist .couponTable{
 	    width: 799px;
@@ -74,16 +74,34 @@
 
 <script>
 function iamport_prev(){
+	
+	
+	if(document.getElementById("customerName").value==""){
+		alert("수령인 정보를 입력하세요");
+		return false;
+	}
+	if(document.getElementById("tel2").value==""){
+		alert("수령인 정보를 입력하세요");
+		return false;
+	}
+	if(document.getElementById("tel3").value==""){
+		alert("수령인 정보를 입력하세요");
+		return false;
+	}
 	document.getElementById("phone").value = document.getElementById("tel1").value + document.getElementById("tel2").value + document.getElementById("tel3").value; 
 	
 	var credit =  document.getElementById("credit").value;
+	if(credit=="0"){
+		alert("결제수단을 선택해주세요");
+		return false;
+	}
 	if( credit == '1'){
 	
 	 iamport();		
 	}
 	else{
 
-	 document.payFrm.submit(); 	}
+	 document.payFrm.submit(); 	} 
 		
 }
 	/* https://admin.iamport.kr/payments */
@@ -114,8 +132,9 @@ function iamport(){
 		    } else {
 		    	 var msg = '결제에 실패하였습니다.';
 		         msg += '에러내용 : ' + rsp.error_msg;
+		         alert(msg);
 		    }
-		    alert(msg);
+		   
 		});
 	}
 </script>
@@ -201,6 +220,7 @@ function fn_custInfo(){
 }
 
 </script>
+
 <body id="body">
     <header id="header">
         <%@ include file="./header.jsp" %>
@@ -221,8 +241,8 @@ function fn_custInfo(){
                             </ol>
                         </div>
                     </div>
-                    <!-- //1depth 메뉴명 & 네비게이션 -->
-					<form:form name="payFrm" method="post" action="./pay.do" onsubmit="" >
+                    <!-- //1depth 메뉴명 & 네비게이션 ./pay.do  onsubmit="return validateForm(this);"-->
+					<form:form name="payFrm" method="post" action="./pay.do" >
                     <article class="pay">
                         
 
@@ -307,7 +327,7 @@ function fn_custInfo(){
                                                             </div>
                                                             <input type="text" id="tel2" name="tel2" maxlength="4" class="i_text" title="휴대전화번호">
                                                             <input type="text" id="tel3" name="tel3" maxlength="4" class="i_text" title="휴대전화번호">
-                                                            <input type="text" id="phone" name="phone" value=" " />
+                                                            <input type="hidden" id="phone" name="phone" value=" " />
                                                         </div>
                                                     </div>
                                                     
@@ -421,19 +441,24 @@ function fn_coupon(discount){
       			tableData += '<div class="couponlist"><table class="couponTable"><thead><tr><td style="width:30%"></td><td style="width:60%"></td><td style="width:10%"></td></tr>';
 				tableData += '</thead><tbody style="display:table-row-group;">';
 				
+				if(lists.length == 0){
+					tableData += '<tr class="coupontr" style="color:lightgray;"><td>보유한 쿠폰이 없습니다</td></tr>';
+						
+					tableData += '</tbody></table></div>';
+				}
+				else{					
 				$.each(lists,function(key,value){
 					
-					if(value.cp_const < pre_sum){
-					
+					if(value.cp_const < pre_sum){					
 						tableData += '<tr class="coupontr" onclick="fn_useCoupon('+value.cp_idx+',\''+ value.cp_name+'\','+value.cp_price+','+value.coupon_idx+');">';
 						tableData +=  '<td>'+ value.cp_name+'</td><td>'+ value.cp_cate +'</td><td>~ '+ value.expire_date+'</td></tr>';
-						
 					} 
 					else{
 						tableData += '<tr class="coupontr" style="color:lightgray;"><td>'+ value.cp_name+'</td><td>'+ value.cp_cate +'</td><td>~ '+ value.expire_date+'</td></tr>';
 					}			
 				});
 				tableData += '</tbody></table></div>';
+				}
             	$('#myCoupon').html(tableData);   
 
             },

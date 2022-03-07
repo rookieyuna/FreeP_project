@@ -19,8 +19,8 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import board.BoardDAOImpl;
 import board.BoardDTO;
-import board.ParameterDTO;
 import util.PagingUtil;
+import util.ParameterDTO;
 
 @Controller
 public class BoardController {
@@ -30,7 +30,6 @@ public class BoardController {
 	@Autowired
 	public void setSqlSession(SqlSession sqlSession) {
 		this.sqlSession = sqlSession;
-		//System.out.println("Mybatis 사용준비끝");
 	}
 	
 	
@@ -99,7 +98,7 @@ public class BoardController {
 		int end = pageSize * nowPage;
 
 		parameterDTO.setStart(start);
-		parameterDTO.setEnd(end);
+		parameterDTO.setEnd(end); 
 		
 		ArrayList<BoardDTO> lists =
 			sqlSession.getMapper(BoardDAOImpl.class).listPageSearch(parameterDTO);
@@ -293,7 +292,7 @@ public class BoardController {
 			
 			
 			
-			sqlSession.getMapper(BoardDAOImpl.class).edit(boardDTO);
+			sqlSession.getMapper(BoardDAOImpl.class).editNotice(boardDTO);
 			  
 			 
 		}

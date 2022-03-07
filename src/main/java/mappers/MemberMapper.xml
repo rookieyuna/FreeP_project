@@ -76,6 +76,18 @@
   	<select id="idChk"  resultType="int">
   		SELECT COUNT(*) FROM member WHERE id = #{param1}
   	</select>
+  	
+  	<!-- 아이디 찾기 -->
+	<select id="find_id" parameterType="String" resultType="String">
+		SELECT id FROM member WHERE phone = #{phone}
+	</select>
+	
+	<!-- 패스워드 수정 -->
+	<update id="pwAction" parameterType="member.MemberVO">
+		UPDATE member 
+			SET  pass=#{pass}
+			WHERE phone=#{phone}
+	</update>
 	
 	
 	<select id="view" resultType="member.MemberVO" parameterType="util.ParameterDTO">

@@ -26,33 +26,7 @@
 	<!-- 모달창 부분 -->
 	<script>
 	/* 매장 전체보기 */
-	function openLayerPopup(li) {
-		var token = $("meta[name='_csrf']").attr("content");
-	    var header = $("meta[name='_csrf_header']").attr("content");
-		
-	    $.ajax({ 
-			url: "storedetail.do",
-			type:"POST",
-			beforeSend : function(xhr){
-	    		xhr.setRequestHeader(header, token);
-	        },
-	        async:false,
-			data: {"b_code":b_code},
-			dataType:'json', 
-			success:function(response) { 
-				var name = response.vo;
-				var name1 = response.vo1;
-				
-				storeDetail(name, name1); 
-				
-			}, 
-			error: function(data){
-				alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"
-	        			+"\n"+"error:"+error)
-			} 
-		}); 
-	};
-	
+
 	/* 매장 상세정보 */
 	function storeDetailOpen(b_code){ 
 		
@@ -164,18 +138,19 @@
 									<div class="pop-content">
 										<div class="detail-map" id="map_large_canvas">
 											<!-- MAP 영역 -->
-											<div id="map_viewport" style="position: relative; width: 100%; height: 100%; z-index: 0; overflow: hidden;">
+											<div id="map_viewport" style="position: relative; width: 990px; height: 650px; z-index: 0; overflow: hidden;">
 												<script>
 												$(document).ready(function(){
 													
+													//alert('dddd');
 													var mapContainer = document.getElementById('map_viewport'), // 지도를 표시할 div  
 												    mapOption = { 
 												        center: new kakao.maps.LatLng(37.478714, 126.878665), // 지도의 중심좌표
-												        level: 11, // 지도의 확대 레벨
+												        level: 8, // 지도의 확대 레벨
 												    };
 												 
 													var maps = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
-													 
+													
 													var positions = [
 												    	{
 												    		title : '본점',
@@ -204,7 +179,7 @@
 													var imageSrc = "../images/01brand/brand_logo_marker.png"; 
 													    
 													for (var i = 0; i < positions.length; i ++) {
-													    
+														
 													    // 마커 이미지의 이미지 크기 입니다
 													    var imageSize = new kakao.maps.Size(54, 55); 
 													    
@@ -219,10 +194,22 @@
 													        image : markerImage // 마커 이미지 
 													    });
 													    
-													    marker.setMap(map);
+													    marker.setMap(maps);
+													  
 													}
-													 
+													
+												});
+												function resizeMap() {
+												    var mapContainer = document.getElementById('map_viewport');
+												    mapContainer.style.width = '970px';
+												    mapContainer.style.height = '650px'; 
 												}
+												
+												setTimeout(function() {
+												    map.relayout();
+												    map.setCenter(new kakao.maps.LatLng(lat, lng));
+												    // map.setLevel(2); 필요하면 레벨조정
+												}, 100);
 												</script>
 											</div>
 										</div>

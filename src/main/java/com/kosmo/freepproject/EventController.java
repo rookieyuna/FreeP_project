@@ -19,9 +19,9 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import board.BoardDAOImpl;
 import board.BoardDTO;
-import board.ParameterDTO;
 import review.ReviewBoardDAOImpl;
 import util.PagingUtil;
+import util.ParameterDTO;
 
 @Controller
 public class EventController {

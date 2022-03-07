@@ -28,26 +28,17 @@ public class CartDTO {
 	private String sauce_price;
 	private String sauce_size;	
 	
-	private List<String> toppinglist;
-	private int topping1;
-	private String topping1_name;
-	private String topping1_price;
-	private String topping1_size;	
-	private int topping2;
-	private String topping2_name;
-	private String topping2_price;
-	private String topping2_size;
-	private int topping3;
-	private String topping3_name;
-	private String topping3_price;
-	private String topping3_size;
-	private int topping4;
-	private String topping4_name;
-	private String topping4_price;
-	private String topping4_size;
-	private int topping5;
-	private String topping5_name;
-	private String topping5_price;
-	private String topping5_size;
+	private List<Integer> toppinglist;
 	
+	private List<String> topping_name;
+	private List<String> topping_price;
+	private List<String> topping_size;
+	
+
+	private int topping1;
+	private int topping2;
+	private int topping3;
+	private int topping4;
+	private int topping5;
+
 }
