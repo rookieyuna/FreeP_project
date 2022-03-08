@@ -21,7 +21,7 @@
 	</select>
 	
 	<select id="orderStatus" resultType="orderlist.OrderlistVO" parameterType="java.lang.String">
-		SELECT or_idx, or_date, S.b_name, M.address, latitude, longitude 
+		SELECT or_idx, or_date, S.b_name, S.address storeAddress, M.address, latitude, longitude 
 			FROM ordered O
 				INNER JOIN member M 
 					ON M.m_code=O.m_code
