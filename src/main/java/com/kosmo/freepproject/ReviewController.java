@@ -686,7 +686,7 @@ public class ReviewController {
 		String m_codeTemp = Integer.toString(m_code);
 		ParameterDTO paramDto = new ParameterDTO();
 		paramDto.setM_code(m_codeTemp);
-		int likeCount = sqlSession.getMapper(ReviewBoardDAOImpl.class).getMyFavCount(paramDto);
+		int likeCount = sqlSession.getMapper(MypageImpl.class).getMyReviewLikeCount(Integer.parseInt(req.getParameter("idx")));
 		dto.setLikeCount(likeCount);
 		
 		
@@ -825,16 +825,16 @@ public class ReviewController {
 		LikedReviewDTO dto = new LikedReviewDTO();
 		dto.setRv_idx(Integer.parseInt(req.getParameter("idx")));
 		dto.setM_code(sqlSession.getMapper(ReviewBoardDAOImpl.class).findm_code(principal.getName()));
-		int bbb = sqlSession.getMapper(ReviewBoardDAOImpl.class).likeChk(dto);
-		System.out.println(bbb);
-		if(bbb>0) {
-			System.out.println("기존 좋아요 있음");
+		int likeChk = sqlSession.getMapper(ReviewBoardDAOImpl.class).likeChk(dto);
+		
+		if(likeChk>0) {
+			//System.out.println("기존 좋아요 입력");
 			sqlSession.getMapper(ReviewBoardDAOImpl.class).dislikeReview(dto);
-			System.out.println("삭제완료되었습니다.");
+			//System.out.println("삭제 완료되었습니다.");
 		}else {
-			System.out.println("처음 좋아요하는거");
+			//System.out.println("새로운 좋아요 입력");
 			sqlSession.getMapper(ReviewBoardDAOImpl.class).likeReview(dto);			
-			System.out.println("추가 완료되었습니다");
+			//System.out.println("추가 완료되었습니다");
 		}
 		
 		return dto;

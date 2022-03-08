@@ -249,7 +249,7 @@
                             <p>작성하신 리뷰와 좋아요한 다른사람의 리뷰를 확인해보세요</p>
                         </div>
 
-                        <div class="CP-wrap">
+                        <div class="CP-wrap myWriteRev">
                             <div class="tab-type6"><!--2020-01-03 클래스명수정-->
                                 <ul class="tabTab">
                                     <li class="active"><button class="btnC1">내가쓴리뷰</button></li>

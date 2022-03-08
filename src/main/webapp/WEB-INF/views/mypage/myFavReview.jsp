@@ -172,13 +172,49 @@
 			document.getElementById("reviewImg2").src="/freepproject/uploads/"+data.rv_ofile2;
 			document.getElementById("reviewImg3").src="/freepproject/uploads/"+data.rv_ofile3; 
 			if(data.like == true){
-				$(".review-detail-modal .favorite-heart i").addClass("like").after("<span class='likeCount'>"+data.likeCount+"<span>");	
+				$(".review-detail-modal .favorite-heart i").addClass("like").attr("onclick","reviewLike('"+data.rv_idx+"')");	
 			}else{
-				$(".review-detail-modal .favorite-heart i").removeClass("like");	
+				$(".review-detail-modal .favorite-heart i").removeClass("like").attr("onclick","reviewLike('"+data.rv_idx+"')");	
 			}
 			
 			reviewSlick();
 		};
+		
+		function reviewLike(idx){ 
+			var token = $("meta[name='_csrf']").attr("content");
+		    var header = $("meta[name='_csrf_header']").attr("content");
+		    var currentIdx = idx;
+		    $.ajax({ 
+				url: "/freepproject/community/reviewLike.do",
+				type:"POST", 
+				beforeSend : function(xhr){
+		    		xhr.setRequestHeader(header, token);
+		        },
+				data: {"idx":idx},
+				success:function(data) {
+					var Len = $(".material-icons.unlike").length;
+					var chkLike = $(".material-icons.unlike");
+					$(".material-icons.unlike").eq(0).toggleClass("like");
+					
+					for(var i=1; i<Len; i++){
+						var temp = chkLike.eq(i)
+						var value = temp.attr("onclick").substring(temp.attr("onclick").indexOf("'")+1, temp.attr("onclick").lastIndexOf("'"));
+						if(value == idx){
+							if(temp.hasClass("like")){
+								temp.removeClass("like");
+							}else{
+								temp.addClass("like");						
+							}
+						}
+					}
+				},
+				error: function(data){
+					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"
+		        			+"\n"+"error:"+error)
+				} 
+		    }); 
+		};
+
 		
 		function reviewToCart(code){
 			var token = $("meta[name='_csrf']").attr("content");
@@ -242,7 +278,7 @@
                             <p>작성하신 리뷰와 좋아요한 다른사람의 리뷰를 확인해보세요</p>
                         </div>
 
-                        <div class="CP-wrap">
+                        <div class="CP-wrap myFavorRev">
                             <div class="tab-type6"><!--2020-01-03 클래스명수정-->
                                 <ul class="tabTab">
                                     <li><button class="btnC1" onclick="location.href='myReview.do?';">내가쓴리뷰</button></li>
@@ -280,7 +316,7 @@
 		                                    <tbody class="board-list fill">
 			                                    <c:forEach items="${lists }" var="row" varStatus="loop">
 													<tr onclick="reviewDetailOpen('${row.rv_idx}');">
-														<td>${totalreviewCount - (((nowPage-1) * pageSize) + loop.index)}</td>
+														<td>${totalFavReviewCount - (((nowPage-1) * pageSize) + loop.index)}</td>
 														<c:choose>
 									                    	<c:when test="${empty row.rv_sfile1 }">
 									                    		<td>등록된 사진 없음</td>
@@ -343,7 +379,7 @@
                                                 <p class="review_title" id="title">입에서 새우랑 치즈가 춤춰요!</p>
                                                 <div class="favorite-heart">
                                                     <div class="favorite-heart">
-                                                        <i class="material-icons unlike">favorite</i>
+                                                        <i class="material-icons unlike" onclick="reviewLike('9999')">favorite</i>
                                                     </div>
                                                 </div>
                                             </div>
@@ -366,15 +402,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    
-                                    
-                                    <!-- 상세모달창 btn -->
-									<div class="modal2-layer-btn">
-			                            <ul>
-			                                <li><a href="./myReviewWrite.html">수정하기</a></li>
-			                                <li><button onclick="">삭제하기</button></li>
-			                            </ul>
-			                        </div>
                                 </div>
                             </div>
                         </div> <!-- end of 상세모달창 -->

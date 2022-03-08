@@ -371,7 +371,6 @@ $(document).ready(function() {
 					}else{
 						console.log(error);
 					}
-					
 				}
 			}
 			for(var z=1; z<flag+1; z++){

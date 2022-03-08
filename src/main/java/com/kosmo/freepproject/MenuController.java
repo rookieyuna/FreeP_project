@@ -444,11 +444,10 @@ public class MenuController {
 
 				sqlSession.getMapper(MenuImpl.class).insertCart(sqlData);
 		    }  
-		      result.put("result", referer);
-		  } catch (Exception e) {
-		      result.put("result", false);
-		  }
-		
+		    result.put("result", referer);
+		} catch (Exception e) {
+		    result.put("result", false);
+		}
 		return result;
 	}
 }

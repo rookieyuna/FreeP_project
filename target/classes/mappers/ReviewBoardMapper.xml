@@ -145,15 +145,19 @@
   	</select>  	
   	
   	<select id="listMyFavPage" resultType="review.ReviewBoardDTO" parameterType="util.ParameterDTO">
-  		SELECT * FROM (
+		SELECT * FROM(
 		    SELECT Tb.*, rownum rNum FROM (
-		        SELECT * FROM reviewboard 
-		        INNER JOIN likedreview USING(m_code)
-		        WHERE m_code=#{m_code}
-		        ORDER BY like_idx DESC
-		    ) Tb
-		)
-		WHERE rNum BETWEEN #{start} AND #{end}
+		        SELECT *
+		            FROM reviewboard
+		            WHERE rv_idx IN (
+		                SELECT rv_idx
+		                    FROM likedreview
+		                    WHERE m_code = #{m_code}
+		        )
+		    )Tb
+		)WHERE rNum 
+		BETWEEN #{start} AND #{end} 
+		ORDER BY rv_idx DESC
   	</select>
 
 	<select id="likeChk" resultType="int" parameterType="review.LikedReviewDTO">

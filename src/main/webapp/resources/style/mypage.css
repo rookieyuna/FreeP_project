@@ -359,8 +359,11 @@ top: -58px;
     color: #ff6510;
 }
 
-.mypage-wrap .CP-wrap #pop-menu-detail.review-detail-modal .pop-wrap .pop-modal2 .modal2-con .con1-con-wrap .con-top .favorite-heart i:hover {
+.mypage-wrap .myWriteRev #pop-menu-detail.review-detail-modal .favorite-heart i:hover {
 cursor: auto;
+}
+.mypage-wrap .myFavorRev #pop-menu-detail.review-detail-modal .favorite-heart i:hover {
+cursor: pointer;
 }
 
 .mypage-wrap .CP-wrap #pop-menu-detail.review-detail-modal .pop-wrap .pop-modal2 .modal2-con .con1-con-wrap .con-top .favorite-heart .likeCount{

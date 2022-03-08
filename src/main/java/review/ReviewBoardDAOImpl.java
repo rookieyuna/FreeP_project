@@ -68,4 +68,5 @@ public interface ReviewBoardDAOImpl {
 	
 	// 리뷰게시판 > 장바구니 추가
 	public Map<String, Object> getDiyChk(String a);
+	
 }

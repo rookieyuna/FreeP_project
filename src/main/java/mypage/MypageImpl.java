@@ -51,4 +51,8 @@ public interface MypageImpl {
 	
 	/*******************비밀번호확인**********************/
 	public int myPwdChk(ParameterDTO dto);
+	
+	/*******************리뷰좋아요개수**********************/
+	public int getMyReviewLikeCount(int rv_idx);
+	
 }
