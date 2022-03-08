@@ -42,8 +42,8 @@ public class StoreController {
 				sqlSession.getMapper(StoreImpl.class).getTotalCount(parameterDTO);
 		//System.out.println("totalRecordCount"+ totalRecordCount);
 		
-		int pageSize = 2; //한 페이지당 출력할 게시물의 개수
-		int blockPage = 2; //한 블럭당 출력할 페이지 번호의 개수
+		int pageSize = 8; //한 페이지당 출력할 게시물의 개수
+		int blockPage = 3; //한 블럭당 출력할 페이지 번호의 개수
 		
 		int totalPage = (int)Math.ceil((double)totalRecordCount/pageSize);
 		
@@ -130,13 +130,6 @@ public class StoreController {
 		
 	@RequestMapping(value="/admin/storeEditAction.do",method=RequestMethod.POST)
 	public String editAction(StoreVO storeVO, HttpServletRequest req) {
-		
-//		storeVO.setB_code(Integer.parseInt(req.getParameter("b_code")));
-//		storeVO.setB_name(req.getParameter("b_name"));  
-//		storeVO.setAddress(req.getParameter("address")); 
-//		storeVO.setLatitude(req.getParameter("latitude")); 
-//		storeVO.setLongitude(req.getParameter("longitude")); 
-//		storeVO.setPhone(req.getParameter("phone")); 
 		
 		sqlSession.getMapper(StoreImpl.class).edit(storeVO);
 		

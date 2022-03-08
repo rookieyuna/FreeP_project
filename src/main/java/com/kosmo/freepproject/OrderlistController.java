@@ -36,10 +36,8 @@ public class OrderlistController {
 				sqlSession.getMapper(OrderlistImpl.class).getTotalCount(parameterDTO);
 		//System.out.println("totalRecordCount"+ totalRecordCount);
 		
-		int pageSize = 2; //한 페이지당 출력할 게시물의 개수
-		int blockPage = 2; //한 블럭당 출력할 페이지 번호의 개수
-		
-		int totalPage = (int)Math.ceil((double)totalRecordCount/pageSize);
+		int pageSize = 8; //한 페이지당 출력할 게시물의 개수
+		int blockPage = 3; //한 블럭당 출력할 페이지 번호의 개수
 		
 		int nowPage = (req.getParameter("nowPage")==null || req.getParameter("nowPage").equals(""))
 				? 1 : Integer.parseInt(req.getParameter("nowPage"));
@@ -68,27 +66,7 @@ public class OrderlistController {
 	}
 	
 	
-//	//글쓰기 처리
-//	@RequestMapping(value="/admin/memRegist.do", method=RequestMethod.POST)
-//	public String regist(Model model, HttpServletRequest req) {
-//		
-//		//Mybatis 사용
-//		//insert문을 실행시 성공한 행의 개수가 정수형으로 반환된다.
-//		sqlSession.getMapper(OrderlistImpl.class).regist(
-//				req.getParameter("id"),
-//				req.getParameter("name"),
-//				req.getParameter("pass"),
-//				req.getParameter("phone"),
-//				req.getParameter("email"),
-//				req.getParameter("grade")
-//		);
-//		
-//		//쓰기 처리를 완료한 후 리스트로 이동
-//		return "redirect:member.do?grade="+req.getParameter("grade");
-//	}
-	
-	
-	//글수정 페이지 진입하기
+	//주문  상세보기
 	@RequestMapping("/admin/orderlistView.do")
 	public String view(Model model, HttpServletRequest req) {
 		

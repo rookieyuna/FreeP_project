@@ -73,8 +73,8 @@ public class MypageController {
 		//주문내역 카운트
 		int totalOrderCount = sqlSession.getMapper(MypageImpl.class).myOrderCount(m_code);
 		
-		int pageSize = 2; //한 페이지당 출력할 주문내역의 개수
-		int blockPage = 2; //한 블럭당 출력할 페이지 번호의 개수
+		int pageSize = 8; //한 페이지당 출력할 주문내역의 개수
+		int blockPage = 3; //한 블럭당 출력할 페이지 번호의 개수
 		
 		int nowPage = (req.getParameter("nowPage")==null || req.getParameter("nowPage").equals(""))
 				? 1 : Integer.parseInt(req.getParameter("nowPage"));
@@ -137,8 +137,8 @@ public class MypageController {
 		//쿠폰 수 카운트
 		int myCouponCount = sqlSession.getMapper(MypageImpl.class).myCouponCount(m_code);
 		
-		int pageSize = 2; //한 페이지당 출력할 쿠폰의 개수
-		int blockPage = 2; //한 블럭당 출력할 페이지 번호의 개수
+		int pageSize = 8; //한 페이지당 출력할 쿠폰의 개수
+		int blockPage = 3; //한 블럭당 출력할 페이지 번호의 개수
 		
 		int nowPage = (req.getParameter("nowPage")==null || req.getParameter("nowPage").equals(""))
 				? 1 : Integer.parseInt(req.getParameter("nowPage"));
@@ -173,8 +173,8 @@ public class MypageController {
 		dto.setM_code(m_code);
 		
 		
-		int pageSize = 2; //한 페이지당 출력할 쿠폰의 개수
-		int blockPage = 2; //한 블럭당 출력할 페이지 번호의 개수
+		int pageSize = 8; //한 페이지당 출력할 쿠폰의 개수
+		int blockPage = 3; //한 블럭당 출력할 페이지 번호의 개수
 		
 		int nowPage = (req.getParameter("nowPage")==null || req.getParameter("nowPage").equals(""))
 				? 1 : Integer.parseInt(req.getParameter("nowPage"));
@@ -217,8 +217,8 @@ public class MypageController {
 		//리뷰내역 카운트
 		int totalreviewCount = sqlSession.getMapper(ReviewBoardDAOImpl.class).getMyCount(dto);
 		
-		int pageSize = 2; //한 페이지당 출력할 주문내역의 개수
-		int blockPage = 2; //한 블럭당 출력할 페이지 번호의 개수
+		int pageSize = 8; //한 페이지당 출력할 주문내역의 개수
+		int blockPage = 3; //한 블럭당 출력할 페이지 번호의 개수
 		
 		int nowPage = (req.getParameter("nowPage")==null || req.getParameter("nowPage").equals(""))
 				? 1 : Integer.parseInt(req.getParameter("nowPage"));
@@ -258,8 +258,8 @@ public class MypageController {
 		//좋아요 한 리뷰 카운트
 		int totalFavReviewCount = sqlSession.getMapper(ReviewBoardDAOImpl.class).getMyFavCount(dto);
 		
-		int pageSize = 2; //한 페이지당 출력할 주문내역의 개수
-		int blockPage = 2; //한 블럭당 출력할 페이지 번호의 개수
+		int pageSize = 8; //한 페이지당 출력할 주문내역의 개수
+		int blockPage = 3; //한 블럭당 출력할 페이지 번호의 개수
 		
 		int nowPage = (req.getParameter("nowPage")==null || req.getParameter("nowPage").equals(""))
 				? 1 : Integer.parseInt(req.getParameter("nowPage"));
@@ -300,8 +300,8 @@ public class MypageController {
 		//좋아요 한 리뷰 카운트
 		int totalQuCount = sqlSession.getMapper(BoardDAOImpl.class).getQuCount(dto);
 		
-		int pageSize = 2; //한 페이지당 출력할 주문내역의 개수
-		int blockPage = 2; //한 블럭당 출력할 페이지 번호의 개수
+		int pageSize = 8; //한 페이지당 출력할 주문내역의 개수
+		int blockPage = 3; //한 블럭당 출력할 페이지 번호의 개수
 		
 		int nowPage = (req.getParameter("nowPage")==null || req.getParameter("nowPage").equals(""))
 				? 1 : Integer.parseInt(req.getParameter("nowPage"));

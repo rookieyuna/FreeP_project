@@ -40,8 +40,8 @@ public class BoardController {
 			sqlSession.getMapper(BoardDAOImpl.class).getTotalCount(1);
 		
 		//페이지 처리를 위한 설정값
-		int pageSize = 3;//한 페이지당 출력할 게시물의 갯수
-		int blockPage = 2;//한 블럭당 출력할 페이지번호의 갯수
+		int pageSize = 8;//한 페이지당 출력할 게시물의 갯수
+		int blockPage = 3;//한 블럭당 출력할 페이지번호의 갯수
 		//전체 페이지 수 계산
 		int totalPage = (int)Math.ceil((double)totalRecordCount/pageSize);
 
@@ -85,8 +85,8 @@ public class BoardController {
 			sqlSession.getMapper(BoardDAOImpl.class).getTotalCountSearch(parameterDTO);
 		
 		//페이지 처리를 위한 설정값
-		int pageSize = 3;//한 페이지당 출력할 게시물의 갯수
-		int blockPage = 2;//한 블럭당 출력할 페이지번호의 갯수
+		int pageSize = 8;//한 페이지당 출력할 게시물의 갯수
+		int blockPage = 3;//한 블럭당 출력할 페이지번호의 갯수
 		//전체 페이지 수 계산
 		//int totalPage = (int)Math.ceil((double)totalRecordCount/pageSize);
 

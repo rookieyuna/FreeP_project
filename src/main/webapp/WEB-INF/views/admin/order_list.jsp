@@ -84,11 +84,14 @@ $(function(){
 														<td>${row.total_price }</td>
 														<c:choose>
 									                    	<c:when test="${row.credit eq '1'}">
+									                    		<td>카드</td>
+									                    	</c:when>
+									                    	<c:when test="${row.credit eq '21'}">
+									                    		<td>만나서 카드</td>
+									                    	</c:when>
+									                    	<c:when test="${row.credit eq '22'}">
 									                    		<td>현금</td>
 									                    	</c:when>
-									                    	<c:otherwise>
-									                    		<td>카드</td>
-									                    	</c:otherwise>
 									                    </c:choose>
 									                    <c:choose>
 									                    	<c:when test="${row.state eq '1'}"><td>주문완료</td></c:when>
