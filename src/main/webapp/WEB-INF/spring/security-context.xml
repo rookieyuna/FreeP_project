@@ -15,7 +15,7 @@
          
       <form-login 
          login-page="/and/login.do"
-         default-target-url="/index.do"
+         default-target-url="/order/orderDIY.do"
          authentication-failure-url="/and/login.do?error"
          login-processing-url="/and/mainLoginAction"    
          username-parameter="id"  
