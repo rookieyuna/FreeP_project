@@ -35,4 +35,6 @@ public interface StoreImpl {
 	
 	public StoreVO storelist(StoreVO storeVO);
 	
+	public StoreVO mapList(StoreVO storeVO);
+	
 }

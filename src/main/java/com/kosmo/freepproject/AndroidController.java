@@ -19,6 +19,7 @@ import android.IAndroidDAO;
 import member.MemberVO;
 import mypage.MypageImpl;
 import orderlist.OrderlistVO;
+import store.StoreVO;
 
 @Controller
 public class AndroidController {

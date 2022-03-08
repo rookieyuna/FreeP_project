@@ -25,8 +25,7 @@
 	
 	<!-- 모달창 부분 -->
 	<script>
-	/* 매장 전체보기 */
-
+	
 	/* 매장 상세정보 */
 	function storeDetailOpen(b_code){ 
 		
@@ -146,34 +145,202 @@
 													var mapContainer = document.getElementById('map_viewport'), // 지도를 표시할 div  
 												    mapOption = { 
 												        center: new kakao.maps.LatLng(37.478714, 126.878665), // 지도의 중심좌표
-												        level: 8, // 지도의 확대 레벨
+												        level: 11, // 지도의 확대 레벨
 												    };
 												 
 													var maps = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 													
 													var positions = [
-												    	{
-												    		title : '본점',
-												    		latlng : new kakao.maps.LatLng(37.478714, 126.878665)
-												    	},
-												    	{
-												    		title : '신촌점',
-												    		latlng : new kakao.maps.LatLng(37.4942635, 127.0296699)
-												    	},
-												    	{
-												    		title : '금천구점',
-												    		latlng : new kakao.maps.LatLng(37.4762052, 126.8933986)
-												    	},
-												    	{
-												    		title : '구로점',
-												    		latlng : new kakao.maps.LatLng(37.5000384, 126.8828494)
-												    	},
-												    	{
-												    		title : '부천점',
-												    		latlng : new kakao.maps.LatLng(37.50334207, 126.7637937)
-												    	}
-												    	
-												    ]; 
+														{
+															title : '본점',
+															latlng : new kakao.maps.LatLng(37.478714, 126.878665)
+														},
+														{
+															title : '강남점',
+															latlng : new kakao.maps.LatLng(37.4942635, 127.0296699)
+														},
+														{
+															title : '마포점',
+															latlng : new kakao.maps.LatLng(37.550787, 126.912592)
+														},
+														{
+															title : '영등포점',
+															latlng : new kakao.maps.LatLng(37.50966, 126.904673)
+														},
+														{
+															title : '용산점',
+															latlng : new kakao.maps.LatLng(37.5405032, 126.9691858)
+														},
+														{
+															title : '합정점',
+															latlng : new kakao.maps.LatLng(37.5502177, 126.9153071)
+														},
+														{
+															title : '서초점',
+															latlng : new kakao.maps.LatLng(37.4952967, 126.9889993)
+														},
+														{
+															title : '등촌점',
+															latlng : new kakao.maps.LatLng(37.5494106, 126.8675998)
+														},
+														{
+															title : '종로점',
+															latlng : new kakao.maps.LatLng(37.577112, 126.99766)
+														},
+														{
+															title : '신촌점',
+															latlng : new kakao.maps.LatLng(37.4942635, 127.0296699)
+														},
+														{
+															title : '금천구점',
+															latlng : new kakao.maps.LatLng(37.4762052, 126.8933986)
+														},
+														{
+															title : '구로점',
+															latlng : new kakao.maps.LatLng(37.5000384, 126.8828494)
+														},
+														{
+															title : '부천점',
+															latlng : new kakao.maps.LatLng(37.50334207, 126.7637937)
+														},
+														{
+															title : '미추홀점',
+															latlng : new kakao.maps.LatLng(37.443824,126.673017)
+														},
+														{
+															title : '부평점',
+															latlng : new kakao.maps.LatLng(37.476022, 126.709494)
+														},
+														{
+															title : '인하대점',
+															latlng : new kakao.maps.LatLng(37.45157626, 126.6557593)
+														},
+														{
+															title : '안양점',
+															latlng : new kakao.maps.LatLng(37.38959826, 126.9521795)
+														},
+														{
+															title : '성남점',
+															latlng : new kakao.maps.LatLng(37.38163615, 127.1282697)
+														},
+														{
+															title : '시흥점',
+															latlng : new kakao.maps.LatLng(37.37410466, 126.7334437)
+														},
+														{
+															title : '광명점',
+															latlng : new kakao.maps.LatLng(37.41565, 126.87895)
+														},
+														{
+															title : '태백점',
+															latlng : new kakao.maps.LatLng(37.09886232, 129.0191345)
+														},
+														{
+															title : '영월점',
+															latlng : new kakao.maps.LatLng(37.136383, 128.836149)
+														},
+														{
+															title : '공주점',
+															latlng : new kakao.maps.LatLng(36.44882075, 127.120576)
+														},
+														{
+															title : '서산점',
+															latlng : new kakao.maps.LatLng(36.78126614, 126.450733)
+														},
+														{
+															title : '청주점',
+															latlng : new kakao.maps.LatLng(36.62486354, 127.4423189)
+														},
+														{
+															title : '충주점',
+															latlng : new kakao.maps.LatLng(37.0224929, 128.0262237)
+														},
+														{
+															title : '동구점',
+															latlng : new kakao.maps.LatLng(36.250736, 127.33621)
+														},
+														{
+															title : '중구점',
+															latlng : new kakao.maps.LatLng(36.30998894, 127.4078018)
+														},
+														{
+															title : '김해점',
+															latlng : new kakao.maps.LatLng(35.20382,128.8092)
+														},
+														{
+															title : '진주점',
+															latlng : new kakao.maps.LatLng(35.24735, 128.27347)
+														},
+														{
+															title : '안동점',
+															latlng : new kakao.maps.LatLng(36.561367, 128.747798)
+														},
+														{
+															title : '경주점',
+															latlng : new kakao.maps.LatLng(35.919975, 129.2449008)
+														},
+														{
+															title : '서구점',
+															latlng : new kakao.maps.LatLng(35.87212319, 128.5751549)
+														},
+														{
+															title : '수성구점',
+															latlng : new kakao.maps.LatLng(35.84137047, 128.6098821)
+														},
+														{
+															title : '목포점',
+															latlng : new kakao.maps.LatLng(34.791093, 126.383348)
+														},
+														{
+															title : '여수점',
+															latlng : new kakao.maps.LatLng(34.74148379, 127.7276831)
+														},
+														{
+															title : '고창점',
+															latlng : new kakao.maps.LatLng(35.388045, 126.670124)
+														},
+														{
+															title : '전주점',
+															latlng : new kakao.maps.LatLng(35.80369311, 127.116927)
+														},
+														{
+															title : '동구점',
+															latlng : new kakao.maps.LatLng(35.15438611, 126.9109556)
+														},
+														{
+															title : '광산구점',
+															latlng : new kakao.maps.LatLng(35.19423259, 126.791337)
+														},
+														{
+															title : '남구점',
+															latlng : new kakao.maps.LatLng(35.53851, 129.33396)
+														},
+														{
+															title : '울주점',
+															latlng : new kakao.maps.LatLng(35.55377, 129.11803)
+														},
+														{
+															title : '해운대점',
+															latlng : new kakao.maps.LatLng(35.16655632, 129.178066)
+														},
+														{
+															title : '명지점',
+															latlng : new kakao.maps.LatLng(35.10438371, 128.9220773)
+														},
+														{
+															title : '세종점',
+															latlng : new kakao.maps.LatLng(36.601886914037365, 127.2900686)
+														},
+														{
+															title : '제주점',
+															latlng : new kakao.maps.LatLng(33.50823534,	126.5200254)
+														},
+														{
+															title : '서귀포점',
+															latlng : new kakao.maps.LatLng(33.246471, 126.506865)
+														}
+														
+													]; 
 													
 													// 마커 이미지의 이미지 주소입니다
 													var imageSrc = "../images/01brand/brand_logo_marker.png"; 
@@ -242,29 +409,195 @@
 										
 										
 										var positions = [
-									    	{
-									    		title : '본점',
-									    		latlng : new kakao.maps.LatLng(37.478714, 126.878665)
-									    	},
-									    	{
-									    		title : '신촌점',
-									    		latlng : new kakao.maps.LatLng(37.4942635, 127.0296699)
-									    	},
-									    	{
-									    		title : '금천구점',
-									    		latlng : new kakao.maps.LatLng(37.4762052, 126.8933986)
-									    	},
-									    	{
-									    		title : '구로점',
-									    		latlng : new kakao.maps.LatLng(37.5000384, 126.8828494)
-									    	},
-									    	{
-									    		title : '부천점',
-									    		latlng : new kakao.maps.LatLng(37.50334207, 126.7637937)
-									    	}
-									    	
-									    ]; 
-										
+											{
+												title : '본점',
+												latlng : new kakao.maps.LatLng(37.478714, 126.878665)
+											},
+											{
+												title : '강남점',
+												latlng : new kakao.maps.LatLng(37.4942635, 127.0296699)
+											},
+											{
+												title : '마포점',
+												latlng : new kakao.maps.LatLng(37.550787, 126.912592)
+											},
+											{
+												title : '영등포점',
+												latlng : new kakao.maps.LatLng(37.50966, 126.904673)
+											},
+											{
+												title : '용산점',
+												latlng : new kakao.maps.LatLng(37.5405032, 126.9691858)
+											},
+											{
+												title : '합정점',
+												latlng : new kakao.maps.LatLng(37.5502177, 126.9153071)
+											},
+											{
+												title : '서초점',
+												latlng : new kakao.maps.LatLng(37.4952967, 126.9889993)
+											},
+											{
+												title : '등촌점',
+												latlng : new kakao.maps.LatLng(37.5494106, 126.8675998)
+											},
+											{
+												title : '종로점',
+												latlng : new kakao.maps.LatLng(37.577112, 126.99766)
+											},
+											{
+												title : '신촌점',
+												latlng : new kakao.maps.LatLng(37.4942635, 127.0296699)
+											},
+											{
+												title : '금천구점',
+												latlng : new kakao.maps.LatLng(37.4762052, 126.8933986)
+											},
+											{
+												title : '구로점',
+												latlng : new kakao.maps.LatLng(37.5000384, 126.8828494)
+											},
+											{
+												title : '부천점',
+												latlng : new kakao.maps.LatLng(37.50334207, 126.7637937)
+											},
+											{
+												title : '미추홀점',
+												latlng : new kakao.maps.LatLng(37.443824,126.673017)
+											},
+											{
+												title : '부평점',
+												latlng : new kakao.maps.LatLng(37.476022, 126.709494)
+											},
+											{
+												title : '인하대점',
+												latlng : new kakao.maps.LatLng(37.45157626, 126.6557593)
+											},
+											{
+												title : '안양점',
+												latlng : new kakao.maps.LatLng(37.38959826, 126.9521795)
+											},
+											{
+												title : '성남점',
+												latlng : new kakao.maps.LatLng(37.38163615, 127.1282697)
+											},
+											{
+												title : '시흥점',
+												latlng : new kakao.maps.LatLng(37.37410466, 126.7334437)
+											},
+											{
+												title : '광명점',
+												latlng : new kakao.maps.LatLng(37.41565, 126.87895)
+											},
+											{
+												title : '태백점',
+												latlng : new kakao.maps.LatLng(37.09886232, 129.0191345),
+											},
+											{
+												title : '영월점',
+												latlng : new kakao.maps.LatLng(37.136383, 128.836149)
+											},
+											{
+												title : '공주점',
+												latlng : new kakao.maps.LatLng(36.44882075, 127.120576)
+											},
+											{
+												title : '서산점',
+												latlng : new kakao.maps.LatLng(36.78126614, 126.450733)
+											},
+											{
+												title : '청주점',
+												latlng : new kakao.maps.LatLng(36.62486354, 127.4423189)
+											},
+											{
+												title : '충주점',
+												latlng : new kakao.maps.LatLng(37.0224929, 128.0262237)
+											},
+											{
+												title : '동구점',
+												latlng : new kakao.maps.LatLng(36.250736, 127.33621)
+											},
+											{
+												title : '중구점',
+												latlng : new kakao.maps.LatLng(36.30998894, 127.4078018)
+											},
+											{
+												title : '김해점',
+												latlng : new kakao.maps.LatLng(35.20382,128.8092)
+											},
+											{
+												title : '진주점',
+												latlng : new kakao.maps.LatLng(35.24735, 128.27347)
+											},
+											{
+												title : '안동점',
+												latlng : new kakao.maps.LatLng(36.561367, 128.747798)
+											},
+											{
+												title : '경주점',
+												latlng : new kakao.maps.LatLng(35.919975, 129.2449008)
+											},
+											{
+												title : '서구점',
+												latlng : new kakao.maps.LatLng(35.87212319, 128.5751549)
+											},
+											{
+												title : '수성구점',
+												latlng : new kakao.maps.LatLng(35.84137047, 128.6098821)
+											},
+											{
+												title : '목포점',
+												latlng : new kakao.maps.LatLng(34.791093, 126.383348)
+											},
+											{
+												title : '여수점',
+												latlng : new kakao.maps.LatLng(34.74148379, 127.7276831)
+											},
+											{
+												title : '고창점',
+												latlng : new kakao.maps.LatLng(35.388045, 126.670124)
+											},
+											{
+												title : '전주점',
+												latlng : new kakao.maps.LatLng(35.80369311, 127.116927)
+											},
+											{
+												title : '동구점',
+												latlng : new kakao.maps.LatLng(35.15438611, 126.9109556)
+											},
+											{
+												title : '광산구점',
+												latlng : new kakao.maps.LatLng(35.19423259, 126.791337)
+											},
+											{
+												title : '남구점',
+												latlng : new kakao.maps.LatLng(35.53851, 129.33396)
+											},
+											{
+												title : '울주점',
+												latlng : new kakao.maps.LatLng(35.55377, 129.11803)
+											},
+											{
+												title : '해운대점',
+												latlng : new kakao.maps.LatLng(35.16655632, 129.178066)
+											},
+											{
+												title : '명지점',
+												latlng : new kakao.maps.LatLng(35.10438371, 128.9220773)
+											},
+											{
+												title : '세종점',
+												latlng : new kakao.maps.LatLng(36.601886914037365, 127.2900686)
+											},
+											{
+												title : '제주점',
+												latlng : new kakao.maps.LatLng(33.50823534,	126.5200254)
+											},
+											{
+												title : '서귀포점',
+												latlng : new kakao.maps.LatLng(33.246471, 126.506865)
+											}
+										]; 
 										
 										// 마커 이미지의 이미지 주소입니다
 										var imageSrc = "../images/01brand/brand_logo_marker.png"; 
@@ -285,22 +618,22 @@
 										        image : markerImage // 마커 이미지 
 										    });
 										    
-										    marker.setMap(map);
-										}
+										    //marker.setMap(map);
+										} 
 										 
 										<c:forEach items="${list }" var="row">
 									    //주소로 좌표를 검색합니다
 									    geocoder.addressSearch("${row.address}", function(result, status) {
 									        // 정상적으로 검색이 완료됐으면 
 									        if (status === kakao.maps.services.Status.OK) {
-									    
+									    			
 									            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 									            
 									            // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
 									            map.setCenter(coords);    
 									        } 
 									    });    
-									    </c:forEach>
+									   	</c:forEach>
 										</script>
                                         </div>
                                     </div>
@@ -407,7 +740,7 @@
 			                                            </dl>	
 			                                            <div class="promotion">		
 			                                                <div class="type">
-			                                                    <span>온라인<br>방문포장<br>20%</span>
+			                                                    <span>온라인<br>방문포장<br>30%</span>
 			                                                </div>		
 			                                                <div class="type2">
 			                                                    <span>오프라인<br>방문포장<br>30%</span>
