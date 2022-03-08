@@ -6,6 +6,7 @@
       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<http pattern="/android/**" security="none" />
+	<!-- <http pattern="/etc/**" security="none" /> -->
 	
 	
 	<http pattern="/and/**" auto-config="true" disable-url-rewriting="true" use-expressions="true">

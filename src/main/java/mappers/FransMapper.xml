@@ -49,6 +49,10 @@
 	<delete id="delete">
 		DELETE FROM franchise WHERE f_code=#{f_code}
 	</delete>
-
+	
+	<insert id="write" parameterType="Franchise.FransVO">
+  		INSERT into Franchise(f_code, f_name, f_phone, f_email, f_address, f_content) 
+  		VALUES (seq_fran_idx.nextval, #{f_name}, #{f_phone}, #{f_email}, #{f_address}, #{f_content})
+  	</insert>
 
 </mapper>

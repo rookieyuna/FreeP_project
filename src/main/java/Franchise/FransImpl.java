@@ -2,6 +2,7 @@ package Franchise;
 
 import java.util.ArrayList;
 
+import board.BoardDTO;
 import util.ParameterDTO;
 
 public interface FransImpl {
@@ -23,4 +24,7 @@ public interface FransImpl {
 	
 	//삭제처리
 	public int delete(String f_code);
+	
+	//쓰기처리
+	public void write(FransVO fransVO);
 }

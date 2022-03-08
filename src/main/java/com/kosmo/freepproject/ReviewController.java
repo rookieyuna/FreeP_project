@@ -650,6 +650,7 @@ public class ReviewController {
 				}
 				
 				model.addAttribute("cResult", cResult);
+				
 				listSender.add(cResult);
 				
 			// b. 일반/사이드/음료 제품일 경우
@@ -692,7 +693,7 @@ public class ReviewController {
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("dto", dto);
 		listSender.add(result);
-
+		
 		return listSender;
 	}
 	
@@ -702,7 +703,7 @@ public class ReviewController {
 	@RequestMapping("/mypage/myReviewWrite.do")
 	public String myReviewWrite(Model model, HttpServletRequest req) {
 		
-
+		System.out.println("rv_idx : " + req.getParameter("rv_idx"));
 		int rv_idx = Integer.parseInt(req.getParameter("rv_idx")); 
 		model.addAttribute("rv_idx", rv_idx);
 		

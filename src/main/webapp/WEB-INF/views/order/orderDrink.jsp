@@ -87,7 +87,10 @@ function validateForm(form) {
                                     </span>
                                 </button>
                                 <div class="menu-cart-modal">
-                                    <h4>선택품목</h4>
+                                    <h4>
+                                    	선택품목
+                                    	<span class="mobile_btn_v1" style="display:none"></span>
+                                    </h4>
                                     <form action="./insertCart.do" id="insertCart" name="insertCart" method="post" onsubmit="return validateForm(this);" >
                                     <input type="hidden" id="cusid" name="cusid" value="${id }"/>
                                     <input type="hidden"
@@ -101,14 +104,14 @@ function validateForm(form) {
                                     </table>
 									</form>
 									
-                                    <div class="DIY-cart-mypick">
+                                    <!-- <div class="DIY-cart-mypick">
                                         <h5><span>FreeP</span>이런 토핑은 어떠세요?</h5>
                                         <ul>
                                             <li><button>양파</button></li>
                                             <li><button>토마토</button></li>
                                             <li><button>파인애플</button></li>
                                         </ul>
-                                    </div>
+                                    </div> -->
                                     <div class="fx cart-total">
                                         <p><span>총 선택정보</span><span class="kcal total">0</span><span class="won total">0</span></p>
                                     </div>
@@ -138,7 +141,7 @@ function validateForm(form) {
                                             <input type="text" value="${row.p_code }" class="order-code">
                                             <div class="order-name">${row.p_name }</div>
                                             <div class="label-box">
-                                                <span class="label limit">기간한정</span>
+                                                <!-- <span class="label limit">기간한정</span> -->
                                             </div>
                                         </div>
                                     </div>

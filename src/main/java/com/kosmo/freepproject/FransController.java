@@ -1,24 +1,34 @@
 package com.kosmo.freepproject;
 
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import Franchise.FransImpl;
 import Franchise.FransVO;
+import board.BoardDAOImpl;
+import board.BoardDTO;
 import net.nurigo.java_sdk.api.Message;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
 import util.PagingUtil;
@@ -136,6 +146,81 @@ public class FransController {
 		}
 		
 		return "redirect:franlist.do";
+	}
+	
+	
+	
+	
+	//이메일발송용 주입
+	@Autowired
+	private JavaMailSender mailSender;
+	
+	
+	//가맹문의페이지 입력 액션 + 이메일 발송
+	@RequestMapping(value="/etc/franWriteAction.do", method=RequestMethod.POST)
+	public String franWriteAction(Model model, HttpServletRequest req) {
+
+		
+		String f_name = req.getParameter("f_name");
+		String f_phone = req.getParameter("f_phone");
+		String f_email = req.getParameter("email1") + "@" + req.getParameter("email2");
+		String f_address = req.getParameter("address1") + "-" + req.getParameter("address2");
+		String f_content = req.getParameter("f_content");
+		
+		
+		FransVO fransVO = new FransVO();
+		fransVO.setF_name(f_name);
+		fransVO.setF_phone(f_phone);
+		fransVO.setF_email(f_email);
+		fransVO.setF_address(f_address);
+		fransVO.setF_content(f_content);
+		
+		
+		f_content.replace("\r\n","<br/>");
+		
+		sqlSession.getMapper(FransImpl.class).write(fransVO);
+	
+		
+		//메일발송
+		String setfrom = "freepwebproject@gmail.com";
+		String tomail = "freepwebproject@gmail.com";
+		//String tomail = req.getParameter("tomail"); // 받는 사람 이메일
+		//String title = req.getParameter("title"); // 제목
+		//String content = req.getParameter("content"); // 내용
+		
+		
+		try {
+			MimeMessage message = mailSender.createMimeMessage();
+			MimeMessageHelper messageHelper = new MimeMessageHelper(message,
+					true, "UTF-8");
+
+			messageHelper.setFrom(setfrom); // 보내는사람 생략하면 정상작동을 안함
+			messageHelper.setTo(tomail); // 받는사람 이메일
+			messageHelper.setSubject("FreeP가맹문의 - " + f_name + "-"+ f_phone) ; // 메일제목은 생략이 가능하다
+			
+			
+			String mail_contents = ""
+					+ "문의자 이름  : " + f_name + "\n"
+					+ "창업희망지역 : " + f_address + "\n"
+					+ "휴 대 전 화  : " + f_phone + "\n"
+					+ "이  메  일   : " + f_email + "\n" 
+					+ "문 의 내 용  : " + f_content 	
+					;
+			
+			
+			
+			messageHelper.setText(mail_contents.toString()); // 메일 내용
+			
+			mailSender.send(message);
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		
+		
+		
+		
+		//쓰기 처리를 완료한 후 리스트로 이동
+		return "redirect:franComplete.do";
 	}
 	
 }

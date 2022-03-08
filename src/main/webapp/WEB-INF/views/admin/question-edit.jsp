@@ -112,7 +112,9 @@ $(function(){
 									<label for="exampleText" class="col-sm-2 col-form-label">내용</label>
 									<div class="col-sm-10">
 										<textarea rows="7" name="text" id="exampleText"
-											class="form-control">${dto.contents }</textarea>
+											class="form-control">${dto.contents }
+====================================================================	
+										</textarea>
 									</div>
 								</div>
 								<c:set var="file1" value="${dto.sfile }"/>

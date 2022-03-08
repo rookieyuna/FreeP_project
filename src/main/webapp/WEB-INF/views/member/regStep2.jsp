@@ -27,10 +27,9 @@
 <!-- js 라이브러리 영역 -->
 <script src="../js/jquery-3.6.0.js"></script>
 <script>
+	//휴대폰 본인인증이나 아이디 중복확인 해야만 가입할 수 있는 작업을 하기위한 변수선언.
 	var flag1 = 0;
 	var flag2 = 0;
-	
-	
 
 
 	//이메일 골라서 인풋박스에 집어넣는 작업과 직접 입력 누를때 외에는 작성 못하도록 disabled 속성 추가.
@@ -230,8 +229,6 @@
 
 <!-- 휴대폰 번호 인증 -->
 <script>
-//휴대폰 번호 인증 
-
 
 var code2 = ""; 
 function phoneCheck() {
@@ -262,8 +259,6 @@ function phoneCheck() {
 							$("#phone").attr("autofocus",true); 
 				}else{ 
 					alert("전송된 인증번호를 입력해주세요."+data);
-					//$("#phone2").attr("disabled",false); 
-					//$("#phoneChk2").css("display","inline-block"); 
 					$("#phone").attr("readonly",true); 
 					$("#phone2").attr("disabled",false); 
 					$("#phoneChk").attr("disabled",true); 
@@ -284,7 +279,6 @@ function phoneCheck2() {
 		if($("#phone2").val() == code2){ 
 			alert("인증에 성공했습니다.");
 			flag2 = 1;
-			//비밀번호 찾기할 때 window.onload(비밀번호입력할새로만든jsp경로); location.href 둘중 하나 검색해서 해보기.
 			$("#phoneDoubleChk").val("true"); 
 			$("#phone2").attr("disabled",true); 
 		}else{ 
@@ -295,11 +289,6 @@ function phoneCheck2() {
 	}
 	
 }
-
-
-
-
-
 
 </script>
 
@@ -316,7 +305,6 @@ function phoneCheck2() {
                 frm.zipcode.value = data.zonecode;//12345(우편번호)
                 frm.address.value = data.address;//"서울시 금천구 가산동"(기본주소)
                 frm.address2.focus();
-
             }
         }).open();
     }
