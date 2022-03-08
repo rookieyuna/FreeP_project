@@ -128,10 +128,10 @@ img{
 .myCP_list .board-list tr td:nth-of-type(2){
     text-align: center;
 }
-.CP-wrap .point-area .myPoint_list th:nth-of-type(1){width: 150px;}
-.CP-wrap .point-area .myPoint_list th:nth-of-type(2){width: 60%;}
-.CP-wrap .point-area .myPoint_list th:nth-of-type(3){width: 150px;}
-.CP-wrap .point-area .myPoint_list th:nth-of-type(4){width: 150px;}
+.CP-wrap .point-area .myPoint_list th:nth-of-type(1){width: 40%;}
+.CP-wrap .point-area .myPoint_list th:nth-of-type(2){width: 20%;}
+.CP-wrap .point-area .myPoint_list th:nth-of-type(3){width: 20%;}
+.CP-wrap .point-area .myPoint_list th:nth-of-type(4){width: 20%;}
 
 .CP-wrap .point-area .myPoint_list td{
     text-align: center;
