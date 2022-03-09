@@ -46,6 +46,7 @@
       <intercept-url pattern="/admin/storechart.do" access="hasAnyRole(3,4)"/>
       <intercept-url pattern="/admin/franlist.do" access="hasRole(3)"/>
       <intercept-url pattern="/admin/question.do" access="hasRole(3)"/>
+      <intercept-url pattern="/admin/coupon.do" access="hasRole(3)"/>
              
       <form-login 
          login-page="/admin/login.do" 
@@ -66,7 +67,10 @@
    <http pattern="/**" auto-config="true" disable-url-rewriting="true" use-expressions="true">
 
         <intercept-url pattern="/member/login.do" access="permitAll" />
-     
+     	<intercept-url pattern="/mypage/myMain.do" access="hasAnyRole(1,2,3,4,5)"/>
+     	<intercept-url pattern="/community/question.do" access="hasAnyRole(1,2,3,4,5)"/>
+     	<intercept-url pattern="/order/cart.do" access="hasAnyRole(1,2,3,4,5)"/>
+     	<intercept-url pattern="/order/order.do" access="hasAnyRole(1,2,3,4,5)"/>
          
       <form-login 
          login-page="/member/login.do"

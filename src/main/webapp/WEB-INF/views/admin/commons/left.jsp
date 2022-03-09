@@ -95,6 +95,12 @@
                                                 후기게시판
                                             </a>
                                         </li>
+                                        <li>
+                                            <a href="coupon.do">
+                                                <i class="metismenu-icon"></i>
+                                                쿠폰 등록
+                                            </a>
+                                        </li>
                                                                      
                                     </ul>
                                 </li>

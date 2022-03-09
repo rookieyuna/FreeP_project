@@ -9,4 +9,31 @@
 		 where m.m_code = #{m_code} and m.cp_idx = c.cp_idx
  	</select>
  	
+ 	<select id="getTotalCount" resultType="int">
+  		
+  		SELECT COUNT(*) FROM coupon
+  		
+  	</select> 
+  	
+  	<select id="listPage" resultType="coupon.CouponVO">
+  		
+  		SELECT * FROM (
+		    SELECT Tb.*, rownum rNum FROM (
+		        SELECT * FROM coupon ORDER BY cp_idx DESC
+		    ) Tb
+		)
+		WHERE rNum BETWEEN #{param1} AND #{param2}	
+  	</select>
+  	
+  	<insert id="write" parameterType="coupon.CouponVO">
+  		insert into coupon(cp_idx, cp_name, cp_cate, cp_price, cp_const, issue_date, expire_date)
+  	 VALUES (seq_cp_idx.nextval, #{cp_name}, #{cp_cate}, #{cp_price}, #{cp_const}, 
+   to_date(#{issue_date},'MM-DD-YYYY'),to_date(#{expire_date},'MM-DD-YYYY')
+   )
+  	</insert>
+  	
+  	<delete id="delete">
+  	 	DELETE FROM coupon WHERE cp_idx = #{param1}
+  	</delete>
+ 	
  </mapper>  
