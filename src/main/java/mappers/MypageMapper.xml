@@ -83,6 +83,9 @@
     	WHERE O.or_idx=#{or_idx}
 	</select>
 	
+	<select id="myReview" resultType="review.ReviewBoardDTO" parameterType="int">
+	   SELECT * FROM reviewboard WHERE or_idx=#{or_idx}
+	</select>
 	
 	<select id="myReviewChk" resultType="int" parameterType="int">
 	   SELECT COUNT(*) FROM reviewboard WHERE or_idx=#{or_idx}

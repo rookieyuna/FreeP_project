@@ -77,7 +77,6 @@
   	
   	<select id="view" resultType="review.ReviewBoardDTO" parameterType="review.ReviewBoardDTO">
   		SELECT * FROM reviewboard WHERE rv_idx=#{rv_idx}
-  	
   	</select>
   	
   	
@@ -85,20 +84,25 @@
   		INSERT into reviewboard(rv_idx, m_code, title, contents, writer, rv_ofile1, rv_sfile1,rv_ofile2, rv_sfile2,rv_ofile3, rv_sfile3, or_idx) 
   		VALUES (seq_reviewboard_idx.nextval, #{m_code}, #{title}, #{contents}, #{writer},#{rv_ofile1}, #{rv_sfile1},#{rv_ofile2}, #{rv_sfile2},#{rv_ofile3}, #{rv_sfile3}, #{or_idx} )
   	</insert>
+
   	<select  id="findm_code" resultType="int">
   		SELECT m_code FROM member WHERE id=#{param1}
   	</select>
-  	
-  
+ 	
+	 	
+ 
   	<update id="edit" >
   		UPDATE reviewboard SET title =#{title}, contents=#{contents}, 
-  		rv_sfile1=#{rv_sfile1}, rv_ofile1=#{rv_ofile1},
-  		rv_sfile2=#{rv_sfile2}, rv_ofile2=#{rv_ofile2},
-  		rv_sfile3=#{rv_sfile3}, rv_ofile3=#{rv_ofile3},
+  		rv_sfile1=#{rv_sfile1, jdbcType=VARCHAR}, rv_ofile1=#{rv_ofile1, jdbcType=VARCHAR},
+  		rv_sfile2=#{rv_sfile2, jdbcType=VARCHAR}, rv_ofile2=#{rv_ofile2, jdbcType=VARCHAR},
+  		rv_sfile3=#{rv_sfile3, jdbcType=VARCHAR}, rv_ofile3=#{rv_ofile3, jdbcType=VARCHAR},
   		writer=#{writer}, or_idx=#{or_idx}
   		WHERE rv_idx=#{rv_idx}
   	</update>
   	 
+	<delete id="deleteLikedReview">
+		DELETE FROM likedreview WHERE rv_idx = #{param1}
+	</delete>
   	<delete id="delete">
   	 	DELETE FROM reviewboard WHERE rv_idx = #{param1}
   	</delete>

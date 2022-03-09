@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import coupon.CouponVO;
 import orderlist.OrderlistVO;
 import point.PointVO;
+import review.ReviewBoardDTO;
 import util.ParameterDTO;
 
 
@@ -52,7 +53,10 @@ public interface MypageImpl {
 	/*******************비밀번호확인**********************/
 	public int myPwdChk(ParameterDTO dto);
 	
-	/*******************리뷰좋아요개수**********************/
+	/****************** My리뷰 *********************/
+	// 좋아요 개수
 	public int getMyReviewLikeCount(int rv_idx);
+	// 리뷰 수정(선택된 게시글의 내용 가져오기)
+	public ReviewBoardDTO myReview(int or_idx);
 	
 }

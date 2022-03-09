@@ -37,9 +37,8 @@
 			var token = $("meta[name='_csrf']").attr("content");
 		    var header = $("meta[name='_csrf_header']").attr("content");
 			
-		    console.log("idx="+idx);
-			
-		    $(".modal2-layer-btn li a").attr("href", "./myReviewWrite.do?rv_idx="+idx);
+		 	// 이미지 공간 초기화
+		    $(".review-image-wrap").empty().removeClass("slick-initialized slick-slider slick-dotted");
 		    
 			$.ajax({ 
 				url: "/freepproject/community/reviewdetail.do",
@@ -148,11 +147,12 @@
 								data.title = res[goldKey].dto["title"];
 								data.postdate = res[goldKey].dto["postdate"];
 								data.contents = res[goldKey].dto["contents"];
-								data.rv_ofile1 = res[goldKey].dto["rv_ofile1"];
-								data.rv_ofile2 = res[goldKey].dto["rv_ofile2"];
-								data.rv_ofile3 = res[goldKey].dto["rv_ofile3"];
+								data.rv_sfile1 = res[goldKey].dto["rv_sfile1"];
+								data.rv_sfile2 = res[goldKey].dto["rv_sfile2"];
+								data.rv_sfile3 = res[goldKey].dto["rv_sfile3"];
 								data.like = res[goldKey].dto["like"];
 								data.likeCount = res[goldKey].dto["likeCount"];
+								data.or_idx = res[goldKey].dto["or_idx"];
 							}
 						}
 					}
@@ -174,9 +174,30 @@
 			document.getElementById("title").innerText=data.title;
 			document.getElementById("postdate").innerText=data.postdate;
 			document.getElementById("contents").innerText=data.contents;
-			document.getElementById("reviewImg1").src="/freepproject/uploads/"+data.rv_ofile1;
-			document.getElementById("reviewImg2").src="/freepproject/uploads/"+data.rv_ofile2;
-			document.getElementById("reviewImg3").src="/freepproject/uploads/"+data.rv_ofile3; 
+			
+
+			if(data.rv_sfile1){
+				$(".review-image-wrap").append(
+					'<div><img id="reviewImg1" src="" alt=""></div>' 
+				);
+				document.getElementById("reviewImg1").src="/freepproject/uploads/"+data.rv_sfile1;
+			}
+			if(data.rv_sfile2){
+				$(".review-image-wrap").append(
+					'<div><img id="reviewImg2" src="" alt=""></div>' 
+				);
+				document.getElementById("reviewImg2").src="/freepproject/uploads/"+data.rv_sfile2;
+			}
+			if(data.rv_sfile3){
+				$(".review-image-wrap").append(
+					'<div><img id="reviewImg3" src="" alt=""></div>' 
+				);
+				document.getElementById("reviewImg3").src="/freepproject/uploads/"+data.rv_sfile3;
+			}
+			
+			$(".modal2-layer-btn li a").attr("href", "./myReviewEdit.do?or_idx="+data.or_idx);
+			$(".modal2-layer-btn li button").attr("onclick", "feviewDel("+data.rv_idx+")");
+			
 			if(data.like == true){
 				$(".review-detail-modal .favorite-heart i").addClass("like").after("<span class='likeCount'>"+data.likeCount+"<span>");	
 			}else{
@@ -184,6 +205,7 @@
 			}
 			
 			reviewSlick();
+			
 		};
 		
 		function reviewToCart(code){
@@ -206,8 +228,17 @@
 				} 
 		    }); 
 		}
+		
+		
+		function feviewDel(rv_idx){
+			if(confirm("정말로 삭제하시겠습니까?")){
+				location.href="reviewremove.do?rv_idx="+rv_idx;
+			}else{
+				alert("취소되었습니다")
+			}
+		}
 	</script>
-
+	
 </head>
 
 <body id="body">
@@ -324,9 +355,7 @@
                                             <!-- 이미지 -->
                                             <div class="img-wrap">
                                             	<div class="review-image-wrap">
-                                                 <div><img id="reviewImg1" src="" alt=""></div>                                                            	
-                                                 <div><img id="reviewImg2" src="" alt=""></div>                                                            	
-                                                 <div><img id="reviewImg3" src="" alt=""></div>                                                            	
+                                                        	
                                             	</div>
                                                
                                                 <!-- <ul class="review-modal-cicleBtn">
@@ -377,8 +406,8 @@
                                     <!-- 상세모달창 btn -->
 									<div class="modal2-layer-btn">
 			                            <ul>
-			                                <li><a href="./myReviewWrite.do">수정하기</a></li>
-			                                <li><button onclick="">삭제하기</button></li>
+			                                <li><a href="./myReviewEdit.do">수정하기</a></li>
+			                                <li><button onclick="feviewDel()">삭제하기</button></li>
 			                            </ul>
 			                        </div>
                                 </div>
@@ -403,6 +432,7 @@
 
     <script src="../js/motion.js"></script>
     <script src="../js/ui.js"></script>
+    
     
 	<!-- slick area -->
 	<script src="../js/slick/slick.js"></script>

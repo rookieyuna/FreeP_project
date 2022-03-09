@@ -119,7 +119,7 @@ public class MypageController {
 		model.addAttribute("nowPage", nowPage);
 		model.addAttribute("pagingImg", pagingImg);
 		model.addAttribute("lists", lists);
-		
+
 		return "mypage/myOrder";
 	}
 		
