@@ -748,7 +748,7 @@
 			                                            </div>	
 			                                            <div class="btn-wrap">		
 			                                                <a href="javascript:return false;" class="store-info-box" onclick="storeDetailOpen('${row.b_code}');">상세보기</a>		
-			                                                <a href="#" class="type2">방문포장</a>	
+			                                                <a href="../order/orderDIY.do" class="type2">주문하기</a>	
 			                                            </div> 
 			                                        </li>
 												</c:forEach>
