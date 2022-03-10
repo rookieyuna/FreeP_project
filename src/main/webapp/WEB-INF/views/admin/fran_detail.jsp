@@ -7,7 +7,7 @@
 <script>
 function deleteRow(f_code) {
 	if(confirm("정말로 삭제하시겠습니까?")){
-		location.href="franDelete.do?b_code="+ f_code;
+		location.href="franDelete.do?f_code="+ f_code;
 	}
 }
 </script>

@@ -62,7 +62,7 @@ function LocationChange(e) {
     } else if (e.value == "강원") {
         add = gangwon;
     } else if (e.value == "충남") {
-        add = gwangju;
+        add = chungnam;
     } else if (e.value == "충북") {
         add = chungbuk;
     } else if (e.value == "대전") {

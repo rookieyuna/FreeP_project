@@ -8,7 +8,7 @@ $(function(){
 		if($("input:checkbox[name=chk]:checked").length == 0){
 			alert("삭제할 항목을 체크해주세요");
 		}else{
-			$('#franlist').attr("action","./franlistDeleteChk.do").submit();			
+			$('#franlist').attr("action","./franDeleteChk.do").submit();			
 		}
 	}) 	
 })

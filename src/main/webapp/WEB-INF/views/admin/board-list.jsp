@@ -54,7 +54,7 @@ $(function(){
 										<colgroup>
 											<col width="10%"/>
 											<col width="10%"/>
-											<col width="15%"/>
+											
 											<col width="45%"/>
 											<col width="10%"/>
 											<col width="10%"/>
@@ -64,7 +64,6 @@ $(function(){
 												<th>#</th>
 												<th>작성자</th>
 												<th>제목</th>
-												<th>내용</th>
 												<th>작성일</th>
 												<th>첨부파일</th>
 											</tr>
@@ -76,7 +75,7 @@ $(function(){
 												<th><input type="checkbox" name="chk" value="${row.b_idx }"></th>
 												<td >${row.writer }</td>
 												<td><a href="./detail.do?idx=${row.b_idx}">${row.title }</a></td>
-												<td style="text-overflow:ellipsis; overflow:hidden; white-space:nowrap;" ><nobr>${row.contents}</nobr></td>
+												
 												<td>${row.postdate }</td>
 												<td>
 												<c:set var="file" value="${row.sfile }" />
