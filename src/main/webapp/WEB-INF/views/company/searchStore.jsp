@@ -711,9 +711,9 @@
                                                 <input type="text" id="keyword"  name="storeName" placeholder="매장명을 검색하세요." value="">
                                                 </form>
                                             </div>
-                                            <div class="form-item" onclick="setCenter(this.form);">
+                                            <div class="form-item">
                                             	<!-- onclick="findBranch('name'); return false;" -->
-                                                <button type="button" class="btn-search">
+                                                <button class="btn-search">
                                                     <span class="material-icons-outlined">search</span>
                                                 </button>
                                             </div>
