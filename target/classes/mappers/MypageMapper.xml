@@ -83,11 +83,18 @@
     	WHERE O.or_idx=#{or_idx}
 	</select>
 	
+	<select id="myReview" resultType="review.ReviewBoardDTO" parameterType="int">
+	   SELECT * FROM reviewboard WHERE or_idx=#{or_idx}
+	</select>
 	
 	<select id="myReviewChk" resultType="int" parameterType="int">
 	   SELECT COUNT(*) FROM reviewboard WHERE or_idx=#{or_idx}
 	</select>
 	
+	<!-- 나의 리뷰게시글 별 좋아요 개수 -->
+	<select id="getMyReviewLikeCount" resultType="int" parameterType="int">
+  		SELECT COUNT(*) FROM likedreview WHERE rv_idx=#{rv_idx}
+  	</select>  	
 	
 	
 	<!-- 쿠폰내역(페이징) -->

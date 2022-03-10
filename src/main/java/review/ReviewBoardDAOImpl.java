@@ -38,7 +38,9 @@ public interface ReviewBoardDAOImpl {
 	
 	public void write(ReviewBoardDTO boardDTO); 
 	public int findm_code(String a);
-	  
+	 
+	// review를 지우기 위해선 fk로인해 likedReview에서 해당 rv_idx데이터를 지워줘야함
+	public void deleteLikedReview(int a);
 	public void delete(int a);
 	public String selectsfile(String a);
 	public String selectsfile2(String a);
@@ -68,4 +70,5 @@ public interface ReviewBoardDAOImpl {
 	
 	// 리뷰게시판 > 장바구니 추가
 	public Map<String, Object> getDiyChk(String a);
+	
 }

@@ -101,7 +101,7 @@
 											<!-- 아래 주문내용 수정해야함 -->
 											<td >${row.total_name }</td>
 											<c:set var="date" value="${row.or_date }" />
-											<td >${fn:split(date, ' ')[0] }</td>
+											<td>${fn:split(date, ' ')[0] }</td>
 											<c:choose>
 						                    	<c:when test="${row.state eq '1'}"><td>주문완료</td></c:when>
 						                    	<c:when test="${row.state eq '2'}"><td>주문접수</td></c:when>

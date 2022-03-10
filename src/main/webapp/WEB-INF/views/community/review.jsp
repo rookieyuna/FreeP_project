@@ -35,7 +35,8 @@ function reviewDetailOpen(idx){
 	var token = $("meta[name='_csrf']").attr("content");
     var header = $("meta[name='_csrf_header']").attr("content");
 	
-    console.log("idx="+idx);
+    // 이미지 공간 초기화
+    $(".review-image-wrap").empty().removeClass("slick-initialized slick-slider slick-dotted");
 	
 	$.ajax({ 
 		url: "reviewdetail.do",
@@ -144,9 +145,9 @@ function reviewDetailOpen(idx){
 						data.title = res[goldKey].dto["title"];
 						data.postdate = res[goldKey].dto["postdate"];
 						data.contents = res[goldKey].dto["contents"];
-						data.rv_ofile1 = res[goldKey].dto["rv_ofile1"];
-						data.rv_ofile2 = res[goldKey].dto["rv_ofile2"];
-						data.rv_ofile3 = res[goldKey].dto["rv_ofile3"];
+						data.rv_sfile1 = res[goldKey].dto["rv_sfile1"];
+						data.rv_sfile2 = res[goldKey].dto["rv_sfile2"];
+						data.rv_sfile3 = res[goldKey].dto["rv_sfile3"];
 						data.like = res[goldKey].dto["like"];
 					}
 				}
@@ -169,9 +170,27 @@ function reviewDetail(data, d_name, p_name ,recipe){
 	document.getElementById("title").innerText=data.title;
 	document.getElementById("postdate").innerText=data.postdate;
 	document.getElementById("contents").innerText=data.contents;
-	document.getElementById("reviewImg1").src="/freepproject/uploads/"+data.rv_ofile1;
-	document.getElementById("reviewImg2").src="/freepproject/uploads/"+data.rv_ofile2;
-	document.getElementById("reviewImg3").src="/freepproject/uploads/"+data.rv_ofile3; 
+	
+	if(data.rv_sfile1){
+		$(".review-image-wrap").append(
+			'<div><img id="reviewImg1" src="" alt=""></div>' 
+		);
+		document.getElementById("reviewImg1").src="/freepproject/uploads/"+data.rv_sfile1;
+	}
+	if(data.rv_sfile2){
+		$(".review-image-wrap").append(
+			'<div><img id="reviewImg2" src="" alt=""></div>' 
+		);
+		document.getElementById("reviewImg2").src="/freepproject/uploads/"+data.rv_sfile2;
+	}
+	if(data.rv_sfile3){
+		$(".review-image-wrap").append(
+			'<div><img id="reviewImg3" src="" alt=""></div>' 
+		);
+		document.getElementById("reviewImg3").src="/freepproject/uploads/"+data.rv_sfile3;
+	}
+	
+	
 	if(data.like == true){
 		$(".review-detail-modal .favorite-heart i").addClass("like").attr("onclick","reviewLike('"+data.rv_idx+"')");	
 	}else{
@@ -302,9 +321,7 @@ function reviewToCart(code){
                                                             <!-- 이미지 -->
                                                             <div class="img-wrap">
                                                             	<div class="review-image-wrap">
-	                                                                <div><img id="reviewImg1" src="" alt=""></div>                                                            	
-	                                                                <div><img id="reviewImg2" src="" alt=""></div>                                                            	
-	                                                                <div><img id="reviewImg3" src="" alt=""></div>                                                            	
+	                                                                
                                                             	</div>
                                                                
                                                                 <!-- <ul class="review-modal-cicleBtn">

@@ -82,32 +82,42 @@
                                                     <div class="my-oil-details section-left">
                                                         <br>
                                                         <p class="user">
-                                                            <strong class="user-name font-secondary font-color-primary">${name }</strong>님 반갑습니다.
+                                                            <strong class="user-name font-secondary font-color-primary">${name }</strong> 님 반갑습니다.
                                                         </p>
                                                         <div class="my-info">
                                                             <div class="title-wrap title-type2">
-                                                                <h2 class="tit">주문 내역</h2>
+                                                                <h2 class="tit">FreeP 쿠폰</h2>
                                                             </div>
                                                             <div class="info-box">
-                                                                <p class="my-date font-secondary">
-                                                                    2022.02
-                                                                </p>
                                                                 <p class="my-lastMonth-sum">
-                                                                    고객님의 스탬프는 <strong class="my-state down"><em
-                                                                            class="font-secondary">X</em>장</strong>입니다.<br>
-                                                                    <strong class="my-state down"><em
-                                                                            class="font-secondary">X</em>장</strong>더 모으면
-                                                                    사용이 가능합니다.
-
+                                                                    고객님의 사용가능 쿠폰은 <strong class="my-state down"><em
+                                                                            class="font-secondary">${myCouponCount }</em>장</strong>입니다.<br><br>
                                                                 </p>
-                                                                <div class="my-account">쿠폰피자이미지</div>
                                                             </div>
+                                                            <button class="btn-type4 v4" onclick="location.href='myCoupon.do';">사용 가능 쿠폰 확인하기</button>
                                                         </div>
                                                     </div>
 
                                                     <div class="section-right">
-
-                                                        <div class="my-coupon">
+														<div class="my-coupon">
+                                                            <div class="title-wrap title-type2">
+                                                                <h2 class="tit">FreeP 적립금</h2>
+                                                            </div>
+                                                            <div class="info-box">
+                                                                <ul class="list">
+                                                                    <li>
+                                                                        <dl class="item">
+                                                                            <dt>사용 가능 적립금</dt>
+                                                                            <dd><strong class="font-secondary font-color-primary">
+                                                                            		<fmt:formatNumber value="${myPoint }" pattern="#,###"/>
+                                                                                </strong><span>원</span>
+                                                                            </dd>
+                                                                        </dl>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                        <%-- <div class="my-coupon">
                                                             <div class="title-wrap title-type2">
                                                                 <h2 class="tit">FreeP 쿠폰</h2>
                                                             </div>
@@ -145,35 +155,18 @@
 	                                                                            <dd>
 		                                                                            <c:set var="expire_date" value="${row.expire_date }" />
 																					<strong class="font-secondary">${fn:substring(expire_date, 0, 10)}</strong>
-	                                                                            	<%-- <strong class="font-secondary font-color-primary">${row.expire_date }</strong> --%>
+	                                                                            	<strong class="font-secondary font-color-primary">${row.expire_date }</strong>
 	                                                                            </dd>
 	                                                                        </dl>
 	                                                                    </li>
 																	</c:forEach>
                                                                 </ul>
                                                             </div>
-                                                        </div>
+                                                        </div> --%>
                                                             
 
 
-                                                        <div class="my-point">
-                                                            <div class="title-wrap title-type2">
-                                                                <h2 class="tit">FreeP 적립금</h2>
-                                                            </div>
-                                                            <div class="info-box">
-                                                                <ul class="list">
-                                                                    <li>
-                                                                        <dl class="item">
-                                                                            <dt>사용 가능 적립금</dt>
-                                                                            <dd><strong class="font-secondary font-color-primary">
-                                                                            		<fmt:formatNumber value="${myPoint }" pattern="#,###"/>
-                                                                                </strong><span>원</span>
-                                                                            </dd>
-                                                                        </dl>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
+                                                        
 
 
                                                         </div>

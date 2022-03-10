@@ -76,8 +76,8 @@
                                             <dt>FREEP LOCATION</dt>
                                             <dd>
                                                 <div class="location_map">
-                                                    <img src="../images/03visual/img_location_p.jpg"
-                                                        alt="">
+                                                    <img src="../images/03visual/img_location.png"
+                                                        alt="" width="530px">
                                                 </div>
                                                 <div class="location_info">
                                                     <dl>

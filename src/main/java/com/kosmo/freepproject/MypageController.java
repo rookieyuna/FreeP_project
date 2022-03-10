@@ -119,7 +119,7 @@ public class MypageController {
 		model.addAttribute("nowPage", nowPage);
 		model.addAttribute("pagingImg", pagingImg);
 		model.addAttribute("lists", lists);
-		
+
 		return "mypage/myOrder";
 	}
 		
@@ -258,8 +258,10 @@ public class MypageController {
 		//좋아요 한 리뷰 카운트
 		int totalFavReviewCount = sqlSession.getMapper(ReviewBoardDAOImpl.class).getMyFavCount(dto);
 		
+
 		int pageSize = 8; //한 페이지당 출력할 주문내역의 개수
 		int blockPage = 3; //한 블럭당 출력할 페이지 번호의 개수
+
 		
 		int nowPage = (req.getParameter("nowPage")==null || req.getParameter("nowPage").equals(""))
 				? 1 : Integer.parseInt(req.getParameter("nowPage"));

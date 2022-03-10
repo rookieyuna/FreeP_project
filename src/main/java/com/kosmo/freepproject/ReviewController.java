@@ -628,7 +628,7 @@ public class ReviewController {
 				Map<String,Object> getDiyData = sqlSession.getMapper(ReviewBoardDAOImpl.class).getDiyData(key);
 				
 				// DIY피자 이름 가져오기
-				System.out.println("c의 이름 : " + getDiyData.get("D_NAME"));
+				//System.out.println("c의 이름 : " + getDiyData.get("D_NAME"));
 				Map<String, Object> cResult = new HashMap<String, Object>();
 				
 				cResult.put("DIY_IDX", getDiyData.get("DIY_IDX")); // 코드 저장
@@ -686,7 +686,7 @@ public class ReviewController {
 		String m_codeTemp = Integer.toString(m_code);
 		ParameterDTO paramDto = new ParameterDTO();
 		paramDto.setM_code(m_codeTemp);
-		int likeCount = sqlSession.getMapper(ReviewBoardDAOImpl.class).getMyFavCount(paramDto);
+		int likeCount = sqlSession.getMapper(MypageImpl.class).getMyReviewLikeCount(Integer.parseInt(req.getParameter("idx")));
 		dto.setLikeCount(likeCount);
 		
 		
@@ -703,20 +703,19 @@ public class ReviewController {
 	@RequestMapping("/mypage/myReviewWrite.do")
 	public String myReviewWrite(Model model, HttpServletRequest req) {
 		
-		System.out.println("rv_idx : " + req.getParameter("rv_idx"));
-		int rv_idx = Integer.parseInt(req.getParameter("rv_idx")); 
-		model.addAttribute("rv_idx", rv_idx);
+		int or_idx = Integer.parseInt(req.getParameter("or_idx")); 
+		model.addAttribute("or_idx", or_idx);
 		
 		
 		return "mypage/myReviewWrite";
 	}
 	
-	
-	
 	//리뷰 글 작성완료 (마이페이지)
-
 	@RequestMapping(value="/mypage/myReviewWriteAction.do", method=RequestMethod.POST)
 	public String myReviewWriteAction(Principal principal, Model model, MultipartHttpServletRequest req) {
+		String referer = req.getHeader("Referer");
+		String refTemp = referer.substring(referer.lastIndexOf("/")+1, referer.indexOf("."));
+
 		
 		//dto에 id를 저장
 		ParameterDTO dto = new ParameterDTO();
@@ -748,75 +747,255 @@ public class ReviewController {
 		String originalName;
 		String saveFileName;
 		try { 
-			//파일1
-			mfile = req.getFile("file1");
-			originalName = new String(mfile.getOriginalFilename().getBytes(),"UTF-8");
-			if("".equals(originalName)) { //업로드된 파일이 없을때
-				originalName = "";
-				saveFileName = "";
-
-				boarddto.setRv_ofile1(originalName);
-				boarddto.setRv_sfile1(saveFileName);
-			}
-			else {			//업로드된 파일이 있을때
-				String ext = originalName.substring(originalName.lastIndexOf('.'));
-				saveFileName = getUuid() + ext;
-	
-				Path path1 = Paths.get(path+File.separator+saveFileName).toAbsolutePath();		
-				mfile.transferTo(path1.toFile()); 
-				boarddto.setRv_ofile1(originalName);
-				boarddto.setRv_sfile1(saveFileName);
-			}
-			//파일2
-			mfile = req.getFile("file2");
-			originalName = new String(mfile.getOriginalFilename().getBytes(),"UTF-8");
-			if("".equals(originalName)) {
-				originalName = "";
-				saveFileName = "";
-
-				boarddto.setRv_ofile2(originalName);
-				boarddto.setRv_sfile2(saveFileName);
-			}
-			else {			
-				String ext = originalName.substring(originalName.lastIndexOf('.'));
-				saveFileName = getUuid() + ext;
-	
-				Path path1 = Paths.get(path+File.separator+saveFileName).toAbsolutePath();		
-				mfile.transferTo(path1.toFile()); 
-				boarddto.setRv_ofile2(originalName);
-				boarddto.setRv_sfile2(saveFileName);
-			}
-			//파일3
-			mfile = req.getFile("file3");
-			originalName = new String(mfile.getOriginalFilename().getBytes(),"UTF-8");
-			if("".equals(originalName)) {
-				originalName = "";
-				saveFileName = "";
-
-				boarddto.setRv_ofile3(originalName);
-				boarddto.setRv_sfile3(saveFileName);
-			}
-			else {			
-				String ext = originalName.substring(originalName.lastIndexOf('.'));
-				saveFileName = getUuid() + ext;
-	
-				Path path1 = Paths.get(path+File.separator+saveFileName).toAbsolutePath();		
-				mfile.transferTo(path1.toFile()); 
-				boarddto.setRv_ofile3(originalName);
-				boarddto.setRv_sfile3(saveFileName);
-			}
 			//DB에 인서트
-			sqlSession.getMapper(ReviewBoardDAOImpl.class).write( boarddto );
+			if(refTemp.equals("myReviewWrite")) {
+				//파일1
+				mfile = req.getFile("file1");
+				originalName = new String(mfile.getOriginalFilename().getBytes(),"UTF-8");
+				
+				
+				if("".equals(originalName)) { //업로드된 파일이 없을때
+					originalName = "";
+					saveFileName = "";
 
+					boarddto.setRv_ofile1(originalName);
+					boarddto.setRv_sfile1(saveFileName);
+				}
+				else {			//업로드된 파일이 있을때
+					String ext = originalName.substring(originalName.lastIndexOf('.'));
+					saveFileName = getUuid() + ext;
+		
+					Path path1 = Paths.get(path+File.separator+saveFileName).toAbsolutePath();		
+					mfile.transferTo(path1.toFile()); 
+					boarddto.setRv_ofile1(originalName);
+					boarddto.setRv_sfile1(saveFileName);
+				}
+				//파일2
+				mfile = req.getFile("file2");
+				originalName = new String(mfile.getOriginalFilename().getBytes(),"UTF-8");
+				if("".equals(originalName)) {
+					originalName = "";
+					saveFileName = "";
+
+					boarddto.setRv_ofile2(originalName);
+					boarddto.setRv_sfile2(saveFileName);
+				}
+				else {			
+					String ext = originalName.substring(originalName.lastIndexOf('.'));
+					saveFileName = getUuid() + ext;
+		
+					Path path1 = Paths.get(path+File.separator+saveFileName).toAbsolutePath();		
+					mfile.transferTo(path1.toFile()); 
+					boarddto.setRv_ofile2(originalName);
+					boarddto.setRv_sfile2(saveFileName);
+				}
+				//파일3
+				mfile = req.getFile("file3");
+				originalName = new String(mfile.getOriginalFilename().getBytes(),"UTF-8");
+				if("".equals(originalName)) {
+					originalName = "";
+					saveFileName = "";
+
+					boarddto.setRv_ofile3(originalName);
+					boarddto.setRv_sfile3(saveFileName);
+				}
+				else {			
+					String ext = originalName.substring(originalName.lastIndexOf('.'));
+					saveFileName = getUuid() + ext;
+		
+					Path path1 = Paths.get(path+File.separator+saveFileName).toAbsolutePath();		
+					mfile.transferTo(path1.toFile()); 
+					boarddto.setRv_ofile3(originalName);
+					boarddto.setRv_sfile3(saveFileName);
+				}
+				
+				sqlSession.getMapper(ReviewBoardDAOImpl.class).write( boarddto );
+				
+			}else if(refTemp.equals("myReviewEdit")) {
+				System.out.println("myReviewEdit입니다.");
+				
+				boarddto.setRv_idx(Integer.parseInt(req.getParameter("rv_idx")));
+				
+				
+				//파일 1
+				String var = req.getParameter("deleteofile1");
+				ReviewBoardDTO temp = new ReviewBoardDTO();
+				temp = sqlSession.getMapper(ReviewBoardDAOImpl.class).view(boarddto);
+				
+				if(!req.getParameter("file1Txt").equals("")) {
+					
+					mfile = req.getFile("file1");
+					originalName = new String(mfile.getOriginalFilename().getBytes(),"UTF-8");
+					
+					if(originalName.equals("")) {
+						boarddto.setRv_ofile1(temp.getRv_ofile1());
+						boarddto.setRv_sfile1(temp.getRv_sfile1());
+						
+					}else {
+						String ext = originalName.substring(originalName.lastIndexOf('.'));
+						saveFileName = getUuid() + ext;
+
+						Path path1 = Paths.get(path+File.separator+saveFileName).toAbsolutePath();		
+						mfile.transferTo(path1.toFile()); 
+						boarddto.setRv_ofile1(originalName);
+						boarddto.setRv_sfile1(saveFileName);
+					}
+
+				}else {
+					//기존에 있던 파일 uploads 폴더에서 삭제
+					String deletefile = req.getParameter("pre_sfile1");
+					File file = new File(path+File.separator+deletefile);
+					if(file.exists()) {					
+						file.delete();
+					}				
+					// DB 에서도 sfile, ofile 속성 null로 바꿔주기
+					sqlSession.getMapper(BoardDAOImpl.class).deletefile(Integer.parseInt(req.getParameter("rv_idx")));						
+				}
+
+				
+				//파일 2
+				var = req.getParameter("deleteofile2");
+				if(!req.getParameter("file2Txt").equals("")) {
+					mfile = req.getFile("file2");
+					originalName = new String(mfile.getOriginalFilename().getBytes(),"UTF-8");
+					
+					if(originalName.equals("")) {
+						boarddto.setRv_ofile2(temp.getRv_ofile2());
+						boarddto.setRv_sfile2(temp.getRv_sfile2());
+						
+					}else{
+						String ext = originalName.substring(originalName.lastIndexOf('.'));
+						saveFileName = getUuid() + ext;
+
+						Path path1 = Paths.get(path+File.separator+saveFileName).toAbsolutePath();		
+						mfile.transferTo(path1.toFile()); 
+						boarddto.setRv_ofile2(originalName);
+						boarddto.setRv_sfile2(saveFileName);
+					}
+					
+					
+				}else {
+					//기존에 있던 파일 uploads 폴더에서 삭제
+					String deletefile = req.getParameter("pre_sfile2");
+					File file = new File(path+File.separator+deletefile);
+					if(file.exists()) {					
+						file.delete();
+					}				
+					// DB 에서도 sfile, ofile 속성 null로 바꿔주기
+					sqlSession.getMapper(BoardDAOImpl.class).deletefile(Integer.parseInt(req.getParameter("rv_idx")));						
+				}
+				
+				//파일 3
+				var = req.getParameter("deleteofile3");
+				if(!req.getParameter("file3Txt").equals("")) {
+					mfile = req.getFile("file3");
+					originalName = new String(mfile.getOriginalFilename().getBytes(),"UTF-8");
+					
+					if(originalName.equals("")) {
+						
+						boarddto.setRv_ofile3(temp.getRv_ofile3());
+						boarddto.setRv_sfile3(temp.getRv_sfile3());
+						
+					}else{
+						String ext = originalName.substring(originalName.lastIndexOf('.'));
+						saveFileName = getUuid() + ext;
+
+						Path path1 = Paths.get(path+File.separator+saveFileName).toAbsolutePath();		
+						mfile.transferTo(path1.toFile()); 
+						boarddto.setRv_ofile3(originalName);
+						boarddto.setRv_sfile3(saveFileName);
+					}
+					
+					
+					
+				}else {
+					//기존에 있던 파일 uploads 폴더에서 삭제
+					String deletefile = req.getParameter("pre_sfile3");
+					File file = new File(path+File.separator+deletefile);
+					if(file.exists()) {					
+						file.delete();
+					}				
+					// DB 에서도 sfile, ofile 속성 null로 바꿔주기
+					sqlSession.getMapper(BoardDAOImpl.class).deletefile(Integer.parseInt(req.getParameter("rv_idx")));						
+				}
+				
+				sqlSession.getMapper(ReviewBoardDAOImpl.class).edit( boarddto );
+			}
+			
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 		}
 		//쓰기 처리를 완료한 후 리스트로 이동
-		return "redirect:myOrder.do";
-
+		
+		if(refTemp.equals("myReviewWrite")) {
+			return "redirect:myOrder.do";
+		}else if(refTemp.equals("myReviewEdit")) {
+			return "redirect:myReview.do";
+		}
+		return "";
 	}
 
+	
+	//리뷰 글 수정페이지로 이동 (마이페이지)
+	@RequestMapping("/mypage/myReviewEdit.do")
+	public String myReviewEdit(Model model, HttpServletRequest req) {
+		
+		int or_idx = Integer.parseInt(req.getParameter("or_idx")); 
+		ReviewBoardDTO dto = new ReviewBoardDTO();
+
+		dto = sqlSession.getMapper(MypageImpl.class).myReview(or_idx);
+
+		// 줄바꿈처리
+		String temp = dto.getContents().replace("\r\n","<br/>");
+		dto.setContents(temp);
+		
+		model.addAttribute("data", dto);
+		
+		return "mypage/myReviewEdit";
+	}
+	
+	// 삭제처리
+	@RequestMapping(value="/mypage/reviewremove.do")
+	public String reviewRemove(Model model, HttpServletRequest req) {
+
+		//물리적경로 얻어오기
+		String path = req.getSession().getServletContext().getRealPath("/resources/uploads");
+		ReviewBoardDTO dto = new ReviewBoardDTO();
+		dto.setRv_idx(Integer.parseInt(req.getParameter("rv_idx")));
+		dto = sqlSession.getMapper(ReviewBoardDAOImpl.class).view(dto);
+		
+		try {
+			
+			//기존에 있던 파일 uploads 폴더에서 삭제 
+			String deletefile1 = dto.getRv_sfile1();
+			String deletefile2 = dto.getRv_sfile2();
+			String deletefile3 = dto.getRv_sfile3();
+			File file1 = new File(path+File.separator+deletefile1); 
+			File file2 = new File(path+File.separator+deletefile2);
+			File file3 = new File(path+File.separator+deletefile3); 
+			if(file1.exists()) {
+				file1.delete(); 
+			}
+			if(file2.exists()) {
+				file2.delete(); 
+			} 
+			if(file3.exists()) {
+				file3.delete(); 
+			}
+			sqlSession.getMapper(ReviewBoardDAOImpl.class).deleteLikedReview(Integer.parseInt(req.getParameter("rv_idx")));
+			sqlSession.getMapper(ReviewBoardDAOImpl.class).delete(Integer.parseInt(req.getParameter("rv_idx")));
+		}
+		catch(Exception e) { 
+			e.printStackTrace();
+		}
+
+		//삭제 처리를 완료한 후 리스트로 이동
+		return "redirect:myReview.do";
+	}
+	
+	
+	
 	// 리뷰페이지 좋아요
 	@RequestMapping("/community/reviewLike.do")
 	@ResponseBody
@@ -825,16 +1004,16 @@ public class ReviewController {
 		LikedReviewDTO dto = new LikedReviewDTO();
 		dto.setRv_idx(Integer.parseInt(req.getParameter("idx")));
 		dto.setM_code(sqlSession.getMapper(ReviewBoardDAOImpl.class).findm_code(principal.getName()));
-		int bbb = sqlSession.getMapper(ReviewBoardDAOImpl.class).likeChk(dto);
-		System.out.println(bbb);
-		if(bbb>0) {
-			System.out.println("기존 좋아요 있음");
+		int likeChk = sqlSession.getMapper(ReviewBoardDAOImpl.class).likeChk(dto);
+		
+		if(likeChk>0) {
+			//System.out.println("기존 좋아요 입력");
 			sqlSession.getMapper(ReviewBoardDAOImpl.class).dislikeReview(dto);
-			System.out.println("삭제완료되었습니다.");
+			//System.out.println("삭제 완료되었습니다.");
 		}else {
-			System.out.println("처음 좋아요하는거");
+			//System.out.println("새로운 좋아요 입력");
 			sqlSession.getMapper(ReviewBoardDAOImpl.class).likeReview(dto);			
-			System.out.println("추가 완료되었습니다");
+			//System.out.println("추가 완료되었습니다");
 		}
 		
 		return dto;
@@ -868,7 +1047,6 @@ public class ReviewController {
 					temp = sqlSession.getMapper(ReviewBoardDAOImpl.class).getDiyChk(req.getParameter("code"));
 						// DIY테이블에 담기
 					
-					System.out.println("temp : "+temp);
 					// key 소문자 변경
 					Map<String, Object> newTemp = new HashMap<String, Object>();
 					Set<String> set = temp.keySet();

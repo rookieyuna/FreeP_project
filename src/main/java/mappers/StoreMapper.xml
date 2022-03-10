@@ -106,7 +106,7 @@
 				address like '%부산%' and address like '%'||#{searchTxt}||'%'
 			</if>
 			<if test="searchField == '16'">
-				address like '%세종%' and address like '%'||#{searchTxt}||'%'
+				address like '%세종%' 
 			</if>
 			<if test="searchField == '17'">
 				address like '%제주%' and address like '%'||#{searchTxt}||'%'
@@ -116,7 +116,10 @@
 			</if>
 	   </if>
 	</select>
-
+	
+	<select id="mapList" resultType="store.StoreVO">
+		SELECT * FROM store 
+	</select>
 
 
 </mapper>

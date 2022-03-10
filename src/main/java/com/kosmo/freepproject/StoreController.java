@@ -1,5 +1,6 @@
 package com.kosmo.freepproject;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import cart.CartImpl;
 import store.StoreImpl;
 import store.StoreVO;
 import util.PagingUtil;
@@ -213,4 +215,29 @@ public class StoreController {
 		return result;
 	}
 	
+	//매장목록 불러오기 
+	@RequestMapping(value = "/company/mapList.do")
+	@ResponseBody
+	public Map<String,Object> mapList(Model model, HttpServletRequest req){
+		Map<String, Object> result = new HashMap<String, Object>();
+	    try{
+	    
+	    	String b_name = req.getParameter("b_name");
+	        double longitude = Double.parseDouble(req.getParameter("longitude"));	    
+	        double latitude = Double.parseDouble(req.getParameter("latitude"));	
+
+	
+	      
+	       ArrayList<StoreVO> lists =
+	   			sqlSession.getMapper(CartImpl.class).storeList(latitude,longitude);
+	      
+	       result.put("listsstore", lists);
+
+	        
+	    }catch(Exception e){
+	    	e.printStackTrace();
+	    }
+	    
+	    return result;
+	}
 }
