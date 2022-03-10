@@ -66,7 +66,11 @@
    <http pattern="/**" auto-config="true" disable-url-rewriting="true" use-expressions="true">
 
         <intercept-url pattern="/member/login.do" access="permitAll" />
-     
+     	<intercept-url pattern="/order/cart.do" access="hasAnyRole(1,2,3,4,5)"/>
+     	<intercept-url pattern="/order/order.do" access="hasAnyRole(1,2,3,4,5)"/>
+     	<intercept-url pattern="/mypage/myMain.do" access="hasAnyRole(1,2,3,4,5)"/>
+     	<intercept-url pattern="/community/question.do" access="hasAnyRole(1,2,3,4,5)"/>
+     	
          
       <form-login 
          login-page="/member/login.do"
