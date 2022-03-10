@@ -154,7 +154,7 @@ $(function(){
 									                    	<c:when test="${row.grade eq '2'}"><td>배달원</td></c:when>
 									                    	<c:when test="${row.grade eq '3'}"><td>총괄관리자</td></c:when>
 									                    	<c:when test="${row.grade eq '4'}"><td>지점관리자</td></c:when>
-									                    	<c:otherwise><td>소셜가입고객</td></c:otherwise>
+									                    	<c:when test="${row.grade eq '5'}"><td>소셜가입고객</td></c:when>
 									                    </c:choose>
 									                    <c:choose>
 									                    	<c:when test="${row.active eq '0'}"><td>비활성화</td></c:when>
