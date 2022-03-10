@@ -20,8 +20,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import member.KakaoDTO;
-import member.Kakao_service;
 import member.MemberImpl;
 import member.MemberVO;
 import net.nurigo.java_sdk.api.Message;
@@ -186,7 +184,7 @@ public class MemberController {
 		result.put("num", num);
 		return result;
 
-	}
+	} 
 
 	// 휴대폰 본인인증
 

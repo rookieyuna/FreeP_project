@@ -205,6 +205,10 @@ public class OrderController {
 			}
 			//cart테이블에서 idx값 사용해서 delete
 			sqlSession.getMapper(OrderImpl.class).deleteProduct(cartIdx[i]); 
+			//member테이블에서 적립금 update
+			int a = Integer.parseInt(req.getParameter("total"));
+			a = (int) (a * 0.1) ;
+			sqlSession.getMapper(OrderImpl.class).updatePoint1(a, m_code);
 		}
 		
 		return "/common/orderFinish";

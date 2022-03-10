@@ -19,6 +19,8 @@ public interface OrderImpl {
 	public void productInsert(OrderDTO a);
 	//사용한 포인트 차감
 	public void updatePoint(int a, int b);
+	//포인트 적립
+	public void updatePoint1(int a, int b);
 	//사용한 쿠폰삭제
 	public void deleteMyCoupon(int a);
 	//장바구니에서 삭제

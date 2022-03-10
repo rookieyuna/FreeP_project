@@ -25,6 +25,9 @@
   	<update id="updatePoint" >
   		update member set point=point-#{param1} where m_code=#{param2}
   	</update>
+  	 <update id="updatePoint1" >
+  		update member set point=point+#{param1} where m_code=#{param2}
+  	</update>
   
   	<delete id="deleteMyCoupon">
   		delete from mycoupon where coupon_idx= #{param1}
