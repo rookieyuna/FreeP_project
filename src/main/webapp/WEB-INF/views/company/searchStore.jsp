@@ -778,7 +778,7 @@
 																<span class="type" id="detail_on_sale">온라인 방문포장 30%</span><span class="type2" id="detail_off_sale">오프라인 방문포장 30%</span>
 															</p>
 															<div class="btn-wrap">
-																<a href="" class="btn-type v3" id="">포장주문</a>
+																<a href="../order/orderDIY.do" class="btn-type v3" id="">주문하기</a>
 															</div>
 														</li>
 														<li>
