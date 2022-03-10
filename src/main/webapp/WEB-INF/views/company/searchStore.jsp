@@ -781,7 +781,7 @@
 																<a href="../order/orderDIY.do" class="btn-type v3" id="">주문하기</a>
 															</div>
 														</li>
-														<li>
+														<li> 
 															<dl>
 																<dt></dt>
 																<dd></dd>
