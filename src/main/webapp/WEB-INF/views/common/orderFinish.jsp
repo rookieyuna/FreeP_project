@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,6 +18,7 @@
     <link rel="stylesheet" href="../style/sub.css">
     <link rel="stylesheet" href="../style/regist.css">
     <link rel="stylesheet" href="../style/layout.css">
+    <link rel="stylesheet" href="../style/responsive.css">
     <!-- icon영역 -->
     <link
         href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
@@ -22,7 +26,7 @@
     <!-- js 라이브러리 영역 -->
     <script src="../js/jquery-3.6.0.js"></script>
 </head>
-<body>
+<body id="body">
 
     <!-- header s -->
     <header id="header">
@@ -36,11 +40,11 @@
             <div class="sub-type mypage">
                 <div class="inner-box">
                     <div class="page-title-wrap">
-                        <h2 class="page-title">마이페이지</h2>
+                        <h2 class="page-title">주문완료</h2>
                         <div class="depth-area">
                             <ol>
                                 <li><a href="/FreeP/index.html">홈</a></li>
-                                <li><strong>마이페이지</strong></li>
+                                <li><strong>주문완료</strong></li>
                             </ol>
                         </div>
                     </div>
@@ -59,13 +63,13 @@
                         </div>
 
                         <div class="info-text-wrap">
-                            <strong class="title">결제 완료</strong>
+                            <strong class="title">주문 완료</strong>
                             <p>
                                 <span>
                                 	고객님, 피자 주문이 완료되었습니다.
                                 </span>
                             </p>
-                            <div class="btn-wrap">
+                            <div class="btn-wrap mobile_orderFinish">
                                 <a href="/freepproject/index.do" class="btn-type v4">HOME</a>
                             </div>
                         </div>

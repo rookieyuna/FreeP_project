@@ -750,4 +750,8 @@
 	 	text-align: center;
 	 	margin-top: 10px;
 	 }
+	 
+	 .mobile_orderFinish{
+	 	display: none;
+	 }
 }
