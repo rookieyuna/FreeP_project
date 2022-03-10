@@ -17,5 +17,7 @@ public interface IAndroidDAO {
 	
 	public OrderlistVO orderStatus(String m_code);
 	
+	public ArrayList<StoreVO> mapList();
+	
 }
 
