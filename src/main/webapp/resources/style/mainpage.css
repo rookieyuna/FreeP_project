@@ -45,7 +45,7 @@
     -webkit-box-pack: center;
     -ms-flex-pack: center;
     justify-content: center;
-    padding-top: 28px;
+    padding-top: 48px;
   }
   .swiper-container {
     margin-left: auto;
@@ -102,10 +102,12 @@
     line-height: 26px;
     letter-spacing: -.48px;
     color: #666;
-    margin-top: 19px;
+    margin-top: 49px;
   }
   .main-favorite .swiper-slide a {
-    margin-top: 10px;
+    float: right;
+    margin-right: 30px;
+    margin-top: 30px;
     display: block;
     text-indent: -9999px;
     width: 40px;
@@ -138,6 +140,7 @@
   }
   .main-product-header {
     text-align: center;
+    margin-bottom: 50px;
   }
   .main-product-header h3 {
     font-weight: 400;
@@ -196,11 +199,12 @@
     position: relative;
     width: 247px;
     height: 391px;
-    padding: 0 32px;
+    padding: 0 20px;
     background-color: #fff;
     -webkit-box-shadow: 6px 10px 30px rgb(0 0 0 / 10%);
     box-shadow: 6px 10px 30px rgb(0 0 0 / 10%);
   }
+ 
   .swiper-slide {
     -ms-flex-negative: 0;
     flex-shrink: 0;
@@ -247,9 +251,12 @@
     border-right: 10px solid rgba(0,0,0,0);
   }
   .main-product .swiper-slide figure {
-    margin: 65px auto 0;
-    width: 159px;
-    height: 149px;
+        margin: 35px auto 0;
+    width: 207px;
+    height: 219px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   figure {
     display: block;
@@ -264,8 +271,9 @@
   img {
     vertical-align: top;
   }
-  .main-product .swiper-slide h3 {
+  .main-product .swiper-wrapper .swiper-slide h3 {
     margin-top: 20px;
+    font-weight: 600;
   }        
   .main-product .swiper-slide h3, .main-product .swiper-slide h4 {
     font-weight: 400;
