@@ -141,11 +141,18 @@ function validateForm(form) {
 																<tr>
 																	<th class="text-center" style="vertical-align:middle;">결제수단</th>
 																	<td>
-																		<select name="credit" class="form-control" style="width:70%;">
-					                                                        <option value="" selected disabled>--- 선택하세요 ---</option>
-					                                                        <option value="1">현금</option>
-					                                                        <option value="2">카드</option>
-					                                                    </select>
+											                    		<input type="hidden" class="form-control" name="credit" style="width:70%;" value="${vo.credit }"/>
+																	<c:choose>
+												                    	<c:when test="${vo.credit eq '1'}">
+												                    		<input type="text" class="form-control" name="credit2" style="width:70%;" value="카드" readonly/>
+												                    	</c:when>
+												                    	<c:when test="${vo.credit eq '21'}">
+												                    		<input type="text" class="form-control" name="credit2" style="width:70%;" value="만나서 카드" readonly/>
+												                    	</c:when>
+												                    	<c:when test="${vo.credit eq '22'}">
+												                    		<input type="text" class="form-control" name="credit2" style="width:70%;" value="현금" readonly/>
+												                    	</c:when>
+												                    </c:choose>
 																	</td>
 																</tr>
 																<tr>
