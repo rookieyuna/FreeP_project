@@ -66,7 +66,7 @@
                             <strong class="title">주문 완료</strong>
                             <p>
                                 <span>
-                                	고객님, 피자 주문이 완료되었습니다.
+                                	고객님, 피자 주문이 완료되었습니다!!
                                 </span>
                             </p>
                             <div class="btn-wrap mobile_orderFinish">
