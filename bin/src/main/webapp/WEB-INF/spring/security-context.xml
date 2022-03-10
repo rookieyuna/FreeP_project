@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns="http://www.springframework.org/schema/security"
+   xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd
+      http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<http pattern="/android/**" security="none" />
+	<!-- <http pattern="/etc/**" security="none" /> -->
+	
+	
+	<http pattern="/and/**" auto-config="true" disable-url-rewriting="true" use-expressions="true">
+
+        <intercept-url pattern="/and/login.do" access="permitAll" />
+     
+         
+      <form-login 
+         login-page="/and/login.do"
+         default-target-url="/order/orderDIY.do"
+         authentication-failure-url="/and/login.do?error"
+         login-processing-url="/and/mainLoginAction"    
+         username-parameter="id"  
+         password-parameter="pass" />         
+      <logout 
+         logout-url="/and/logout"
+         logout-success-url="/index.do"/>
+   </http>
+	
+ <!--  
+    시큐리티3단계 : 로그인을 JDBC연동으로 커스터마이징 하기
+    
+    <http> 엘리먼트는 2단계와 동일하게 사용한다. 
+    -->
+      <http pattern="/admin/**" auto-config="true" disable-url-rewriting="true" use-expressions="true">
+
+      <intercept-url pattern="/admin/login.do" access="permitAll" />
+      <intercept-url pattern="/admin/notice.do" access="hasAnyRole(3,4)"/>
+      <intercept-url pattern="/admin/index.do" access="hasAnyRole(3,4)"/>
+      <intercept-url pattern="/admin/member.do" access="hasRole(3)"/>
+      <intercept-url pattern="/admin/menu.do" access="hasRole(3)"/>
+      
+      <intercept-url pattern="/admin/event.do" access="hasRole(3)"/>
+      <intercept-url pattern="/admin/review.do" access="hasRole(3)"/>
+      <intercept-url pattern="/admin/orderlist.do" access="hasAnyRole(3,4)"/>
+      <intercept-url pattern="/admin/storelist.do" access="hasAnyRole(3,4)"/>
+      <intercept-url pattern="/admin/storechart.do" access="hasAnyRole(3,4)"/>
+      <intercept-url pattern="/admin/franlist.do" access="hasRole(3)"/>
+      <intercept-url pattern="/admin/question.do" access="hasRole(3)"/>
+             
+      <form-login 
+         login-page="/admin/login.do" 
+         default-target-url="/admin/index.do?success"
+         authentication-failure-url="/admin/login.do?error"
+         login-processing-url="/admin/LoginAction"    
+         username-parameter="id"  
+         password-parameter="pass" />         
+      <logout 
+         logout-url="/admin/logout"
+         logout-success-url="/admin/login.do"/>
+      <access-denied-handler 
+         error-page="/admin/accessDenied.do" />
+   </http>
+   
+   
+   
+   <http pattern="/**" auto-config="true" disable-url-rewriting="true" use-expressions="true">
+
+        <intercept-url pattern="/member/login.do" access="permitAll" />
+     	<intercept-url pattern="/order/cart.do" access="hasAnyRole(1,2,3,4,5)"/>
+     	<intercept-url pattern="/order/order.do" access="hasAnyRole(1,2,3,4,5)"/>
+     	<intercept-url pattern="/mypage/myMain.do" access="hasAnyRole(1,2,3,4,5)"/>
+     	<intercept-url pattern="/community/question.do" access="hasAnyRole(1,2,3,4,5)"/>
+     	
+         
+      <form-login 
+         login-page="/member/login.do"
+         default-target-url="/index.do"
+         authentication-failure-url="/member/login.do?error"
+         login-processing-url="/member/mainLoginAction"    
+         username-parameter="id"  
+         password-parameter="pass" />         
+      <logout 
+         logout-url="/member/logout"
+         logout-success-url="/index.do"/>
+   </http>
+   
+   
+   
+   
+   
+   <!--  
+      각 권한을 획득하기 위한 설정 부분
+      jdbc-user-service 
+         data-source-ref : 데이터베이스 연결을 나타내는 datsSource로 해당
+            빈은 root-context.xml에 생성해야 한다.             
+         role-prefix : "ROLE_" 접두어를 지정하는 부분으로, 만약 해당 속성값을
+            xml에 추가하는 경우 테이블에서는 ROLE_를 제외한 나머지 권한명을
+            입력해야 한다. 
+         users-by-username-query : 아이디를 이용해서 사용자 정보를 가져오는
+            쿼리문을 작성한다. 
+         authorities-by-username-query : 아이디를 이용해서 권한정보를 가져오는
+            쿼리문을 작성한다.       
+   -->
+   <authentication-manager>
+      <authentication-provider>
+         <jdbc-user-service 
+            data-source-ref="dataSource"
+            role-prefix="ROLE_"
+            users-by-username-query="SELECT id, pass, active
+               FROM member WHERE id=?"
+            authorities-by-username-query="SELECT id, grade
+               FROM member WHERE id=?"/>   
+      </authentication-provider>
+   </authentication-manager>
+</beans:beans>

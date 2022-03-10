@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="member.MemberImpl">
+
+	<select id="getTotalCount" resultType="int" parameterType="util.ParameterDTO">
+	   SELECT COUNT(*) FROM member WHERE grade=#{grade}
+	   
+	   <if test="searchTxt!=null and !searchTxt.equals('')">
+	      AND ${searchField} LIKE '%'||#{searchTxt}||'%'
+	   </if>
+	</select>
+	
+	<!-- 마리아db버전
+	<select id="listPage" resultType="member.MemberVO" parameterType="member.ParameterDTO">
+	   SELECT * FROM member WHERE grade=#{grade}
+         <if test="searchTxt!=null and !searchTxt.equals('')">
+            AND ${searchField} LIKE '%'||#{searchTxt}||'%'
+         </if>
+         ORDER BY m_code ASC LIMIT #{start}, #{end}
+	</select> -->
+	<select id="listPage" resultType="member.MemberVO" parameterType="util.ParameterDTO">
+	SELECT * FROM (
+	      SELECT Tb.*, rownum rNum From (
+	         SELECT * FROM member 
+	         WHERE grade=#{grade}
+	         <if test="searchTxt!=null and !searchTxt.equals('')">
+	            AND ${searchField} like '%'||#{searchTxt}||'%'
+	         </if>
+	         ORDER BY m_code DESC
+	      ) Tb
+	   )
+	   WHERE rNum BETWEEN #{start} AND #{end}
+	</select>
+	
+	
+	<!-- @Param 어노테이션에서 지정한 별칭을 사용하여 인파라미터를 처리 -->
+	<insert id="regist">
+		INSERT INTO member (m_code, id, name, pass, phone, email, grade)
+		VALUES
+		(seq_member_num.nextval, #{_id}, #{_name}, #{_pass}, #{_phone}, #{_email}, #{_grade})
+	</insert>
+	
+	<!-- 관리자 말고 메인 회원가입 -->
+	<insert id="regAction" parameterType="member.MemberVO">
+  		INSERT into member(m_code, id, name, pass, phone, email, zipcode, address )
+				VALUES (seq_member_num.nextval, #{id}, #{name}, #{pass}, #{phone}, #{email}, #{zipcode}, #{address})
+  	</insert>
+	<insert id="regkakaoAction" parameterType="member.MemberVO">
+  		INSERT into member(m_code, id, name, pass, phone, email, zipcode, address,grade )
+				VALUES (seq_member_num.nextval, #{id}, #{name}, #{pass}, #{phone}, #{email}, #{zipcode}, #{address},5)
+  	</insert>
+  	
+  	<!-- 카카오 정보 찾기 -->
+	<!-- <select id="findKakao" parameterType="java.util.HashMap" resultType="member.KakaoDTO">
+		select * from kakao_member where kakaoname=#{nickname} and kakaoemail=#{email}
+	</select> -->
+
+	
+	<!-- 카카오 로그인 기존 멤버인지 신규 멤버인지 판별 -->
+	<select id="kakaoselect" resultType="int">
+		SELECT COUNT(*) FROM member WHERE id=#{param1} 
+	</select>
+  	
+  	
+  	<!-- 회원가입시 가입축하쿠폰 자동적립. -->
+  	<insert id="coupon" parameterType="member.MemberVO">
+  		INSERT INTO mycoupon (coupon_idx, m_code, cp_idx)
+		    VALUES(seq_coupon_idx.nextval, (SELECT m_code FROM member WHERE id = #{id}), '1')
+  	</insert>
+  	
+  	<!-- 아이디 중복체크 -->
+  	<select id="idChk"  resultType="int">
+  		SELECT COUNT(*) FROM member WHERE id = #{param1}
+  	</select>
+  	
+  	<!-- 아이디 찾기 -->
+	<select id="find_id" parameterType="String" resultType="String">
+		SELECT id FROM member WHERE phone = #{phone}
+	</select>
+	
+	<!-- 패스워드 수정 -->
+	<update id="pwAction" parameterType="member.MemberVO">
+		UPDATE member 
+			SET  pass=#{pass}
+			WHERE phone=#{phone}
+	</update>
+	
+	
+	<select id="view" resultType="member.MemberVO" parameterType="util.ParameterDTO">
+		SELECT * FROM member WHERE m_code=#{m_code}
+	</select>
+	
+	
+	<update id="modify" parameterType="member.MemberVO">
+		UPDATE member 
+			SET id=#{id}, name=#{name},
+			pass=#{pass}, phone=#{phone},
+			email=#{email}, zipcode=#{zipcode},
+			regidate=#{regidate}, grade=#{grade},
+			point=#{point}, active=#{active}
+			WHERE m_code=#{m_code}
+	</update>
+	
+	<update id="myModify" parameterType="member.MemberVO">
+		UPDATE member 
+			SET name=#{name}, pass=#{pass}, phone=#{phone},
+			email=#{email}, zipcode=#{zipcode}, address=#{address}
+			WHERE m_code=#{m_code}
+	</update>
+	
+	
+	<delete id="delete">
+		DELETE FROM member WHERE m_code=#{m_code}
+	</delete>
+</mapper>

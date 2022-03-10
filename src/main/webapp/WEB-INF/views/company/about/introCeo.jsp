@@ -111,8 +111,8 @@
                                             </p>
                                             <p>고객 여러분의 많은 사랑과 관심 부탁 드립니다.<br>감사합니다.</p>
                                             <div class="txt_sign">
-                                                <span>FreeP 사장</span>
-                                                <img src="../images/03visual/img_ceo_sign.jpg" alt="">
+                                                <span style="margin-top: 30px;"><strong>㈜프리피｜대표이사&nbsp;&nbsp;&nbsp;&nbsp; 食 蟲 彛</strong></span>
+                                                <img src="../images/03visual/img_ceo_sign.png" alt="">
                                             </div>
                                         </div>
                                     </div>

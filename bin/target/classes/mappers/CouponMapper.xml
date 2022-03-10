@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace ="coupon.CouponImpl">
+ 	<select id="listCp" resultType="coupon.CouponVO">
+ 		 select m.coupon_idx ,c.cp_idx,cp_name, cp_cate, expire_date, cp_price, cp_const from coupon C, mycoupon M
+		 where m.m_code = #{m_code} and m.cp_idx = c.cp_idx
+ 	</select>
+ 	
+ 	<select id="getTotalCount" resultType="int">
+  		
+  		SELECT COUNT(*) FROM coupon
+  		
+  	</select> 
+  	
+  	<select id="listPage" resultType="coupon.CouponVO">
+  		
+  		SELECT * FROM (
+		    SELECT Tb.*, rownum rNum FROM (
+		        SELECT * FROM coupon ORDER BY cp_idx DESC
+		    ) Tb
+		)
+		WHERE rNum BETWEEN #{param1} AND #{param2}	
+  	</select>
+  	
+  	<insert id="write" parameterType="coupon.CouponVO">
+  		insert into coupon(cp_idx, cp_name, cp_cate, cp_price, cp_const, issue_date, expire_date)
+  	 VALUES (seq_cp_idx.nextval, #{cp_name}, #{cp_cate}, #{cp_price}, #{cp_const}, 
+   to_date(#{issue_date},'MM-DD-YYYY'),to_date(#{expire_date},'MM-DD-YYYY')
+   )
+  	</insert>
+  	
+  	<delete id="delete">
+  	 	DELETE FROM coupon WHERE cp_idx = #{param1}
+  	</delete>
+ 	
+ </mapper>  

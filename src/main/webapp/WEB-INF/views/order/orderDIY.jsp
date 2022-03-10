@@ -149,7 +149,7 @@
                                                         <!-- <span class="label limit">기간한정</span> -->
                                                     </div>
                                                     <input type="text" value="${row.p_code }" class="order-code">
-                                                    <div class="order-name">${row.p_name }</div>
+                                                    <div class="order-name">${row.p_name }</div>  
                                                 </div>
                                                 <div class="prd-origin">
                                                     <p><span>원산지 : 국내산</span> / <span class="kcal info1">${row.p_info1 }</span><span class="kcal info2" style="display:none;">${row.p_info }</span></p>
@@ -176,7 +176,7 @@
                                     <ul class="DIYmenu_section_list now-product">
                             <c:forEach items="${lists }" var="row">        
                             <c:if test="${row.g_code eq 3}">        
-                                        <li class="select-item">
+                                        <li class="select-item">   
                                             <div class="prd-img">
                                                 <div>
                                                     <img class="lazyload"

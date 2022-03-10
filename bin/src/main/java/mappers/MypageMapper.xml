@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mypage.MypageImpl">
+
+	<!-- 메인 -->
+	<select id="myName" resultType="String" parameterType="util.ParameterDTO">
+	   SELECT name FROM member WHERE id=#{id}
+	</select>
+
+	<select id="myMcode" resultType="String" parameterType="util.ParameterDTO">
+	   SELECT m_code FROM member WHERE id=#{id}
+	</select>
+
+	<select id="myCouponCount" resultType="int" parameterType="java.lang.String">
+	   SELECT COUNT(*) FROM mycoupon WHERE m_code=#{m_code}
+	</select>
+	
+	<select id="myCoupon" resultType="coupon.CouponVO" parameterType="java.lang.String">
+		SELECT *
+			FROM coupon INNER JOIN mycoupon USING(cp_idx)
+			WHERE m_code=#{m_code}
+	</select>
+	
+	<select id="myPoint" resultType="int" parameterType="java.lang.String">
+	   SELECT point FROM member WHERE m_code=#{m_code}
+	</select>
+	
+	
+	<!-- 주문내역 -->
+	<select id="myOrderCount" resultType="int" parameterType="java.lang.String">
+	   SELECT COUNT(*) FROM ordered WHERE m_code=#{m_code}
+	</select>
+	
+	
+	<select id="orderlist" resultType="orderlist.OrderlistVO" parameterType="util.ParameterDTO">
+	SELECT * FROM (
+	      SELECT Tb.*, rownum rNum From (
+	         SELECT * FROM ordered 
+	         WHERE m_code=#{m_code}
+	         ORDER BY or_idx DESC
+	      ) Tb
+	   )
+	   WHERE rNum BETWEEN #{start} AND #{end}
+	   
+	<!-- SELECT * FROM (
+	      SELECT Tb.*, DENSE_RANK() OVER(order by or_idx) rNum From (
+	         SELECT O.or_idx, or_date, state,
+	            (case
+	                when P.p_name is not null then P.p_name
+	                when D.d_name is not null then D.d_name
+	            end) as total_name
+	            from ordered O
+	                inner join order_product OP
+	                    on O.or_idx=OP.or_idx
+	                full outer join product P
+	                    on P.p_code=OP.code
+	                full outer join diy D
+	                    on D.diy_idx=OP.code
+	            WHERE O.m_code=#{m_code}
+	      ) Tb
+	   )
+	WHERE rNum BETWEEN #{start} AND #{end} -->
+	</select>
+	
+	
+	<select id="totalname" resultType="java.lang.String" parameterType="int">
+	SELECT 
+	    (case
+	        when P.p_name is not null then P.p_name
+        	when D.d_name is not null then D.d_name
+	    end) as names
+	    from ordered O
+	        inner join order_product OP
+	            on O.or_idx=OP.or_idx
+	        left outer join product P
+	            on P.p_code=OP.code
+	        left outer join diy D
+	            on D.diy_idx=OP.code
+    	WHERE O.or_idx=#{or_idx}
+	</select>
+	
+	<select id="myReview" resultType="review.ReviewBoardDTO" parameterType="int">
+	   SELECT * FROM reviewboard WHERE or_idx=#{or_idx}
+	</select>
+	
+	<select id="myReviewChk" resultType="int" parameterType="int">
+	   SELECT COUNT(*) FROM reviewboard WHERE or_idx=#{or_idx}
+	</select>
+	
+	<!-- 나의 리뷰게시글 별 좋아요 개수 -->
+	<select id="getMyReviewLikeCount" resultType="int" parameterType="int">
+  		SELECT COUNT(*) FROM likedreview WHERE rv_idx=#{rv_idx}
+  	</select>  	
+	
+	
+	<!-- 쿠폰내역(페이징) -->
+	<select id="couponlist" resultType="coupon.CouponVO" parameterType="util.ParameterDTO">
+		SELECT * FROM (
+		  SELECT Tb.*, rownum rNum From (
+		     SELECT * FROM coupon 
+		     INNER JOIN mycoupon USING(cp_idx)
+		     WHERE m_code=#{m_code}
+		     ORDER BY expire_date ASC
+		  ) Tb
+		)
+		WHERE rNum BETWEEN #{start} AND #{end}
+	</select>
+
+
+	<!-- 포인트 내역 -->
+	<select id="pointlist" resultType="point.PointVO" parameterType="util.ParameterDTO">
+	SELECT * FROM (
+      SELECT total_price*0.1 save_point, po_price, or_date, rownum rNum From (
+         SELECT * FROM ordered 
+         WHERE m_code=#{m_code}
+         ORDER BY or_idx DESC
+      ) Tb
+    )
+    WHERE rNum BETWEEN #{start} AND #{end}
+	</select>
+	
+	<!-- 회원가입일 -->
+	<select id="myRegidate" resultType="String" parameterType="java.lang.String">
+	   SELECT regidate FROM member WHERE m_code=#{m_code}
+	</select>
+	
+	
+	<!-- 비밀번호 일치회원 찾기 -->
+	<select id="myPwdChk" resultType="int" parameterType="util.ParameterDTO">
+	   SELECT COUNT(*) FROM member WHERE id=#{id} and pass=#{pass}
+	</select>
+</mapper>

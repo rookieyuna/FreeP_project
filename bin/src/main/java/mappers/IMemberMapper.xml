@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace를 통해 서비스 역할의 인터페이스와 연결한다. -->  
+<mapper namespace="android.IAndroidDAO">
+
+	<select id="memberList" resultType="member.MemberVO">
+		SELECT * FROM member ORDER BY regidate DESC
+	</select>
+	
+	<select id="memberLogin" resultType="member.MemberVO" 
+		parameterType="member.MemberVO">
+		SELECT * FROM member WHERE id=#{id} and pass=#{pass}
+	</select> 
+	
+	<select id="orderList" resultType="orderlist.OrderlistVO" parameterType="java.lang.String">
+		SELECT * FROM ordered WHERE m_code=#{m_code} ORDER BY or_idx DESC
+	</select>
+	
+	<select id="orderStatus" resultType="orderlist.OrderlistVO" parameterType="java.lang.String">
+		SELECT or_idx, or_date, S.b_name, S.address storeAddress, M.address, latitude, longitude 
+			FROM ordered O
+				INNER JOIN member M 
+					ON M.m_code=O.m_code
+				INNER JOIN store S 	
+					ON O.b_code=S.b_code
+				WHERE O.m_code=#{m_code} and state=4
+	</select>
+	
+	<select id="mapList" resultType="store.StoreVO">
+		SELECT * FROM store ORDER BY b_code asc
+	</select>
+ 	 
+</mapper>
+
+
+

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd
+		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+		<bean name="dataSourceSpied" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+	    <property name="driverClassName" value="oracle.jdbc.OracleDriver" />
+	    <property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" />
+	    <property name="username" value="freep" />
+	    <property name="password" value="1234" />    
+	</bean>		
+	<bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">           
+	    <constructor-arg ref="dataSourceSpied" />               
+	    <property name="logFormatter">                   
+	      <bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">                       
+	        <property name="loggingType" value="MULTI_LINE" />                       
+	        <property name="sqlPrefix" value="SQL : "/>                   
+	      </bean>              
+	    </property>       
+  	</bean>
+  	
+  	
+  	<!-- Gmail -->
+	  <bean id="mailSender1" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+	    <property name="host" value="smtp.gmail.com" />
+	    <property name="port" value="587" />
+	    <property name="username" value="freepwebproject@gmail.com" />
+	    <property name="password" value="vdki wrmc kknr kxxw" />
+	    <property name="javaMailProperties">
+	    <props>
+			<prop key="mail.smtp.starttls.enable">true</prop>
+			<prop key="mail.smtp.auth">true </prop>
+			<prop key="mail.transport.protocol">smtp</prop>
+			<prop key="mail.debug">true</prop>
+			<prop key="mail.smtp.ssl.trust">smtp.gmail.com</prop>
+			<prop key="mail.smtp.ssl.protocols">TLSv1.2</prop>
+		</props>
+	    </property>
+	  </bean>
+
+			
+</beans>

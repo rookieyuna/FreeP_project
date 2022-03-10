@@ -1,0 +1,13 @@
+.title-wrap-center {
+  margin: 50px 0;
+}
+
+.title-wrap-center .title-type {
+  font-weight: 600;
+}
+
+.title-wrap-center p {
+  font-size: 16px;
+  margin-top: 20px;
+  font-weight: normal;
+}

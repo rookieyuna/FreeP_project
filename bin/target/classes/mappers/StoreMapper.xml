@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace ="store.StoreImpl">
+
+	<select id="getTotalCount" resultType="int" parameterType="util.ParameterDTO">
+	   SELECT COUNT(*) FROM store
+	   <if test="searchTxt!=null and !searchTxt.equals('')">
+	      WHERE ${searchField} LIKE '%'||#{searchTxt}||'%'
+	   </if>
+	</select>
+
+	<select id="listPage" resultType="store.StoreVO" parameterType="util.ParameterDTO">
+	SELECT * FROM (
+	      SELECT Tb.*, rownum rNum From (
+	         SELECT * FROM store 
+	         <if test="searchTxt!=null and !searchTxt.equals('')">
+	            WHERE ${searchField} like '%'||#{searchTxt}||'%'
+	         </if>
+	         ORDER BY b_code DESC
+	      ) Tb
+	   )
+	   WHERE rNum BETWEEN #{start} AND #{end}
+	</select>
+	
+	<insert id="regist" parameterType="store.StoreVO">
+		INSERT INTO store(b_code, b_name, address,latitude, longitude, phone)	
+		VALUES
+		(seq_store_idx.nextval, #{b_name}, #{address}, #{latitude}, #{longitude}, #{phone})
+	</insert>
+	
+	<select id="view" resultType="store.StoreVO" parameterType="util.ParameterDTO">
+		SELECT * FROM store WHERE b_code=#{b_code}
+	</select>
+	
+	<select id="views" resultType="store.StoreVO" parameterType="store.StoreVO">
+		SELECT * FROM store WHERE b_code=#{b_code}
+	</select>
+	
+	
+	<update id="edit" parameterType="store.StoreVO">
+		UPDATE store 
+			SET b_name=#{b_name},
+			address=#{address}, latitude=#{latitude},
+			longitude=#{longitude}, phone=#{phone}
+			WHERE b_code=#{b_code}
+	</update>
+	
+	
+	<delete id="delete">
+		DELETE FROM store WHERE b_code=#{b_code}
+	</delete>
+
+
+	<!-- 매장검색 -->
+	<select id="getList" resultType="store.StoreVO" parameterType="util.ParameterDTO">
+	   SELECT * FROM store
+	   <if test="searchTxt!=null and !searchTxt.equals('') or storeName!=null">
+	      WHERE
+	      	<if test="searchField == '01'">
+				address like '%서울%' and address like '%'||#{searchTxt}||'%'
+			</if>
+			<if test="searchField == '02'">
+				address like '%인천%' and address like '%'||#{searchTxt}||'%'
+			</if>
+			<if test="searchField == '03'">
+				address like '%경기%' and address like '%'||#{searchTxt}||'%'
+			</if>
+			<if test="searchField == '04'">
+				address like '%강원%' and address like '%'||#{searchTxt}||'%'
+			</if>
+			<if test="searchField == '05'">
+				address like '%충청남%' and address like '%'||#{searchTxt}||'%'
+			</if>
+			<if test="searchField == '06'">
+				address like '%충청북%' and address like '%'||#{searchTxt}||'%'
+			</if>
+			<if test="searchField == '07'">
+				address like '%대전%' and address like '%'||#{searchTxt}||'%'
+			</if>
+			<if test="searchField == '08'">
+				address like '%경상남%' and address like '%'||#{searchTxt}||'%'
+			</if>
+			<if test="searchField == '09'">
+				address like '%경상북%' and address like '%'||#{searchTxt}||'%'
+			</if>
+			<if test="searchField == '10'">
+				address like '%대구%' and address like '%'||#{searchTxt}||'%'
+			</if>
+			<if test="searchField == '11'">
+				address like '%전라남%' and address like '%'||#{searchTxt}||'%'
+			</if>
+			<if test="searchField == '12'">
+				address like '%전라북%' and address like '%'||#{searchTxt}||'%'
+			</if>
+			<if test="searchField == '13'">
+				address like '%광주%' and address like '%'||#{searchTxt}||'%'
+			</if>
+			<if test="searchField == '14'">
+				address like '%울산%' and address like '%'||#{searchTxt}||'%'
+			</if>
+			<if test="searchField == '15'">
+				address like '%부산%' and address like '%'||#{searchTxt}||'%'
+			</if>
+			<if test="searchField == '16'">
+				address like '%세종%' 
+			</if>
+			<if test="searchField == '17'">
+				address like '%제주%' and address like '%'||#{searchTxt}||'%'
+			</if>
+			<if test="storeName!=null">
+				b_name like '%'||#{storeName}||'%'
+			</if>
+	   </if>
+	</select>
+	
+	<select id="mapList" resultType="store.StoreVO">
+		SELECT * FROM store 
+	</select>
+
+
+</mapper>
+ 
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  

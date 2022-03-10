@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace ="store.StorechartImpl">
+
+	<select id="getTotalCount" resultType="int" parameterType="util.ParameterDTO">
+	   SELECT COUNT(*) FROM store s inner join ordered o 
+	   	ON s.b_code=o.b_code
+	</select>
+
+	<select id="listPage" resultType="store.StorechartVO" parameterType="util.ParameterDTO">
+	 
+		SELECT s.b_code, b_name, sum(cp_price) cp_price,
+			sum(po_price) po_price, sum(total_price) total_price, to_char(to_date(or_date), 'YYYY-MM')
+	    	FROM store s LEFT JOIN ordered o ON s.b_code=o.b_code
+				<if test="yearMonth!=null and !locations.equals('')" >
+				WHERE TO_CHAR(or_date,'YYYY-MM') = #{yearMonth}
+					<if test="locations == '01'">
+						AND address like '%서울%'	
+					</if>
+					<if test="locations == '02'">
+						AND address like '%인천%'	
+					</if>
+					<if test="locations == '03'">
+						AND address like '%경기%'
+					</if>
+					<if test="locations == '04'">
+						AND address like '%강원%'
+					</if>
+					<if test="locations == '05'">
+						AND address like '%충청남%'
+					</if>
+					<if test="locations == '06'">
+						AND address like '%충청북%'
+					</if>
+					<if test="locations == '07'">
+						AND address like '%대전%'
+					</if>
+					<if test="locations == '08'">
+						AND address like '%경상남%'
+					</if>
+					<if test="locations == '09'">
+						AND address like '%경상북%'
+					</if>
+					<if test="locations == '10'">
+						AND address like '%대구%'
+					</if>
+					<if test="locations == '11'">
+						AND address like '%전라남%'
+					</if>
+					<if test="locations == '12'">
+						AND address like '%전라북%'
+					</if>
+					<if test="locations == '13'">
+						AND address like '%광주%'
+					</if>
+					<if test="locations == '14'">
+						AND address like '%울산%'
+					</if>
+					<if test="locations == '15'">
+						AND address like '%부산%'
+					</if>
+					<if test="locations == '16'">
+						AND address like '%세종%'
+					</if>
+					<if test="locations == '17'">
+						AND address like '%제주%'
+					</if>
+				</if> 
+	    	GROUP BY s.b_code, b_name, to_char(to_date(or_date), 'YYYY-MM')
+	       		ORDER BY b_code
+	       		
+    </select>
+	
+	
+</mapper>
+ 
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  

@@ -1,0 +1,40 @@
+@font-face {
+    font-family: 'Bebas';
+    font-style: normal;
+    font-weight: 400;
+    src:url(../font/BebasNeue.otf);
+}
+@font-face {
+    font-family: 'Noto Sans KR';
+   font-style: normal;
+  font-weight: 400;
+   src: local('Noto Sans Regular'), local('NotoSans-Regular');
+   src:    url(../font/notokr-regular.eot);
+   src: url(../font/notokr-regulard41d.eot?#iefix) format('embedded-opentype'),
+         url(../font/notokr-regular.woff2) format('woff2'),
+         url(../font/notokr-regular.woff) format('woff'),
+         url(../font/notokr-regular.ttf) format('truetype')
+}
+@font-face {
+    font-family: 'Noto Sans KR';
+  font-style: normal;
+  font-weight: 500;
+    src:local('Noto Sans Medium'), local('NotoSans-Medium');
+  src:url(../font/notokr-medium.eot);
+    src:url(../font/notokr-mediumd41d.eot?#iefix) format('embedded-opentype'),
+         url(../font/notokr-medium.woff2) format('woff2'),
+         url(../font/notokr-medium.woff) format('woff'),
+         url(../font/notokr-medium.ttf) format('truetype')
+}
+@font-face {
+    font-family: 'Noto Sans KR';
+  font-style: normal;
+  font-weight: 700;
+    src:local('Noto Sans Bold'), local('NotoSans-Bold');
+  src:url(../font/notokr-bold.eot);
+    src:url(../font/notokr-boldd41d.eot?#iefix) format('embedded-opentype'),
+         url(../font/notokr-bold.woff2) format('woff2'),
+         url(../font/notokr-bold.woff) format('woff'),
+         url(../font/notokr-bold.ttf) format('truetype')
+}
+

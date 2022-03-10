@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+  <mapper namespace ="board.BoardDAOImpl">
+  
+  	<select id="getTotalCount" resultType="int">
+  		
+  		SELECT COUNT(*) FROM (select * from board where b_cate LIKE #{param1}) board
+  	</select>  	
+  	
+  	<select id="getQuCount" resultType="int" parameterType="util.ParameterDTO">
+  		SELECT COUNT(*) FROM board where b_cate=3 AND m_code=#{m_code}
+  	</select>  	
+  	
+  	<select id="listPage" resultType="board.BoardDTO">
+  		
+  		SELECT * FROM (
+		    SELECT Tb.*, rownum rNum FROM (
+		        SELECT * FROM board where b_cate=#{param1} ORDER BY b_idx DESC
+		    ) Tb
+		)
+		WHERE rNum BETWEEN #{param2} AND #{param3}	
+  	</select>
+  	
+  	<select id="listQuPage" resultType="board.BoardDTO">
+  		SELECT * FROM (
+		    SELECT Tb.*, rownum rNum FROM (
+		        SELECT * FROM board where b_cate=3 AND m_code=#{m_code} 
+		        ORDER BY b_idx DESC
+		    ) Tb
+		)
+		WHERE rNum BETWEEN #{start} AND #{end}	
+  	</select>
+  	
+  	
+  	<select id="getTotalCountSearch" resultType="int" parameterType="board.ParameterDTO">
+  		
+  		SELECT COUNT(*) FROM (select * from board where b_cate LIKE #{cate}
+  		) board
+  		<if test="searchTxt!=null and !searchTxt.equals('')">
+  			WHERE ${searchField} like '%'||#{searchTxt}||'%'
+  		</if>
+  	</select>
+	<select id="listPageSearch" resultType="board.BoardDTO" parameterType="board.ParameterDTO">
+
+		SELECT * FROM (
+		SELECT Tb.*, rownum rNum FROM (
+		SELECT * FROM board where b_cate=#{cate}
+			<if test="searchTxt!=null and !searchTxt.equals('')">
+				AND ${searchField} like '%'||#{searchTxt}||'%'
+			</if>
+
+				ORDER BY b_idx DESC
+			) Tb
+		)
+		WHERE rNum BETWEEN #{start} AND #{end}
+		
+	</select>
+  	
+  	
+  
+  	<insert id="write" parameterType="board.BoardDTO">
+  		INSERT into board(b_idx, m_code, b_cate, title, contents, writer, ofile, sfile, q_category) 
+  		VALUES (seq_board_num.nextval, #{m_code}, #{b_cate}, #{title}, #{contents}, #{writer},#{ofile}, #{sfile}, #{q_category})
+  	</insert>
+  	
+  	<!-- 이벤트 글쓰기 -->
+  	<insert id="writeEvent" parameterType="board.BoardDTO">
+  		INSERT into board(b_idx, m_code, b_cate, title, contents, writer, ofile, sfile, ofile2, sfile2, q_category) 
+  		VALUES (seq_board_num.nextval, #{m_code}, #{b_cate}, #{title}, #{contents}, #{writer},#{ofile}, #{sfile}, #{ofile2}, #{sfile2}, #{q_category})
+  	</insert>
+  	
+  	<select  id="findm_code" resultType="int">
+  		SELECT m_code FROM member WHERE id=#{param1}
+  	</select>
+  	
+  	<select id="view" resultType="board.BoardDTO" parameterType="board.BoardDTO">
+  		SELECT * FROM board WHERE b_idx=#{b_idx}
+  	
+  	</select>
+  	
+  	<select id="myQuView" resultType="board.BoardDTO" parameterType="util.ParameterDTO">
+  		SELECT * FROM board WHERE b_cate=3 AND b_idx=#{b_idx}
+  	</select>
+  	<!-- 첨부파일1개 게시판 수정 -->
+  	<update id="editNotice" >
+  		UPDATE board SET title =#{title}, contents=#{contents}, 
+  		sfile=#{sfile}, ofile=#{ofile} WHERE b_idx=#{b_idx}
+  	</update>
+  	<!-- 첨부파일2개 게시판 수정 -->
+  	<update id="edit" >
+        UPDATE board SET title =#{title}, contents=#{contents}, 
+        sfile=#{sfile, jdbcType=VARCHAR}, ofile=#{ofile, jdbcType=VARCHAR},sfile2=#{sfile2, jdbcType=VARCHAR}, ofile2=#{ofile2, jdbcType=VARCHAR} WHERE b_idx=#{b_idx}
+     </update>
+  	
+  	<delete id="delete">
+  	 	DELETE FROM board WHERE b_idx = #{param1}
+  	</delete>
+  	
+  	<select id="selectsfile" resultType="String">  	
+  		SELECT sfile FROM board WHERE b_idx = #{param1}
+  	</select>
+  	<select id="selectsfile2" resultType="String">  	
+  		SELECT sfile2 FROM board WHERE b_idx = #{param1}
+  	</select>
+  	<update id="deletefile">
+  		UPDATE board SET ofile=null, sfile=null
+  		WHERE b_idx=#{b_idx}
+  	</update>
+  	<update id="deletefile2">
+  		UPDATE board SET ofile2=null, sfile2=null
+  		WHERE b_idx=#{b_idx}
+  	</update>
+  	
+  	<update id="updatehit" parameterType="int">
+  		UPDATE board SET hits=hits+1 
+		WHERE b_idx=#{b_idx}
+  	</update>
+  	
+  	<select id="titlepre" resultType="board.BoardDTO" parameterType="int">
+  		SELECT * FROM (
+    SELECT Tb.*, rownum rNum from 
+        (SELECT B_IDX, title FROM board WHERE b_idx<![CDATA[<]]>#{param1} and b_cate=#{param2} order by b_idx desc) Tb)
+	WHERE rNum=1
+  	</select>
+  	
+  	<select id="titlenext" resultType="board.BoardDTO" parameterType="int">
+  		SELECT * FROM (
+    SELECT Tb.*, rownum rNum FROM 
+        (SELECT B_IDX, title FROM board WHERE b_idx<![CDATA[>]]>#{param1} and b_cate=#{param2} order by b_idx asc) Tb)
+	WHERE rNum=1
+  	</select>
+  	
+  </mapper>

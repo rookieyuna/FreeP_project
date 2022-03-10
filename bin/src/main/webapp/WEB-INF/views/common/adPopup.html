@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>프리피 이벤트</title>
+</head>
+<body>
+<aside class="popup" id="popupWrap"> 
+	<div class="inner" id="popup_1"> 
+		<div class="area"> 
+			<img src="./images/03visual/popupImgEx.png" alt="이벤트"> 
+		</div> 
+		<button type="button" onClick="PopupNoDisplay_1()"><span>하루동안 보지않기</span></button> 
+		<button type="button" onClick="PopupHide();">[닫기]</button> 
+		</div> 
+	<div class="popupbg" style="background:gray;"></div> 
+</aside>
+</body>
+
+<script>
+$(document).ready(function() {
+	 $('.popup').show(); 
+	 cookiedata = document.cookie; 
+	 
+	 if ( cookiedata.indexOf("popup_1=done") < 0 ){ //쿠키 변경 여부 불러오기 
+		 document.all['popup_1'].style.visibility = "visible"; 
+	 } 
+	 
+	 else { 
+		 document.all['popup_1'].style.display = "none"; 
+	 } 
+	 PopupBgDisplay(); 
+}); 
+	 
+function PopupNoDisplay_1() { 
+	setCookie("popup_1", "done", 1); //쿠키값 변경 
+	PopupHide(); } 
+
+function PopupHide() { //팝업창 지우기
+	$('#popup_1').hide(); PopupBgDisplay(); } 
+
+function PopupBgDisplay() {//팝업창이 없어진 경우 배경(popupbg) 지우기 
+ 	cookiedata1 = document.cookie; 
+ 
+	 if (cookiedata1.indexOf("popup_1=done") > 0) {
+		 $("#popupWrap").hide(); 
+	 }
+}
+</script>
+</html>

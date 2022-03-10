@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+  <mapper namespace ="menu.MenuImpl">
+  
+  	<select id="getTotalCount" resultType="int" parameterType="util.ParameterDTO">
+  		
+  		SELECT COUNT(*) FROM product
+  		<if test="g_code==null and searchTxt!=null and !searchTxt.equals('')">
+	      WHERE ${searchField} LIKE '%'||#{searchTxt}||'%'
+	   </if>
+  		<if test="g_code!=null and searchTxt==null">
+	      WHERE g_code=#{g_code}
+	   </if>
+	   <if test="g_code!=null and !g_code.equals('') and searchTxt!=null and !searchTxt.equals('')">
+	      INNER JOIN goods USING(g_code)
+	      WHERE g_code=#{g_code} AND ${searchField} LIKE '%'||#{searchTxt}||'%'
+	   </if>
+  	</select>
+  	
+  	 	
+  	<select id="listPage" resultType="menu.MenuVO" parameterType="util.ParameterDTO">
+  		SELECT * FROM (
+		      SELECT Tb.*, rownum rNum From (
+		         SELECT * FROM product 
+				<if test="g_code==null and searchTxt!=null and !searchTxt.equals('')">
+				   WHERE ${searchField} LIKE '%'||#{searchTxt}||'%'
+				</if>
+				<if test="g_code!=null and searchTxt==null">
+				   WHERE g_code=#{g_code}
+				</if>
+				<if test="g_code!=null and !g_code.equals('') and searchTxt!=null and !searchTxt.equals('')">
+				   INNER JOIN goods USING(g_code)
+				   WHERE g_code=#{g_code} AND ${searchField} LIKE '%'||#{searchTxt}||'%'
+				</if>
+		         ORDER BY p_code DESC
+		      ) Tb
+		   )
+		   WHERE rNum BETWEEN #{start} AND #{end}
+  	</select>
+
+  	
+  	<insert id="regist" parameterType="menu.MenuVO">
+  		INSERT into product(g_code, p_code, p_name, p_price, p_size, p_info, p_ofile, p_sfile)
+			<if test='g_code =="1"'>
+				VALUES (#{g_code}, sq_pizza.nextval, #{p_name}, #{p_price}, #{p_size}, #{p_info}, #{p_ofile}, #{p_sfile})
+			</if>
+			<if test='g_code =="2"'>
+				VALUES (#{g_code}, sq_dough.nextval, #{p_name}, #{p_price}, #{p_size}, #{p_info}, #{p_ofile}, #{p_sfile})
+			</if>
+			<if test='g_code =="3"'>
+				VALUES (#{g_code}, sq_sauce.nextval, #{p_name}, #{p_price}, #{p_size}, #{p_info}, #{p_ofile}, #{p_sfile})
+			</if>
+			<if test='g_code =="4"'>
+				VALUES (#{g_code}, sq_topping.nextval, #{p_name}, #{p_price}, #{p_size}, #{p_info}, #{p_ofile}, #{p_sfile})
+			</if>
+			<if test='g_code =="5"'>
+				VALUES (#{g_code}, sq_side.nextval, #{p_name}, #{p_price}, #{p_size}, #{p_info}, #{p_ofile}, #{p_sfile})
+			</if>
+			<if test='g_code =="6"'>
+				VALUES (#{g_code}, sq_drink.nextval, #{p_name}, #{p_price}, #{p_size}, #{p_info}, #{p_ofile}, #{p_sfile})
+			</if>
+  	</insert>
+
+
+  	<select id="view" resultType="menu.MenuVO" parameterType="util.ParameterDTO">
+  		SELECT * FROM product WHERE p_code=#{p_code}
+  	</select>
+  	
+  	
+  	<update id="edit" parameterType="menu.MenuVO">
+  		UPDATE product 
+  			SET g_code =#{g_code}, p_name=#{p_name}, 
+  			p_price=#{p_price}, p_size=#{p_size}, p_info=#{p_info},
+  			p_sfile=#{p_sfile}, p_ofile=#{p_ofile}
+  			WHERE p_code=#{p_code}
+  	</update>
+  	
+  	
+  	<delete id="delete">
+  	 	DELETE FROM product WHERE p_code=#{p_code}
+  	</delete>
+  	
+  	 
+  	<update id="deletefile">
+  		UPDATE product SET p_ofile=null, p_sfile=null
+  		WHERE p_code=#{p_code}
+  	</update>
+  	
+  	
+  	<select id="selectsfile" resultType="String">  	
+  		SELECT p_sfile FROM product WHERE p_code=#{p_code}
+  	</select>
+  	
+
+	<select id="selectAllmenu" resultType="menu.MenuVO">  	
+  		SELECT * FROM product order by p_code asc
+  	</select>
+
+
+
+	<insert id="insertCart" parameterType="java.util.HashMap">
+  		INSERT INTO cart(ct_idx, m_code, ct_code, ct_name, ct_count)
+		<if test="ct_name == null">
+		   	SELECT 
+				seq_ct_idx.nextval, #{m_code}, #{ct_code}, P.p_name, 1 
+			FROM product P
+            WHERE P.p_code = #{ct_code}
+		</if>
+		<if test="ct_name != null">
+			VALUES(
+				seq_ct_idx.nextval, #{m_code}, #{ct_code}, #{ct_name}, 1
+			)
+		</if>
+			
+  	</insert>
+	
+	<select id="insertCartDiyCalc" parameterType="java.util.HashMap" resultType="int">
+		SELECT SUM(p_price) 
+			FROM product 
+			WHERE p_code IN
+			<foreach collection="list" item="value" index="key" open="(" separator="," close=")">
+		    	#{value}
+		    </foreach>
+	</select>
+
+	<insert id="insertCartDiy" parameterType="java.util.HashMap">
+		INSERT INTO DIY(
+		            G_CODE, DIY_IDX, 
+		            DOUGH, SAUCE, TOPPING1, TOPPING2, TOPPING3, TOPPING4, TOPPING5, 
+		            D_NAME, D_PRICE
+		        )VALUES( 
+		            9, sq_diy_idx.nextval, 
+		            #{dough}, #{sauce}, #{topping1}, #{topping2, jdbcType=INTEGER}, #{topping3, jdbcType=INTEGER}, #{topping4, jdbcType=INTEGER}, #{topping5, jdbcType=INTEGER},
+		            #{d_name}, #{d_price}
+				)
+		<selectKey keyProperty="diy_idx" resultType="Integer" order="AFTER">
+			SELECT sq_diy_idx.CURRVAL FROM DUAL
+		</selectKey>
+
+  	</insert>
+  </mapper>
