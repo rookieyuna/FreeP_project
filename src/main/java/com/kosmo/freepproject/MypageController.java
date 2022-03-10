@@ -402,7 +402,6 @@ public class MypageController {
 	@RequestMapping("/mypage/myInfoUpdate.do")
 	public String myInfoUpdate(HttpServletRequest req, Model model) {
 		
-		String phone = req.getParameter("hand_tel1")+req.getParameter("hand_tel2")+req.getParameter("hand_tel3");
 		String email = req.getParameter("email1")+"@"+req.getParameter("email2");
 		String address = req.getParameter("address")+" "+req.getParameter("address2");
 		
@@ -415,7 +414,7 @@ public class MypageController {
 		else if(req.getParameter("pass1")== "") {
 			memberVO.setPass(req.getParameter("old_pass")); 
 		}
-		memberVO.setPhone(phone);
+		memberVO.setPhone(req.getParameter("phone"));
 		memberVO.setEmail(email);
 		memberVO.setZipcode(req.getParameter("zipcode"));
 		memberVO.setAddress(address); 

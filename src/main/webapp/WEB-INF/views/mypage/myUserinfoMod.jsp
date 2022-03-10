@@ -80,8 +80,8 @@ function formValidate(frm){
 	        return false;
 	    }
 	  	//패스워드 검증작업1-패스워드 길이 확인
-	    if(frm.pass1.value.length<8 ||frm.pass1.value.length>16){
-	        alert('비밀번호는 8~16자로 입력하세요');
+	    if(frm.pass1.value.length<4 ||frm.pass1.value.length>12){
+	        alert('비밀번호는 4~12자로 입력하세요');
 	        frm.pass1.value='';
 	        frm.pass2.value='';
 	        frm.pass1.focus();
@@ -133,10 +133,84 @@ function formValidate(frm){
     
     return true;
 }
+
+
+//휴대폰 번호 인증 
+
+var code2 = ""; 
+function phoneCheck() {
+	
+	var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+    
+    if($("#phone").val() == ""){
+    	alert("휴대폰 번호를 입력해주세요.");
+    	$('#phone').focus();
+    }
+    else{
+    	
+		alert("인증번호 발송이 완료되었습니다.\n휴대폰에서 인증번호 확인을 해주십시오.");
+		
+		var phone = $("#phone").val(); 
+		$.ajax({ 
+		type:"GET",
+		dataType : "text",
+		beforeSend : function(xhr){
+			xhr.setRequestHeader(header, token);
+	    },
+		url:"../member/phoneCheck.do?phone=" + phone,
+		cache : false, 
+		success:function(data){ 
+				if(data == "error"){ 
+					alert("휴대폰 번호가 올바르지 않습니다."); 
+							$("#phone").attr("autofocus",true); 
+				}else{ 
+					alert("전송된 인증번호를 입력해주세요."+data);
+					//$("#phone2").attr("disabled",false); 
+					//$("#phoneChk2").css("display","inline-block"); 
+					$("#phone").attr("readonly",true); 
+					$("#phone2").attr("disabled",false); 
+					$("#phoneChk").attr("disabled",true); 
+					code2 = data; 
+				} 
+			}, 
+	    error : function(request,statue,error){
+        	alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"
+        			+"\n"+"error:"+error)
+        	
+        }
+		}); 
+    }
+};
+
+function phoneCheck2() {
+	
+	if($("#phone2").val()==""){
+		alert("인증번호를 입력해주세요.");
+	}
+	else{
+		
+		if($("#phone2").val() == code2){ 
+			alert("인증에 성공했습니다.");
+			flag2 = 1;
+			//비밀번호 찾기할 때 window.onload(비밀번호입력할새로만든jsp경로); location.href 둘중 하나 검색해서 해보기.
+			$("#phoneDoubleChk").val("true"); 
+			$("#phone2").attr("disabled",true); 
+		}else{ 
+			alert("인증에 실패했습니다.");
+			$("#phoneDoubleChk").val("false"); 
+			$(this).attr("autofocus",true); 
+		}
+	}
+	
+}
+
 </script>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="_csrf" content="${_csrf.token}">
+	<meta name="_csrf_header" content="${_csrf.headerName}">
     <title>나만의 맞춤 피자 Free</title>
 
     <!-- font 영역 -->
@@ -154,6 +228,28 @@ function formValidate(frm){
     <script src="../js/jquery-3.6.0.js"></script>
     <!-- zipcode 띄우기 -->
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	
+<style>
+    
+	#phone, #phone2 {
+		width: 220px;
+	}
+	#address, #address2 {
+		width: 720px;
+	}
+	#phone2, #phoneChk2{
+	  margin-top: 3px;
+	}
+	#phone3{
+		vertical-align: middle;
+		/* padding-top: 5px */
+	}
+	#phoneChk, #phoneChk2{
+		margin-left: 5px;
+	}
+	
+	
+</style>
 </head>
 
 <body id="body">
@@ -223,67 +319,42 @@ function formValidate(frm){
                                         <dd>
                                             <div class="form-item number">
                                                 <input type="password" name="pass1" maxlength="16" value="" id="new_passwd1" 
-                                                	placeholder="8~16자 영문, 숫자 사용가능">
+                                                	placeholder="4~12자 영문, 숫자 사용가능">
                                             </div>
                                         </dd>
                                         <dt id="new_passwd3">비밀번호 확인</dt>
                                         <dd>
                                             <div class="form-item number">
                                                 <input type="password" name="pass2" maxlength="16" value="" id="new_passwd2" 
-                                                	placeholder="8~16자 영문, 숫자 사용가능">
+                                                	placeholder="4~12자 영문, 숫자 사용가능">
                                             </div>
                                         </dd>
                                     </dl>
                                     
                                     <dl>
-                                        <dt class="center">휴대전화</dt>
-                                        <dd>
-                                            <div class="form-group v2">
-                                                <div class="form-item">
-                                                    <div class="select-type2">
-                                                    <c:set var="phone" value="${vo.phone }" />
-                                                        <select name="hand_tel1" id="hand_tel1" class="selected">
-                                                            <option value="010"<c:if test="${fn:substring(phone, 0, 3) == 010}">selected</c:if>>010</option>
-                                                            <option value="011"<c:if test="${fn:substring(phone, 0, 3) == 011}">selected</c:if>>011</option>
-                                                            <option value="016"<c:if test="${fn:substring(phone, 0, 3) == 016}">selected</c:if>>016</option>
-                                                            <option value="017"<c:if test="${fn:substring(phone, 0, 3) == 017}">selected</c:if>>017</option>
-                                                            <option value="018"<c:if test="${fn:substring(phone, 0, 3) == 018}">selected</c:if>>018</option>
-                                                            <option value="019"<c:if test="${fn:substring(phone, 0, 3) == 019}">selected</c:if>>019</option>
-                                                            <%-- <option value="010"<c:if test="${fn:split(phone, '-')[0] == 010}">selected</c:if>>010</option>
-                                                            <option value="011"<c:if test="${fn:split(phone, '-')[0] == 011}">selected</c:if>>011</option>
-                                                            <option value="016"<c:if test="${fn:split(phone, '-')[0] == 016}">selected</c:if>>016</option>
-                                                            <option value="017"<c:if test="${fn:split(phone, '-')[0] == 017}">selected</c:if>>017</option>
-                                                            <option value="018"<c:if test="${fn:split(phone, '-')[0] == 018}">selected</c:if>>018</option>
-                                                            <option value="019"<c:if test="${fn:split(phone, '-')[0] == 019}">selected</c:if>>019</option> --%>
-                                                        </select>
-                                                    </div>
-                                                    <input type="text" name="hand_tel2" id="hand_tel2" maxlength="4" value="${fn:substring(phone, 3, 7) }">
-                                                    <input type="text" name="hand_tel3" id="hand_tel3" maxlength="4" value="${fn:substring(phone, 7, 11) }">
-                                                    <!-- <a href="javascript:doUpdatePhone();" id="updatePhoneBtn"
-                                                        class="btn-type v7">변경/확인</a>
-                                                    <a href="javascript:doSendAuthKey();" id="sendAuthBtn"
-                                                        class="btn-type v7" style="display:none;">인증요청</a>
-                                                    <a href="javascript:void(0);" id="successAuthBtn"
-                                                        class="btn-type v7" style="display:none;">인증완료</a> -->
-                                                </div>
-                                                <div class="text-type4" id="tel_alert" style="display:none;"></div>
-                                            </div>
-                                        </dd>
-                                    </dl>
-                                    <dl id="securityAuth" style="display:none;">
-                                        <dt class="center">인증번호 입력</dt>
-                                        <dd>
-                                            <div class="form-group2">
-                                                <div class="form-item number">
-                                                    <input type="text" name="security_no" id="security_no"
-                                                        disabled="disabled" maxlength="4">
-                                                    <a href="javascript:doAuthKeyChk();" class="btn-type v4">인증하기</a>
-                                                </div>
-                                                <div class="text-type4" id="security_aleart" style="display:none;">
-                                                </div>
-                                            </div>
-                                        </dd>
-                                    </dl>
+                                    <dt class="top">휴대전화</dt>
+                                    <dd>
+                                        <div class="form-item name">
+                                            
+                                            <input type="text" name="phone" id="phone" width="400px" maxlength="16" value="${vo.phone }" placeholder="-을 제외한 휴대폰 번호 입력" />
+                                            <button type="button" name="phovr"  id ="phoneChk"  onclick="phoneCheck();" style="cursor:hand;"class="btn-type v7" >번호전송</button>
+                                            <br>
+                                            
+                                        </div>
+                                        <div class="text-type4" id="tel_alert" style="display:none;"></div>
+                                    </dd>
+                                   
+                                    <dt class="top" id="phone3">휴대전화 인증</dt>
+                                    <dd>
+                                        <div class="form-item name">
+                                            <input type="text" name="phone2" id="phone2" maxlength="16" value="" placeholder="인증번호 입력" disabled />
+                                            <button type="button" name="phovr"  id ="phoneChk2" onclick="phoneCheck2();" style="cursor:hand;"class="btn-type v7" >본인인증</button>
+                                            <input type="hidden" id="phoneDoubleChk"/>
+                                        </div>
+                                        <div class="text-type4" id="tel_alert" style="display:none;"></div>
+                                    </dd>
+                                </dl>
+                                    
                                     <dl>
                                         <dt class="center">이메일</dt>
                                         <dd>
@@ -317,7 +388,7 @@ function formValidate(frm){
 	                                        <div class="form-item e-mail">
 	                                            <input type="text" placeholder="" id="zipcode" name="zipcode" value="${vo.zipcode }" readonly>
 	                                            <button title="새 창으로 열림" onclick="zipFind('zipFind', '<?=$_Common[bbs_path]?>member_zipcode_find.php', 590, 500, 0);" 
-	                                            	onkeypress="" type="button" class="btn-type v7">[우편번호검색]
+	                                            	onkeypress="" type="button" class="btn-type v7" >우편번호검색
 	                                            </button>
 	                                        </div>
 	                                    </div>
@@ -332,7 +403,7 @@ function formValidate(frm){
 	                                        </div>
 	                                    </dd>
 	                                </dl>
-                                    <dl>
+                                    <!-- <dl>
                                         <dt>정보 수신동의</dt>
                                         <dd>
                                             <div class="form agree">
@@ -364,7 +435,7 @@ function formValidate(frm){
                                                 ※ 동의를 거부하시는 경우에도 프리피 서비스는 이용하실 수 있습니다.<br>
                                             </div>
                                         </dd>
-                                    </dl>
+                                    </dl> -->
                                     <!-- <dl>
                                         <dt>개인정보 유효기간 선택</dt>
                                         <dd>
