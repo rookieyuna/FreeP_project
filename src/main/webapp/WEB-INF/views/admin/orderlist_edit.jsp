@@ -110,7 +110,7 @@ function validateForm(form) {
 																<tr>
 																	<th class="text-center" style="vertical-align:middle;">주문일자</th>
 																	<td>
-																	<c:set var="date" value="${row.or_date }" />
+																	<c:set var="date" value="${vo.or_date }" />
 																		<input type="text" class="form-control" name="or_date" style="width:70%;" value="${fn:split(date, ' ')[0] }"/>
 																	</td>
 																</tr>
