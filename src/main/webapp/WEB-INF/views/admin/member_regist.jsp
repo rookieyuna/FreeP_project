@@ -109,8 +109,11 @@ function validateForm(form) {
 																	<td>
 																		<select name="grade" class="form-control" style="width:70%;">
 					                                                        <option selected disabled>--- 선택하세요 ---</option>
+					                                                        <option value="1">고객</option>
 					                                                        <option value="2">배달원</option>
-					                                                        <option value="3">관리자</option>
+					                                                        <option value="3">총괄관리자</option>
+					                                                        <option value="4">지점관리자</option>
+					                                                        <option value="5">소셜가입고객</option>
 					                                                    </select>
 																	</td>
 																</tr>
