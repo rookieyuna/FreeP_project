@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+  <mapper namespace ="review.ReviewBoardDAOImpl">
+  
+  	<select id="getTotalCount" resultType="int">
+  		
+  		SELECT COUNT(*) FROM reviewboard
+  		
+  	</select>  	
+  	
+  	<select id="getMyCount" resultType="int" parameterType="util.ParameterDTO">
+  		
+  		SELECT COUNT(*) FROM reviewboard WHERE m_code=#{m_code}
+  		
+  	</select>  	
+  	
+  	<select id="listPage" resultType="review.ReviewBoardDTO">
+  		
+  		SELECT * FROM (
+		    SELECT Tb.*, rownum rNum FROM (
+		        SELECT * FROM reviewboard ORDER BY rv_idx DESC
+		    ) Tb
+		)
+		WHERE rNum BETWEEN #{param1} AND #{param2}	
+  	</select>
+  	
+  	<select id="listMyPage" resultType="review.ReviewBoardDTO" parameterType="util.ParameterDTO">
+  		SELECT * FROM (
+		    SELECT Tb.*, rownum rNum FROM (
+		        SELECT * FROM reviewboard 
+		        WHERE m_code=#{m_code}
+		        ORDER BY rv_idx DESC
+		    ) Tb
+		)
+		WHERE rNum BETWEEN #{start} AND #{end}
+  	</select>
+  	
+  	
+  	<select id="listBest" resultType="review.ReviewBoardDTO">
+  		select * from(
+			select rv_idx, m_code, title, contents, writer, postdate, hits, rv_ofile1, rv_sfile1, rv_ofile2, rv_sfile2, rv_ofile3, rv_sfile3, or_idx, rv_best, rownum rNum from(
+			select 
+			    count(*) rank, rv_idx, R.m_code, title, contents, writer, postdate, hits, rv_ofile1, rv_sfile1, rv_ofile2, rv_sfile2, rv_ofile3, rv_sfile3, or_idx, rv_best
+			from reviewboard R 
+			    inner join likedreview L using(rv_idx) 
+			group by rv_idx, R.m_code, title, contents, writer, postdate, hits, rv_ofile1, rv_sfile1, rv_ofile2, rv_sfile2, rv_ofile3, rv_sfile3, or_idx, rv_best
+			order by rank desc)) WHERE rNum BETWEEN #{param1} AND #{param2}
+  	</select>
+  	
+  	
+  	<select id="getTotalCountSearch" resultType="int" parameterType="util.ParameterDTO">
+  		
+  		SELECT COUNT(*) FROM reviewboard 
+  		<if test="searchTxt!=null and !searchTxt.equals('')">
+  			WHERE ${searchField} like '%'||#{searchTxt}||'%'
+  		</if>
+  	</select>
+  	
+	<select id="listPageSearch" resultType="review.ReviewBoardDTO" parameterType="util.ParameterDTO">
+
+		SELECT * FROM (
+		SELECT Tb.*, rownum rNum FROM (
+		SELECT * FROM reviewboard 
+			<if test="searchTxt!=null and !searchTxt.equals('')">
+				WHERE ${searchField} like '%'||#{searchTxt}||'%'
+			</if>
+
+				ORDER BY rv_idx DESC
+			) Tb
+		)
+		WHERE rNum BETWEEN #{start} AND #{end}
+		
+	</select>
+  	
+  	<select id="view" resultType="review.ReviewBoardDTO" parameterType="review.ReviewBoardDTO">
+  		SELECT * FROM reviewboard WHERE rv_idx=#{rv_idx}
+  	</select>
+  	
+  	
+  	<insert id="write" parameterType="review.ReviewBoardDTO">
+  		INSERT into reviewboard(rv_idx, m_code, title, contents, writer, rv_ofile1, rv_sfile1,rv_ofile2, rv_sfile2,rv_ofile3, rv_sfile3, or_idx) 
+  		VALUES (seq_reviewboard_idx.nextval, #{m_code}, #{title}, #{contents}, #{writer},#{rv_ofile1}, #{rv_sfile1},#{rv_ofile2}, #{rv_sfile2},#{rv_ofile3}, #{rv_sfile3}, #{or_idx} )
+  	</insert>
+
+  	<select  id="findm_code" resultType="int">
+  		SELECT m_code FROM member WHERE id=#{param1}
+  	</select>
+ 	
+	 	
+ 
+  	<update id="edit" >
+  		UPDATE reviewboard SET title =#{title}, contents=#{contents}, 
+  		rv_sfile1=#{rv_sfile1, jdbcType=VARCHAR}, rv_ofile1=#{rv_ofile1, jdbcType=VARCHAR},
+  		rv_sfile2=#{rv_sfile2, jdbcType=VARCHAR}, rv_ofile2=#{rv_ofile2, jdbcType=VARCHAR},
+  		rv_sfile3=#{rv_sfile3, jdbcType=VARCHAR}, rv_ofile3=#{rv_ofile3, jdbcType=VARCHAR},
+  		writer=#{writer}, or_idx=#{or_idx}
+  		WHERE rv_idx=#{rv_idx}
+  	</update>
+  	 
+	<delete id="deleteLikedReview">
+		DELETE FROM likedreview WHERE rv_idx = #{param1}
+	</delete>
+  	<delete id="delete">
+  	 	DELETE FROM reviewboard WHERE rv_idx = #{param1}
+  	</delete>
+  
+  	<select id="selectsfile" resultType="String">  	
+  		SELECT rv_sfile1 FROM reviewboard WHERE rv_idx = #{param1}
+  	</select>
+  	<select id="selectsfile2" resultType="String">  	
+  		SELECT rv_sfile2 FROM reviewboard WHERE rv_idx = #{param1}
+  	</select>
+  	<select id="selectsfile3" resultType="String">  	
+  		SELECT rv_sfile3 FROM reviewboard WHERE rv_idx = #{param1}
+  	</select>
+   
+  	<update id="deletefile">
+  		UPDATE reviewboard SET rv_ofile1=null, rv_sfile1=null
+  		WHERE rv_idx=#{rv_idx}
+  	</update>
+  	<update id="deletefile2">
+  		UPDATE reviewboard SET rv_ofile2=null, rv_sfile2=null
+  		WHERE rv_idx=#{rv_idx}
+  	</update>
+  	<update id="deletefile3">
+  		UPDATE reviewboard SET rv_ofile3=null, rv_sfile3=null
+  		WHERE rv_idx=#{rv_idx}
+  	</update>
+
+
+
+
+	<!--좋아요 리뷰 테이블 추가 및 삭제 메서드 JYA-->
+	
+	<insert id="likeReview" parameterType="review.LikedReviewDTO">
+  		INSERT INTO likedreview values (seq_likedreview_idx.nextval, #{rv_idx}, #{m_code})
+  	</insert>
+  	
+  	<delete id="dislikeReview" parameterType="review.LikedReviewDTO">
+  	 	DELETE FROM likedreview WHERE rv_idx=#{rv_idx} and m_code=#{m_code}
+  	</delete>
+
+	  	
+  	<select id="getMyFavCount" resultType="int" parameterType="util.ParameterDTO">
+  		SELECT COUNT(*) FROM likedreview WHERE m_code=#{m_code}
+  	</select>  	
+  	
+  	<select id="listMyFavPage" resultType="review.ReviewBoardDTO" parameterType="util.ParameterDTO">
+		SELECT * FROM(
+		    SELECT Tb.*, rownum rNum FROM (
+		        SELECT *
+		            FROM reviewboard
+		            WHERE rv_idx IN (
+		                SELECT rv_idx
+		                    FROM likedreview
+		                    WHERE m_code = #{m_code}
+		        )
+		    )Tb
+		)WHERE rNum 
+		BETWEEN #{start} AND #{end} 
+		ORDER BY rv_idx DESC
+  	</select>
+
+	<select id="likeChk" resultType="int" parameterType="review.LikedReviewDTO">
+		SELECT COUNT(*) FROM likedreview WHERE RV_IDX=#{rv_idx} AND M_CODE=#{m_code}
+	</select>
+	
+	<select id="viewMyLike" resultType="String" parameterType="review.LikedReviewDTO">
+		SELECT RV_IDX FROM likedreview WHERE M_CODE=#{m_code}
+	</select>
+
+
+	<!-- KSB 리뷰페이지 작업 220225 ADD-->
+	<!--order_product테이블에서 code가져오기-->
+	<select id="geReviewtInfo" parameterType="int" resultType="String">
+		SELECT code, p_price FROM order_product WHERE OR_IDX = #{orIdx}
+	</select>
+	<!-- 
+		위에서 가져온 코드가 9999로 가져오는 코드인지 일반 제품인지 구별 필요하다
+			xxxx > 일반제품 > product 테이블
+			9999 > diy > DIY테이블
+	 -->
+		<!-- 일반 상품의 경우 > 이름만 가져온다 -->
+		<!-- 받는 Code를 통해 일반 상품의 이름 얻어오기-->
+		<select id="getNormalName" parameterType="String" resultType="java.util.HashMap">
+			SELECT p_name, p_code FROM PRODUCT WHERE P_CODE = #{가져온 code}
+		</select>
+		
+		<!-- DIY상품의 경우 -->
+		<!-- 받는 Code를 통해 DIY테이블의 DIY_IDX와 매칭 시켜 제품의 모든 정보 얻어오기(도우/소스/토핑/정보)-->
+		<select id="getDiyData" parameterType="String" resultType="java.util.HashMap">
+			SELECT * FROM DIY WHERE DIY_IDX = #{가져온 code}
+		</select>
+		
+			<!--DIY상품 품목들 이름가져오기-->
+			<select id="getDiyName" parameterType="java.util.HashMap" resultType="String">
+				SELECT p_name FROM PRODUCT
+				WHERE p_code IN
+				<foreach collection="list" item="value" index="key" open="(" separator="," close=")">
+			    	#{value}
+			    </foreach>
+			</select>
+			
+	<select id="getDiyChk" parameterType="String" resultType="java.util.HashMap">
+		SELECT * FROM DIY WHERE DIY_IDX=#{param1}
+	</select>
+  </mapper>

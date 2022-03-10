@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="orderlist.OrderlistImpl">
+
+	<select id="getTotalCount" resultType="int" parameterType="util.ParameterDTO">
+	   SELECT COUNT(*) FROM ordered
+	   <if test="searchTxt!=null and !searchTxt.equals('')">
+	      WHERE ${searchField} LIKE '%'||#{searchTxt}||'%'
+	   </if>
+	</select>
+	
+	
+	<select id="listPage" resultType="orderlist.OrderlistVO" parameterType="util.ParameterDTO">
+	SELECT * FROM (
+	      SELECT Tb.*, rownum rNum From (
+	         SELECT * FROM ordered 
+	         <if test="searchTxt!=null and !searchTxt.equals('')">
+	            WHERE ${searchField} like '%'||#{searchTxt}||'%'
+	         </if>
+	         ORDER BY or_idx DESC
+	      ) Tb
+	   )
+	   WHERE rNum BETWEEN #{start} AND #{end}
+	</select>
+	
+	
+	 <insert id="insertOrder" parameterType="orderlist.OrderlistVO">
+		INSERT INTO ordered (or_idx, m_code, b_code, origin_price, cp_price,
+		 po_price, total_price, credit,name,phone,request, orderhow, pickup_time)
+		VALUES
+		(seq_or_idx.nextval, #{m_code}, #{b_code}, #{origin_price}, #{cp_price}, 
+		#{po_price}, #{total_price}, #{credit},#{name},#{phone},#{request} ,#{orderhow}, #{pickup_time})
+	</insert>
+	
+	
+	<select id="view" resultType="orderlist.OrderlistVO" parameterType="util.ParameterDTO">
+		SELECT * FROM ordered WHERE or_idx=#{or_idx}
+	</select>
+	
+	
+	<update id="edit" parameterType="orderlist.OrderlistVO">
+		UPDATE ordered 
+			SET m_code=#{m_code}, b_code=#{b_code},
+			or_date=#{or_date}, origin_price=#{origin_price},
+			cp_price=#{cp_price}, po_price=#{po_price},
+			total_price=#{total_price}, credit=#{credit},
+			state=#{state}
+			WHERE or_idx=#{or_idx}
+	</update>
+	
+	
+	<delete id="delete">
+		DELETE FROM ordered WHERE or_idx=#{or_idx}
+	</delete>
+	
+	<select id="checkidx" resultType="int">
+		 SELECT LAST_NUMBER FROM USER_SEQUENCES  WHERE SEQUENCE_NAME = 'SEQ_OR_IDX'
+	</select>
+	
+	
+	
+	
+</mapper>

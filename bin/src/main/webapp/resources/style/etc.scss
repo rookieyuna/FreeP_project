@@ -1,0 +1,83 @@
+@charset "UTF-8";
+
+.faq{
+    .faq-area{
+        .lst_faq_wrap{
+            >ul{
+                &:not(:first-child){
+                    display: none;   
+                }
+            }
+        }
+    }
+}
+
+.fran{
+    .form {
+        width: 830px;
+        margin: 35px auto 0 auto;
+    }
+
+    #name {
+        width: 544px;
+    }
+
+    .franinfo-wrap dl dd .form-group.v2 .form-item.e-mail span{
+        padding: 0px 8px;
+    }
+    .fran-area{
+        padding-bottom: 65px;
+
+        .franinfo-wrap dl dd .form-group.v2{
+            .phone{
+                .tel_line{
+                    font-size: 16px;
+                    display: inline-block;
+                    padding: 0 10px;
+                    line-height: 42px;
+                    margin-left: -5px;
+                }
+                #sel_hand_tel1{
+                    width: 110px;
+                }
+                .select-type2{
+                    width: 110px;
+                    &::after{
+    
+                    }
+                }  
+            } 
+            .e-mail{
+                span{
+                    padding: 0px 4px 0px 8px;
+                }
+            }
+        }
+        .form-group.srch-type{
+            justify-content: flex-start;
+        }
+    }
+    
+    
+    .bottom-guide-area{
+        padding-top: 50px;
+        border-top: 1px solid #888888;
+        font-size: 0;
+        [class^='box']{
+            width:100%;
+    
+            &:first-child::after{
+                display: none;
+            }
+            .list-text > dt{
+                text-align: right;
+            }
+            .list-text li{
+                text-align: right;
+                float: right;
+                margin-left: 20px;
+            }
+        }
+    } 
+
+}

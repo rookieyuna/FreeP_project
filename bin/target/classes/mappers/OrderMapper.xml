@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="order.OrderImpl">
+  	<select id="listCt" resultType="cart.CartDTO">
+  		select * from cart where m_code=#{param1}
+  	</select>
+  
+  	<select id="productInfo" resultType="order.OrderDTO">
+  		select ct_code code, ct_count p_count, p_price from cart c, product p where ct_idx = #{param1} and p_code = (select ct_code from cart where ct_idx = #{param2})
+  	</select>
+  	
+  	<select id="productDIYInfo" resultType="order.OrderDTO">
+  		select ct_code code, ct_count p_count, d_price p_price from cart c, diy d 
+  		where ct_idx = #{param1} and diy_idx = (select ct_code from cart where ct_idx = #{param2})
+  	</select>
+  
+  	<insert id="productInsert" parameterType="order.OrderDTO">
+  		insert into order_product(op_idx, or_idx, code, p_count, p_price)
+	values(SEQ_OP_IDX.nextval, #{or_idx}, #{code}, #{p_count} ,#{p_price})
+  	</insert>
+  	
+  	<update id="updatePoint" >
+  		update member set point=point-#{param1} where m_code=#{param2}
+  	</update>
+  	 <update id="updatePoint1" >
+  		update member set point=point+#{param1} where m_code=#{param2}
+  	</update>
+  
+  	<delete id="deleteMyCoupon">
+  		delete from mycoupon where coupon_idx= #{param1}
+  	</delete>
+  	
+  	<delete id="deleteProduct">
+  		delete from cart where ct_idx = #{param1}
+  	</delete>
+  	
+  	<select id="selectStore" resultType="store.StoreVO">
+  		select b_name, address, phone, b_code from store where b_code = #{param1}
+  	
+  	</select>
+  </mapper>

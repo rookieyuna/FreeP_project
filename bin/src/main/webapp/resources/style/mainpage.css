@@ -1,0 +1,441 @@
+@charset "UTF-8";
+
+/***************************Index 추가 css 22.2.3 장윤아 ********************************/
+/**************퀵메뉴**************/
+.main-favorite-header h2 {
+    display: block;
+    font-size: 1.5em;
+    margin-block-start: 0.83em;
+    margin-block-end: 0.83em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+  }
+  .swiper-slide p {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+  }
+  .main-favorite {
+    margin-top: 70px;
+  }
+  .main-favorite-header {
+    text-align: center;
+  }
+  .main-favorite-header h2 {
+    font-weight: 700;
+    font-size: 34px;
+    line-height: 22px;
+    letter-spacing: -1.7px;
+    color: #000;
+  }
+  .main-favorite-header p {
+    margin-top: 19px;
+    font-size: 16px;
+    line-height: 22px;
+    letter-spacing: -.48px;
+    color: #888;
+  }
+  .main-favorite .swiper-container {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    padding-top: 48px;
+  }
+  .swiper-container {
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+  }	
+  .main-favorite .swiper-wrapper {
+    width: 100%;
+    max-width: 1140px;
+    height: 450px;
+    padding-right: 0px;
+    padding-left: 100px;
+  }
+  .swiper-slide, .swiper-wrapper {
+    position: relative;
+    width: 100%;
+    height: auto;
+    -webkit-transition-property: -webkit-transform;
+    transition-property: -webkit-transform;
+    transition-property: transform;
+    transition-property: transform,-webkit-transform;
+  }
+  .swiper-wrapper {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    z-index: 1;
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+  }
+  .main-favorite .swiper-slide {
+    position: relative;
+    width: 340px;
+    height: 391px;
+    margin-left: 30px;
+    -webkit-box-shadow: 6px 10px 40px rgb(0 0 0 / 10%);
+    box-shadow: 6px 10px 40px rgb(0 0 0 / 10%);
+    padding: 30px 0 0 44px;
+    background-color: #fff;
+  }
+  .swiper-slide {
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+  }
+  .main-favorite .swiper-slide h3 {
+    font-size: 24px;
+    line-height: 28px;
+    letter-spacing: -.72px;
+  }
+  .main-favorite .swiper-slide p {
+    font-size: 16px;
+    line-height: 26px;
+    letter-spacing: -.48px;
+    color: #666;
+    margin-top: 49px;
+  }
+  .main-favorite .swiper-slide a {
+    float: right;
+    margin-right: 30px;
+    margin-top: 30px;
+    display: block;
+    text-indent: -9999px;
+    width: 40px;
+    height: 40px;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAJCAYAAAAhFky8AAAAkElEQVQokb2TMQ7DIAxFP54QDFwnW6PkzOkEjBwAzkKkhAhXVGqrqrP7Fktenqz/rZiZIcS+79Bag4jeApKSDVJKiDGi9/4f4XybUWv9kqrjOPg8TzFpaw0hBDjnsK4rVM6ZSyliwsGoychzmiaIlmZwtQvbfYO1FsuyyGb4IyOSvdB7/5wv2UD8D40xnwWAB4gDTroR1LlyAAAAAElFTkSuQmCC);
+    background-repeat: no-repeat;
+    background-position: 0;
+    color: inherit;
+    text-decoration: none;
+  }
+  
+  
+  /**************리뷰**************/
+  *, :after, :before {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+  section {
+    display: block;
+  }
+  div {
+    display: block;
+  }
+  .main-product {
+    margin-top: 60px;
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOTIwIiBoZWlnaHQ9IjQzOSIgdmlld0JveD0iMCAwIDE5MjAgNDM5Ij48ZGVmcz48c3R5bGU+LmF7ZmlsbDojZjNmNmY5O308L3N0eWxlPjwvZGVmcz48cGF0aCBjbGFzcz0iYSIgZD0iTTAsMCwxOTIwLTEzMlYzMDdIMFoiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAgMTMyKSIvPjwvc3ZnPg==);
+    background-position: bottom;
+    background-size: 1920px auto;
+    background-repeat: no-repeat;
+  }
+  .main-product-header {
+    text-align: center;
+    margin-bottom: 50px;
+  }
+  .main-product-header h3 {
+    font-weight: 400;
+    font-size: 34px;
+    line-height: 22px;
+    letter-spacing: -1.7px;
+  
+    font-weight: bold;
+  }
+  .main-product-header h3 em {
+    font-weight: 700;
+  }
+  .main-product-header p {
+    margin-top: 20px;
+    font-size: 16px;
+    line-height: 22px;
+    letter-spacing: -.48px;
+    color: #999;
+  }
+  .main-product .main-product-contents {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 0 30px;
+    overflow: visible;
+  }
+  .main-product .swiper-container {
+    margin-top: 27px;
+    padding-bottom: 30px;
+    overflow: visible;
+  }
+  .swiper-container {
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+  }
+  .swiper-slide, .swiper-wrapper {
+    position: relative;
+    width: 100%;
+    height: auto;
+    -webkit-transition-property: -webkit-transform;
+    transition-property: -webkit-transform;
+    transition-property: transform;
+    transition-property: transform,-webkit-transform;
+  }        
+  .swiper-wrapper {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    z-index: 1;
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+  }
+  .main-product .swiper-slide {
+    position: relative;
+    width: 247px;
+    height: 391px;
+    padding: 0 20px;
+    background-color: #fff;
+    -webkit-box-shadow: 6px 10px 30px rgb(0 0 0 / 10%);
+    box-shadow: 6px 10px 30px rgb(0 0 0 / 10%);
+  }
+ 
+  .swiper-slide {
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+  }
+  a {
+    text-decoration: none;
+    color: #000;
+  }
+  .main-product-badge.main-product-badge-point {
+    background-color: #e34747;
+  }        
+  .main-product-badge {
+    position: absolute;
+    height: 22px;
+    padding: 3px 10px 0 15px;
+    top: 16px;
+    left: -5px;
+    font-size: 12px;
+    letter-spacing: -.36px;
+    color: #fff;
+  }
+  .main-product-badge.main-product-badge-point:before {
+    border-bottom: 6px solid #a93f3f;
+  }        
+  .main-product-badge:before {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: -6px;
+    left: 0;
+    border-left: 6px solid rgba(0,0,0,0);
+  }
+  .main-product-badge.main-product-badge-point:after {
+    border-bottom: 22px solid #e34747;
+  }        
+  .main-product-badge:after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: 0;
+    right: -10px;
+    border-right: 10px solid rgba(0,0,0,0);
+  }
+  .main-product .swiper-slide figure {
+        margin: 35px auto 0;
+    width: 207px;
+    height: 219px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  figure {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 40px;
+    margin-inline-end: 40px;
+  }
+  .main-product .swiper-slide figure img {
+    width: 100%;
+  }
+  img {
+    vertical-align: top;
+  }
+  .main-product .swiper-wrapper .swiper-slide h3 {
+    margin-top: 20px;
+    font-weight: 600;
+  }        
+  .main-product .swiper-slide h3, .main-product .swiper-slide h4 {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 26px;
+    letter-spacing: -.48px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .main-product-point-wrap {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    margin-top: 21px;
+  }
+  .main-product-point-original {
+    font-size: 16px;
+    line-height: 26px;
+    letter-spacing: 0;
+    color: #888;
+  }
+  .main-product-point, .main-product-point em {
+    font-size: 18px;
+    line-height: 26px;
+    letter-spacing: 0;
+  }
+  .main-product-button {
+    margin-top: 21px;
+    width: 183px;
+    height: 25px;
+    border: 1px solid #00b4c8;
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    font-size: 13px;
+    line-height: 20px;
+    letter-spacing: -.65px;
+    color: #00b4c8;
+  }
+  
+  /**************게시판 미리보기**************/
+  .main-board-wrap {
+    width: 100%;
+    max-width: 1080px;
+    margin: 0 auto;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    height: 400px;
+  }
+  .main-board-item.main-board-item-notice {
+    border-right: 1px solid #f3f6f9;
+    padding-right: 39px;
+  }
+  .main-board-item.main-board-item-event {
+    padding-left: 39px;
+}
+  .main-board-item {
+    width: 50%;
+    padding-top: 55px;
+  }
+  .main-board-item-header {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+  }
+  .main-board-item-header h3 {
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 28px;
+    letter-spacing: -.72px;
+  
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+  }
+  .main-board-open-btn {
+    text-indent: -9999px;
+    width: 25px;
+    height: 25px;
+    background-repeat: no-repeat;
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNSIgaGVpZ2h0PSIyNSIgdmlld0JveD0iMCAwIDI1IDI1Ij48ZGVmcz48c3R5bGU+LmF7ZmlsbDojOTk5O308L3N0eWxlPjwvZGVmcz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtODk2IC00MjEzKSI+PHJlY3QgY2xhc3M9ImEiIHdpZHRoPSIyNSIgaGVpZ2h0PSIxIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg4OTYgNDIyNSkiLz48cmVjdCBjbGFzcz0iYSIgd2lkdGg9IjI1IiBoZWlnaHQ9IjEiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDkwOSA0MjEzKSByb3RhdGUoOTApIi8+PC9nPjwvc3ZnPg==);
+  }
+  
+  .swiper-container {
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+  }
+  .swiper-slide {
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+  }
+  .swiper-slide, .swiper-wrapper {
+    position: relative;
+    width: 100%;
+    height: auto;
+    -webkit-transition-property: -webkit-transform;
+    transition-property: -webkit-transform;
+    transition-property: transform;
+    transition-property: transform,-webkit-transform;
+  }
+  .swiper-container-vertical>.swiper-wrapper {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+  }
+  .main-board-item-contents h4 {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 26px;
+    letter-spacing: -.48px;
+    color: #666;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  
+    display: block;
+    margin-block-start: 1.33em;
+    margin-block-end: 1.33em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+  }
+  .main-board-item-contents time {
+    margin-top: 3px;
+    display: inline;
+    font-size: 14px;
+    line-height: 26px;
+    letter-spacing: -.42px;
+    color: #888;
+  }
+  .main-board-wrap {
+    width: 100%;
+    max-width: 1080px;
+    margin: 0 auto;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+  
+  /****************************************************************************/
+  /* 220210 메인페이지 > 비주얼 이미지 > slick 적용 KSB ADD */
+  .slick-prev:before, .slick-next:before{
+  display: none;
+  }
