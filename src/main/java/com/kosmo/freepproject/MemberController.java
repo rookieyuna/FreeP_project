@@ -153,23 +153,23 @@ public class MemberController {
 	@RequestMapping(value = "/member/regAction.do", method = RequestMethod.POST)
 	public String regAction(Model model, HttpServletRequest req) {
 
-		String phone = req.getParameter("hand_tel1") + "-" + req.getParameter("hand_tel2") + "-"
-				+ req.getParameter("hand_tel3");
-		String email = req.getParameter("email1") + "@" + req.getParameter("email2");
-		String address = req.getParameter("address") + " " + req.getParameter("address2");
-
+		String email = req.getParameter("email1")+"@"+req.getParameter("email2");
+		String address = req.getParameter("address")+" "+req.getParameter("address2");
+		
+		
 		MemberVO memberVO = new MemberVO();
-		memberVO.setId(req.getParameter("id"));
-		memberVO.setName(req.getParameter("name"));
-		memberVO.setPass(req.getParameter("pass"));
-		memberVO.setPhone(phone);
+		memberVO.setId(req.getParameter("id")); 
+		memberVO.setName(req.getParameter("name")); 
+		memberVO.setPass(req.getParameter("pass")); 
+		memberVO.setPhone(req.getParameter("phone")); 
 		memberVO.setEmail(email);
 		memberVO.setZipcode(req.getParameter("zipcode"));
-		memberVO.setAddress(address);
+		memberVO.setAddress(address); 
 		System.out.println(memberVO);
 		sqlSession.getMapper(MemberImpl.class).regAction(memberVO);
 		sqlSession.getMapper(MemberImpl.class).coupon(memberVO);
-
+		
+		
 		return "member/regStep3";
 	}
 
@@ -200,13 +200,13 @@ public class MemberController {
 	// 휴대폰 본인인증
 
 	public void certifiedPhoneNumber(String userPhoneNumber, int randomNumber) {
-		String api_key = "NCSGOIQ67LAVMBIU";
-		String api_secret = "JM35WZMCTAE0A5ZSAERCB9VACDIGKRAN";
+		String api_key = "NCS09JGQR9YPPA7A";
+		String api_secret = "FQJV13AOQ8EWSKFHG2TIEN8USQ6QMCMO";
 		Message coolsms = new Message(api_key, api_secret);
 
 		HashMap<String, String> params = new HashMap<String, String>();
 		params.put("to", userPhoneNumber); // 수신전화번호
-		params.put("from", "자신의 번호"); // 발신전화번호. 테스트시에는 발신,수신 둘다 본인 번호로 하면 됨
+		params.put("from", "01064250597"); // 발신전화번호. 테스트시에는 발신,수신 둘다 본인 번호로 하면 됨
 		params.put("type", "SMS");
 		params.put("text", "[TEST] 인증번호는" + "[" + randomNumber + "]" + "입니다."); // 문자 내용입력
 		params.put("app_version", "test app 1.2"); // application name and version
