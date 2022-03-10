@@ -38,8 +38,9 @@ $(function(){
 
 
             for(var i=0; i<count; i++){
+				var temp = $(".now-product .select-item.active").eq(i).find(".prd-cont .order-code").val();
                 var orderSelect = {
-                    code : $(".now-product .select-item.active").eq(i).find(".prd-cont .order-code").val(),
+					code : (parseInt(temp)+1).toString(),
                     name : $(".now-product .select-item.active").eq(i).find(".prd-cont .order-name").text(),
                     kcal1 : $(".now-product .select-item.active").eq(i).find(".prd-cont .info1").text(),
                     kcal2 : $(".now-product .select-item.active").eq(i).find(".prd-cont .info2").text(),
@@ -218,7 +219,7 @@ $(function(){
 		$(this).attr("disabled", true);
 
         var sizeVal = $(this).parent("li").index()+1;
-        let mainCodeStr = $(this).parents(".set").find(".main_menu_sel input").val();
+        var mainCodeStr = $(this).parents(".set").find(".main_menu_sel input").val();
         var mainCutStr = mainCodeStr.substring(0, 4);
 		var subCodeStr = $(this).parents(".sub_menu_lay2").find("li:eq(0) input").val();
 
@@ -243,24 +244,36 @@ $(function(){
 			
 				if($(this).parents().hasClass("select_main_menu")){
 					if(sizeVal==1){
-						doughSel = $(".select-item .prd-cont input[value="+(mainCodeStr-1)+"]").parents(".select-item");
-						$(this).parents(".select_main_menu").find(".main_menu_sel input[type=text][name=DOUGH]").attr("value", Number(mainCodeStr)-1);
+						$(this).parents(".select_main_menu").find(".main_menu_sel input[type=text][name=DOUGH]").attr("value", Number(mainCodeStr)+1);
+						mainCodeStr = $(this).parents(".set").find(".main_menu_sel input").val();
+						var temp = (parseInt(mainCodeStr)-1).toString();
+						doughSel = $(".select-item .prd-cont input[value="+temp+"]").parents(".select-item");
 		                $(this).parents(".select_main_menu").find(".menu_info.won").text(doughSel.find(".prd-price .price1").text());
 		                $(this).parents(".select_main_menu").find(".menu_info.kcal").text(doughSel.find(".prd-origin .info1").text());
 		            }else if(sizeVal==2){
-						$(this).parents(".select_main_menu").find(".main_menu_sel input[type=text][name=DOUGH]").attr("value", Number(mainCodeStr)+1);
+						$(this).parents(".select_main_menu").find(".main_menu_sel input[type=text][name=DOUGH]").attr("value", Number(mainCodeStr)-1);
+						mainCodeStr = $(this).parents(".set").find(".main_menu_sel input").val();
+						var temp = mainCodeStr;
+						doughSel = $(".select-item .prd-cont input[value="+temp+"]").parents(".select-item");
 		                $(this).parents(".select_main_menu").find(".menu_info.won").text(doughSel.find(".prd-price .price2").text());
 						$(this).parents(".select_main_menu").find(".menu_info.kcal").text(doughSel.find(".prd-origin .info2").text());
 		            }	
 				}else if($(this).parents().hasClass("select_main_sub")){
 					var subCodeTemp = $(this).parents(".sub_menu_lay2").find("li").eq(0).find("input[type=text][name^=TOPPING]").val();
 					if(sizeVal==1){
-						toppingSel = $(".select-item .prd-cont input[value="+(subCodeStr-1)+"]").parents(".select-item");
-						$(this).parents(".sub_menu_lay2").find("li").eq(0).find("input[type=text][name^=TOPPING]").attr("value", Number(subCodeTemp)-1);
+						$(this).parents(".sub_menu_lay2").find("li").eq(0).find("input[type=text][name^=TOPPING]").attr("value", Number(subCodeTemp)+1);
+						
+						subCodeStr = $(this).parents(".sub_menu_lay2").find("li:eq(0) input").val();
+						var temp = (parseInt(subCodeStr)-1).toString();
+						toppingSel = $(".select-item .prd-cont input[value="+temp+"]").parents(".select-item");
 		                $(this).parents(".sub_menu_lay2").find(".menu_info.won").text(toppingSel.find(".prd-price .price1").text());
 		                $(this).parents(".sub_menu_lay2").find(".menu_info.kcal").text(toppingSel.find(".prd-origin .info1").text());
 		            }else if(sizeVal==2){
-						$(this).parents(".sub_menu_lay2").find("li").eq(0).find("input[type=text][name^=TOPPING]").attr("value", Number(subCodeTemp)+1);
+						$(this).parents(".sub_menu_lay2").find("li").eq(0).find("input[type=text][name^=TOPPING]").attr("value", Number(subCodeTemp)-1);
+						
+						subCodeStr = $(this).parents(".sub_menu_lay2").find("li:eq(0) input").val();
+						var temp = subCodeStr;
+						toppingSel = $(".select-item .prd-cont input[value="+temp+"]").parents(".select-item");
 		                $(this).parents(".sub_menu_lay2").find(".menu_info.won").text(toppingSel.find(".prd-price .price2").text());
 						$(this).parents(".sub_menu_lay2").find(".menu_info.kcal").text(toppingSel.find(".prd-origin .info2").text());
 		            }
@@ -311,11 +324,9 @@ function totalCart(){
 	
 	const totalPrice = [];
 	const selPrice = $(".menu_info.won");
-	console.log(selPrice);
 	for(key=0; key<selPrice.length; key++){ 
 		totalPrice.push(parseInt(selPrice.eq(key).text().replace(",", "")));
 	}		
-	console.log(totalPrice);
 	const priceResult = totalPrice.reduce(function add(sum, currValue) {
 	  return sum + currValue;
 	}, 0);

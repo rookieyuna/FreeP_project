@@ -340,7 +340,7 @@ public class MenuController {
 				lists.get(i).setP_info1(lists.get(i+1).getP_info());
 			}
 		}
-
+		System.out.println("제품목록 : "+lists);
 		model.addAttribute("lists", lists);
 		
 		
