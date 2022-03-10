@@ -34,7 +34,7 @@ $(function(){
 								</div>
 								<div>
 									이벤트
-									<div class="page-title-subheading">이벤트 항목 관리</div>
+									<div class="page-title-subheading">이벤트 항목관리</div>
 								</div>
 							</div>
 							
