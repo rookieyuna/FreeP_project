@@ -861,7 +861,7 @@
             } else if (e.value == "04") {
                 add = gangwon;
             } else if (e.value == "05") {
-                add = gwangju;
+                add = chungnam;
             } else if (e.value == "06") {
                 add = chungbuk;
             } else if (e.value == "07") {
