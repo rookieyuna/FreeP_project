@@ -123,6 +123,10 @@
 										</div>
 									</div>
                                 </div>
+                                
+                                <div class="btn-wrap">
+                                	<a href="../community/question.do" class="btn-type v4">1:1문의 바로가기</a>
+                            	</div>
                             </div>
                         </div>
                     </article>

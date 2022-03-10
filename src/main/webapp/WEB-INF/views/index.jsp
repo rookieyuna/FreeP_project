@@ -27,13 +27,13 @@
 	<script src="./js/jquery-3.6.0.js"></script>
 	<script src="./js/includeHTML.js"></script>
 
-<script>
+<!-- <script>
 
 function popup(){
 	var win = window.open("", "PopupWin", "toolbar=no, resizable=no, menubar=no, width=660, height=400");
 	win.document.write("<img src='./images/03visual/popupImgEx.png' alt='이벤트팝업'/>");	
 }
-</script>
+</script> -->
 
 </head>
 

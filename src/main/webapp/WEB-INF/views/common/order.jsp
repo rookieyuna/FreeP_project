@@ -147,7 +147,11 @@ $(document).ready(function(){
 		}else{
 			//체크박스해제이벤트
 			document.getElementById("customerName").value = "";
+			document.getElementById("address").value = "";
+			document.getElementById("zipcode").value = "";
 			$("#customerName").removeAttr("readonly");
+			$("#address").removeAttr("readonly");
+			$("#zipcode").removeAttr("readonly");
 			document.getElementById("tel2").value = "";
 			$("#tel2").removeAttr("disabled");
 			document.getElementById("tel3").value = "";
@@ -196,7 +200,17 @@ function fn_custInfo(){
             	tableData += ' <dl><dt>이름</dt><dd><div class="form-item"><input type="text" id="customerName" name="customerName" value="'+cus.name+'" maxlength="30" readonly>';
             	tableData += '</div></dd></dl>';
             	
-            	$('#cusName').html(tableData);           
+            	$('#cusName').html(tableData); 
+            	
+            	tableData = ' <dl><dt>우편번호</dt><dd><div class="form-item"><input type="text" id="zipcode" name="zipcode" value="'+cus.zipcode+'" maxlength="30" readonly>';
+            	tableData += '</div></dd></dl>';
+            	
+            	$('#cusZip').html(tableData);
+            	
+            	tableData = ' <dl><dt>주소</dt><dd><div class="form-item"><input type="text" id="address" name="address" value="'+cus.address+'" maxlength="30" readonly>';
+            	tableData += '</div></dd></dl>';
+            	
+            	$('#cusAdd').html(tableData); 
             	
             	tableData = ' <dt>연락처</dt><dd><div class="form"><div class="form-group2 select-group">';
             	tableData += '<div class="form-item"><div class="select-type2">';
@@ -297,14 +311,34 @@ function fn_custInfo(){
                                             </dd>
                                         </dl>
                                      	<input type="hidden" id="email" name="email" value="${vo.email }" />
-                                     	<input type="hidden" id="address" name="address" value="${vo.address }" />
-                                     	<input type="hidden" id="zipcode" name="zipcode" value="${vo.zipcode }" />
+                                     	<!-- <input type="hidden" id="address" name="address" value="${vo.address }" />
+                                     	<input type="hidden" id="zipcode" name="zipcode" value="${vo.zipcode }" /> -->
                                         <dl id="cusName">
                                              <dl>
                                                 <dt>이름</dt>
                                                 <dd>
                                                     <div class="form-item">
                                                         <input type="text" id="customerName" name="customerName" value="" maxlength="30">
+                                                    </div>
+                                                </dd>
+                                            </dl>
+                                        </dl>
+                                        <dl id="cusZip">
+                                             <dl>
+                                                <dt>우편번호</dt>
+                                                <dd>
+                                                    <div class="form-item">
+                                                        <input type="text" id="zipcode" name="zipcode" value="" maxlength="30">
+                                                    </div>
+                                                </dd>
+                                            </dl>
+                                        </dl>
+                                        <dl id="cusAdd">
+                                             <dl>
+                                                <dt>주소</dt>
+                                                <dd>
+                                                    <div class="form-item">
+                                                        <input type="text" id="address" name="address" value="" maxlength="30">
                                                     </div>
                                                 </dd>
                                             </dl>

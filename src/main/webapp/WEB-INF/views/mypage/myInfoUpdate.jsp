@@ -31,11 +31,11 @@ $(document).ready(function() {
 function mypage(){
 	var message = "${msg}";
 	if("${url}"!=""){
-		alert(message);
+		//alert(message);
 		location.href = "/freepproject/mypage"+"${url}";
 	}
 	else{
-		alert(message);
+		//alert(message);
 	}
 }
 </script>

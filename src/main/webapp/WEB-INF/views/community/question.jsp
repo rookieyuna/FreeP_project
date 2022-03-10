@@ -226,7 +226,7 @@
 				$("#content").focus(); event.preventDefault(); 
 				return;}	
 			
-			alert('1:1문의 완료(답변까지 1~3소요됩니다.)');
+			alert('1:1문의 완료(답변까지 1~3일 소요됩니다.)');
 				return true;
 			
 		}
