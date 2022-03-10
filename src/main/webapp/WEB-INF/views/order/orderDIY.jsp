@@ -176,7 +176,7 @@
                                     <ul class="DIYmenu_section_list now-product">
                             <c:forEach items="${lists }" var="row">        
                             <c:if test="${row.g_code eq 3}">        
-                                        <li class="select-item">
+                                        <li class="select-item">   
                                             <div class="prd-img">
                                                 <div>
                                                     <img class="lazyload"
