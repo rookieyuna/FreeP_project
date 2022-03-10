@@ -144,4 +144,26 @@ public class AndroidController {
         
 		return list;
 	}
+	
+	//매개변수가 필요없이 회원리스트 전체를 JSONObject로 반환
+	@RequestMapping("/android/mapObject.do")
+	@ResponseBody
+	public Map<String, Object> mapObject(HttpServletRequest req) {
+		
+		Map<String, Object> map = new HashMap<String, Object>();		
+		ArrayList<StoreVO> lists = 
+				sqlSession.getMapper(IAndroidDAO.class).mapList();
+		map.put("mapList", lists);
+		return map;
+	}
+	
+	//JSONArray로 데이터 반환
+	@RequestMapping("/android/mapList.do")
+	@ResponseBody
+	public ArrayList<StoreVO> mapList(HttpServletRequest req) {
+		System.out.println("요청들어옴");
+		ArrayList<StoreVO> lists = 
+				sqlSession.getMapper(IAndroidDAO.class).mapList();
+		return lists;
+	}
 }

@@ -29,6 +29,10 @@
 					ON O.b_code=S.b_code
 				WHERE O.m_code=#{m_code} and state=4
 	</select>
+	
+	<select id="mapList" resultType="store.StoreVO">
+		SELECT * FROM store ORDER BY b_code asc
+	</select>
  	 
 </mapper>
 
