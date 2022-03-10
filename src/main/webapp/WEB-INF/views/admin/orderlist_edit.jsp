@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ include file="./commons/header.jsp" %>
 <script>
 //폼값 입력 여부 체크
@@ -109,7 +110,8 @@ function validateForm(form) {
 																<tr>
 																	<th class="text-center" style="vertical-align:middle;">주문일자</th>
 																	<td>
-																		<input type="text" class="form-control" name="or_date" style="width:70%;" value="${vo.or_date }"/>
+																	<c:set var="date" value="${row.or_date }" />
+																		<input type="text" class="form-control" name="or_date" style="width:70%;" value="${fn:split(date, ' ')[0] }"/>
 																	</td>
 																</tr>
 																<tr>

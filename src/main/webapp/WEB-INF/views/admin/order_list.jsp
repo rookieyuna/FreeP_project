@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ include file="./commons/header.jsp" %>
 <script>
 $(function(){
@@ -77,7 +78,8 @@ $(function(){
 														<td><a href="orderlistView.do?or_idx=${row.or_idx }">${row.or_idx }</a></td>
 														<td>${row.m_code }</td>
 														<td>${row.b_code }</td>
-														<td>${row.or_date }</td>
+														<c:set var="date" value="${row.or_date }" />
+														<td>${fn:split(date, ' ')[0] }</td>
 														<td>${row.origin_price }</td>
 														<td>${row.cp_price }</td>
 														<td>${row.po_price }</td>
