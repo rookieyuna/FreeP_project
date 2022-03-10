@@ -65,7 +65,7 @@
 						if(Object.keys(res[goldKey]).length>0){
 							if(res[goldKey]["D_NAME"]){
 								recipe = {};
-							// DIY피자일떄
+							// DIY피자일때
 								console.log("DIY피자입니다.");
 							
 								$(".review-detail-modal .order_list").prepend(
@@ -106,7 +106,7 @@
 								}
 								flag++;
 							}else if(res[goldKey]["P_CODE"]){
-							// 일반피자, 사이드, 음료일떄
+							// 일반피자, 사이드, 음료일때
 								var t = res[goldKey]["P_CODE"].toString();
 								if(t.includes("1111")){
 									$(".review-detail-modal .order_list").append(
