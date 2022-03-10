@@ -214,14 +214,15 @@ function validateForm(form) {
 
 <script>
 	$(document).ready(function() {
-		var latitude;
-		var longitude;
-		if (navigator.geolocation) {
+		var latitude = 37.478714;
+		var longitude = 126.87866;
+		
+		if (navigator.geolocation) {			
 			//위치 정보를 얻기
 			navigator.geolocation.getCurrentPosition(function(pos) {
 				latitude = pos.coords.latitude; // 위도
 				longitude = pos.coords.longitude;
-
+				
 			});
 		} else {
 			alert("이 브라우저에서는 현재위치가 지원되지 않습니다.")
@@ -232,23 +233,21 @@ function validateForm(form) {
 				fn_storeInfo(latitude, longitude);
 			} else {
 				//체크박스해제이벤트
-
 			}
 		});
 		$('#order_packaging').change(function() {
-			if ($('#order_packaging').is(":checked")) {
+			if ($('#order_packaging').is(":checked")) {				
 				document.getElementById("store").value="";
 				fn_storeInfo(latitude, longitude);
 			} else {
 				//체크박스해제이벤트
-
 			}
 		});
-
 	});
 
 	function fn_storeInfo(latitude, longitude,flag) {
 
+		
 		var token = $("meta[name='_csrf']").attr("content");
 		var header = $("meta[name='_csrf_header']").attr("content");
 
