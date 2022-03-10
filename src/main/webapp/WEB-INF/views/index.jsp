@@ -53,25 +53,25 @@ function popup(){
 							<div class="slick-track">
 								<div class="slider-item">
 									<a href="#"
-										style="background-image: url('https://cdn.dominos.co.kr/admin/upload/banner/20220203_82Vt8VpA.jpg')"
+										style="background-image: url('./images/03visual/main_slide01.png')"
 										alt="1" >
 									</a>
 								</div>
 								<div class="slider-item">
 									<a href="#"
-										style="background-image: url('https://cdn.dominos.co.kr/admin/upload/banner/20210901_3VJffg9G.jpg')"
+										style="background-image: url('./images/03visual/main_slide02.png')"
 										alt="2" >
 									</a>
 								</div>
 								<div class="slider-item">
 									<a href="#"
-										style="background-image: url('https://cdn.dominos.co.kr/admin/upload/banner/20220204_Logha94G.jpg')"
+										style="background-image: url('./images/03visual/main_slide03.png')"
 										alt="3" >
 									</a>
 								</div>
 								<div class="slider-item">
 									<a href="#"
-										style="background-image: url('https://cdn.dominos.co.kr/admin/upload/banner/20220126_81158f06.jpg')"
+										style="background-image: url('./images/03visual/main_slide04.png')"
 										alt="4" >
 									</a>
 								</div>
@@ -99,7 +99,7 @@ function popup(){
 						<div class="swiper-container swiper-container-initialized swiper-container-horizontal">
 							<div class="swiper-wrapper"
 								style="transition-duration: 0ms; transform: translate3d(0px, 0px, 0px);">
-								<div class="swiper-slide main-favorite-slide-check swiper-slide-active">
+								<div class="swiper-slide main-favorite-slide-check swiper-slide-active" onclick="location.href='/freepproject/order/orderDIY.do'" style="cursor:pointer">
 									<img src="./images/03visual/pizzadiy.png" alt=""
 										style="width: 100px; margin-bottom: 20px;">
 									<h3>DIY피자 주문</h3>
@@ -107,7 +107,7 @@ function popup(){
 										지금 바로 주문하세요</p>
 									<a href="/freepproject/order/orderDIY.do">link</a>
 								</div>
-								<div class="swiper-slide main-favorite-slide-event swiper-slide-next">
+								<div class="swiper-slide main-favorite-slide-event swiper-slide-next" onclick="location.href='/freepproject/order/orderNormal.do'" style="cursor:pointer">
 									<img src="./images/03visual/pizzabasic.png" alt=""
 										style="width: 100px; margin-bottom: 20px;">
 									<h3>일반피자 주문</h3>
@@ -115,13 +115,13 @@ function popup(){
 										지금 바로 주문하세요</p>
 									<a href="/freepproject/order/orderNormal.do" class="">link</a>
 								</div>
-								<div class="swiper-slide main-favorite-slide-station">
+								<div class="swiper-slide main-favorite-slide-station" onclick="location.href='/freepproject/company/searchStore.do'" style="cursor:pointer">
 									<img src="./images/03visual/restaurant.png" alt=""
 										style="width: 100px; margin-bottom: 20px;">
 									<h3>매장찾기</h3>
 									<p>우리집 가까이 있는 FreeP를<br>
 										검색해 보세요</p>
-									<a href="/freepproject/company/searchStore.do" class="">link</a>
+									<a href="/freepproject/company/searchStore.do" class=""></a>
 								</div>
 							</div>
 							<span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>

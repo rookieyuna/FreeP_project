@@ -3853,3 +3853,18 @@
 .menu .menu-list ul li .price-box span.size_m {
   background: #675AFF;
 }
+.orderMoveTop{
+	display: none;
+}
+.bottom-guide-area [class^='box']{
+	width: 100%;
+}
+.bottom-guide-area [class^='box']:first-child:after{
+	display: none;
+}
+.bottom-guide-area [class^='box'] .list-text dt{
+	text-align: left;
+}
+.bottom-guide-area [class^='box'] ul li{
+	text-align: left;
+}
