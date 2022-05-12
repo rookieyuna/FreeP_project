@@ -2,4 +2,4 @@
 FreeP Web/App Project
 
 
-gmail -> freepwebproject@gmail.com // 우리학원이름영어로하고(다들아시져?) 1234
+gmail -> freepwebproject@gmail.com // 우리영어학원 1234
